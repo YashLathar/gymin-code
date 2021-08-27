@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "688817127557",
+    "project_id": "gym-in-14938",
+    "storage_bucket": "gym-in-14938.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688817127557:android:983649ba76a66ee2ede9ec",
+        "android_client_info": {
+          "package_name": "com.example.gym_in"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "688817127557-fhl9cvejbusqboem2b452tulurgoi6nq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gym_in",
+            "certificate_hash": "2bda3e623512b1129db39d4d1cac36cdf6544edc"
+          }
+        },
+        {
+          "client_id": "688817127557-kukplt29hp9jk4nirhkbk04lt10f2aer.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzdMDDkKFWH3708pZwoQx5kfo2XpLIQE8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "688817127557-kukplt29hp9jk4nirhkbk04lt10f2aer.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "688817127557-kdtvc1f4djlfc7sd8sas3tncm645ar2m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gymIn"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
