@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/general_providers.dart';

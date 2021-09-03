@@ -5,8 +5,15 @@ class FavoritesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('data'),
+    return Scaffold(
+      
+      appBar: AppBar(
+        backgroundColor: Colors.redAccent,
+        title: Text("Favourites here"),
+      ),
+      body: Container(
+      child: Center(child: Text('Your Favourites')),
+      ), 
     );
   }
 }

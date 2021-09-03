@@ -155,7 +155,37 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
-                      Container(
+                      Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 15),
+                            child: Center(
+                              child: Container(
+                                width: size.width / 3,
+                                decoration: BoxDecoration(
+                                    color: Colors.redAccent,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: MaterialButton(
+                                  onPressed: () {
+                                    // openCheckout(
+                                    //   name: productsData[widget.dataIndex].name,
+                                    //   price: productsData[widget.dataIndex].price,
+                                    //   description: productsData[widget.dataIndex]
+                                    //       .description,
+                                    //   image: productsData[widget.dataIndex].image,
+                                    // );
+                                  },
+                                  child: Text(
+                                    "Add to Cart",
+                                    style: kSmallContentStyle.copyWith(
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 85,),
+                          Container(
                         margin: EdgeInsets.symmetric(vertical: 15),
                         child: Center(
                           child: Container(
@@ -181,6 +211,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             ),
                           ),
                         ),
+                      ),
+                        ],
                       ),
                     ],
                   ),

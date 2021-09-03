@@ -4,9 +4,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/pages/feeds_page.dart';
+import 'package:gym_in/pages/gym_owner_page.dart';
 import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/pages/home_page.dart';
+import 'package:gym_in/pages/trainers_page.dart';
 import 'package:gym_in/pages/user_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:io';
@@ -20,11 +22,12 @@ class HomeScreen extends HookWidget {
         //currentUser: currentUser
         ),
     GymProductsPage(),
-    UserPage(),
+    UserPage(
+      //profileID: currentUser?.id
+    ),
   ];
 
   // user.displayName ??
-
   // user.photoURL ??
 
   @override
@@ -49,7 +52,6 @@ class HomeScreen extends HookWidget {
                     onTap: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => UserPage()));
-                      //Navigator.pushNamed(context, "/UserPage");
                     },
                     trailing: Icon(
                       Icons.chevron_right,
@@ -83,25 +85,33 @@ class HomeScreen extends HookWidget {
                 ),
               ]),
               ListTile(
+                leading: Icon(Icons.home),
+                title: Text('Gym Owner'),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => GymOwnerPage())),
+              ),
+              ListTile(
+                leading: Icon(Icons.verified_user),
+                title: Text('Trainer Zone'),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> TrainerZone())),
+              ),
+              ListTile(
                 leading: Icon(Icons.run_circle),
                 title: Text('Activity'),
                 onTap: () => Navigator.pushNamed(context, "/activityPage"),
               ),
-              ListTile(
-                leading: Icon(
-                  Icons.play_circle_fill,
-                ),
-                title: Text('Tutorials'),
-                onTap: () => {
-                  Navigator.pushNamed(context, '/videosPage'),
-                },
-              ),
+              // ListTile(
+              //   leading: Icon(
+              //     Icons.play_circle_fill,
+              //   ),
+              //   title: Text('Tutorials'),
+              //   onTap: () => 
+              //     Navigator.pushNamed(context, '/videosPage'),
+              // ),
               ListTile(
                 leading: Icon(Icons.money),
                 title: Text('E-Wallet'),
-                onTap: () => {
+                onTap: () =>
                   Navigator.pushNamed(context, '/walletPage'),
-                },
               ),
               ListTile(
                 leading: Icon(Icons.favorite),

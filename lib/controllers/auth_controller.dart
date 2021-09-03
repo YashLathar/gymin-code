@@ -43,6 +43,10 @@ class AuthController extends StateNotifier<User?> {
     await _read(authServiceProvider).setProfilePhoto(photoUrl);
   }
 
+  // Future<void> setBio(String? newBio) async {
+  //   await _read(authServiceProvider).setBio(newBio);
+  // }
+
   void signOut() async {
     await _read(authServiceProvider).signOut();
   }

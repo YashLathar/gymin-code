@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:image/image.dart' as Im;
+// import 'package:image_picker/image_picker.dart';
+// import 'package:path_provider/path_provider.dart';
+// import 'package:image/image.dart' as Im;
 // import 'package:uuid/uuid.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
 
@@ -14,7 +14,6 @@ class UploadPage extends StatefulWidget {
   
   // final User currentUser;
   // Upload({ this.currentuser });
-
 
   @override
   _UploadPageState createState() => _UploadPageState();

@@ -4,9 +4,11 @@ import 'package:gym_in/constants.dart';
 import 'package:gym_in/dumy-data/products_info.dart';
 import 'package:gym_in/widgets/cart_product.dart';
 import 'package:gym_in/widgets/order_summary.dart';
+// import 'package:gym_in/widgets/short_textfield.dart';
 
 class ProductCartPage extends StatelessWidget {
-  const ProductCartPage({Key? key}) : super(key: key);
+  ProductCartPage({Key? key}) : super(key: key);
+  // final _offerController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class ProductCartPage extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
+                        //Navigator.pop(context);
                       },
                       child: Icon(
                         FontAwesomeIcons.bell,

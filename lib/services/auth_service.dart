@@ -13,6 +13,7 @@ abstract class BaseAuthenticationService {
       String email, String password, BuildContext context);
   Future<void> setDisplayName(String newUsername);
   Future<void> setProfilePhoto(String photoUrl);
+  // Future<void> setBio(String newBio);
   User? getCurrentUser();
   String? getCurrentUID();
   Future<void> signOut();
@@ -81,83 +82,8 @@ class AuthenticatioSevice implements BaseAuthenticationService {
     await _read(firebaseAuthProvider).currentUser!.updatePhotoURL(photoUrl);
   }
 
-  //  //
-  // class AuthService {
-  // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  // Stream<String> get onAuthStateChanged => _firebaseAuth.onAuthStateChanged.map((FirebaseUser user) => user?.uid,);
-  //  // sign up with email and password
-  // Future<String> createUserWithEmailAndPassword(
-  //    String email, String password, String name) async {
-  // final CurrentUser = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password,)
-
-  //  // update the username
-  // var userUpdateInfo = UserUpdateInfo();
-  // userUpdateInfo.displayName = username;
-  // await currentUser.updateProfile(userUpdateInfo);
-  // await currentUser.reload();
-  // return currentUser.uid;
-
-  //  // sign in with email and password
-  // Future<String> signInWithEmailAndPassword(
-  //    String email, Strinng password) async {
-  //   return (await _firebaseAuth.signInWithEmailAndPassword(
-  //           email: email, password: password)).uid}
-
-  //  // sign out
-  // signOut() {
-  // return _firebaseAuth.signOut();
+  // @override
+  // Future<void> setBio(String newBio) async {
+  //   await _read(firebaseAuthProvider).currentUser!.updatebio(newBio);
   // }
-  // }
-
 }
-
-// class AuthenticationService {
-//   final FirebaseAuth _firebaseAuth;
-
-//   AuthenticationService(this._firebaseAuth);
-
-//   Stream<User?> get authStateChanges => _firebaseAuth.idTokenChanges();
-
-//   Future<void> signIn(
-//       String email, String password, BuildContext context) async {
-//     try {
-//       await _firebaseAuth.signInWithEmailAndPassword(
-//           email: email, password: password);
-//     } on FirebaseAuthException catch (e) {
-//       // throw e.message;
-//       return ErrorHandler().errorDialog(context, e);
-//     }
-//   }
-
-//   Future<void> signUp(
-//       String email, String password, BuildContext context) async {
-//     try {
-//       await _firebaseAuth.createUserWithEmailAndPassword(
-//           email: email, password: password);
-// } on FirebaseAuthException catch (e) {
-//   return ErrorHandler().errorDialog(context, e);
-// }
-//   }
-
-//   Future<UserCredential> signInWithGoogle() async {
-//     try {
-//       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-//       final GoogleSignInAuthentication googleAuth =
-//           await googleUser!.authentication;
-
-//       final OAuthCredential credential = GoogleAuthProvider.credential(
-//         accessToken: googleAuth.accessToken,
-//         idToken: googleAuth.idToken,
-//       );
-
-//       return await FirebaseAuth.instance.signInWithCredential(credential);
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
-
-//   Future<void> signOut() async {
-//     await _firebaseAuth.signOut();
-//   }
-// }

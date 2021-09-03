@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/pages/editprofile_page.dart';
 import 'package:gym_in/pages/user_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../constants.dart';
@@ -32,22 +33,28 @@ class SettingPage extends HookWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
                   children: <Widget>[
-                    ClipOval(
-                      child: //ImageProfile(),
-                          Image.network(
-                        "https://img.icons8.com/cute-clipart/2x/user-male.png",
-                        fit: BoxFit.cover,
-                        width: 90,
-                        height: 90,
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        },
-                      ),
-                    ),
+                    CircleAvatar(
+                              radius: 50,
+                              backgroundImage: NetworkImage(authControllerState
+                                      .photoURL ??
+                                  "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg")
+                                  ),
+                    // ClipOval(
+                    //   child: //ImageProfile(),
+                    //       Image.network(
+                    //     "https://img.icons8.com/cute-clipart/2x/user-male.png",
+                    //     fit: BoxFit.cover,
+                    //     width: 90,
+                    //     height: 90,
+                    //     loadingBuilder: (BuildContext context, Widget child,
+                    //         ImageChunkEvent? loadingProgress) {
+                    //       if (loadingProgress == null) return child;
+                    //       return Center(
+                    //         child: CircularProgressIndicator(),
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
                     SizedBox(
                       width: 10,
                     ),
@@ -55,8 +62,8 @@ class SettingPage extends HookWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          //authControllerState.email ??
-                          'UserName',
+                          authControllerState.displayName ??
+                         'UserName',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 30.0,
@@ -66,7 +73,19 @@ class SettingPage extends HookWidget {
                       ],
                     ),
                     Expanded(child: SizedBox()),
-                    Icon(Icons.edit),
+                    IconButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(25)),
+                                  ),
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  context: context,
+                                  builder: (BuildContext buildContext) {
+                                    return UserEditBottomSheet();
+                                  });
+                      }, icon: Icon(Icons.edit))
                   ],
                 ),
               ),
@@ -98,7 +117,13 @@ class SettingPage extends HookWidget {
                     leading: Icon(Icons.contact_mail),
                     title: Text('Contact Us'),
                     onTap: null,
-                  )
+                  ),
+                  // ListTile(
+                  // title: Text('Sign-Out'),
+                  // leading: Icon(Icons.logout),
+                  // onTap: () {
+                  //   context.read(authControllerProvider.notifier).signOut();
+                  // }),
                 ],
               ),
             )

@@ -43,14 +43,7 @@ class LoginPage extends ConsumerWidget {
             }
           },
           child: Container(
-            // decoration: BoxDecoration(
-            //   image: DecorationImage(
-            //     image: NetworkImage(
-            //       'https://images.pexels.com/photos/1431282/pexels-photo-1431282.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-            //     ),
-            //     fit: BoxFit.cover,
-            //   ),
-            // ),
+            //boxdecoration
             width: size.width,
             height: size.height,
             child: ListView(
@@ -68,33 +61,16 @@ class LoginPage extends ConsumerWidget {
                       SizedBox(
                         height: 10,
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(vertical: 20),
-                      //   child: Text(
-                      //     'Login with your Email',
-                      //     style: kLoginPageSubHeadingTextStyle.copyWith(
-                      //         color: Colors.white),
-                      //     textAlign: TextAlign.center,
-                      //   ),
-                      // ),
                       Container(
                         //margin: EdgeInsets.symmetric(vertical: 5),
                         child: Column(
                           children: [
                             RoundedTextField(
-                              //   onChanged: (value) {
-                              //   this.email = value;
-                              // },
-                              // validator: (value)=> value.isEmpty ? 'Email is required':validateEmail(value),
                               controller: _emailController,
                               hintText: 'Email',
                               secureIt: false,
                             ),
                             RoundedTextField(
-                              //   onChanged: (value) {
-                              //   this.password = value;
-                              // },
-                              //validator: (value)=> value.isEmpty ? 'Password is required': null,
                               controller: _passwordController,
                               hintText: 'Password',
                               secureIt: true,
@@ -108,18 +84,8 @@ class LoginPage extends ConsumerWidget {
                           children: [
                             Icon(Icons.select_all),
                             Text("I agree with Privacy and Policy"),
-                            SizedBox(width: 32),
-                            TextButton(
-                              onPressed: () {
-                              //  Navigator.pop(context, MaterialPageRoute(builder: (context)=> forgotpassword()));
-                            }, 
-                              child: Text("Forgot Password?", 
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Colors.black,
-                                ),
-                              )
-                            ),
+                            //SizedBox(width: 32),
+                            
                             // GestureDetector(
                             //   onTap: () {
                             //     //  Navigator.pop(context, MaterialPageRoute(builder: (context)=> forgotpassword()));
@@ -148,7 +114,7 @@ class LoginPage extends ConsumerWidget {
                       GestureDetector(
                         child: Container(
                           margin: EdgeInsets.only(
-                              left: 30, right: 30, bottom: 30),
+                              left: 30, right: 30, bottom: 10),
                           height: 45,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(25)),
@@ -183,6 +149,22 @@ class LoginPage extends ConsumerWidget {
                           context.read(loadingStateProvider).state = false;
                         },
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                                  onPressed: () {
+                                }, 
+                                  child: Text("Forgot Password?", 
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.black,
+                                    ),
+                                  )
+                                ),
+                        ],
+                      ),
+                      SizedBox(height: 10,),
                       Container(
                         width: 345.0,
                         height: 40.0,

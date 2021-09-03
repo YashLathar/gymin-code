@@ -22,7 +22,7 @@ final List<Product> productsData = [
         "https://www.decathlon.in/_next/image?url=https%3A%2F%2Fcontents.mediadecathlon.com%2Fp188422%2Fd645fd324da4c25090206fdbb5acdd1c%2Fp188422.jpg%3Fformat%3Dauto&w=3840&q=75",
     name: "Hex Dumbbell 5 kg",
     description:
-        "Our  design team developed this dumbbell specifically for cross training.. A versatile dumbbell for bodybuilding movements and functional exercises (press-up-type exercises). Its hexagonal shape offers better stability. durable rubber to protect against impacts.",
+        "Our  design team developed this dumbbell specifically for cross training.. A versatile dumbbell for bodybuilding movements and functional exercises (press-up-type exercises).",
     price: "149999",
   ),
   Product(
@@ -46,7 +46,7 @@ final List<Product> productsData = [
         "https://www.decathlon.in/_next/image?url=https%3A%2F%2Fcontents.mediadecathlon.com%2Fp188422%2Fd645fd324da4c25090206fdbb5acdd1c%2Fp188422.jpg%3Fformat%3Dauto&w=3840&q=75",
     name: "Hex Dumbbell 5 kg",
     description:
-        "Our  design team developed this dumbbell specifically for cross training.. A versatile dumbbell for bodybuilding movements and functional exercises (press-up-type exercises). Its hexagonal shape offers better stability. durable rubber to protect against impacts.",
+        "Our  design team developed this dumbbell specifically for cross training.. A versatile dumbbell for bodybuilding movements and functional exercises (press-up-type exercises).",
     price: "149999",
   ),
 ];

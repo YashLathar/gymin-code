@@ -1,12 +1,59 @@
+// import 'dart:async';
+// import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
+import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/widgets/activity_card.dart';
+import 'package:gym_in/widgets/info_circle.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+// import 'package:pedometer/pedometer.dart';
+// import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class ActivityPage extends StatelessWidget {
+class ActivityPage extends HookWidget {
+  // String muestrePasos = "";
+  // String _km = "unknown";
+  // String _calories = "unknown";
+  // String _stepCountValue = "unknown";
+  // StreamSubscription<int> _subscription;
+
+  // double _numerox;  //step count
+  // double _kmx;
+  // double burnedx;
+
+  // @override
+  // Void initState() {
+  //   super.initState();
+  //   setUpPedometer();
+  // }
+
+  // void setUpPedometer() {
+  //   Pedometer pedometer = new Pedometer();
+  //   _subscription = pedometer.stepCountStream.listen((onData,
+  //   onError: _onError, onDone: _onDone, cancelOnError: true));
+  // }
+
+  // void _onDone() {}
+
+  // void _onError(error) {
+  //   print("Pedometer Error: $error");
+  // }
+
+  // void _onData(int stepCountValue) async {
+  //   print(stepCountValue);
+  //   setState(() {
+  //     _stepCountValue = "$stepCountValue";
+  //     print(_stepCountValue);
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
+    final authControllerState = useProvider(authControllerProvider);
     Size size = MediaQuery.of(context).size;
+    if (authControllerState != null) {
     return Scaffold(
       body: Container(
         width: size.width,
@@ -47,22 +94,29 @@ class ActivityPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                        ClipOval(
-                          child: Image.network(
-                            "https://img.icons8.com/cute-clipart/2x/user-male.png",
-                            fit: BoxFit.cover,
-                            width: 90,
-                            height: 90,
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            },
-                          ),
-                        ),
-                        Text('Yash Lathar',
+                        CircleAvatar(
+                              radius: 50,
+                              backgroundImage: NetworkImage(
+                                authControllerState
+                                      .photoURL ??
+                                  "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg")),
+                        // ClipOval(
+                        //   child: Image.network(
+                        //     "https://img.icons8.com/cute-clipart/2x/user-male.png",
+                        //     fit: BoxFit.cover,
+                        //     width: 90,
+                        //     height: 90,
+                        //     loadingBuilder: (BuildContext context, Widget child,
+                        //         ImageChunkEvent? loadingProgress) {
+                        //       if (loadingProgress == null) return child;
+                        //       return Center(
+                        //         child: CircularProgressIndicator(),
+                        //       );
+                        //     },
+                        //   ),
+                        // ),
+                        Text(authControllerState.displayName ??
+                                          'UserName',
                             style:
                                 kHeadingTextStyle.copyWith(color: Colors.white))
                       ],
@@ -266,44 +320,8 @@ class ActivityPage extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class InfoCircle extends StatelessWidget {
-  InfoCircle({
-    required this.child,
-    required this.colors,
-  });
-
-  final Widget child;
-  final List<Color> colors;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      width: 100,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        boxShadow: [
-          BoxShadow(
-            color: (Colors.grey[400])!,
-            offset: Offset(
-              0,
-              10,
-            ),
-            blurRadius: 10.0,
-            spreadRadius: -5.0,
-          ), //BoxShadow
-        ],
-        gradient: LinearGradient(
-          colors: colors,
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        color: Colors.white,
-      ),
-      child: child,
-    );
+  } else {
+      return LoginPage();
+    }
   }
 }
