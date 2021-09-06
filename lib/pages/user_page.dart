@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
-// import 'package:gym_in/dumy-data/gyms_info.dart';
 import 'package:gym_in/models/post.dart';
 import 'package:gym_in/pages/setting_page.dart';
-// import 'package:gym_in/widgets/gym_card.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+// import 'package:gym_in/dumy-data/gyms_info.dart';
+// import 'package:gym_in/widgets/gym_card.dart';
+
 
 class UserPage extends StatefulWidget {
   @override

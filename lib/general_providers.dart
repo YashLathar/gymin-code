@@ -10,3 +10,4 @@ final firebaseStorageProvider = Provider<FirebaseStorage>((ref) =>
     FirebaseStorage.instanceFor(bucket: "gs://gym-in-14938.appspot.com"));
 
 final imagePickerProvider = Provider<ImagePicker>((ref) => ImagePicker());
+

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/dumy-data/products_info.dart';
+import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/widgets/quantity_counter.dart';
 import 'package:like_button/like_button.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -167,13 +168,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     borderRadius: BorderRadius.circular(15)),
                                 child: MaterialButton(
                                   onPressed: () {
-                                    // openCheckout(
-                                    //   name: productsData[widget.dataIndex].name,
-                                    //   price: productsData[widget.dataIndex].price,
-                                    //   description: productsData[widget.dataIndex]
-                                    //       .description,
-                                    //   image: productsData[widget.dataIndex].image,
-                                    // );
+                                    checkItemInCart(productsData[widget.dataIndex].price, context);
                                   },
                                   child: Text(
                                     "Add to Cart",
