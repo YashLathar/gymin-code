@@ -14,17 +14,17 @@ class GymProductsPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.redAccent,
-        onPressed: () {
-          Navigator.pushNamed(context, "/productCartPage");
-        },
-        child: Center(
-          child: Icon(
-            Icons.shopping_cart,
-          ),
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.redAccent,
+      //   onPressed: () {
+      //     Navigator.pushNamed(context, "/productCartPage");
+      //   },
+      //   child: Center(
+      //     child: Icon(
+      //       Icons.shopping_cart,
+      //     ),
+      //   ),
+      // ),
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 15),
@@ -46,6 +46,13 @@ class GymProductsPage extends StatelessWidget {
                                 fontSize: 35, fontWeight: FontWeight.w900)),
                       ),
                     ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/productCartPage");
+                      }, 
+                      icon: Icon(
+                        Icons.shopping_cart)
+                        )
                   ],
                 ),
               ),
