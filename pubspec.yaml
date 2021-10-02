@@ -39,6 +39,11 @@ dependencies:
   pedometer: ^3.0.0
   percent_indicator: ^3.0.1
   fluttertoast: ^8.0.8
+  qr_flutter: ^4.0.0
+  reviews_slider: ^2.0.0
+  url_launcher:
+  dotted_line: ^3.0.0
+  flutter_gifimage: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +70,8 @@ flutter:
     - assets/home-page-heading.png
     - assets/g12.png
     - assets/img/splashlogo.png
+    - assets/img/instagram.png
+    - assets/img/empty-cart.gif
 
   fonts:
     - family: YellowTail

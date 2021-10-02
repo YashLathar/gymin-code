@@ -16,6 +16,7 @@ class SettingPage extends HookWidget {
     if (authControllerState != null) {
       return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.redAccent,
           title: Row(
             children: <Widget>[
               //SizedBox(width: 50.0),

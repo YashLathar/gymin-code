@@ -102,7 +102,7 @@ class _FeedsPageState extends State<FeedsPage> {
                 style: kSmallHeadingTextStyle,
               ),
               SizedBox(
-                width: 270.0,
+                width: 205.0,
               ),
               IconButton(
                 onPressed: () {

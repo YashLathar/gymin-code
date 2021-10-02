@@ -5,7 +5,6 @@ class Gym {
   final String description;
   final String address;
   final bool isOpen;
-  final List<String> trainersPhotoUrl;
 
   Gym({
     required this.gymName,
@@ -14,6 +13,5 @@ class Gym {
     required this.address,
     required this.description,
     required this.isOpen,
-    required this.trainersPhotoUrl,
   });
 }

@@ -90,7 +90,7 @@ class ProductCard extends StatelessWidget {
                               checkItemInCart(price, context);
                             }, 
                             icon: Icon(
-                              Icons.add_shopping_cart)
+                              Icons.favorite,)
                             )
                             : IconButton(
                               onPressed: () {}, 

@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
 class FacilityCard extends StatelessWidget {
-  const FacilityCard({Key? key, required this.icon, required this.text})
-      : super(key: key);
+  const FacilityCard({
+    Key? key,
+    required this.icon,
+    required this.text,
+    required this.isfacilityavailable,
+    required this.onpressed,
+  }) : super(key: key);
 
   final IconData icon;
   final String text;
+  final bool isfacilityavailable;
+  final Function onpressed;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +32,8 @@ class FacilityCard extends StatelessWidget {
           Icon(
             icon,
             size: 35,
-            color: Color(0xffc9c9c9),
+            color: isfacilityavailable ? Colors.blue : 
+            Color(0xffc9c9c9),
           ),
           SizedBox(height: 5),
           Text(

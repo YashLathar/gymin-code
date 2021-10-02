@@ -48,7 +48,8 @@ class GymProductsPage extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, "/productCartPage");
+                        Navigator.pushNamed(context, "/productCartPage"
+                        );
                       }, 
                       icon: Icon(
                         Icons.shopping_cart)

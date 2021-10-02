@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:gym_in/constants.dart';
+import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:like_button/like_button.dart';
 
 class GymCard extends HookWidget {
@@ -12,6 +13,8 @@ class GymCard extends HookWidget {
     required this.ratings,
     required this.isCurrentlyOpen,
     required this.address,
+    required this.height,
+    required this.width,
   });
 
   final String gymName;
@@ -20,6 +23,8 @@ class GymCard extends HookWidget {
   final bool isCurrentlyOpen;
   final int ratings;
   final String address;
+  final double height;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +47,8 @@ class GymCard extends HookWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(30),
                     child: Container(
-                      width: 270,
-                      height: 220,
+                      width: width,
+                      height: height,
                       color: Colors.white,
                       child: Image.network(
                         gymPhotoUrl,
@@ -71,6 +76,7 @@ class GymCard extends HookWidget {
                       ),
                       child: Center(
                         child: LikeButton(
+                          onTap: onLikeButtonTapped,
                           size: 25,
                           bubblesSize: 500,
                           animationDuration: Duration(milliseconds: 1500),
@@ -132,18 +138,20 @@ class GymCard extends HookWidget {
                                 width: 5,
                               ),
                               Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: Color(0xffFFD700),
-                                  ),
-                                  child: Center(
-                                      child: Text(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: Color(0xffFFD700),
+                                ),
+                                child: Center(
+                                  child: Text(
                                     ratings.toString(),
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 15),
-                                  ))),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -157,5 +165,13 @@ class GymCard extends HookWidget {
         ),
       ),
     );
+  }
+
+  Future<bool> onLikeButtonTapped(bool isLiked) async {
+    await Future.delayed(Duration(seconds: 1));
+    aShowToast(
+      msg: "Added to your Favourites",
+    );
+    return !isLiked;
   }
 }

@@ -108,11 +108,16 @@ class HomeScreen extends HookWidget {
               //     Navigator.pushNamed(context, '/videosPage'),
               // ),
               ListTile(
-                leading: Icon(Icons.money),
-                title: Text('E-Wallet'),
-                onTap: () =>
-                  Navigator.pushNamed(context, '/walletPage'),
+                leading: FaIcon(FontAwesomeIcons.firstOrder),
+                title: Text("Your Orders"),
+                onTap: (){},
               ),
+              // ListTile(
+              //   leading: Icon(Icons.money),
+              //   title: Text('E-Wallet'),
+              //   onTap: () =>
+              //     Navigator.pushNamed(context, '/walletPage'),
+              // ),
               ListTile(
                 leading: Icon(Icons.favorite),
                 title: Text('Favorites'),
@@ -128,11 +133,6 @@ class HomeScreen extends HookWidget {
                 title: Text('Policies'),
                 onTap: () => null,
               ),
-              // ListTile(
-              //   title: Text('Exit'),
-              //   leading: Icon(Icons.exit_to_app),
-              //   onTap: () => Navigator.pop(context),
-              // ),
               ListTile(
                   title: Text('Sign-Out'),
                   leading: Icon(Icons.logout),

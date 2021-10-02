@@ -6,7 +6,7 @@ final List<Product> productsData = [
         "https://img6.hkrtcdn.com/12134/prd_1213325-MuscleBlaze-100-Whey-Protein-Supplement-Powder-with-Digestive-Enzyme-8.8-lb-121-Servings-Rich-Milk-Chocolate_o.jpg",
     name: "MuscleBlaze Whey Protein",
     description:
-        "MuscleBlaze® Whey Protein 8.8 lb Rich Milk Chocolate is made using international standard whey imported from United States of America to help you with faster muscle gain.",
+        "MuscleBlaze® Whey Protein 8.8 lb Rich Milk Chocolate is made using international standard.",
     price: "699999",
   ),
   Product(
@@ -14,7 +14,7 @@ final List<Product> productsData = [
         "https://img2.hkrtcdn.com/14850/prd_1484901-bGREEN-Plant-Protein-by-MuscleBlaze-Chocolate-2.2-lb_o.jpg",
     name: "bGREEN Plant Protein",
     description:
-        "bGREEN introduces 100% plant-based protein, a vegan protein supplement made with pea & brown rice protein blend",
+        "bGREEN introduces 100% plant-based protein, a vegan protein supplement made with pea.",
     price: "239999",
   ),
   Product(
@@ -22,7 +22,7 @@ final List<Product> productsData = [
         "https://www.decathlon.in/_next/image?url=https%3A%2F%2Fcontents.mediadecathlon.com%2Fp188422%2Fd645fd324da4c25090206fdbb5acdd1c%2Fp188422.jpg%3Fformat%3Dauto&w=3840&q=75",
     name: "Hex Dumbbell 5 kg",
     description:
-        "Our  design team developed this dumbbell specifically for cross training.. A versatile dumbbell for bodybuilding movements and functional exercises (press-up-type exercises).",
+        "Our  design team developed this dumbbell specifically for cross training.. A versatile dumbbell.",
     price: "149999",
   ),
   Product(
@@ -30,7 +30,7 @@ final List<Product> productsData = [
         "https://img6.hkrtcdn.com/12134/prd_1213325-MuscleBlaze-100-Whey-Protein-Supplement-Powder-with-Digestive-Enzyme-8.8-lb-121-Servings-Rich-Milk-Chocolate_o.jpg",
     name: "MuscleBlaze Whey Protein",
     description:
-        "MuscleBlaze® Whey Protein 8.8 lb Rich Milk Chocolate is made using international standard whey imported from United States of America to help you with faster muscle gain.",
+        "MuscleBlaze® Whey Protein 8.8 lb Rich Milk Chocolate is made using international standard whey.",
     price: "699999",
   ),
   Product(
@@ -46,7 +46,7 @@ final List<Product> productsData = [
         "https://www.decathlon.in/_next/image?url=https%3A%2F%2Fcontents.mediadecathlon.com%2Fp188422%2Fd645fd324da4c25090206fdbb5acdd1c%2Fp188422.jpg%3Fformat%3Dauto&w=3840&q=75",
     name: "Hex Dumbbell 5 kg",
     description:
-        "Our  design team developed this dumbbell specifically for cross training.. A versatile dumbbell for bodybuilding movements and functional exercises (press-up-type exercises).",
+        "Our  design team developed this dumbbell specifically for cross training.. A versatile dumbbell.",
     price: "149999",
   ),
 ];
