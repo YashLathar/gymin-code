@@ -4,13 +4,19 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/dumy-data/gyms_info.dart';
-import 'package:gym_in/widgets/cities_card.dart';
+import 'package:gym_in/dumy-data/review_info.dart';
+import 'package:gym_in/dumy-data/trainers_info.dart';
+import 'package:gym_in/pages/reviews_sheet.dart';
 import 'package:gym_in/widgets/facility_card.dart';
+import 'package:gym_in/widgets/review_card.dart';
+import 'package:gym_in/widgets/toast_msg.dart';
+import 'package:gym_in/widgets/trainers_card.dart';
 import 'package:like_button/like_button.dart';
 
 class GymPage extends HookWidget {
   final dynamic dataIndex;
   const GymPage({required this.dataIndex});
+
   @override
   Widget build(BuildContext context) {
     final List<String> _urlData = gymsData[dataIndex].gymPhotoUrl;
@@ -35,16 +41,14 @@ class GymPage extends HookWidget {
                           Container(
                             child: CarouselSlider(
                               options: CarouselOptions(
-                                  height: 450,
-                                  autoPlay: false,
+                                  height: 400,
+                                  autoPlay: true,
                                   viewportFraction: 1,
                                   onPageChanged: (index, reason) {
                                     _current.value = index;
                                   }),
                               items: _urlData
                                   .map((item) => Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20),
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(20),
@@ -113,6 +117,7 @@ class GymPage extends HookWidget {
                                   ),
                                   child: Center(
                                     child: LikeButton(
+                                      onTap: onLikeButtonTapped,
                                       size: 25,
                                       bubblesSize: 500,
                                       animationDuration:
@@ -192,7 +197,7 @@ class GymPage extends HookWidget {
                             Row(
                               children: [
                                 Text(
-                                  'Moradabad',
+                                  gymsData[dataIndex].address,
                                   style: kLoginPageSubHeadingTextStyle.copyWith(
                                       fontSize: 18),
                                 ),
@@ -202,28 +207,11 @@ class GymPage extends HookWidget {
                                 ),
                               ],
                             ),
-                            Icon(
-                              Icons.directions,
+                            IconButton(
+                              icon: Icon(Icons.directions),
+                              onPressed: () {},
                               color: Colors.lightBlueAccent,
-                              size: 30,
                             ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 5),
-                        child: Row(
-                          children: [
-                            Text(
-                              "⭐️" +
-                                  "  " +
-                                  gymsData[dataIndex].ratings.toString(),
-                              style: kLoginPageSubHeadingTextStyle.copyWith(
-                                  fontSize: 18),
-                            ),
-                            SizedBox(width: 5),
-                            Text("(7.9k reviews)"),
                           ],
                         ),
                       ),
@@ -242,10 +230,19 @@ class GymPage extends HookWidget {
                               'Facilities',
                               style: kSubHeadingStyle,
                             ),
-                            Text(
-                              'View all',
-                              style: kSmallContentStyle.copyWith(
-                                  color: Colors.redAccent),
+                            TextButton(
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return FacilitySheet();
+                                    });
+                              },
+                              child: Text(
+                                'View all',
+                                style: kSmallContentStyle.copyWith(
+                                    color: Colors.redAccent),
+                              ),
                             )
                           ],
                         ),
@@ -259,85 +256,165 @@ class GymPage extends HookWidget {
                             FacilityCard(
                               icon: Icons.ac_unit,
                               text: "AC",
+                              isfacilityavailable: true,
+                              onpressed: () {},
                             ),
                             FacilityCard(
                               icon: FontAwesomeIcons.shower,
                               text: "Shower",
+                              isfacilityavailable: true,
+                              onpressed: () {},
                             ),
                             FacilityCard(
                               icon: FontAwesomeIcons.running,
                               text: "Trainer",
+                              isfacilityavailable: true,
+                              onpressed: () {},
                             ),
                             FacilityCard(
                               icon: FontAwesomeIcons.nutritionix,
                               text: "Diet",
+                              isfacilityavailable: true,
+                              onpressed: () {},
                             ),
                           ],
+                        ),
+                      ),
+                      Divider(
+                        thickness: 2,
+                        indent: 30,
+                        endIndent: 30,
+                      ),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                        child: Text(
+                          "Trainers",
+                          style: kSubHeadingStyle,
                         ),
                       ),
                       Container(
                         margin: EdgeInsets.only(
-                            left: 15, right: 15, top: 20, bottom: 70),
-                        height: 500,
+                            left: 15, right: 15, top: 20, bottom: 0),
+                        height: 130,
+                        child: TrainerCard(
+                          trainersPhotoUrl:
+                              trainerssData[dataIndex].trainersPhotoUrl[0],
+                          trainersName: trainerssData[dataIndex].trainersName,
+                          index: 0,
+                          availability: trainerssData[dataIndex].available,
+                          ratings: trainerssData[dataIndex].ratings,
+                          height: 80,
+                          width: 80,
+                        ),
+                      ),
+                      Divider(
+                        thickness: 2,
+                        indent: 30,
+                        endIndent: 30,
+                      ),
+                      Container(
+                        //height: 200,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: 60),
-                                child: Column(
-                                  children: [
-                                    Flexible(
-                                      flex: 2,
-                                      child: CitiesCard(
-                                        cityName: 'Trainers',
-                                        cityWidget: Text('😎',
-                                            style: kMainHeadingStyle),
-                                        color: Colors.deepPurple,
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: CitiesCard(
-                                        cityName: 'Events',
-                                        cityWidget: Text('😎',
-                                            style: kMainHeadingStyle),
-                                        color: Colors.lightBlue,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                            Text(
+                              "Reviews",
+                              style: kSubHeadingStyle,
                             ),
-                            SizedBox(width: 10),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.only(top: 50),
-                                child: Column(
-                                  children: [
-                                    Flexible(
-                                      child: CitiesCard(
-                                        cityName: 'Diet Plan',
-                                        cityWidget: Text('😎',
-                                            style: kMainHeadingStyle),
-                                        color: Colors.redAccent,
-                                      ),
-                                    ),
-                                    Flexible(
-                                      flex: 2,
-                                      child: CitiesCard(
-                                        cityName: 'Calendar',
-                                        cityWidget: Text('😎',
-                                            style: kMainHeadingStyle),
-                                        color: Colors.indigo,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                            TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                "View all",
+                                style: kSmallHeadingTextStyle.copyWith(
+                                    color: Colors.redAccent),
                               ),
                             ),
                           ],
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 30,
+                          vertical: 5,
+                        ),
+                        child: Container(
+                          height: 260,
+                          child: Container(
+                            margin: EdgeInsets.only(
+                                left: 0, right: 10, top: 20, bottom: 0),
+                            height: 180,
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      "⭐️" +
+                                          "  " +
+                                          gymsData[dataIndex]
+                                              .ratings
+                                              .toString(),
+                                      style: kLoginPageSubHeadingTextStyle
+                                          .copyWith(fontSize: 18),
+                                    ),
+                                    Text(
+                                      "(7.9k reviews)",
+                                      style: kSmallContentStyle,
+                                    ),
+                                    SizedBox(
+                                      width: 38,
+                                    ),
+                                    ElevatedButton.icon(
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                top: Radius.circular(25),
+                                              ),
+                                            ),
+                                            clipBehavior:
+                                                Clip.antiAliasWithSaveLayer,
+                                            builder: (BuildContext context) {
+                                              return RatingsSheet();
+                                            });
+                                      },
+                                      icon: Icon(Icons.edit),
+                                      label: Text(
+                                        "Rate us?",
+                                        style: kSmallContentStyle,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                ReviewCard(
+                                  userPhotoUrl:
+                                      reviewsData[dataIndex].userPhotoUrl[0],
+                                  userName: reviewsData[dataIndex].userName,
+                                  index: 0,
+                                  button: reviewsData[dataIndex].editButton,
+                                  height: 30,
+                                  width: 30,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 130,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "don't remove this container",
+                            ), // courtesy: mayank yadav
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -354,8 +431,9 @@ class GymPage extends HookWidget {
               child: Container(
                 height: 65,
                 decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    borderRadius: BorderRadius.circular(20)),
+                  color: Colors.redAccent,
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: MaterialButton(
                   onPressed: () {
                     Navigator.pushNamed(context, "/gymCheckoutPage",
@@ -372,6 +450,28 @@ class GymPage extends HookWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Future<bool> onLikeButtonTapped(bool isLiked) async {
+    await Future.delayed(Duration(seconds: 0));
+    aShowToast(
+      msg: "Added to your Favourites",
+    );
+    return !isLiked;
+  }
+}
+
+class FacilitySheet extends StatelessWidget {
+  const FacilitySheet({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height / 1.4,
+      child: Center(
+        child: Text("Facility in detail here"),
       ),
     );
   }

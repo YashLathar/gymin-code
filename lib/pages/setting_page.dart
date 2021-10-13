@@ -16,6 +16,7 @@ class SettingPage extends HookWidget {
     if (authControllerState != null) {
       return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.redAccent,
           title: Row(
             children: <Widget>[
               //SizedBox(width: 50.0),
@@ -34,27 +35,10 @@ class SettingPage extends HookWidget {
                 child: Row(
                   children: <Widget>[
                     CircleAvatar(
-                              radius: 50,
-                              backgroundImage: NetworkImage(authControllerState
-                                      .photoURL ??
-                                  "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg")
-                                  ),
-                    // ClipOval(
-                    //   child: //ImageProfile(),
-                    //       Image.network(
-                    //     "https://img.icons8.com/cute-clipart/2x/user-male.png",
-                    //     fit: BoxFit.cover,
-                    //     width: 90,
-                    //     height: 90,
-                    //     loadingBuilder: (BuildContext context, Widget child,
-                    //         ImageChunkEvent? loadingProgress) {
-                    //       if (loadingProgress == null) return child;
-                    //       return Center(
-                    //         child: CircularProgressIndicator(),
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
+                        radius: 50,
+                        backgroundImage: NetworkImage(authControllerState
+                                .photoURL ??
+                            "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg")),
                     SizedBox(
                       width: 10,
                     ),
@@ -62,8 +46,7 @@ class SettingPage extends HookWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          authControllerState.displayName ??
-                         'UserName',
+                          authControllerState.displayName ?? 'UserName',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 30.0,
@@ -74,18 +57,19 @@ class SettingPage extends HookWidget {
                     ),
                     Expanded(child: SizedBox()),
                     IconButton(
-                      onPressed: () {
-                        showModalBottomSheet(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(25)),
-                                  ),
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  context: context,
-                                  builder: (BuildContext buildContext) {
-                                    return UserEditBottomSheet();
-                                  });
-                      }, icon: Icon(Icons.edit))
+                        onPressed: () {
+                          showModalBottomSheet(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(25)),
+                              ),
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              context: context,
+                              builder: (BuildContext buildContext) {
+                                return UserEditBottomSheet();
+                              });
+                        },
+                        icon: Icon(Icons.edit))
                   ],
                 ),
               ),

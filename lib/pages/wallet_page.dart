@@ -1,13 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gym_in/constants.dart';
+import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/pages/setting_page.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class WalletPage extends StatelessWidget {
+class WalletPage extends HookWidget {
   final ScrollController controller = ScrollController();
+
+  Column checkCountAmount(String label, int count) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          count.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22.0,
+          ),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 4.0),
+          child: Text(
+            label,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 15.0,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        )
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    //Size size = MediaQuery.of(context).size;
+    final authControllerState = useProvider(authControllerProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -17,67 +51,139 @@ class WalletPage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SettingPage()));
+              },
               icon: Icon(
                 FontAwesomeIcons.cog,
                 color: Colors.black,
               ))
         ],
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.redAccent,
         elevation: 0,
       ),
       body: Container(
         child: Column(
           children: [
             Container(
-              width: size.width,
-              height: size.height / 4,
+              // width: size.width,
+              // height: size.height / 4,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "679.3",
-                    style: kMainHeadingStyle,
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        child: CircleAvatar(
+                          radius: 35,
+                          backgroundImage: NetworkImage(
+                            authControllerState!.photoURL ??
+                                "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg",
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        authControllerState.displayName ?? 'UserName',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "USD",
-                    style: kSubHeadingStyle,
-                  ),
+                  checkCountAmount("USD", 0),
+                  // Text(
+                  //   "679.5",
+                  //   style: kMainHeadingStyle,
+                  // ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+                  // Text(
+                  //   "USD",
+                  //   style: kSubHeadingStyle,
+                  // ),
                 ],
               ),
+            ),
+            SizedBox(
+              height: 15,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ActionsCard(
-                  text: "Pay",
-                  textColor: Colors.green,
-                  icon: Icon(
-                    FontAwesomeIcons.paperPlane,
-                    color: Colors.green,
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return PayBottomSheet();
+                      },
+                    );
+                  },
+                  child: ActionsCard(
+                    text: "Pay",
+                    textColor: Colors.green,
+                    icon: Icon(
+                      FontAwesomeIcons.paperPlane,
+                      color: Colors.green,
+                    ),
                   ),
                 ),
-                ActionsCard(
-                  text: "Recieve",
-                  textColor: Colors.blue,
-                  icon: Icon(
-                    FontAwesomeIcons.handHoldingUsd,
-                    color: Colors.blue,
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return RecieveBottomSheet();
+                      },
+                    );
+                  },
+                  child: ActionsCard(
+                    text: "Recieve",
+                    textColor: Colors.blue,
+                    icon: Icon(
+                      FontAwesomeIcons.handHoldingUsd,
+                      color: Colors.blue,
+                    ),
                   ),
                 ),
-                ActionsCard(
-                  text: "Add",
-                  icon: Icon(FontAwesomeIcons.wallet),
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AddBottomSheet();
+                      },
+                    );
+                  },
+                  child: ActionsCard(
+                    text: "Add",
+                    icon: Icon(FontAwesomeIcons.wallet),
+                  ),
                 ),
-                ActionsCard(
-                  text: "Request",
-                  icon: Icon(
-                    FontAwesomeIcons.mobileAlt,
-                    color: Colors.grey,
-                    size: 30,
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return RequestBottomSheet();
+                      },
+                    );
+                  },
+                  child: ActionsCard(
+                    text: "Request",
+                    icon: Icon(
+                      FontAwesomeIcons.mobileAlt,
+                      color: Colors.grey,
+                      size: 30,
+                    ),
                   ),
                 ),
               ],
@@ -261,4 +367,56 @@ class TranstionData {
       required this.date,
       required this.amount,
       required this.recieved});
+}
+
+class PayBottomSheet extends StatelessWidget {
+  const PayBottomSheet({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: Text("Hello Pay Here"),
+      ),
+    );
+  }
+}
+
+class RecieveBottomSheet extends StatelessWidget {
+  const RecieveBottomSheet({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: Text("Hello Recieve Here"),
+      ),
+    );
+  }
+}
+
+class AddBottomSheet extends StatelessWidget {
+  const AddBottomSheet({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: Text("Hello Add Here"),
+      ),
+    );
+  }
+}
+
+class RequestBottomSheet extends StatelessWidget {
+  const RequestBottomSheet({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: Text("Hello Request Here"),
+      ),
+    );
+  }
 }

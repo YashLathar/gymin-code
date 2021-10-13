@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
-import 'package:gym_in/dumy-data/products_info.dart';
-import 'package:gym_in/widgets/cart_product.dart';
-import 'package:gym_in/widgets/order_summary.dart';
-// import 'package:gym_in/widgets/short_textfield.dart';
 
 class ProductCartPage extends StatelessWidget {
   ProductCartPage({Key? key}) : super(key: key);
-  // final _offerController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -16,136 +10,139 @@ class ProductCartPage extends StatelessWidget {
     return Material(
       color: Color(0xffF2F2F2),
       child: SafeArea(
-        child: Container(
-          width: size.width,
-          height: size.width,
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                      ),
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          "My Cart",
-                          style: kSubHeadingStyle,
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        //Navigator.pop(context);
-                      },
-                      child: Icon(
-                        FontAwesomeIcons.bell,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Column(
-                  children: [
-                    CartProduct(
-                      productName: productsData[0].name,
-                      price: productsData[0].price,
-                      imageUrl: productsData[0].image,
-                    ),
-                    CartProduct(
-                      productName: productsData[1].name,
-                      price: productsData[1].price,
-                      imageUrl: productsData[1].image,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: 60,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.white,
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Offers",
-                      style: kSmallHeadingTextStyle,
-                    ),
-                    Text(
-                      "add a code",
-                      style: kSmallContentStyle.copyWith(color: Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: 60,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.white,
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Address",
-                      style: kSmallHeadingTextStyle,
-                    ),
-                    Row(
+        child: Stack(
+          children: [
+            Container(
+              width: size.width,
+              height: size.width,
+              child: Column(
+                children: [
+                  Container(
+                    color: Colors.redAccent,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Row(
                       children: [
-                        Text(
-                          "C-129, Ashyina...",
-                          style:
-                              kSmallContentStyle.copyWith(color: Colors.grey),
+                        Container(
+                          width: 45,
+                          height: 45,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: Colors.redAccent,
+                          ),
+                          child: Center(
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(
+                                Icons.arrow_back_ios,
+                              ),
+                            ),
+                          ),
                         ),
-                        Icon(
-                          Icons.arrow_drop_down,
-                        )
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              "My Cart",
+                              style: kSubHeadingStyle,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 45,
+                          height: 45,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: Colors.redAccent,
+                          ),
+                          child: Center(
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(
+                                Icons.add_shopping_cart_outlined,
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              OrderSummary(
-                subtotal: "9398",
-                shipping: "60",
-                total: "9458",
-              ),
-              Expanded(
-                child: Center(
-                  child: Container(
-                    height: 55,
-                    width: size.width / 1.3,
+                  ),
+                  Container(
+                    height: 240,
+                    width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                        color: Colors.redAccent,
-                        borderRadius: BorderRadius.circular(20)),
-                    child: MaterialButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Go Checkout",
-                        style: kSmallContentStyle.copyWith(color: Colors.white),
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.white,
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          "assets/img/empty-cart.gif",
+                          height: 175.0,
+                          width: 150.0,
+                        ),
+                        Text(
+                          "Your Cart is Empty",
+                          style: kSmallContentStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                      margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.white),
+                       height: 70,
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: Text(
+                          "Try Adding some Products",
+                          style: kSmallContentStyle,
+                        ),
+                      )
+                      // Image.network(
+                      //   "https://c.tenor.com/tkbRMbqhR2UAAAAM/app-online-store.gif",
+                      //   height: 200,
+                      //   width: 180,
+                      // color: Colors.white,
+                      // ),
+                      ),
+                ],
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              child: Container(
+                padding:
+                    EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
+                color: Colors.white,
+                width: size.width,
+                child: Container(
+                  height: 65,
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: MaterialButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Start Shopping",
+                      style: kSubHeadingStyle.copyWith(
+                        color: Colors.white,
                       ),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

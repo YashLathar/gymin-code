@@ -84,27 +84,6 @@ class LoginPage extends ConsumerWidget {
                           children: [
                             Icon(Icons.select_all),
                             Text("I agree with Privacy and Policy"),
-                            //SizedBox(width: 32),
-                            
-                            // GestureDetector(
-                            //   onTap: () {
-                            //     //  Navigator.pop(context, MaterialPageRoute(builder: (context)=> forgotpassword()));
-                            //   },
-                            //   child: Container(
-                            //     alignment: Alignment(1.0, 0.0),
-                            //     padding: EdgeInsets.only(
-                            //         top: 15.0, left: 20.0, right: 10.0),
-                            //     child: InkWell(
-                            //       child: Text(
-                            //         'Forgot Password?',
-                            //         style: TextStyle(
-                            //             color: Colors.black,
-                            //             fontWeight: FontWeight.bold,
-                            //             decoration: TextDecoration.underline),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),

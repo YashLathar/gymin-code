@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gym_in/home_screen.dart';
 import 'package:gym_in/pages/activity_page.dart';
+import 'package:gym_in/pages/booking_result.dart';
 import 'package:gym_in/pages/chat_page.dart';
 import 'package:gym_in/pages/feeds_page.dart';
 import 'package:gym_in/pages/gym_checkout_page.dart';
 import 'package:gym_in/pages/gym_page.dart';
+import 'package:gym_in/pages/gymlist_page.dart';
 import 'package:gym_in/pages/product_cart_page.dart';
 import 'package:gym_in/pages/product_detail_page.dart';
 import 'package:gym_in/pages/products_page.dart';
@@ -86,6 +88,19 @@ class MyApp extends StatelessWidget {
                 builder: (_) => GymCheckoutPage(
                       dataIndex: args,
                     ));
+
+          case "/QrResult":
+            return MaterialPageRoute(
+                builder: (_) => QrResultScreen(
+                      dataIndex: args,
+                    ));          
+
+          case "/gymListPage":
+            return MaterialPageRoute(
+                builder: (_) => GymListPage(
+                      dataIndex: args,
+                    ));
+
 
           case "/productDetailPage":
             return MaterialPageRoute(

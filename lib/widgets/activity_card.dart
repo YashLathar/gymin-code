@@ -21,7 +21,7 @@ class ActivityCard extends StatelessWidget {
             ),
             blurRadius: 10.0,
             spreadRadius: -5.0,
-          ), //BoxShadow
+          ),
         ],
       ),
       child: child,

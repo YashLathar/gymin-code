@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gym_in/pages/products_page.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
@@ -14,6 +14,8 @@ class ProductCard extends StatelessWidget {
   final String image;
   final String name;
   final String price;
+
+  get removefromcart => null;
 
   @override
   Widget build(BuildContext context) {
@@ -76,20 +78,31 @@ class ProductCard extends StatelessWidget {
                           style: TextStyle(fontSize: 20),
                         ),
                         Container(
-                          width: 30,
-                          height: 30,
+                          width: 40,
+                          height: 40,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50),
                               color: Colors.redAccent),
-                          child: InkWell(
-                            onTap: () {},
-                            child: Center(
-                              child: Icon(
-                                FontAwesomeIcons.plus,
-                                size: 15,
-                                color: Colors.white,
-                              ),
-                            ),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: removefromcart == null ?
+                            IconButton(onPressed: () {
+                              checkItemInCart(price, context);
+                            }, 
+                            icon: Icon(
+                              Icons.favorite,)
+                            )
+                            : IconButton(
+                              onPressed: () {}, 
+                              icon: Icon(Icons.remove_shopping_cart)
+                            )
+                            // child: Center(
+                            //   child: Icon(
+                            //     FontAwesomeIcons.plus,
+                            //     size: 15,
+                            //     color: Colors.white,
+                            //   ),
+                            // ),
                           ),
                         )
                       ],
