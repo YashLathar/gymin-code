@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
       title: 'GymIn',
       debugShowCheckedModeBanner: false,
       theme: Styles.themeData(context),
+      // darkTheme: AppTheme.darkTheme,
       home: HomeScreen(),
       onGenerateRoute: (settings) {
         final args = settings.arguments;
@@ -98,7 +99,7 @@ class MyApp extends StatelessWidget {
           case "/gymListPage":
             return MaterialPageRoute(
                 builder: (_) => GymListPage(
-                      dataIndex: args,
+                      // dataIndex: args,
                     ));
 
 

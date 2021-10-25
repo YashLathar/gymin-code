@@ -60,17 +60,47 @@ class FavoritesPage extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            child: Column(
-              children: [
-                Text(
-                  "Favourites will be added here",
-                ),
-              ],
-            ),
-          )
+          // Container(
+          //   child: Column(
+          //     children: [
+          //       Expanded(
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       Text(
+          //         "Light",
+          //         style: Theme.of(context).textTheme.bodyText2,
+          //       ),
+          //       // DarkModeSwitch(),
+          //       Text(
+          //         "Dark",
+          //         style: Theme.of(context).textTheme.bodyText2,
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          //     ],
+          //   ),
+          // )
         ],
       ),
     ));
   }
 }
+
+// class DarkModeSwitch extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final appThemeState = context.read(appThemeStateNotifier);
+//     return Switch(
+//       value: appThemeState.isDarkModeEnabled,
+//       onChanged: (enabled) {
+//         if (enabled) {
+//           appThemeState.setDarkTheme();
+//         } else {
+//           appThemeState.setLightTheme();
+//         }
+//       },
+//     );
+//   }
+// }

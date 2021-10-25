@@ -203,7 +203,7 @@ class HomePage extends HookWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => GymListPage(
-                                          dataIndex: 0,
+                                          // dataIndex: 0,
                                         )));
                           },
                           child: Text(
