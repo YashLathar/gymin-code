@@ -139,6 +139,7 @@ class UserPage extends HookWidget {
     return Scaffold(
       backgroundColor: const Color(0xffF2F2F2),
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -163,6 +164,7 @@ class UserPage extends HookWidget {
                     style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
                         fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -300,6 +302,7 @@ class UserPage extends HookWidget {
                   },
                   icon: Icon(
                     Icons.more_vert,
+                    color: Colors.black,
                   ),
                 ),
               ],

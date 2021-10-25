@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
-import 'package:gym_in/dumy-data/gyms_info.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:dotted_line/dotted_line.dart';
@@ -58,41 +57,41 @@ class QrResultScreen extends HookWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 20, right: 20),
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: Container(
-                              width: 50,
-                              height: 50,
-                              color: Colors.white,
-                              child: Image.network(
-                                gymsData[dataIndex].gymPhotoUrl[0],
-                                fit: BoxFit.cover,
-                                filterQuality: FilterQuality.high,
-                                loadingBuilder: (BuildContext context,
-                                    Widget child,
-                                    ImageChunkEvent? loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            gymsData[dataIndex].gymName,
-                            style: kSmallContentStyle,
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 20, right: 20),
+                    //   child: Row(
+                    //     children: [
+                    //       ClipRRect(
+                    //         borderRadius: BorderRadius.circular(30),
+                    //         child: Container(
+                    //           width: 50,
+                    //           height: 50,
+                    //           color: Colors.white,
+                    //           child: Image.network(
+                    //             gymsData[dataIndex].gymPhotoUrl[0],
+                    //             fit: BoxFit.cover,
+                    //             filterQuality: FilterQuality.high,
+                    //             loadingBuilder: (BuildContext context,
+                    //                 Widget child,
+                    //                 ImageChunkEvent? loadingProgress) {
+                    //               if (loadingProgress == null) return child;
+                    //               return Center(
+                    //                 child: CircularProgressIndicator(),
+                    //               );
+                    //             },
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       SizedBox(
+                    //         width: 15,
+                    //       ),
+                    //       Text(
+                    //         gymsData[dataIndex].gymName,
+                    //         style: kSmallContentStyle,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
@@ -202,11 +201,13 @@ class QrResultScreen extends HookWidget {
                   ],
                 ),
               ),
+              Expanded(
+             child: SizedBox(),
+              ),
               Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width / 1.5,
                 child: Container(
-                  // hedight: 40,
                   decoration: BoxDecoration(
                     color: Colors.redAccent,
                      borderRadius: BorderRadius.circular(20),

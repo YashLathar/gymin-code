@@ -23,13 +23,6 @@ class GymListCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // onTap: () {
-      //   Navigator.pushNamed(
-      //     context,
-      //     "/gymPage",
-      //     // arguments: id,
-      //   );
-      // },
       child: Container(
         width: 270,
         height: 75,
@@ -144,7 +137,6 @@ class GymListCard extends HookWidget {
             ),
             Positioned(
               right: 5,
-              //top: 15,
               child: Container(
                 width: 35,
                 height: 35,
