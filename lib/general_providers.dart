@@ -9,5 +9,20 @@ final firebaseAuthProvider =
 final firebaseStorageProvider = Provider<FirebaseStorage>((ref) =>
     FirebaseStorage.instanceFor(bucket: "gs://gym-in-14938.appspot.com"));
 
+//gs://gym-in-14938.appspot.com
+
 final imagePickerProvider = Provider<ImagePicker>((ref) => ImagePicker());
 
+// final appThemeStateNotifier = ChangeNotifierProvider((ref) => AppThemeState());
+
+// class AppThemeState extends ChangeNotifier {
+//   var isDarkModeEnabled = false;
+//   void setLightTheme() {
+//     isDarkModeEnabled = false;
+//     notifyListeners();
+//   }
+//   void setDarkTheme() {
+//     isDarkModeEnabled = true;
+//     notifyListeners();
+//   }
+// }

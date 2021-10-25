@@ -5,7 +5,6 @@ import 'package:gym_in/constants.dart';
 import 'package:gym_in/dumy-data/products_info.dart';
 import 'package:gym_in/dumy-data/review_info.dart';
 import 'package:gym_in/pages/favorites_page.dart';
-import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/widgets/review_card.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -489,9 +488,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           ),
                           child: MaterialButton(
                             onPressed: () {
-                              checkItemInCart(
-                                  productsData[widget.dataIndex].price,
-                                  context);
+                              // checkItemInCart(
+                              //     productsData[widget.dataIndex].price,
+                              //     context);
                             },
                             child: Text(
                               "Add to Cart",
