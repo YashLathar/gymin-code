@@ -1,26 +1,41 @@
-import 'package:carousel_slider/carousel_slider.dart';
+// import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
-import 'package:gym_in/dumy-data/gyms_info.dart';
-import 'package:gym_in/dumy-data/review_info.dart';
-import 'package:gym_in/dumy-data/trainers_info.dart';
+import 'package:gym_in/pages/gym_checkout_page.dart';
 import 'package:gym_in/pages/reviews_sheet.dart';
 import 'package:gym_in/widgets/facility_card.dart';
-import 'package:gym_in/widgets/review_card.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
-import 'package:gym_in/widgets/trainers_card.dart';
 import 'package:like_button/like_button.dart';
 
 class GymPage extends HookWidget {
-  final dynamic dataIndex;
-  const GymPage({required this.dataIndex});
+  final bool gymopen, traineravailable;
+  final String gymId,
+      gymName,
+      gymPhoto,
+      gymratings,
+      gymaddress,
+      trainername,
+      trainerphoto,
+      trainerrating;
+  const GymPage({
+    required this.gymId,
+    required this.gymName,
+    required this.gymPhoto,
+    required this.gymratings,
+    required this.gymopen,
+    required this.gymaddress,
+    required this.trainername,
+    required this.trainerphoto,
+    required this.trainerrating,
+    required this.traineravailable,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final List<String> _urlData = gymsData[dataIndex].gymPhotoUrl;
-    final _current = useState(0);
+    // final List<String> _urlData = gymPhoto;
+    // final _current = useState(0);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -38,44 +53,51 @@ class GymPage extends HookWidget {
                     children: [
                       Stack(
                         children: [
+                          // Container(
+                          //   child: CarouselSlider(
+                          //     options: CarouselOptions(
+                          //         height: 400,
+                          //         autoPlay: true,
+                          //         viewportFraction: 1,
+                          //         onPageChanged: (index, reason) {
+                          //           _current.value = index;
+                          //         }),
+                          //     items: _urlData
+                          //         .map((item) => Container(
+                          //               child: ClipRRect(
+                          //                 borderRadius:
+                          //                     BorderRadius.circular(20),
+                          //                 child: Image.network(
+                          //                   item,
+                          //                   fit: BoxFit.cover,
+                          //                   loadingBuilder:
+                          //                       (BuildContext context,
+                          //                           Widget child,
+                          //                           ImageChunkEvent?
+                          //                               loadingProgress) {
+                          //                     if (loadingProgress == null)
+                          //                       return child;
+                          //                     return Center(
+                          //                       child:
+                          //                           CircularProgressIndicator(),
+                          //                     );
+                          //                   },
+                          //                 ),
+                          //               ),
+                          //             ))
+                          //         .toList(),
+                          //   ),
+                          // ),
                           Container(
-                            child: CarouselSlider(
-                              options: CarouselOptions(
-                                  height: 400,
-                                  autoPlay: true,
-                                  viewportFraction: 1,
-                                  onPageChanged: (index, reason) {
-                                    _current.value = index;
-                                  }),
-                              items: _urlData
-                                  .map((item) => Container(
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          child: Image.network(
-                                            item,
-                                            fit: BoxFit.cover,
-                                            loadingBuilder:
-                                                (BuildContext context,
-                                                    Widget child,
-                                                    ImageChunkEvent?
-                                                        loadingProgress) {
-                                              if (loadingProgress == null)
-                                                return child;
-                                              return Center(
-                                                child:
-                                                    CircularProgressIndicator(),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ))
-                                  .toList(),
+                            child: Image.network(
+                              gymPhoto,
                             ),
                           ),
                           Container(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 20),
+                              horizontal: 10,
+                              vertical: 15,
+                            ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -89,7 +111,7 @@ class GymPage extends HookWidget {
                                     width: 50,
                                     height: 50,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(35),
                                       border: Border.all(
                                         width: 2.0,
                                         color: Colors.white,
@@ -97,77 +119,105 @@ class GymPage extends HookWidget {
                                     ),
                                     child: Center(
                                       child: Icon(
-                                        Icons.arrow_back_ios,
+                                        Icons.arrow_back_ios_new,
                                         size: 25,
                                         color: Colors.white,
                                       ),
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 10),
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                      width: 2.0,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: LikeButton(
-                                      onTap: onLikeButtonTapped,
-                                      size: 25,
-                                      bubblesSize: 500,
-                                      animationDuration:
-                                          Duration(milliseconds: 1500),
-                                      circleColor: CircleColor(
-                                          start: Color(0xff00ddff),
-                                          end: Color(0xff0099cc)),
-                                      bubblesColor: BubblesColor(
-                                        dotPrimaryColor: Color(0xff33b5e5),
-                                        dotSecondaryColor: Color(0xff0099cc),
+                                Row(
+                                  children: [
+                                    Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(35),
+                                        border: Border.all(
+                                          width: 2.0,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                      likeBuilder: (bool isLiked) {
-                                        return Icon(
-                                          isLiked
-                                              ? Icons.bookmark
-                                              : Icons.bookmark_border,
-                                          color: isLiked
-                                              ? Colors.redAccent
-                                              : Colors.white,
+                                      child: Center(
+                                        child: LikeButton(
+                                          onTap: onLikeButtonTapped,
                                           size: 25,
-                                        );
-                                      },
+                                          bubblesSize: 500,
+                                          animationDuration:
+                                              Duration(milliseconds: 1500),
+                                          circleColor: CircleColor(
+                                              start: Color(0xff00ddff),
+                                              end: Color(0xff0099cc)),
+                                          bubblesColor: BubblesColor(
+                                            dotPrimaryColor: Color(0xff33b5e5),
+                                            dotSecondaryColor:
+                                                Color(0xff0099cc),
+                                          ),
+                                          likeBuilder: (bool isLiked) {
+                                            return Icon(
+                                              isLiked
+                                                  ? Icons.favorite
+                                                  : Icons.favorite_border,
+                                              color: isLiked
+                                                  ? Colors.redAccent
+                                                  : Colors.white,
+                                              size: 25,
+                                            );
+                                          },
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(35),
+                                        border: Border.all(
+                                          width: 2.0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            FontAwesomeIcons.share,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 )
                               ],
                             ),
                           ),
                         ],
                       ),
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: _urlData.map((url) {
-                            int index = _urlData.indexOf(url);
-                            return Container(
-                              width: 8.0,
-                              height: 8.0,
-                              margin: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 3.0),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: _current.value == index
-                                    ? Colors.redAccent
-                                    : Color.fromRGBO(0, 0, 0, 0.4),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ),
+                      // Container(
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                          // children: _urlData.map((url) {
+                          //   int index = _urlData.indexOf(url);
+                      //       return Container(
+                      //         width: 8.0,
+                      //         height: 8.0,
+                      //         margin: EdgeInsets.symmetric(
+                      //             vertical: 10.0, horizontal: 3.0),
+                      //         decoration: BoxDecoration(
+                      //           shape: BoxShape.circle,
+                      //           color: _current.value == index
+                      //               ? Colors.redAccent
+                      //               : Color.fromRGBO(0, 0, 0, 0.4),
+                      //         ),
+                      //       );
+                      //     }).toList(),
+                      //   ),
+                      // ),
                       Container(
                         margin:
                             EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -176,13 +226,13 @@ class GymPage extends HookWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              gymsData[dataIndex].gymName,
+                              gymName,
                               style: kSubHeadingStyle.copyWith(fontSize: 40),
                             ),
                             Text(
-                              gymsData[dataIndex].isOpen ? "Open" : "Closed",
+                              gymopen ? "Open" : "Closed",
                               style: TextStyle(
-                                  color: gymsData[dataIndex].isOpen
+                                  color: gymopen
                                       ? Colors.green
                                       : Colors.redAccent),
                             ),
@@ -197,7 +247,7 @@ class GymPage extends HookWidget {
                             Row(
                               children: [
                                 Text(
-                                  gymsData[dataIndex].address,
+                                  gymaddress,
                                   style: kLoginPageSubHeadingTextStyle.copyWith(
                                       fontSize: 18),
                                 ),
@@ -297,15 +347,114 @@ class GymPage extends HookWidget {
                         margin: EdgeInsets.only(
                             left: 15, right: 15, top: 20, bottom: 0),
                         height: 130,
-                        child: TrainerCard(
-                          trainersPhotoUrl:
-                              trainerssData[dataIndex].trainersPhotoUrl[0],
-                          trainersName: trainerssData[dataIndex].trainersName,
-                          index: 0,
-                          availability: trainerssData[dataIndex].available,
-                          ratings: trainerssData[dataIndex].ratings,
-                          height: 80,
-                          width: 80,
+                        child: Container(
+                          width: 270,
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                            children: [
+                              Container(
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(30),
+                                      child: Container(
+                                        width: 75,
+                                        height: 75,
+                                        color: Colors.white,
+                                        child: Image.network(
+                                          trainerphoto,
+                                          fit: BoxFit.cover,
+                                          filterQuality: FilterQuality.high,
+                                          loadingBuilder: (BuildContext context,
+                                              Widget child,
+                                              ImageChunkEvent?
+                                                  loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 87, top: 5),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            trainername,
+                                            style: kSubHeadingStyle,
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Container(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  traineravailable
+                                                      ? "Available"
+                                                      : "Not Available",
+                                                  style: TextStyle(
+                                                      color: traineravailable
+                                                          ? Colors.green
+                                                          : Colors.redAccent),
+                                                ),
+                                                Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(Icons.star,
+                                                          color: Color(
+                                                              0xffFFD700)),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Container(
+                                                        width: 20,
+                                                        height: 20,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(50),
+                                                          color:
+                                                              Color(0xffFFD700),
+                                                        ),
+                                                        child: Center(
+                                                          child: Text(
+                                                            trainerrating
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 15),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // SizedBox(
+                              //   height: 15,
+                              // ),
+                            ],
+                          ),
                         ),
                       ),
                       Divider(
@@ -351,11 +500,7 @@ class GymPage extends HookWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      "⭐️" +
-                                          "  " +
-                                          gymsData[dataIndex]
-                                              .ratings
-                                              .toString(),
+                                      "⭐️" + "  " + gymratings.toString(),
                                       style: kLoginPageSubHeadingTextStyle
                                           .copyWith(fontSize: 18),
                                     ),
@@ -364,9 +509,9 @@ class GymPage extends HookWidget {
                                       style: kSmallContentStyle,
                                     ),
                                     SizedBox(
-                                      width: 38,
+                                      width: size.width / 6.2,
                                     ),
-                                    ElevatedButton.icon(
+                                    ElevatedButton(
                                       onPressed: () {
                                         showModalBottomSheet(
                                             context: context,
@@ -382,23 +527,22 @@ class GymPage extends HookWidget {
                                               return RatingsSheet();
                                             });
                                       },
-                                      icon: Icon(Icons.edit),
-                                      label: Text(
+                                      child: Text(
                                         "Rate us?",
                                         style: kSmallContentStyle,
                                       ),
                                     ),
                                   ],
                                 ),
-                                ReviewCard(
-                                  userPhotoUrl:
-                                      reviewsData[dataIndex].userPhotoUrl[0],
-                                  userName: reviewsData[dataIndex].userName,
-                                  index: 0,
-                                  button: reviewsData[dataIndex].editButton,
-                                  height: 30,
-                                  width: 30,
-                                ),
+                                // ReviewCard(
+                                //   userPhotoUrl:
+                                //       reviewsData[dataIndex].userPhotoUrl[0],
+                                //   userName: reviewsData[dataIndex].userName,
+                                //   index: 0,
+                                //   button: reviewsData[dataIndex].editButton,
+                                //   height: 30,
+                                //   width: 30,
+                                // ),
                               ],
                             ),
                           ),
@@ -436,8 +580,12 @@ class GymPage extends HookWidget {
                 ),
                 child: MaterialButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, "/gymCheckoutPage",
-                        arguments: dataIndex);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => GymCheckoutPage(
+                      gymcheckName:  gymName,
+     gymcheckPhoto: gymPhoto,
+                      gymcheckId: gymId,
+                      gymcheckAddress: gymaddress,
+                    ),),);
                   },
                   child: Text(
                     "Book Now",

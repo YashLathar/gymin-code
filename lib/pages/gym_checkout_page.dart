@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
-import 'package:gym_in/dumy-data/gyms_info.dart';
 import 'package:gym_in/pages/booking_result.dart';
 import 'package:gym_in/widgets/reusable_button.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -16,12 +15,14 @@ enum Plans {
 }
 
 class GymCheckoutPage extends HookWidget {
+  final String gymcheckId, gymcheckPhoto, gymcheckName, gymcheckAddress;
   const GymCheckoutPage({
     Key? key,
-    required this.dataIndex,
+    required this.gymcheckId,
+    required this.gymcheckName,
+    required this.gymcheckPhoto,
+    required this.gymcheckAddress,
   }) : super(key: key);
-
-  final dynamic dataIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +90,7 @@ class GymCheckoutPage extends HookWidget {
                                 height: 220,
                                 color: Colors.white,
                                 child: Image.network(
-                                  gymsData[dataIndex].gymPhotoUrl[0],
+                                  gymcheckPhoto,
                                   fit: BoxFit.cover,
                                   filterQuality: FilterQuality.high,
                                   loadingBuilder: (BuildContext context,
@@ -107,12 +108,12 @@ class GymCheckoutPage extends HookWidget {
                               padding:
                                   const EdgeInsets.symmetric(vertical: 8.0),
                               child: Text(
-                                gymsData[dataIndex].gymName,
+                                gymcheckName,
                                 style: kSubHeadingStyle,
                               ),
                             ),
                             Text(
-                              gymsData[dataIndex].address,
+                              gymcheckAddress,
                               style: kSmallContentStyle.copyWith(
                                   color: Colors.grey),
                             ),
