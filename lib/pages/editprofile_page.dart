@@ -47,12 +47,15 @@ class UserEditBottomSheet extends HookWidget {
                         : Image.file(File(imagePath.value)).image),
                 InkWell(
                   onTap: () async {
-                    final xFile = await imagePicker();
-                    final filePath = xFile!.path;
-                    final file = File(filePath);
-                    await context
-                        .read(storageServiceProvider)
-                        .uploadProfileImage(file);
+                    await imagePicker().then((xFile) async {
+                      if (xFile != null) {
+                        final filePath = xFile.path;
+                        final file = File(filePath);
+                        await context
+                            .read(storageServiceProvider)
+                            .uploadProfileImage(file);
+                      }
+                    });
                   },
                   child: Center(
                     child: Icon(Icons.camera_alt),
@@ -129,4 +132,4 @@ class UserEditBottomSheet extends HookWidget {
       ),
     );
   }
-  }
+}

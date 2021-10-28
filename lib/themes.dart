@@ -9,7 +9,6 @@ class Styles {
         primaryColor: Colors.white,
         backgroundColor: const Color(0xffF1F5FB),
         indicatorColor: const Color(0xffCBDCF8),
-        buttonColor: const Color(0xffF1F5FB),
         hintColor: const Color(0xffEECED3),
         highlightColor: const Color(0xffFCE192),
         hoverColor: const Color(0xff4285F4),

@@ -43,6 +43,7 @@ class HomePage extends HookWidget {
       onWillPop: () async => false,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           toolbarHeight: 50,
           leading: GestureDetector(
             child: Image.asset('assets/Burger-menu.png'),
@@ -51,14 +52,18 @@ class HomePage extends HookWidget {
             },
           ),
           actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/chatPage');
-                },
-                icon: Icon(
-                  FontAwesomeIcons.envelope,
-                  size: 30,
-                ))
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/chatPage');
+                  },
+                  child: Icon(
+                    FontAwesomeIcons.envelope,
+                    color: Colors.black,
+                    size: 30,
+                  )),
+            )
           ],
           title: GestureDetector(
             onTap: () {
@@ -219,20 +224,21 @@ class HomePage extends HookWidget {
                     height: 350,
                     margin: EdgeInsets.only(left: 5),
                     child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: gymsData.length,
-                        itemBuilder: (context, index) {
-                          return GymCard(
-                            gymName: gymsData[index].gymName,
-                            gymPhotoUrl: gymsData[index].gymPhotoUrl[0],
-                            index: index,
-                            ratings: gymsData[index].ratings,
-                            isCurrentlyOpen: gymsData[index].isOpen,
-                            address: gymsData[index].address,
-                            width: 270,
-                            height: 220,
-                          );
-                        },),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: gymsData.length,
+                      itemBuilder: (context, index) {
+                        return GymCard(
+                          gymName: gymsData[index].gymName,
+                          gymPhotoUrl: gymsData[index].gymPhotoUrl[0],
+                          index: index,
+                          ratings: gymsData[index].ratings,
+                          isCurrentlyOpen: gymsData[index].isOpen,
+                          address: gymsData[index].address,
+                          width: 270,
+                          height: 220,
+                        );
+                      },
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 15, right: 15, bottom: 30),
@@ -261,7 +267,8 @@ class HomePage extends HookWidget {
                       ],
                     ),
                   ),
-                  Container(    ////
+                  Container(
+                    ////
                     margin: EdgeInsets.symmetric(horizontal: 15),
                     height: 400,
                     child: Row(

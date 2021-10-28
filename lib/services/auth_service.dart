@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gym_in/general_providers.dart';
 import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/services/error_Handler.dart';
@@ -13,7 +14,7 @@ abstract class BaseAuthenticationService {
       String email, String password, BuildContext context);
   Future<void> setDisplayName(String newUsername);
   Future<void> setProfilePhoto(String photoUrl);
-  // Future<void> setBio(String newBio);
+  Future<void> signInWithGoogle(BuildContext context);
   User? getCurrentUser();
   String? getCurrentUID();
   Future<void> signOut();
@@ -82,8 +83,22 @@ class AuthenticatioSevice implements BaseAuthenticationService {
     await _read(firebaseAuthProvider).currentUser!.updatePhotoURL(photoUrl);
   }
 
-  // @override
-  // Future<void> setBio(String newBio) async {
-  //   await _read(firebaseAuthProvider).currentUser!.updatebio(newBio);
-  // }
+  @override
+  Future<void> signInWithGoogle(BuildContext context) async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+    } on FirebaseAuthException catch (e) {
+      throw ErrorHandler.errorDialog(context, e);
+    }
+  }
 }
