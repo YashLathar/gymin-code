@@ -43,6 +43,10 @@ class AuthController extends StateNotifier<User?> {
     await _read(authServiceProvider).setProfilePhoto(photoUrl);
   }
 
+  Future<void> signInWithGoogle(BuildContext context) async {
+    await _read(authServiceProvider).signInWithGoogle(context);
+  }
+
   // Future<void> setBio(String? newBio) async {
   //   await _read(authServiceProvider).setBio(newBio);
   // }

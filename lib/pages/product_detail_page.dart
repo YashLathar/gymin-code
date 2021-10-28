@@ -7,7 +7,7 @@ import 'package:gym_in/dumy-data/review_info.dart';
 import 'package:gym_in/pages/favorites_page.dart';
 import 'package:gym_in/widgets/review_card.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
+// import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:reviews_slider/reviews_slider.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -19,17 +19,17 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
-  late Razorpay _razorpay;
+  // late Razorpay _razorpay;
 
   get dataIndex => 0;
-  @override
-  void initState() {
-    super.initState();
-    _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _razorpay = Razorpay();
+  //   _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+  //   _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+  //   _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  // }
 
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -404,7 +404,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 ),
                                 Text(
                                   "Chat to Ask About this Product",
-                                  style: kSmallContentStyle.copyWith(fontSize: 16,),
+                                  style: kSmallContentStyle.copyWith(
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ],
                             ),
@@ -541,23 +543,23 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    // Do something when payment succeeds
-  }
+  // void _handlePaymentSuccess(PaymentSuccessResponse response) {
+  //   // Do something when payment succeeds
+  // }
 
-  void _handlePaymentError(PaymentFailureResponse response) {
-    // Do something when payment fails
-  }
+  // void _handlePaymentError(PaymentFailureResponse response) {
+  //   // Do something when payment fails
+  // }
 
-  void _handleExternalWallet(ExternalWalletResponse response) {
-    // Do something when an external wallet is selected
-  }
+  // void _handleExternalWallet(ExternalWalletResponse response) {
+  //   // Do something when an external wallet is selected
+  // }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _razorpay.clear();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   _razorpay.clear();
+  // }
 
   void openCheckout(
       {String? name, String? description, String? price, String? image}) async {
@@ -569,7 +571,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       'image': image,
       'prefill': {'contact': '9876543210', 'email': 'test@pay.com'},
     };
-    _razorpay.open(options);
+    // _razorpay.open(options);
   }
 }
 

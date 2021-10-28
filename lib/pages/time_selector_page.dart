@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/widgets/rounded_button.dart';
 
-class TimeSelector extends StatelessWidget {
+class TimeSelector extends HookWidget {
   const TimeSelector({Key? key}) : super(key: key);
 
-  Future pickToTime(BuildContext context) async {
+  Future<void> pickToTime(BuildContext context) async {
     final initialTime = TimeOfDay(hour: 9, minute: 0);
-    final newTime = await showTimePicker(
+    await showTimePicker(
       context: context,
       initialTime: initialTime,
-    );
-
-    if (newTime == null) return;
+    ).then((value) => print(value));
   }
 
-  Future pickFromTime(BuildContext context) async {
+  Future<void> pickFromTime(BuildContext context) async {
     final initialTime = TimeOfDay(hour: 8, minute: 0);
-    final newTime = await showTimePicker(
+    await showTimePicker(
       context: context,
       initialTime: initialTime,
-    );
-
-    if (newTime == null) return null;
+    ).then((value) => print(value!.hour));
   }
 
   @override
   Widget build(BuildContext context) {
+    final fromTime = useState(8);
+    final toTime = useState(9);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
@@ -41,20 +41,20 @@ class TimeSelector extends StatelessWidget {
                 style: kMainHeadingStyle,
               ),
               RoundedButton(
-                buttonText: "Select Time",
-                onPressed: () {
-                  pickFromTime(context);
+                buttonText: fromTime.value.toString(),
+                onPressed: () async {
+                  await pickFromTime(context);
                 },
               ),
               SizedBox(height: 200),
               Text(
-                "To ",
+                "To",
                 style: kMainHeadingStyle,
               ),
               RoundedButton(
-                buttonText: "Select Time",
-                onPressed: () {
-                  pickToTime(context);
+                buttonText: toTime.value.toString(),
+                onPressed: () async {
+                  await pickToTime(context);
                 },
               ),
             ],
