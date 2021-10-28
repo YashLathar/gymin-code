@@ -4,8 +4,6 @@ import 'package:gym_in/pages/activity_page.dart';
 import 'package:gym_in/pages/booking_result.dart';
 import 'package:gym_in/pages/chat_page.dart';
 import 'package:gym_in/pages/feeds_page.dart';
-import 'package:gym_in/pages/gym_checkout_page.dart';
-import 'package:gym_in/pages/gym_page.dart';
 import 'package:gym_in/pages/gymlist_page.dart';
 import 'package:gym_in/pages/product_cart_page.dart';
 import 'package:gym_in/pages/product_detail_page.dart';
@@ -37,6 +35,7 @@ class MyApp extends StatelessWidget {
       title: 'GymIn',
       debugShowCheckedModeBanner: false,
       theme: Styles.themeData(context),
+      // darkTheme: AppTheme.darkTheme,
       home: HomeScreen(),
       onGenerateRoute: (settings) {
         final args = settings.arguments;
@@ -83,11 +82,10 @@ class MyApp extends StatelessWidget {
           case "/productsPage":
             return MaterialPageRoute(builder: (_) => GymProductsPage());
 
-          case "/gymCheckoutPage":
-            return MaterialPageRoute(
-                builder: (_) => GymCheckoutPage(
-                      dataIndex: args,
-                    ));
+          // case "/gymCheckoutPage":
+          //   return MaterialPageRoute(
+          //       builder: (_) => GymCheckoutPage(
+          //           ),);
 
           case "/QrResult":
             return MaterialPageRoute(
@@ -98,8 +96,7 @@ class MyApp extends StatelessWidget {
           case "/gymListPage":
             return MaterialPageRoute(
                 builder: (_) => GymListPage(
-                      dataIndex: args,
-                    ));
+                    ),);
 
 
           case "/productDetailPage":
@@ -114,11 +111,11 @@ class MyApp extends StatelessWidget {
                       dataIndex: args,
                     ));
 
-          case "/gymPage":
-            return MaterialPageRoute(
-                builder: (_) => GymPage(
-                      dataIndex: args,
-                    ));
+          // case "/gymPage":
+          //   return MaterialPageRoute(
+          //       builder: (_) => GymPage(
+          //             dataIndex: args,
+          //           ));
         }
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

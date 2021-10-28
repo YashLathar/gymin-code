@@ -6,38 +6,29 @@ import 'package:like_button/like_button.dart';
 
 class GymListCard extends HookWidget {
   GymListCard({
-    required this.gymName,
-    required this.gymPhotoUrl,
-    required this.index,
-    required this.ratings,
-    required this.isCurrentlyOpen,
-    required this.address,
-    required this.height,
-    required this.width,
-  });
+    Key? key,
+    required this.gname,
+    required this.gPhoto,
+    required this.gratings,
+    required this.open,
+    required this.gaddress,
+  }) : super(key: key);
 
-  final String gymName;
-  final String gymPhotoUrl;
-  final int index;
-  final bool isCurrentlyOpen;
-  final int ratings;
-  final String address;
-  final double height;
-  final double width;
+  final String gname;
+  final String gPhoto;
+  final bool open;
+  final String gratings;
+  final String gaddress;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          "/gymPage",
-          arguments: index,
-        );
-      },
       child: Container(
         width: 270,
-        margin: EdgeInsets.symmetric(horizontal: 10),
+        height: 75,
+        margin: EdgeInsets.symmetric(
+          horizontal: 10,
+        ),
         child: Stack(
           children: [
             Column(
@@ -49,11 +40,11 @@ class GymListCard extends HookWidget {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
-                          width: width,
-                          height: height,
+                          width: 60,
+                          height: 60,
                           color: Colors.white,
                           child: Image.network(
-                            gymPhotoUrl,
+                            gPhoto,
                             fit: BoxFit.cover,
                             filterQuality: FilterQuality.high,
                             loadingBuilder: (BuildContext context, Widget child,
@@ -69,25 +60,28 @@ class GymListCard extends HookWidget {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 15,
-                ),
+                // Positioned(child: Divider())
+                // SizedBox(
+                //   height: 5,
+                // ),
               ],
             ),
             Positioned(
               left: 85,
               // right: 50,
               child: Container(
-                margin: EdgeInsets.only(left: 15),
+                margin: EdgeInsets.only(
+                  left: 10,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      gymName,
+                      gname,
                       style: kSmallHeadingTextStyle,
                     ),
                     Text(
-                      address,
+                      gaddress,
                       style: TextStyle(fontSize: 15),
                     ),
                     SizedBox(
@@ -98,11 +92,9 @@ class GymListCard extends HookWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            isCurrentlyOpen ? "Open" : "Closed",
+                            open ? "Open" : "Closed",
                             style: TextStyle(
-                              color: isCurrentlyOpen
-                                  ? Colors.green
-                                  : Colors.redAccent,
+                              color: open ? Colors.green : Colors.redAccent,
                             ),
                           ),
                           Container(
@@ -124,7 +116,7 @@ class GymListCard extends HookWidget {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      ratings.toString(),
+                                      gratings.toString(),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,
@@ -138,16 +130,16 @@ class GymListCard extends HookWidget {
                         ],
                       ),
                     ),
+                    // Divider()
                   ],
                 ),
               ),
             ),
             Positioned(
               right: 5,
-              //top: 15,
               child: Container(
-                width: 40,
-                height: 40,
+                width: 35,
+                height: 35,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
                   color: Colors.black.withOpacity(0.4),
@@ -159,7 +151,9 @@ class GymListCard extends HookWidget {
                     bubblesSize: 500,
                     animationDuration: Duration(milliseconds: 1500),
                     circleColor: CircleColor(
-                        start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                      start: Color(0xff00ddff),
+                      end: Color(0xff0099cc),
+                    ),
                     bubblesColor: BubblesColor(
                       dotPrimaryColor: Color(0xff33b5e5),
                       dotSecondaryColor: Color(0xff0099cc),

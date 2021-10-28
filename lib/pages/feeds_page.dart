@@ -95,24 +95,32 @@ class _FeedsPageState extends State<FeedsPage> {
         backgroundColor: const Color(0xffF2F2F2),
         appBar: AppBar(
           backgroundColor: const Color(0xffF2F2F2),
-          title: Row(
-            children: [
-              Text(
+          title: Text(
                 'Feeds',
-                style: kSmallHeadingTextStyle,
+                style: kSmallHeadingTextStyle.copyWith(color: Colors.black,),
               ),
-              SizedBox(
-                width: 205.0,
-              ),
-              IconButton(
+              actions: [
+                IconButton(
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => UploadPage()));
                 },
-                icon: Icon(Icons.add_a_photo),
+                icon: Icon(Icons.add_a_photo, color: Colors.black,),
               ),
-            ],
-          ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.more_vert, color: Colors.black,),
+              ),
+              ],
+          // Row(
+          //   children: [
+              
+          //     SizedBox(
+          //       width: 205.0,
+          //     ),
+          //     
+          //   ],
+          // ),
         ),
         body: SingleChildScrollView(
           child: Column(

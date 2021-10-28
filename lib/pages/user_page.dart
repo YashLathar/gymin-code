@@ -139,6 +139,7 @@ class UserPage extends HookWidget {
     return Scaffold(
       backgroundColor: const Color(0xffF2F2F2),
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -163,6 +164,7 @@ class UserPage extends HookWidget {
                     style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
                         fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -234,25 +236,32 @@ class UserPage extends HookWidget {
                         context: context,
                         builder: (context) {
                           return SimpleDialog(
-                            title: Text("Create a Post",
-                            style: kSmallContentStyle,
+                            title: Text(
+                              "Create a Post",
+                              style: kSmallContentStyle,
                             ),
                             children: [
                               SimpleDialogOption(
-                                child: Text('Photo with Camera',
-                                style: kSmallContentStyle.copyWith(fontSize: 13),
+                                child: Text(
+                                  'Photo with Camera',
+                                  style:
+                                      kSmallContentStyle.copyWith(fontSize: 13),
                                 ),
                                 onPressed: () {}, //handleTakePhoto
                               ),
                               SimpleDialogOption(
-                                child: Text('Image with Gallery',
-                                style: kSmallContentStyle.copyWith(fontSize: 13),
+                                child: Text(
+                                  'Image with Gallery',
+                                  style:
+                                      kSmallContentStyle.copyWith(fontSize: 13),
                                 ),
                                 onPressed: () {}, //handleChooseFromGallery
                               ),
                               SimpleDialogOption(
-                                child: Text('Cancel',
-                                style: kSmallContentStyle.copyWith(fontSize: 13),
+                                child: Text(
+                                  'Cancel',
+                                  style:
+                                      kSmallContentStyle.copyWith(fontSize: 13),
                                 ),
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -263,7 +272,8 @@ class UserPage extends HookWidget {
                         });
                   },
                   icon: Icon(
-                    Icons.add_box_rounded, color: Colors.redAccent,
+                    Icons.add_box_rounded,
+                    color: Colors.redAccent,
                   ),
                 ),
                 IconButton(
@@ -292,6 +302,7 @@ class UserPage extends HookWidget {
                   },
                   icon: Icon(
                     Icons.more_vert,
+                    color: Colors.black,
                   ),
                 ),
               ],
@@ -335,7 +346,7 @@ class ProfileHeader1 extends HookWidget {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 4.0, left: 5),
+          margin: EdgeInsets.only(top: 4.0, left: 5,),
           child: Text(
             label,
             style: TextStyle(
@@ -352,6 +363,24 @@ class ProfileHeader1 extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider);
+
+    Future<void> _launchURLBrowser() async {
+      const url = 'https://gymin.co.in';
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
+//  Future<void> _launchURLApp() async {
+//   var url = 'https://gymin.co.in';
+//     if (await canLaunch(url)) {
+//     await launch(url, forceSafariVC: true, forceWebView: true);
+//   } else {
+//     throw 'Could not launch $url';
+//   }
+//   }
 
     return Container(
       padding: EdgeInsets.only(
@@ -588,24 +617,6 @@ class ProfileHeader1 extends HookWidget {
         ],
       ),
     );
-  }
-  // _launchURLApp() async {
-  // var url = 'https://gymin.co.in';
-  // // if ()
-  // // if (await launch(url)) {
-  //   if (await canLaunch(url)) {
-  //   await launch(url, forceSafariVC: true, forceWebView: true);
-  // } else {
-  //   throw 'Could not launch $url';
-  // }
-}
-
-_launchURLBrowser() async {
-  const url = 'https://gymin.co.in';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
   }
 }
 
