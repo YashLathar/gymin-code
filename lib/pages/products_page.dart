@@ -146,7 +146,7 @@ class _GymProductsPageState extends State<GymProductsPage> {
                             productId: document.id,
                             title: data['title'],
                             image: data['image'],
-                            price: data['price'],
+                            price: data['price'].toString(),
                           ),
                         );
                       }).toList(),
