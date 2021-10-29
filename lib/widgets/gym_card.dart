@@ -3,9 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:like_button/like_button.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gym_in/pages/gym_page.dart';
 
 class GymCard extends HookWidget {
   GymCard({

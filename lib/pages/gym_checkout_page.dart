@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/pages/booking_result.dart';
 import 'package:gym_in/widgets/reusable_button.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 enum Plans {
@@ -13,6 +15,10 @@ enum Plans {
   halfyealy,
   yearly,
 }
+
+final priceselectorProvider = StateProvider<int>((ref) {
+  return 397;
+});
 
 class GymCheckoutPage extends HookWidget {
   final String gymcheckId, gymcheckPhoto, gymcheckName, gymcheckAddress;
@@ -28,8 +34,61 @@ class GymCheckoutPage extends HookWidget {
   Widget build(BuildContext context) {
     final selected = useState(Plans.notSelected);
     final today = DateTime.now();
-
     Size size = MediaQuery.of(context).size;
+
+    late Razorpay _razorpay;
+
+    void _handlePaymentSuccess(PaymentSuccessResponse response) {
+      // succeeds
+      showDialog(
+        context: context,
+        builder: (context) {
+          return QrResultScreen(
+            dataIndex: 0,
+          );
+        },
+      );
+    }
+
+    void _handlePaymentError(PaymentFailureResponse response) {
+      // Do something when payment fails
+      showDialog(context: context, builder: (context) {
+        return SimpleDialog(
+          title: Text("Payment Failed")
+        );
+      });
+    }
+
+    void _handleExternalWallet(ExternalWalletResponse response) {
+      // Do something when an external wallet is selected
+    }
+
+    useEffect(() {
+      _razorpay = Razorpay();
+      _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+      _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+      _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+      return () {
+        _razorpay.clear();
+      };
+    });
+
+    void openCheckout(
+        {String? name,
+        String? description,
+        String? price,
+        String? image}) async {
+      var options = {
+        'key': 'rzp_test_8NBNETBLt7d5Bg',
+        'amount': price,
+        'name': name,
+        'description': description,
+        'image': image,
+        'prefill': {'contact': '8979642723', 'email': 'test@pay.com'},
+      };
+      _razorpay.open(options);
+    }
+
     return Material(
       color: Colors.white,
       child: SafeArea(
@@ -44,7 +103,8 @@ class GymCheckoutPage extends HookWidget {
                   Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                         child: Row(
                           children: [
                             GestureDetector(
@@ -138,6 +198,9 @@ class GymCheckoutPage extends HookWidget {
                                   GestureDetector(
                                     onTap: () {
                                       selected.value = Plans.hourly;
+                                      context
+                                          .read(priceselectorProvider)
+                                          .state = 397;
                                     },
                                     child: ResuableButton(
                                       child: Row(
@@ -232,6 +295,9 @@ class GymCheckoutPage extends HookWidget {
                                   GestureDetector(
                                     onTap: () {
                                       selected.value = Plans.monthly;
+                                      context
+                                          .read(priceselectorProvider)
+                                          .state = 697;
                                     },
                                     child: ResuableButton(
                                       child: Row(
@@ -331,6 +397,9 @@ class GymCheckoutPage extends HookWidget {
                                   GestureDetector(
                                     onTap: () {
                                       selected.value = Plans.quarterly;
+                                      context
+                                          .read(priceselectorProvider)
+                                          .state = 997;
                                     },
                                     child: ResuableButton(
                                       child: Row(
@@ -430,6 +499,9 @@ class GymCheckoutPage extends HookWidget {
                                   GestureDetector(
                                     onTap: () {
                                       selected.value = Plans.halfyealy;
+                                      context
+                                          .read(priceselectorProvider)
+                                          .state = 1497;
                                     },
                                     child: ResuableButton(
                                       child: Row(
@@ -532,6 +604,9 @@ class GymCheckoutPage extends HookWidget {
                                   GestureDetector(
                                     onTap: () {
                                       selected.value = Plans.yearly;
+                                      context
+                                          .read(priceselectorProvider)
+                                          .state = 1997;
                                     },
                                     child: ResuableButton(
                                       child: Row(
@@ -647,7 +722,7 @@ class GymCheckoutPage extends HookWidget {
                                   ),
                                 ),
                                 Text(
-                                  "₹ 790.00",
+                                  "₹ ${context.read(priceselectorProvider).state.toString()}.99",
                                   style: kSmallHeadingTextStyle,
                                 ),
                               ],
@@ -668,17 +743,18 @@ class GymCheckoutPage extends HookWidget {
                           ),
                           child: MaterialButton(
                             onPressed: () {
-                              //Navigator.push(context, MaterialPageRoute(builder: (context) => QrResultScreen(dataIndex: 0,)));
-                              showDialog(
-                                
-                                context: context,
-                                builder: (context) {
-                                  return QrResultScreen(dataIndex: 0,);
-                                },
+                              final formatprice =
+                                  context.read(priceselectorProvider).state *
+                                      100;
+                              openCheckout(
+                                name: gymcheckName,
+                                price: formatprice.toString(),
+                                description: gymcheckAddress,
+                                image: gymcheckPhoto,
                               );
                             },
                             child: Text(
-                              "Checkout (₹ 790.00)",
+                              "Checkout (₹ ${context.read(priceselectorProvider).state.toString()}.99)",
                               style: kSmallHeadingTextStyle.copyWith(
                                 color: Colors.white,
                               ),

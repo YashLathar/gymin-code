@@ -35,7 +35,7 @@ class HomePage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _gymStream =
-      FirebaseFirestore.instance.collection('gymdata').snapshots();
+        FirebaseFirestore.instance.collection('gymdata').snapshots();
     // final FloatingSearchBarController searchBarController =
     //     FloatingSearchBarController();
     // final leadingIcon = useState(Icons.search);
@@ -47,41 +47,33 @@ class HomePage extends HookWidget {
     return StreamBuilder<QuerySnapshot>(
         stream: _gymStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-           if (snapshot.hasError) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.redAccent,
-              title: CupertinoSearchTextField(),
-            ),
-            body: Center(
-              child: Container(
-                height: 50,
-                width: 50,
-                child: Center(
-                  child: Text("Something Went Wrong"),
+          if (snapshot.hasError) {
+            return Scaffold(
+              body: Center(
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  child: Center(
+                    child: Text("Something Went Wrong"),
+                  ),
                 ),
               ),
-            ),
-          );
-        }
+            );
+          }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.redAccent,
-              title: CupertinoSearchTextField(),
-            ),
-            body: Center(
-              child: Container(
-                height: 50,
-                width: 50,
-                child: Center(
-                  child: CircularProgressIndicator(),
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Scaffold(
+              body: Center(
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 ),
               ),
-            ),
-          );
-        }
+            );
+          }
           return WillPopScope(
             onWillPop: () async => false,
             child: Scaffold(
@@ -140,16 +132,6 @@ class HomePage extends HookWidget {
                             padding: EdgeInsets.all(15),
                           ),
                         ),
-                        // Container(
-                        //   padding: EdgeInsets.fromLTRB(5, 10, 10, 10),
-                        //   child: ListTile(
-                        //     leading: CircleAvatar(
-                        //       radius: 40,
-                        //       child: Icon(Icons.gps_fixed),
-                        //       backgroundColor: Colors.redAccent,
-                        //     ),
-                        //   ),
-                        // ),
                         Container(
                           height: 200,
                           child: Image.asset('assets/home-page-heading.png'),
@@ -263,64 +245,46 @@ class HomePage extends HookWidget {
                           height: 350,
                           margin: EdgeInsets.only(left: 5),
                           child: Expanded(
-                              child: ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  children: snapshot.data!.docs
-                                      .map((DocumentSnapshot document) {
-                                    Map<String, dynamic> data = document.data()!
-                                        as Map<String, dynamic>;
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => GymPage(
-                                              gymName: data['gname'],
-                                              gymPhoto: data['gphoto'],
-                                              gymratings: data['gratings'],
-                                              gymopen: data['open'],
-                                              gymaddress: data['gaddress'],
-                                              trainername: data['gtrainername'],
-                                              trainerphoto:
-                                                  data['gtrainerphoto'],
-                                              trainerrating:
-                                                  data['gtrainerrating'],
-                                              traineravailable:
-                                                  data['gtraineravailable'],
-                                              gymId: document.id,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: Container(
-                                        child: GymCard(
-                                            gname: data['gname'],
-                                            gPhoto: data['gphoto'],
-                                            gratings: data['gratings'],
-                                            open: data['open'],
-                                            gaddress: data['gaddress']),
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: snapshot.data!.docs
+                                  .map((DocumentSnapshot document) {
+                                Map<String, dynamic> data =
+                                    document.data()! as Map<String, dynamic>;
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => GymPage(
+                                          gymName: data['gname'],
+                                          gymPhoto: data['gphoto'],
+                                          gymratings: data['gratings'],
+                                          gymopen: data['open'],
+                                          gymaddress: data['gaddress'],
+                                          trainername: data['gtrainername'],
+                                          trainerphoto: data['gtrainerphoto'],
+                                          trainerrating: data['gtrainerrating'],
+                                          traineravailable:
+                                              data['gtraineravailable'],
+                                          gymId: document.id,
+                                        ),
                                       ),
                                     );
-                                  }).toList())),
+                                  },
+                                  child: Container(
+                                    child: GymCard(
+                                        gname: data['gname'],
+                                        gPhoto: data['gphoto'],
+                                        gratings: data['gratings'],
+                                        open: data['open'],
+                                        gaddress: data['gaddress']),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
                         ),
-                        // Container(
-                        //   height: 350,
-                        //   margin: EdgeInsets.only(left: 5),
-                        //   child: Expanded(child: gymhomecontainer,)
-                        //   // ListView.builder(
-                        //   //   scrollDirection: Axis.horizontal,
-                        //   //   // itemCount: .length,
-                        //   //   itemBuilder: (context, index) {
-                        //   //     return GymCard(
-                        //   //       gname: ,
-                        //   //       gPhoto: ,
-                        //   //       gratings: ,
-                        //   //       open: ,
-                        //   //       gaddress: ,
-                        //   //     );
-                        //   //   },
-                        //   // ),
-                        // ),
                         Container(
                           margin:
                               EdgeInsets.only(left: 15, right: 15, bottom: 30),
@@ -334,11 +298,13 @@ class HomePage extends HookWidget {
                               TextButton(
                                 onPressed: () {
                                   Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => CityListPage(
-                                                dataIndex: 0,
-                                              )));
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CityListPage(
+                                        dataIndex: 0,
+                                      ),
+                                    ),
+                                  );
                                 },
                                 child: Text(
                                   'View all',

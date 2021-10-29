@@ -6,7 +6,6 @@ import 'package:gym_in/pages/chat_page.dart';
 import 'package:gym_in/pages/feeds_page.dart';
 import 'package:gym_in/pages/gymlist_page.dart';
 import 'package:gym_in/pages/product_cart_page.dart';
-import 'package:gym_in/pages/product_detail_page.dart';
 import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/pages/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -82,40 +81,23 @@ class MyApp extends StatelessWidget {
           case "/productsPage":
             return MaterialPageRoute(builder: (_) => GymProductsPage());
 
-          // case "/gymCheckoutPage":
-          //   return MaterialPageRoute(
-          //       builder: (_) => GymCheckoutPage(
-          //           ),);
-
           case "/QrResult":
             return MaterialPageRoute(
                 builder: (_) => QrResultScreen(
                       dataIndex: args,
-                    ));          
+                    ));
 
           case "/gymListPage":
             return MaterialPageRoute(
-                builder: (_) => GymListPage(
-                    ),);
-
-
-          case "/productDetailPage":
-            return MaterialPageRoute(
-                builder: (_) => ProductDetailPage(
-                      dataIndex: args,
-                    ));
+              builder: (_) => GymListPage(),
+            );
 
           case "/videoInfoPage":
             return MaterialPageRoute(
-                builder: (_) => VideoInfoPage(
-                      dataIndex: args,
-                    ));
-
-          // case "/gymPage":
-          //   return MaterialPageRoute(
-          //       builder: (_) => GymPage(
-          //             dataIndex: args,
-          //           ));
+              builder: (_) => VideoInfoPage(
+                dataIndex: args,
+              ),
+            );
         }
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

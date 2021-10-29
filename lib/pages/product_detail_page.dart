@@ -1,38 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
-import 'package:gym_in/dumy-data/products_info.dart';
-import 'package:gym_in/dumy-data/review_info.dart';
 import 'package:gym_in/pages/favorites_page.dart';
-import 'package:gym_in/widgets/review_card.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:reviews_slider/reviews_slider.dart';
 
-class ProductDetailPage extends StatefulWidget {
-  final dynamic dataIndex;
-  const ProductDetailPage({required this.dataIndex});
-
-  @override
-  _ProductDetailPageState createState() => _ProductDetailPageState();
-}
-
-class _ProductDetailPageState extends State<ProductDetailPage> {
-  late Razorpay _razorpay;
-
-  get dataIndex => 0;
-  @override
-  void initState() {
-    super.initState();
-    _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-  }
+class ProductDetailPage extends HookWidget {
+  final String title, image, price, productID, description, rating;
+  const ProductDetailPage({
+    Key? key,
+    required this.title,
+    required this.image,
+    required this.price,
+    required this.productID,
+    required this.description,
+    required this.rating,
+  }) : super(key: key);
 
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    late Razorpay _razorpay;
+
+    void _handlePaymentSuccess(PaymentSuccessResponse response) {
+      // Do something when payment succeeds
+    }
+
+    void _handlePaymentError(PaymentFailureResponse response) {
+      // Do something when payment fails
+    }
+
+    void _handleExternalWallet(ExternalWalletResponse response) {
+      // Do something when an external wallet is selected
+    }
+
+    useEffect(() {
+      _razorpay = Razorpay();
+      _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+      _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+      _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+      return () {
+        _razorpay.clear();
+      };
+    });
+
+    void openCheckout({String? name, String? description, String? price, String? image}) async {
+      var options = {
+        'key': 'rzp_test_8NBNETBLt7d5Bg',
+        'amount': price,
+        'name': name,
+        'description': description,
+        'image': image,
+        'prefill': {
+          'contact': '8979642723',
+          'email': 'test@pay.com',
+        },
+      };
+      _razorpay.open(options);
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -45,7 +73,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 child: Column(
                   children: [
                     Container(
-                      color: Colors.redAccent,
+                      color: Colors.white,
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,7 +83,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             height: 50,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25),
-                              color: Colors.redAccent,
+                              color: Colors.white,
                             ),
                             child: Center(
                               child: IconButton(
@@ -75,7 +103,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 height: 50,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25),
-                                  color: Colors.redAccent,
+                                  color: Colors.white,
                                 ),
                                 child: Center(
                                   child: IconButton(
@@ -91,16 +119,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 height: 50,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25),
-                                  color: Colors.redAccent,
+                                  color: Colors.white,
                                 ),
                                 child: Center(
                                   child: IconButton(
                                     onPressed: () {
                                       Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  FavoritesPage()));
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => FavoritesPage(),
+                                        ),
+                                      );
                                     },
                                     icon: Icon(
                                       Icons.favorite,
@@ -113,7 +142,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 height: 50,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25),
-                                  color: Colors.redAccent,
+                                  color: Colors.white,
                                 ),
                                 child: Center(
                                   child: IconButton(
@@ -135,9 +164,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       child: Column(
                         children: [
                           Hero(
-                            tag: widget.dataIndex,
+                            tag: productID,
                             child: Image.network(
-                              productsData[widget.dataIndex].image,
+                              image,
                             ),
                           ),
                           Divider(
@@ -146,7 +175,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             child: Text(
-                              productsData[widget.dataIndex].name,
+                              title,
                               style: kSmallContentStyle.copyWith(
                                 fontSize: 22,
                               ),
@@ -158,10 +187,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "₹" +
-                                      productsData[widget.dataIndex]
-                                          .price
-                                          .substring(0, 4),
+                                  "₹" + price,
                                   style: GoogleFonts.lato(
                                     textStyle: TextStyle(
                                       fontWeight: FontWeight.w700,
@@ -194,7 +220,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     ),
                                     color: Colors.redAccent,
                                   ),
-                                  child: Text("4.1⭐️"),
+                                  child: Text(rating + "⭐️"),
                                 ),
                                 SizedBox(
                                   width: 5,
@@ -217,8 +243,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               bottom: 20,
                             ),
                             child: Text(
-                              productsData[widget.dataIndex].description,
-                              style: TextStyle(fontSize: 18),
+                              description,
                             ),
                           ),
                         ],
@@ -404,7 +429,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 ),
                                 Text(
                                   "Chat to Ask About this Product",
-                                  style: kSmallContentStyle.copyWith(fontSize: 16,),
+                                  style: kSmallContentStyle.copyWith(
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ],
                             ),
@@ -454,15 +481,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               ),
                             ],
                           ),
-                          ReviewCard(
-                            userPhotoUrl:
-                                reviewsData[dataIndex].userPhotoUrl[0],
-                            userName: reviewsData[dataIndex].userName,
-                            index: 0,
-                            button: reviewsData[dataIndex].editButton,
-                            height: 30,
-                            width: 30,
-                          ),
+                          // ReviewCard(
+                          //   userPhotoUrl:
+                          //       reviewsData[dataIndex].userPhotoUrl[0],
+                          //   userName: reviewsData[dataIndex].userName,
+                          //   index: 0,
+                          //   button: reviewsData[dataIndex].editButton,
+                          //   height: 30,
+                          //   width: 30,
+                          // ),
                         ],
                       ),
                     )
@@ -515,12 +542,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           child: MaterialButton(
                             onPressed: () {
                               openCheckout(
-                                name: productsData[widget.dataIndex].name,
-                                price: productsData[widget.dataIndex].price,
-                                description:
-                                    productsData[widget.dataIndex].description,
-                                image: productsData[widget.dataIndex].image,
-                              );
+                                  name: title,
+                                  price: price,
+                                  description: description,
+                                  image: image,
+                                  );
                             },
                             child: Text(
                               "Buy Now",
@@ -539,37 +565,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ),
       ),
     );
-  }
-
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    // Do something when payment succeeds
-  }
-
-  void _handlePaymentError(PaymentFailureResponse response) {
-    // Do something when payment fails
-  }
-
-  void _handleExternalWallet(ExternalWalletResponse response) {
-    // Do something when an external wallet is selected
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _razorpay.clear();
-  }
-
-  void openCheckout(
-      {String? name, String? description, String? price, String? image}) async {
-    var options = {
-      'key': 'rzp_test_8NBNETBLt7d5Bg',
-      'amount': price,
-      'name': name,
-      'description': description,
-      'image': image,
-      'prefill': {'contact': '9876543210', 'email': 'test@pay.com'},
-    };
-    _razorpay.open(options);
   }
 }
 
