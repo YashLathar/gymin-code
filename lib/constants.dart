@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 final kHeadingTextStyle = TextStyle(
-    fontSize: 30, fontWeight: FontWeight.w700, fontFamily: 'Montserrat');
+    fontSize: 30, fontWeight: FontWeight.w900, fontFamily: 'Montserrat');
 
 final kRoundedButtonTextStyle = TextStyle(
   fontSize: 18,

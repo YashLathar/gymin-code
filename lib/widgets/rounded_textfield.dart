@@ -12,12 +12,11 @@ class RoundedTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final bool secureIt;
-  
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      margin: EdgeInsets.symmetric(vertical: 5),
       child: TextField(
         controller: controller,
         keyboardType: TextInputType.emailAddress,
@@ -32,10 +31,15 @@ class RoundedTextField extends StatelessWidget {
           hintStyle: kRoundedButtonTextStyle.copyWith(
               fontSize: 15, color: Colors.black),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
+            borderRadius: BorderRadius.circular(15),
           ),
-          focusedBorder:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(
+              color: Color(0xffF14C37),
+              width: 2,
+            ),
+          ),
         ),
       ),
     );

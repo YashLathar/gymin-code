@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/pages/favorites_page.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:reviews_slider/reviews_slider.dart';
 
 class ProductDetailPage extends HookWidget {
@@ -565,6 +564,20 @@ class ProductDetailPage extends HookWidget {
         ),
       ),
     );
+  }
+
+
+  void openCheckout(
+      {String? name, String? description, String? price, String? image}) async {
+    var options = {
+      'key': 'rzp_test_8NBNETBLt7d5Bg',
+      'amount': price,
+      'name': name,
+      'description': description,
+      'image': image,
+      'prefill': {'contact': '9876543210', 'email': 'test@pay.com'},
+    };
+    // _razorpay.open(options);
   }
 }
 
