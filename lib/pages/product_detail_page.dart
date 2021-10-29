@@ -3,12 +3,17 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
+import 'package:gym_in/controllers/cart_controller.dart';
+import 'package:gym_in/models/product.dart';
 import 'package:gym_in/pages/favorites_page.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:reviews_slider/reviews_slider.dart';
 
 class ProductDetailPage extends HookWidget {
-  final String title, image, price, productID, description, rating;
+  final String title, image, productID, description, rating;
+  final int price;
   const ProductDetailPage({
     Key? key,
     required this.title,
@@ -20,6 +25,8 @@ class ProductDetailPage extends HookWidget {
   }) : super(key: key);
 
   Widget build(BuildContext context) {
+    final cartControllerProvider = useProvider(cartProvider);
+    print(cartControllerProvider.products);
     Size size = MediaQuery.of(context).size;
     late Razorpay _razorpay;
 
@@ -45,7 +52,11 @@ class ProductDetailPage extends HookWidget {
       };
     });
 
-    void openCheckout({String? name, String? description, String? price, String? image}) async {
+    void openCheckout(
+        {String? name,
+        String? description,
+        String? price,
+        String? image}) async {
       var options = {
         'key': 'rzp_test_8NBNETBLt7d5Bg',
         'amount': price,
@@ -186,7 +197,7 @@ class ProductDetailPage extends HookWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "₹" + price,
+                                  "₹" + price.toString(),
                                   style: GoogleFonts.lato(
                                     textStyle: TextStyle(
                                       fontWeight: FontWeight.w700,
@@ -514,9 +525,12 @@ class ProductDetailPage extends HookWidget {
                           ),
                           child: MaterialButton(
                             onPressed: () {
-                              // checkItemInCart(
-                              //     productsData[widget.dataIndex].price,
-                              //     context);
+                              cartControllerProvider.add(Product(
+                                title: title,
+                                price: price,
+                                productId: productID,
+                                image: image,
+                              ));
                             },
                             child: Text(
                               "Add to Cart",
@@ -541,11 +555,11 @@ class ProductDetailPage extends HookWidget {
                           child: MaterialButton(
                             onPressed: () {
                               openCheckout(
-                                  name: title,
-                                  price: price,
-                                  description: description,
-                                  image: image,
-                                  );
+                                name: title,
+                                price: price.toString(),
+                                description: description,
+                                image: image,
+                              );
                             },
                             child: Text(
                               "Buy Now",
@@ -565,7 +579,6 @@ class ProductDetailPage extends HookWidget {
       ),
     );
   }
-
 
   void openCheckout(
       {String? name, String? description, String? price, String? image}) async {
