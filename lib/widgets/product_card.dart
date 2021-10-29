@@ -1,30 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
     Key? key,
-    required this.name,
+    required this.title,
     required this.price,
     required this.image,
-    required this.index,
+    required this.productId,
   }) : super(key: key);
 
-  final int index;
   final String image;
-  final String name;
+  final String title;
   final String price;
+  final String productId;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          "/productDetailPage",
-          arguments: index,
-        );
-      },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
@@ -35,7 +27,7 @@ class ProductCard extends StatelessWidget {
             children: [
               Container(
                 child: Hero(
-                  tag: index,
+                  tag: productId,
                   child: Image.network(
                     image,
                     fit: BoxFit.cover,
@@ -62,7 +54,7 @@ class ProductCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      name,
+                      title,
                       style: TextStyle(fontSize: 18, color: Colors.grey),
                     ),
                     SizedBox(
@@ -72,7 +64,7 @@ class ProductCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "₹" + price.substring(0, 4),
+                          "₹" + price,
                           style: TextStyle(fontSize: 20),
                         ),
                         Container(
@@ -81,17 +73,15 @@ class ProductCard extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50),
                               color: Colors.redAccent),
-                          child: InkWell(
-                            onTap: () {},
-                            child: Center(
-                              child: Icon(
-                                FontAwesomeIcons.plus,
-                                size: 15,
-                                color: Colors.white,
-                              ),
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.favorite,
+                              size: 15,
+                              color: Colors.white,
                             ),
                           ),
-                        )
+                        ),
                       ],
                     )
                   ],

@@ -18,7 +18,7 @@ class ProductCartPage extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    color: Colors.redAccent,
+                    color: Colors.white,
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: Row(
                       children: [
@@ -27,7 +27,7 @@ class ProductCartPage extends StatelessWidget {
                           height: 45,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                            color: Colors.redAccent,
+                            color: Colors.white,
                           ),
                           child: Center(
                             child: IconButton(
@@ -53,7 +53,7 @@ class ProductCartPage extends StatelessWidget {
                           height: 45,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                            color: Colors.redAccent,
+                            color: Colors.white,
                           ),
                           child: Center(
                             child: IconButton(

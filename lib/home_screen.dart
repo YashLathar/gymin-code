@@ -3,6 +3,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/pages/activity_page.dart';
 import 'package:gym_in/pages/feeds_page.dart';
 import 'package:gym_in/pages/gym_owner_page.dart';
 import 'package:gym_in/pages/login_page.dart';
@@ -18,17 +19,11 @@ class HomeScreen extends HookWidget {
 
   final List<Widget> pages = [
     HomePage(),
-    FeedsPage(
-        //currentUser: currentUser
-        ),
+    ActivityPage(),
+    // FeedsPage(),
     GymProductsPage(),
-    UserPage(
-      //profileID: currentUser?.id
-    ),
+    UserPage(),
   ];
-
-  // user.displayName ??
-  // user.photoURL ??
 
   @override
   Widget build(BuildContext context) {
@@ -41,76 +36,86 @@ class HomeScreen extends HookWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              Stack(children: [
-                UserAccountsDrawerHeader(
-                  accountName: Text(
-                    authControllerState.displayName ?? 'Username',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  accountEmail: ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => UserPage()));
-                    },
-                    trailing: Icon(
-                      Icons.chevron_right,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    title: Text(
-                      authControllerState.email ?? 'example@email.com',
+              Stack(
+                children: [
+                  UserAccountsDrawerHeader(
+                    accountName: Text(
+                      authControllerState.displayName ?? 'Username',
                       style: TextStyle(color: Colors.white),
                     ),
-                  ),
-                  currentAccountPicture: CircleAvatar(
-                    child: ClipOval(
-                      child: //ImageProfile(),
-                          Image.network(
-                        authControllerState.photoURL ??
-                            "https://img.icons8.com/cute-clipart/2x/user-male.png",
-                        fit: BoxFit.cover,
-                        width: 90,
-                        height: 90,
+                    accountEmail: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UserPage()));
+                      },
+                      trailing: Icon(
+                        Icons.chevron_right,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      title: Text(
+                        authControllerState.email ?? 'example@email.com',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    currentAccountPicture: CircleAvatar(
+                      child: ClipOval(
+                        child: //ImageProfile(),
+                            Image.network(
+                          authControllerState.photoURL ??
+                              "https://img.icons8.com/cute-clipart/2x/user-male.png",
+                          fit: BoxFit.cover,
+                          width: 90,
+                          height: 90,
+                        ),
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: NetworkImage(
+                          'https://images.pexels.com/photos/416717/pexels-photo-416717.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+                        ),
                       ),
                     ),
                   ),
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: NetworkImage(
-                            'https://images.pexels.com/photos/416717/pexels-photo-416717.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500')),
-                  ),
-                ),
-              ]),
+                ],
+              ),
               ListTile(
                 leading: Icon(Icons.home),
                 title: Text('Gym Owner'),
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => GymOwnerPage())),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => GymOwnerPage())),
               ),
               ListTile(
                 leading: Icon(Icons.verified_user),
                 title: Text('Trainer Zone'),
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> TrainerZone())),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TrainerZone())),
               ),
               ListTile(
-                leading: Icon(Icons.run_circle),
-                title: Text('Activity'),
-                onTap: () => Navigator.pushNamed(context, "/activityPage"),
-              ),
+                  leading: Icon(Icons.post_add),
+                  title: Text('Social'),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => FeedsPage()));
+                  }),
               // ListTile(
               //   leading: Icon(
               //     Icons.play_circle_fill,
               //   ),
               //   title: Text('Tutorials'),
-              //   onTap: () => 
+              //   onTap: () =>
               //     Navigator.pushNamed(context, '/videosPage'),
               // ),
               ListTile(
                 leading: FaIcon(FontAwesomeIcons.firstOrder),
                 title: Text("Your Orders"),
-                onTap: (){},
+                onTap: () {},
               ),
               // ListTile(
               //   leading: Icon(Icons.money),
@@ -148,7 +153,8 @@ class HomeScreen extends HookWidget {
           index: 0,
           items: [
             Icon(Icons.home_rounded),
-            Icon(Icons.image),
+            // Icon(Icons.image),
+            Icon(Icons.run_circle),
             Icon(FontAwesomeIcons.shoppingBag),
             Icon(Icons.account_circle),
           ],
