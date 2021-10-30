@@ -52,11 +52,11 @@ class GymCheckoutPage extends HookWidget {
 
     void _handlePaymentError(PaymentFailureResponse response) {
       // Do something when payment fails
-      showDialog(context: context, builder: (context) {
-        return SimpleDialog(
-          title: Text("Payment Failed")
-        );
-      });
+      showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleDialog(title: Text("Payment Failed"));
+          });
     }
 
     void _handleExternalWallet(ExternalWalletResponse response) {
@@ -71,7 +71,7 @@ class GymCheckoutPage extends HookWidget {
       return () {
         _razorpay.clear();
       };
-    });
+    }, const []);
 
     void openCheckout(
         {String? name,

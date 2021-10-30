@@ -5,11 +5,13 @@ class Product {
   final String title;
   final int price;
   final String productId;
+  int quantity;
   Product({
     required this.image,
     required this.title,
     required this.price,
     required this.productId,
+    this.quantity = 1,
   });
 
   Product copyWith({
@@ -17,12 +19,14 @@ class Product {
     String? title,
     int? price,
     String? productId,
+    int? quantity,
   }) {
     return Product(
       image: image ?? this.image,
       title: title ?? this.title,
       price: price ?? this.price,
       productId: productId ?? this.productId,
+      quantity: quantity ?? this.quantity,
     );
   }
 
@@ -32,6 +36,7 @@ class Product {
       'title': title,
       'price': price,
       'productId': productId,
+      'quantity': quantity,
     };
   }
 
@@ -41,6 +46,7 @@ class Product {
       title: map['title'],
       price: map['price'],
       productId: map['productId'],
+      quantity: map['quantity'],
     );
   }
 
@@ -51,7 +57,7 @@ class Product {
 
   @override
   String toString() {
-    return 'Product(image: $image, title: $title, price: $price, productId: $productId)';
+    return 'Product(image: $image, title: $title, price: $price, productId: $productId, quantity: $quantity)';
   }
 
   @override
@@ -62,7 +68,8 @@ class Product {
         other.image == image &&
         other.title == title &&
         other.price == price &&
-        other.productId == productId;
+        other.productId == productId &&
+        other.quantity == quantity;
   }
 
   @override
@@ -70,6 +77,7 @@ class Product {
     return image.hashCode ^
         title.hashCode ^
         price.hashCode ^
-        productId.hashCode;
+        productId.hashCode ^
+        quantity.hashCode;
   }
 }
