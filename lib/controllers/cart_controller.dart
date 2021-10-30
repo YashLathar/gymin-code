@@ -13,17 +13,39 @@ class CartContoller extends ChangeNotifier {
 
   UnmodifiableListView<Product> get products => UnmodifiableListView(_products);
 
-  int get totalPrice =>
-      _products.fold(0, (int total, item) => total + item.price);
+  int get totalPrice => _products.fold(
+      0, (int total, item) => total + item.price * item.quantity);
 
-  void add(Product product) {
+  void addProduct(Product product) {
     _products.add(product);
 
     notifyListeners();
   }
 
-  void removeItem(String productId) {
+  void removeProduct(String productId) {
     _products.removeWhere((product) => product.productId == productId);
+
+    notifyListeners();
+  }
+
+  void incrementProductQuantity(String productId) {
+    _products.map((product) {
+      if (productId == product.productId) {
+        return product.quantity += 1;
+      }
+    }).toList();
+
+    notifyListeners();
+  }
+
+  void decrementProductQuantity(String productId) {
+    _products.map((product) {
+      if (productId == product.productId) {
+        if (product.quantity > 1) {
+          return product.quantity -= 1;
+        }
+      }
+    }).toList();
 
     notifyListeners();
   }

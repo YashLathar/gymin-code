@@ -11,6 +11,7 @@ class ProductCartPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final cartControllerProvider = useProvider(cartProvider);
+    // print(cartControllerProvider.products);
     Size size = MediaQuery.of(context).size;
     return Material(
       color: Color(0xffF2F2F2),
@@ -121,6 +122,7 @@ class ProductCartPage extends HookWidget {
                           .map((product) => CartProduct(
                                 productId: product.productId,
                                 imageUrl: product.image,
+                                quantity: product.quantity,
                                 price: product.price.toString(),
                                 productName: product.title,
                               ))
@@ -160,7 +162,7 @@ class ProductCartPage extends HookWidget {
                       color: Colors.deepPurple,
                       child: Align(
                         child: Text(
-                          cartControllerProvider.totalPrice.toString(),
+                          "Rs. ${cartControllerProvider.totalPrice.toString()}",
                           style: TextStyle(
                             fontSize: 40,
                             color: Colors.white,

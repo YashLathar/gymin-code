@@ -36,12 +36,6 @@ class HomePage extends HookWidget {
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _gymStream =
         FirebaseFirestore.instance.collection('gymdata').snapshots();
-    // final FloatingSearchBarController searchBarController =
-    //     FloatingSearchBarController();
-    // final leadingIcon = useState(Icons.search);
-    // final actionsIcon = useState(Icons.close);
-    // final actionsIconColor = useState(Colors.white);
-    // final suggestionList = useState([]);
     final ScrollController _scrollController = ScrollController();
     Size size = MediaQuery.of(context).size;
     return StreamBuilder<QuerySnapshot>(
@@ -345,7 +339,7 @@ class HomePage extends HookWidget {
                                             ),
                                             image: DecorationImage(
                                               image: NetworkImage(
-                                                  'https://cdn.s3waas.gov.in/s382161242827b703e6acf9c726942a1e4/uploads/bfi_thumb/2018080755-olw9wu1n6fuxala3g4kn7b1bndsegqa94qi5wvcm3k.jpg'),
+                                                  'https://spiderimg.amarujala.com/assets/images/2019/10/03/moradabad-railway-station_1570048208.jpeg'),
                                             ),
                                           ),
                                           child: Container(

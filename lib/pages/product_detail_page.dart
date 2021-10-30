@@ -26,7 +26,6 @@ class ProductDetailPage extends HookWidget {
 
   Widget build(BuildContext context) {
     final cartControllerProvider = useProvider(cartProvider);
-    print(cartControllerProvider.products);
     Size size = MediaQuery.of(context).size;
     late Razorpay _razorpay;
 
@@ -525,12 +524,22 @@ class ProductDetailPage extends HookWidget {
                           ),
                           child: MaterialButton(
                             onPressed: () {
-                              cartControllerProvider.add(Product(
-                                title: title,
-                                price: price,
-                                productId: productID,
-                                image: image,
-                              ));
+                              final thisProduct = cartControllerProvider
+                                  .products
+                                  .where((product) =>
+                                      product.productId == productID);
+
+                              if (thisProduct.isEmpty) {
+                                cartControllerProvider.addProduct(Product(
+                                  title: title,
+                                  price: price,
+                                  productId: productID,
+                                  image: image,
+                                ));
+                              } else {
+                                cartControllerProvider
+                                    .incrementProductQuantity(productID);
+                              }
                             },
                             child: Text(
                               "Add to Cart",

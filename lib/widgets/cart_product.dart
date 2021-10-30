@@ -11,18 +11,20 @@ class CartProduct extends StatelessWidget {
     required this.productName,
     required this.price,
     required this.productId,
+    required this.quantity,
   }) : super(key: key);
 
   final String imageUrl;
   final String productName;
   final String price;
   final String productId;
+  final int quantity;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPress: () {
-        context.read(cartProvider).removeItem(productId);
+        context.read(cartProvider).removeProduct(productId);
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -50,7 +52,10 @@ class CartProduct extends StatelessWidget {
                     "₹" + price,
                     style: TextStyle(fontSize: 18, color: Colors.redAccent),
                   ),
-                  QuantityCounter(),
+                  QuantityCounter(
+                    productId: productId,
+                    quantity: quantity,
+                  ),
                 ],
               ),
             ),
