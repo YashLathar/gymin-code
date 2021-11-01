@@ -6,20 +6,14 @@ import 'package:gym_in/widgets/rounded_button.dart';
 class TimeSelector extends HookWidget {
   const TimeSelector({Key? key}) : super(key: key);
 
-  Future<void> pickToTime(BuildContext context) async {
-    final initialTime = TimeOfDay(hour: 9, minute: 0);
+  Future<TimeOfDay> pickFromTime(BuildContext context) async {
+    TimeOfDay fromTime = TimeOfDay(hour: 8, minute: 0);
     await showTimePicker(
       context: context,
-      initialTime: initialTime,
-    ).then((value) => print(value));
-  }
+      initialTime: fromTime,
+    ).then((value) => fromTime = value!);
 
-  Future<void> pickFromTime(BuildContext context) async {
-    final initialTime = TimeOfDay(hour: 8, minute: 0);
-    await showTimePicker(
-      context: context,
-      initialTime: initialTime,
-    ).then((value) => print(value!.hour));
+    return fromTime;
   }
 
   @override
@@ -41,9 +35,7 @@ class TimeSelector extends HookWidget {
               ),
               RoundedButton(
                 buttonText: fromTime.value.toString(),
-                onPressed: () async {
-                  await pickFromTime(context);
-                },
+                onPressed: () {},
               ),
               SizedBox(height: 200),
               Text(
@@ -52,9 +44,7 @@ class TimeSelector extends HookWidget {
               ),
               RoundedButton(
                 buttonText: toTime.value.toString(),
-                onPressed: () async {
-                  await pickToTime(context);
-                },
+                onPressed: () {},
               ),
             ],
           ),
