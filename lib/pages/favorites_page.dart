@@ -12,15 +12,18 @@ class FavoritesPage extends StatelessWidget {
         children: [
           Container(
             color: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
             child: Row(
               children: [
                 Container(
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(35),
+                    border: Border.all(
+                      width: 2.0,
+                      color: Colors.black,
+                    ),
                   ),
                   child: Center(
                     child: IconButton(
@@ -45,8 +48,11 @@ class FavoritesPage extends StatelessWidget {
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(35),
+                    border: Border.all(
+                      width: 2.0,
+                      color: Colors.black,
+                    ),
                   ),
                   child: Center(
                     child: IconButton(

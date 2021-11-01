@@ -72,7 +72,9 @@ class _GymListPageState extends State<GymListPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => GymPage(
+
                           gymName: data['gname'],
+                          gymphotos: data['gymphotos'],
                           gymPhoto: data['gphoto'],
                           gymratings: data['gratings'],
                           gymopen: data['open'],

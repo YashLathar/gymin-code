@@ -128,14 +128,13 @@ class UserPage extends HookWidget {
           ),
         ],
       ),
-      // ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     // final _tabController = useTabController(initialLength: 2);
-    final authControllerState = useProvider(authControllerProvider);
+    // final authControllerState = useProvider(authControllerProvider);
     return Scaffold(
       backgroundColor: const Color(0xffF2F2F2),
       appBar: AppBar(
@@ -160,7 +159,7 @@ class UserPage extends HookWidget {
                     );
                   },
                   child: Text(
-                    authControllerState!.displayName ?? 'UserName',
+                    'Gymin',
                     style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -197,9 +196,8 @@ class UserPage extends HookWidget {
                                               Duration(seconds: 1));
                                           Navigator.pop(context);
                                           aShowToast(
-                                            msg:
-                                                "Your Request has been Accepted !",
-                                          );
+                                              msg:
+                                                  "Your Request has been Accepted !");
                                         },
                                         child: Text(
                                           "Request",
@@ -233,43 +231,44 @@ class UserPage extends HookWidget {
                 IconButton(
                   onPressed: () {
                     showDialog(
-                        context: context,
-                        builder: (context) {
-                          return SimpleDialog(
-                            title: Text(
-                              "Create a Post",
-                              style: kSmallContentStyle,
+                      context: context,
+                      builder: (context) {
+                        return SimpleDialog(
+                          title: Text(
+                            "Create a Post",
+                            style: kSmallContentStyle,
+                          ),
+                          children: [
+                            SimpleDialogOption(
+                              child: Text(
+                                'Photo with Camera',
+                                style:
+                                    kSmallContentStyle.copyWith(fontSize: 13),
+                              ),
+                              onPressed: () {}, //handleTakePhoto
                             ),
-                            children: [
-                              SimpleDialogOption(
-                                child: Text(
-                                  'Photo with Camera',
-                                  style:
-                                      kSmallContentStyle.copyWith(fontSize: 13),
-                                ),
-                                onPressed: () {}, //handleTakePhoto
+                            SimpleDialogOption(
+                              child: Text(
+                                'Image with Gallery',
+                                style:
+                                    kSmallContentStyle.copyWith(fontSize: 13),
                               ),
-                              SimpleDialogOption(
-                                child: Text(
-                                  'Image with Gallery',
-                                  style:
-                                      kSmallContentStyle.copyWith(fontSize: 13),
-                                ),
-                                onPressed: () {}, //handleChooseFromGallery
+                              onPressed: () {}, //handleChooseFromGallery
+                            ),
+                            SimpleDialogOption(
+                              child: Text(
+                                'Cancel',
+                                style:
+                                    kSmallContentStyle.copyWith(fontSize: 13),
                               ),
-                              SimpleDialogOption(
-                                child: Text(
-                                  'Cancel',
-                                  style:
-                                      kSmallContentStyle.copyWith(fontSize: 13),
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          );
-                        });
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                   icon: Icon(
                     Icons.add_box_rounded,
@@ -278,30 +277,11 @@ class UserPage extends HookWidget {
                 ),
                 IconButton(
                   onPressed: () {
-                    //  showMenu(
-                    //    context: context,
-                    //    position: ,
-                    //    items:
-                    //  [
-                    //         PopupMenuItem<int>(
-                    //           value: 0,
-                    //           child: Text('Edit Profile'),
-                    //         ),
-                    //         PopupMenuItem<int>(
-                    //           value: 1,
-                    //           child: Text('Dark Mode'),
-                    //         ),
-                    //         PopupMenuItem<int>(
-                    //           value: 1,
-                    //           child: Text('Settings'),
-                    //         ),
-                    //       ]
-                    //  ); // throw PopupMenuButton;
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => SettingPage()));
                   },
                   icon: Icon(
-                    Icons.more_vert,
+                    Icons.settings,
                     color: Colors.black,
                   ),
                 ),
@@ -312,15 +292,22 @@ class UserPage extends HookWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
+          color: Colors.white,
           child: Column(
             children: [
               ProfileHeader1(),
-              ProfileHeader2(),
               Divider(
-                thickness: 3.0,
+                color: Colors.white,
+                thickness: 2.0,
                 height: 0.0,
               ),
-              ProfilePostsView(),
+              ProfileFooter(),
+              // ProfileHeader2(),
+              // Divider(
+              //   thickness: 3.0,
+              //   height: 0.0,
+              // ),
+              // ProfilePostsView(),
             ],
           ),
         ),
@@ -346,7 +333,10 @@ class ProfileHeader1 extends HookWidget {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 4.0, left: 5,),
+          margin: EdgeInsets.only(
+            top: 4.0,
+            left: 5,
+          ),
           child: Text(
             label,
             style: TextStyle(
@@ -363,7 +353,7 @@ class ProfileHeader1 extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider);
-
+    final size = MediaQuery.of(context).size;
     Future<void> _launchURLBrowser() async {
       const url = 'https://gymin.co.in';
       if (await canLaunch(url)) {
@@ -381,7 +371,6 @@ class ProfileHeader1 extends HookWidget {
 //     throw 'Could not launch $url';
 //   }
 //   }
-
     return Container(
       padding: EdgeInsets.only(
         top: 10,
@@ -394,341 +383,208 @@ class ProfileHeader1 extends HookWidget {
           bottomRight: Radius.circular(35),
         ),
       ),
-      child: Column(
-        children: [
-          Row(
-            // mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  Container(
-                    //margin: EdgeInsets.only(left: 15),
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: 18,
-                          ),
-                          child: Row(
-                            // mainAxisSize: MainAxisSize.max,
-                            children: [
-                              SizedBox(
-                                width: 10,
-                              ),
-                              buildCountColumn("posts", 0), //postCount
-                              SizedBox(
-                                width: 10,
-                              ),
-                              buildCountColumn("followers", 0),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              buildCountColumn("following", 0),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 18,
-                        ),
-                      ],
-                    ),
+      child: Container(
+        padding: EdgeInsets.only(
+          left: 20,
+          right: 20,
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 45,
+                  backgroundImage: NetworkImage(
+                    authControllerState!.photoURL ??
+                        "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg",
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 0),
-                    child: Column(
+                ),
+                SizedBox(
+                  width: size.width / 19,
+                ),
+                Row(
+                  children: [
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Taurus ♉",
-                          style: kSmallContentStyle.copyWith(
-                            fontSize: 12,
-                          ),
-                        ),
-                        Text(
-                          "Programmer 👨‍💻",
-                          style: kSmallContentStyle.copyWith(
-                            fontSize: 12,
-                          ),
-                        ),
-                        Text(
-                          "Forex Trader 📈",
-                          style: kSmallContentStyle.copyWith(
-                            fontSize: 12,
-                          ),
-                        ),
-                        Text(
-                          "Coach 🧑",
-                          style: kSmallContentStyle.copyWith(
-                            fontSize: 12,
-                          ),
-                        ),
-                        Text(
-                          "Sigma ✨",
-                          style: kSmallContentStyle.copyWith(
-                            fontSize: 12,
-                          ),
-                        ),
-                        Text(
-                          "Autophile🔥",
-                          style: kSmallContentStyle.copyWith(
-                            fontSize: 12,
-                          ),
-                        ),
-                        Text(
-                          "Nyctophile ✔️",
-                          style: kSmallContentStyle.copyWith(
-                            fontSize: 12,
-                          ),
-                        ),
-                        InkWell(
-                          onTap:
-                              // _launchURLApp,
-                              _launchURLBrowser,
-                          // () async {
-
-                          //   await Future.delayed(Duration(seconds: 1));
-                          //   aShowToast(msg: "Gymin WebView");
-                          // },
-                          child: Text(
-                            "https://www.gymin.co.in",
-                            style: kSmallContentStyle.copyWith(
-                              color: Colors.blue,
-                              fontSize: 13,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                width: 13,
-              ),
-              Column(
-                children: [
-                  Container(
-                    child: Column(
-                      // crossAxisAlignment: CrossAxisAlignment.center,
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CircleAvatar(
-                          radius: 55,
-                          backgroundImage: NetworkImage(
-                            authControllerState!.photoURL ??
-                                "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg",
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
                         Text(
                           authControllerState.displayName ?? 'UserName',
                           style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
                               fontWeight: FontWeight.bold,
+                              fontSize: 22,
                             ),
                           ),
                         ),
-                        // Row(
-                        //   children: [
-                        //     Column(
-                        //       children: [
-                        //         Text(
-                        //           "Height:",
-                        //           style: TextStyle(
-                        //             fontWeight: FontWeight.w600,
-                        //             fontSize: 12,
-                        //           ),
-                        //         ),
-                        //         Text(
-                        //           "Weight:",
-                        //           style: TextStyle(
-                        //             fontWeight: FontWeight.w600,
-                        //             fontSize: 12,
-                        //           ),
-                        //         ),
-                        //         Text(
-                        //           "Age:",
-                        //           style: TextStyle(
-                        //             fontWeight: FontWeight.w600,
-                        //             fontSize: 12,
-                        //           ),
-                        //         ),
-                        //         Text(
-                        //           "Activity:",
-                        //           style: TextStyle(
-                        //             fontWeight: FontWeight.w600,
-                        //             fontSize: 12,
-                        //           ),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //     Column(
-                        //       children: [
-                        //         Text(
-                        //           "5'11\"",
-                        //           style: TextStyle(
-                        //             fontWeight: FontWeight.w600,
-                        //             fontSize: 12,
-                        //           ),
-                        //         ),
-                        //         Text(
-                        //           "81 Kg\"",
-                        //           style: TextStyle(
-                        //             fontWeight: FontWeight.w600,
-                        //             fontSize: 12,
-                        //           ),
-                        //         ),
-                        //         Text(
-                        //           "21\"",
-                        //           style: TextStyle(
-                        //             fontWeight: FontWeight.w600,
-                        //             fontSize: 12,
-                        //           ),
-                        //         ),
-                        //         Text(
-                        //           "7.9⭐️",
-                        //           style: TextStyle(
-                        //             fontWeight: FontWeight.w600,
-                        //             fontSize: 12,
-                        //           ),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ],
-                        // ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_pin,
+                              color: Colors.grey,
+                              size: 16,
+                            ),
+                            Text(
+                              "Line Par, Moradabad",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Colors.grey),
+                            ),
+                          ],
+                        )
                       ],
                     ),
+                  ],
+                ),
+                SizedBox(
+                  width: size.width / 6.6,
+                ),
+                PopupMenuButton<int>(
+                  offset: Offset(50, -100),
+                  itemBuilder: (context) => [
+                    PopupMenuItem<int>(
+                      value: 0,
+                      child: PopUpMenuTile(
+                        icon: Icons.person,
+                        title: 'Account',
+                      ),
+                    ),
+                    PopupMenuItem<int>(
+                      value: 1,
+                      child: PopUpMenuTile(
+                        icon: Icons.edit,
+                        title: 'Edit profile',
+                      ),
+                    ),
+                    PopupMenuItem<int>(
+                      value: 2,
+                      child: PopUpMenuTile(
+                        icon: Icons.change_circle,
+                        title: 'Change Theme',
+                      ),
+                    ),
+                    PopupMenuItem<int>(
+                      value: 3,
+                      child: PopUpMenuTile(
+                        icon: Icons.settings,
+                        title: 'Settings',
+                      ),
+                    ),
+                  ],
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(
+                        Icons.more_vert,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            SizedBox(height: 12),
+            Container(
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.only(left: 5),
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "23 | 5'7\" | 140 lbs",
+                        style: kSmallContentStyle.copyWith(
+                          fontSize: 13,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Text(
+                        "Flutter developer | Gym Freak",
+                        style: kSmallContentStyle.copyWith(
+                          fontSize: 13,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Text(
+                        "Whatever_it_takes!!",
+                        style: kSmallContentStyle.copyWith(
+                          fontSize: 13,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      InkWell(
+                        highlightColor: Colors.redAccent,
+                        onTap:
+                            // _launchURLApp,
+                            _launchURLBrowser,
+                        child: Text(
+                          "https://www.gymin.co.in",
+                          style: kSmallContentStyle.copyWith(
+                            color: Colors.blue,
+                            fontSize: 13,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
-          // ButtonTheme(
-          //   height: 35,
-          //   minWidth: 300,
-          //   buttonColor: Colors.redAccent,
-          //   child: RaisedButton(
-          //     onPressed: () {},
-          //     child: Text("Edit Profile",
-          //     ),),
-          // ),
-        ],
+            ),
+            SizedBox(height: 5),
+            ButtonTheme(
+              height: 35,
+              minWidth: 300,
+              buttonColor: Colors.redAccent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+              // ignore: deprecated_member_use
+              child: RaisedButton(
+                onPressed: () {},
+                child: Text(
+                  "Edit Profile",
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-// profilePostsView() {
-//   if (isLoading) {
-//     return CircularProgressIndicator();
-//   }
-//     return Column(children: posts,);
-// }
-
-class ProfileHeader2 extends HookWidget {
-  const ProfileHeader2({Key? key}) : super(key: key);
+class PopUpMenuTile extends StatelessWidget {
+  const PopUpMenuTile({
+    Key? key,
+    required this.icon,
+    required this.title,
+  }) : super(key: key);
+  final IconData icon;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
-          margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return SimpleDialog(
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                "Earn New Badge",
-                                style: kSmallContentStyle,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ElevatedButton(
-                                    child: Text("Earn"),
-                                    onPressed: () async {
-                                      await Future.delayed(
-                                          Duration(seconds: 0));
-                                      Navigator.pop(context);
-                                      aShowToast(msg: "Work in Progress !");
-                                    },
-                                  ),
-                                  SimpleDialogOption(
-                                    child: Text("Cancel"),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                child: CircleAvatar(
-                  radius: 30,
-                  child: Icon(
-                    Icons.add,
-                  ),
-                  backgroundColor: Colors.redAccent,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: CircleAvatar(
-                  radius: 30,
-                  backgroundImage: NetworkImage(
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvL5s8yPVen34OJG08FHgZPrSIDBWyrheg3Q&usqp=CAU",
-                  ),
-                ),
-              ),
-              CircleAvatar(
-                radius: 30,
-                backgroundImage: NetworkImage(
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSH2whDJ2XZINbounqZuhGrvEIGpPDnuwmIcQ&usqp=CAU",
-                ),
-              ),
-              CircleAvatar(
-                radius: 30,
-                backgroundImage: NetworkImage(
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEkhRG2Ms5RS6xQoQhRsdJnAIsU5TSARY_fg&usqp=CAU",
-                ),
-              ),
-              CircleAvatar(
-                radius: 30,
-                backgroundImage: NetworkImage(
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSI8CvywojT7GQZsNDU-U54aZhFGb1SvZnD1Q&usqp=CAU",
-                ),
-              ),
-              CircleAvatar(
-                radius: 30,
-                backgroundImage: NetworkImage(
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8PcN8hh6ZroeG92qoCAJXK76EjMYZQ0bvJg&usqp=CAU",
-                ),
-              ),
-              // CircleAvatar(
-              //   radius: 30,
-              //   backgroundColor: Colors.green,
-              // ),
-            ],
+        Icon(
+          icon,
+          color: Colors.black,
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Text(
+          title,
+          style: kSmallContentStyle.copyWith(
+            color: Colors.black,
           ),
         ),
       ],
@@ -736,325 +592,624 @@ class ProfileHeader2 extends HookWidget {
   }
 }
 
-class ProfilePostsView extends HookWidget {
-  const ProfilePostsView({Key? key}) : super(key: key);
+class ProfileFooter extends HookWidget {
+  const ProfileFooter({Key? key}) : super(key: key);
+
+  final bool isCompleted = true;
 
   @override
   Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
-    return Container(
-      margin: EdgeInsets.fromLTRB(15, 15, 10, 15),
-      // height: 200,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final size = MediaQuery.of(context).size;
+    return isCompleted
+        ? Container(
+            height: size.height / 1.95,
+            width: size.width,
+            color: Colors.white,
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(120),
+                  child: Container(
+                    height: 200,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(120),
+                      border: Border.all(
+                        width: 2.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "86%",
+                        style: GoogleFonts.montserrat(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  child: Text(
+                    "Complete Your Profile",
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        : Column(
             children: [
-              Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24),
-                        bottomLeft: Radius.circular(24),
-                        bottomRight: Radius.circular(24),
-                      ),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          "https://m.media-amazon.com/images/I/91I48aFAZDL._AC_SL1500_.jpg",
+              Container(
+                height: size.height / 1.95,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              "Height:",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              "Weight:",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              "Age:",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              "Activity:",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                    height: 280,
-                    width: 195,
-                    // color: Colors.redAccent,
-                    child: Center(
-                      child: Text(
-                        "data",
-                        style: TextStyle(
-                          color: Colors.transparent,
+                        Column(
+                          children: [
+                            Text(
+                              "5'11\"",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              "81 Kg\"",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              "21\"",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              "7.9⭐️",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24),
-                        bottomLeft: Radius.circular(24),
-                        bottomRight: Radius.circular(24),
-                      ),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          "https://cdn.vox-cdn.com/thumbor/8ye9Zy39nTLGx51sDcGrHreR4yw=/265x0:1878x1075/1200x800/filters:focal(265x0:1878x1075)/cdn.vox-cdn.com/uploads/chorus_image/image/49183577/deadpool-fox-marvel_03.0.0.jpg",
-                        ),
-                      ),
-                    ),
-                    height: 128,
-                    width: 180,
-                    child: Center(
-                      child: Text(
-                        "data",
-                        style: TextStyle(
-                          color: Colors.transparent,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(28),
-                        topRight: Radius.circular(28),
-                        bottomLeft: Radius.circular(28),
-                        bottomRight: Radius.circular(28),
-                      ),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqt8A5IlFetK5N6sbot3_13cI9k_jcXnj9VQ&usqp=CAU",
-                        ),
-                      ),
-                    ),
-                    height: 128,
-                    width: 180,
-                    // color: Colors.redAccent,
-                    child: Center(
-                      child: Text(
-                        "data",
-                        style: TextStyle(
-                          color: Colors.transparent,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24),
-                        bottomLeft: Radius.circular(24),
-                        bottomRight: Radius.circular(24),
-                      ),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          "https://cdn.vox-cdn.com/thumbor/8ye9Zy39nTLGx51sDcGrHreR4yw=/265x0:1878x1075/1200x800/filters:focal(265x0:1878x1075)/cdn.vox-cdn.com/uploads/chorus_image/image/49183577/deadpool-fox-marvel_03.0.0.jpg",
-                        ),
-                      ),
-                    ),
-                    height: 128,
-                    width: 180,
-                    child: Center(
-                      child: Text(
-                        "data",
-                        style: TextStyle(
-                          color: Colors.transparent,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(28),
-                        topRight: Radius.circular(28),
-                        bottomLeft: Radius.circular(28),
-                        bottomRight: Radius.circular(28),
-                      ),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqt8A5IlFetK5N6sbot3_13cI9k_jcXnj9VQ&usqp=CAU",
-                        ),
-                      ),
-                    ),
-                    height: 128,
-                    width: 180,
-                    // color: Colors.redAccent,
-                    child: Center(
-                      child: Text(
-                        "data",
-                        style: TextStyle(
-                          color: Colors.transparent,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24),
-                        bottomLeft: Radius.circular(24),
-                        bottomRight: Radius.circular(24),
-                      ),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          "https://m.media-amazon.com/images/I/91I48aFAZDL._AC_SL1500_.jpg",
-                        ),
-                      ),
-                    ),
-                    height: 280,
-                    width: 195,
-                    // color: Colors.redAccent,
-                    child: Center(
-                      child: Text(
-                        "data",
-                        style: TextStyle(
-                          color: Colors.transparent,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24),
-                        bottomLeft: Radius.circular(24),
-                        bottomRight: Radius.circular(24),
-                      ),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          "https://m.media-amazon.com/images/I/91I48aFAZDL._AC_SL1500_.jpg",
-                        ),
-                      ),
-                    ),
-                    height: 280,
-                    width: 195,
-                    // color: Colors.redAccent,
-                    child: Center(
-                      child: Text(
-                        "data",
-                        style: TextStyle(
-                          color: Colors.transparent,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24),
-                        bottomLeft: Radius.circular(24),
-                        bottomRight: Radius.circular(24),
-                      ),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          "https://cdn.vox-cdn.com/thumbor/8ye9Zy39nTLGx51sDcGrHreR4yw=/265x0:1878x1075/1200x800/filters:focal(265x0:1878x1075)/cdn.vox-cdn.com/uploads/chorus_image/image/49183577/deadpool-fox-marvel_03.0.0.jpg",
-                        ),
-                      ),
-                    ),
-                    height: 128,
-                    width: 180,
-                    child: Center(
-                      child: Text(
-                        "data",
-                        style: TextStyle(
-                          color: Colors.transparent,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(28),
-                        topRight: Radius.circular(28),
-                        bottomLeft: Radius.circular(28),
-                        bottomRight: Radius.circular(28),
-                      ),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqt8A5IlFetK5N6sbot3_13cI9k_jcXnj9VQ&usqp=CAU",
-                        ),
-                      ),
-                    ),
-                    height: 128,
-                    width: 180,
-                    // color: Colors.redAccent,
-                    child: Center(
-                      child: Text(
-                        "data",
-                        style: TextStyle(
-                          color: Colors.transparent,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ],
-      ),
-    );
+          );
   }
 }
 
-// final String currentUserid = currentUserid?.id;
-// bool isLoading = false;
-// int postCount = 0;
-// List<Post> posts = [];
-
-// @override
-// void initState() {
-//   super.initState();
-//   getProfilePosts();
+// class ProfileHeader2 extends HookWidget {
+//   const ProfileHeader2({Key? key}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListView(
+//       shrinkWrap: true,
+//       children: [
+//         Container(
+//           margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               GestureDetector(
+//                 onTap: () {
+//                   showDialog(
+//                     context: context,
+//                     builder: (context) {
+//                       return SimpleDialog(
+//                         children: [
+//                           Column(
+//                             children: [
+//                               Text(
+//                                 "Earn New Badge",
+//                                 style: kSmallContentStyle,
+//                               ),
+//                               SizedBox(
+//                                 height: 10,
+//                               ),
+//                               Row(
+//                                 mainAxisAlignment: MainAxisAlignment.center,
+//                                 children: [
+//                                   ElevatedButton(
+//                                     child: Text("Earn"),
+//                                     onPressed: () async {
+//                                       await Future.delayed(
+//                                           Duration(seconds: 0));
+//                                       Navigator.pop(context);
+//                                       aShowToast(msg: "Work in Progress !");
+//                                     },
+//                                   ),
+//                                   SimpleDialogOption(
+//                                     child: Text("Cancel"),
+//                                     onPressed: () {
+//                                       Navigator.pop(context);
+//                                     },
+//                                   )
+//                                 ],
+//                               )
+//                             ],
+//                           ),
+//                         ],
+//                       );
+//                     },
+//                   );
+//                 },
+//                 child: CircleAvatar(
+//                   radius: 30,
+//                   child: Icon(
+//                     Icons.add,
+//                   ),
+//                   backgroundColor: Colors.redAccent,
+//                 ),
+//               ),
+//               GestureDetector(
+//                 onTap: () {},
+//                 child: CircleAvatar(
+//                   radius: 30,
+//                   backgroundImage: NetworkImage(
+//                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvL5s8yPVen34OJG08FHgZPrSIDBWyrheg3Q&usqp=CAU",
+//                   ),
+//                 ),
+//               ),
+//               CircleAvatar(
+//                 radius: 30,
+//                 backgroundImage: NetworkImage(
+//                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSH2whDJ2XZINbounqZuhGrvEIGpPDnuwmIcQ&usqp=CAU",
+//                 ),
+//               ),
+//               CircleAvatar(
+//                 radius: 30,
+//                 backgroundImage: NetworkImage(
+//                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEkhRG2Ms5RS6xQoQhRsdJnAIsU5TSARY_fg&usqp=CAU",
+//                 ),
+//               ),
+//               CircleAvatar(
+//                 radius: 30,
+//                 backgroundImage: NetworkImage(
+//                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSI8CvywojT7GQZsNDU-U54aZhFGb1SvZnD1Q&usqp=CAU",
+//                 ),
+//               ),
+//               CircleAvatar(
+//                 radius: 30,
+//                 backgroundImage: NetworkImage(
+//                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8PcN8hh6ZroeG92qoCAJXK76EjMYZQ0bvJg&usqp=CAU",
+//                 ),
+//               ),
+//               // CircleAvatar(
+//               //   radius: 30,
+//               //   backgroundColor: Colors.green,
+//               // ),
+//             ],
+//           ),
+//         ),
+//       ],
+//     );
+//   }
 // }
 
-// getProfilePosts() async {
-//   setState(() {
-//     isLoading = true;
-//   });
-//   QuerySnapshot snapshot = await postsRef
-//         .ducument(widget.profileId)
-//         .collection('userPosts')
-//         .orderBy('timestamp', descending: true)
-//         .getDocuments();
-//     setState(() {
-//       isLoading = false;
-//       postCount = snapshot.documents.length;
-//       posts = snapshot.documents.map((doc) => Post.fromDocument(doc)).toList();
-//     });
+// class ProfilePostsView extends HookWidget {
+//   const ProfilePostsView({Key? key}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     // Size size = MediaQuery.of(context).size;
+//     return Container(
+//       margin: EdgeInsets.fromLTRB(15, 15, 10, 15),
+//       // height: 200,
+//       child: Column(
+//         children: [
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               Column(
+//                 children: [
+//                   Container(
+//                     decoration: BoxDecoration(
+//                       borderRadius: BorderRadius.only(
+//                         topLeft: Radius.circular(24),
+//                         topRight: Radius.circular(24),
+//                         bottomLeft: Radius.circular(24),
+//                         bottomRight: Radius.circular(24),
+//                       ),
+//                       image: DecorationImage(
+//                         image: NetworkImage(
+//                           "https://m.media-amazon.com/images/I/91I48aFAZDL._AC_SL1500_.jpg",
+//                         ),
+//                       ),
+//                     ),
+//                     height: 280,
+//                     width: 195,
+//                     // color: Colors.redAccent,
+//                     child: Center(
+//                       child: Text(
+//                         "data",
+//                         style: TextStyle(
+//                           color: Colors.transparent,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               Column(
+//                 children: [
+//                   Container(
+//                     decoration: BoxDecoration(
+//                       borderRadius: BorderRadius.only(
+//                         topLeft: Radius.circular(24),
+//                         topRight: Radius.circular(24),
+//                         bottomLeft: Radius.circular(24),
+//                         bottomRight: Radius.circular(24),
+//                       ),
+//                       image: DecorationImage(
+//                         image: NetworkImage(
+//                           "https://cdn.vox-cdn.com/thumbor/8ye9Zy39nTLGx51sDcGrHreR4yw=/265x0:1878x1075/1200x800/filters:focal(265x0:1878x1075)/cdn.vox-cdn.com/uploads/chorus_image/image/49183577/deadpool-fox-marvel_03.0.0.jpg",
+//                         ),
+//                       ),
+//                     ),
+//                     height: 128,
+//                     width: 180,
+//                     child: Center(
+//                       child: Text(
+//                         "data",
+//                         style: TextStyle(
+//                           color: Colors.transparent,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                   SizedBox(
+//                     height: 10,
+//                   ),
+//                   Container(
+//                     decoration: BoxDecoration(
+//                       borderRadius: BorderRadius.only(
+//                         topLeft: Radius.circular(28),
+//                         topRight: Radius.circular(28),
+//                         bottomLeft: Radius.circular(28),
+//                         bottomRight: Radius.circular(28),
+//                       ),
+//                       image: DecorationImage(
+//                         image: NetworkImage(
+//                           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqt8A5IlFetK5N6sbot3_13cI9k_jcXnj9VQ&usqp=CAU",
+//                         ),
+//                       ),
+//                     ),
+//                     height: 128,
+//                     width: 180,
+//                     // color: Colors.redAccent,
+//                     child: Center(
+//                       child: Text(
+//                         "data",
+//                         style: TextStyle(
+//                           color: Colors.transparent,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               )
+//             ],
+//           ),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               Column(
+//                 children: [
+//                   Container(
+//                     decoration: BoxDecoration(
+//                       borderRadius: BorderRadius.only(
+//                         topLeft: Radius.circular(24),
+//                         topRight: Radius.circular(24),
+//                         bottomLeft: Radius.circular(24),
+//                         bottomRight: Radius.circular(24),
+//                       ),
+//                       image: DecorationImage(
+//                         image: NetworkImage(
+//                           "https://cdn.vox-cdn.com/thumbor/8ye9Zy39nTLGx51sDcGrHreR4yw=/265x0:1878x1075/1200x800/filters:focal(265x0:1878x1075)/cdn.vox-cdn.com/uploads/chorus_image/image/49183577/deadpool-fox-marvel_03.0.0.jpg",
+//                         ),
+//                       ),
+//                     ),
+//                     height: 128,
+//                     width: 180,
+//                     child: Center(
+//                       child: Text(
+//                         "data",
+//                         style: TextStyle(
+//                           color: Colors.transparent,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                   SizedBox(
+//                     height: 10,
+//                   ),
+//                   Container(
+//                     decoration: BoxDecoration(
+//                       borderRadius: BorderRadius.only(
+//                         topLeft: Radius.circular(28),
+//                         topRight: Radius.circular(28),
+//                         bottomLeft: Radius.circular(28),
+//                         bottomRight: Radius.circular(28),
+//                       ),
+//                       image: DecorationImage(
+//                         image: NetworkImage(
+//                           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqt8A5IlFetK5N6sbot3_13cI9k_jcXnj9VQ&usqp=CAU",
+//                         ),
+//                       ),
+//                     ),
+//                     height: 128,
+//                     width: 180,
+//                     // color: Colors.redAccent,
+//                     child: Center(
+//                       child: Text(
+//                         "data",
+//                         style: TextStyle(
+//                           color: Colors.transparent,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               Column(
+//                 children: [
+//                   Container(
+//                     decoration: BoxDecoration(
+//                       borderRadius: BorderRadius.only(
+//                         topLeft: Radius.circular(24),
+//                         topRight: Radius.circular(24),
+//                         bottomLeft: Radius.circular(24),
+//                         bottomRight: Radius.circular(24),
+//                       ),
+//                       image: DecorationImage(
+//                         image: NetworkImage(
+//                           "https://m.media-amazon.com/images/I/91I48aFAZDL._AC_SL1500_.jpg",
+//                         ),
+//                       ),
+//                     ),
+//                     height: 280,
+//                     width: 195,
+//                     // color: Colors.redAccent,
+//                     child: Center(
+//                       child: Text(
+//                         "data",
+//                         style: TextStyle(
+//                           color: Colors.transparent,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           ),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               Column(
+//                 children: [
+//                   Container(
+//                     decoration: BoxDecoration(
+//                       borderRadius: BorderRadius.only(
+//                         topLeft: Radius.circular(24),
+//                         topRight: Radius.circular(24),
+//                         bottomLeft: Radius.circular(24),
+//                         bottomRight: Radius.circular(24),
+//                       ),
+//                       image: DecorationImage(
+//                         image: NetworkImage(
+//                           "https://m.media-amazon.com/images/I/91I48aFAZDL._AC_SL1500_.jpg",
+//                         ),
+//                       ),
+//                     ),
+//                     height: 280,
+//                     width: 195,
+//                     // color: Colors.redAccent,
+//                     child: Center(
+//                       child: Text(
+//                         "data",
+//                         style: TextStyle(
+//                           color: Colors.transparent,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               Column(
+//                 children: [
+//                   Container(
+//                     decoration: BoxDecoration(
+//                       borderRadius: BorderRadius.only(
+//                         topLeft: Radius.circular(24),
+//                         topRight: Radius.circular(24),
+//                         bottomLeft: Radius.circular(24),
+//                         bottomRight: Radius.circular(24),
+//                       ),
+//                       image: DecorationImage(
+//                         image: NetworkImage(
+//                           "https://cdn.vox-cdn.com/thumbor/8ye9Zy39nTLGx51sDcGrHreR4yw=/265x0:1878x1075/1200x800/filters:focal(265x0:1878x1075)/cdn.vox-cdn.com/uploads/chorus_image/image/49183577/deadpool-fox-marvel_03.0.0.jpg",
+//                         ),
+//                       ),
+//                     ),
+//                     height: 128,
+//                     width: 180,
+//                     child: Center(
+//                       child: Text(
+//                         "data",
+//                         style: TextStyle(
+//                           color: Colors.transparent,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                   SizedBox(
+//                     height: 10,
+//                   ),
+//                   Container(
+//                     decoration: BoxDecoration(
+//                       borderRadius: BorderRadius.only(
+//                         topLeft: Radius.circular(28),
+//                         topRight: Radius.circular(28),
+//                         bottomLeft: Radius.circular(28),
+//                         bottomRight: Radius.circular(28),
+//                       ),
+//                       image: DecorationImage(
+//                         image: NetworkImage(
+//                           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqt8A5IlFetK5N6sbot3_13cI9k_jcXnj9VQ&usqp=CAU",
+//                         ),
+//                       ),
+//                     ),
+//                     height: 128,
+//                     width: 180,
+//                     // color: Colors.redAccent,
+//                     child: Center(
+//                       child: Text(
+//                         "data",
+//                         style: TextStyle(
+//                           color: Colors.transparent,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               )
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
 // }
+
+
+                // Column(
+                //   children: [
+                //     Container(
+                //       child: Column(
+                //         children: [
+                //           // Row(
+                //           //   children: [
+                //           //     Column(
+                //           //       children: [
+                //           //         Text(
+                //           //           "Height:",
+                //           //           style: TextStyle(
+                //           //             fontWeight: FontWeight.w600,
+                //           //             fontSize: 12,
+                //           //           ),
+                //           //         ),
+                //           //         Text(
+                //           //           "Weight:",
+                //           //           style: TextStyle(
+                //           //             fontWeight: FontWeight.w600,
+                //           //             fontSize: 12,
+                //           //           ),
+                //           //         ),
+                //           //         Text(
+                //           //           "Age:",
+                //           //           style: TextStyle(
+                //           //             fontWeight: FontWeight.w600,
+                //           //             fontSize: 12,
+                //           //           ),
+                //           //         ),
+                //           //         Text(
+                //           //           "Activity:",
+                //           //           style: TextStyle(
+                //           //             fontWeight: FontWeight.w600,
+                //           //             fontSize: 12,
+                //           //           ),
+                //           //         ),
+                //           //       ],
+                //           //     ),
+                //           //     Column(
+                //           //       children: [
+                //           //         Text(
+                //           //           "5'11\"",
+                //           //           style: TextStyle(
+                //           //             fontWeight: FontWeight.w600,
+                //           //             fontSize: 12,
+                //           //           ),
+                //           //         ),
+                //           //         Text(
+                //           //           "81 Kg\"",
+                //           //           style: TextStyle(
+                //           //             fontWeight: FontWeight.w600,
+                //           //             fontSize: 12,
+                //           //           ),
+                //           //         ),
+                //           //         Text(
+                //           //           "21\"",
+                //           //           style: TextStyle(
+                //           //             fontWeight: FontWeight.w600,
+                //           //             fontSize: 12,
+                //           //           ),
+                //           //         ),
+                //           //         Text(
+                //           //           "7.9⭐️",
+                //           //           style: TextStyle(
+                //           //             fontWeight: FontWeight.w600,
+                //           //             fontSize: 12,
+                //           //           ),
+                //           //         ),
+                //           //       ],
+                //           //     ),
+                //           //   ],
+                //           // ),
+                //         ],
+                //       ),
+                //     ),
+                //   ],
+                // ),

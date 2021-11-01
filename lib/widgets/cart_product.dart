@@ -22,45 +22,54 @@ class CartProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: () {
-        context.read(cartProvider).removeProduct(productId);
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        height: 200,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-        ),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Image.network(imageUrl),
+    final size = MediaQuery.of(context).size;
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      height: 200,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.white,
+      ),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Image.network(imageUrl),
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  productName,
+                  style: TextStyle(fontSize: 20),
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "₹" + price,
+                      style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                    ),
+                    SizedBox(
+                      width: size.width / 5,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        context.read(cartProvider).removeProduct(productId);
+                      },
+                      icon: Icon(Icons.remove_shopping_cart),
+                    ),
+                  ],
+                ),
+                QuantityCounter(
+                  productId: productId,
+                  quantity: quantity,
+                ),
+              ],
             ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    productName,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Text(
-                    "₹" + price,
-                    style: TextStyle(fontSize: 18, color: Colors.redAccent),
-                  ),
-                  QuantityCounter(
-                    productId: productId,
-                    quantity: quantity,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
