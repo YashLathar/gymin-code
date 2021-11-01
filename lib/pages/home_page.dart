@@ -40,25 +40,25 @@ class HomePage extends HookWidget {
         stream: _gymStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Center(
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  child: Center(
-                    child: Text("Something Went Wrong"),
-                  ),
-                ),
+
+            return Container(
+              height: 50,
+              width: 50,
+              child: Center(
+                child: Text("Something Went Wrong"),
+              ),
+
             );
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
+
+            return Container(
+              height: 50,
+              width: 50,
+              child: Center(
+                child: CircularProgressIndicator(),
+
               ),
             );
           }
@@ -231,47 +231,47 @@ class HomePage extends HookWidget {
                         ),
                         Container(
                           height: 350,
+                          width: double.infinity,
                           margin: EdgeInsets.only(left: 5),
-                          child: Expanded(
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: snapshot.data!.docs
-                                  .map((DocumentSnapshot document) {
-                                Map<String, dynamic> data =
-                                    document.data()! as Map<String, dynamic>;
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => GymPage(
-                                          gymName: data['gname'],
-                                          gymphotos: data['gymphotos'],
-                                          gymPhoto: data['gphoto'],
-                                          gymratings: data['gratings'],
-                                          gymopen: data['open'],
-                                          gymaddress: data['gaddress'],
-                                          trainername: data['gtrainername'],
-                                          trainerphoto: data['gtrainerphoto'],
-                                          trainerrating: data['gtrainerrating'],
-                                          traineravailable:
-                                              data['gtraineravailable'],
-                                          gymId: document.id,
-                                        ),
+
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: snapshot.data!.docs
+                                .map((DocumentSnapshot document) {
+                              Map<String, dynamic> data =
+                                  document.data()! as Map<String, dynamic>;
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => GymPage(
+                                        gymName: data['gname'],
+                                        gymPhoto: data['gphoto'],
+                                        gymratings: data['gratings'],
+                                        gymopen: data['open'],
+                                        gymaddress: data['gaddress'],
+                                        trainername: data['gtrainername'],
+                                        trainerphoto: data['gtrainerphoto'],
+                                        trainerrating: data['gtrainerrating'],
+                                        traineravailable:
+                                            data['gtraineravailable'],
+                                        gymId: document.id,
+
                                       ),
-                                    );
-                                  },
-                                  child: Container(
-                                    child: GymCard(
-                                        gname: data['gname'],
-                                        gPhoto: data['gphoto'],
-                                        gratings: data['gratings'],
-                                        open: data['open'],
-                                        gaddress: data['gaddress']),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  child: GymCard(
+                                      gname: data['gname'],
+                                      gPhoto: data['gphoto'],
+                                      gratings: data['gratings'],
+                                      open: data['open'],
+                                      gaddress: data['gaddress']),
+                                ),
+                              );
+                            }).toList(),
                           ),
                         ),
                         Container(

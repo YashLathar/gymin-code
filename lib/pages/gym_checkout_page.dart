@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/pages/booking_result.dart';
+import 'package:gym_in/services/orders_service.dart';
 import 'package:gym_in/widgets/reusable_button.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 enum Plans {
-  notSelected,
   hourly,
   monthly,
   quarterly,
@@ -18,6 +18,10 @@ enum Plans {
 
 final priceselectorProvider = StateProvider<int>((ref) {
   return 397;
+});
+
+final dateProvider = StateProvider<DateTime>((ref) {
+  return DateTime.now();
 });
 
 class GymCheckoutPage extends HookWidget {
@@ -32,13 +36,13 @@ class GymCheckoutPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selected = useState(Plans.notSelected);
+    final selected = useState(Plans.hourly);
     final today = DateTime.now();
     Size size = MediaQuery.of(context).size;
 
     late Razorpay _razorpay;
 
-    void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
       // succeeds
       showDialog(
         context: context,
@@ -48,6 +52,10 @@ class GymCheckoutPage extends HookWidget {
           );
         },
       );
+
+      await context
+          .read(ordersServiceProvider)
+          .addToOrders(gymcheckName, selected.value.toString(), context);
     }
 
     void _handlePaymentError(PaymentFailureResponse response) {
@@ -71,9 +79,9 @@ class GymCheckoutPage extends HookWidget {
       return () {
         _razorpay.clear();
       };
-    
-    },
-     );
+
+    });
+
 
     void openCheckout(
         {String? name,
@@ -259,13 +267,25 @@ class GymCheckoutPage extends HookWidget {
                                                                 Colors.white,
                                                             showActionButtons:
                                                                 true,
-                                                            onSubmit:
-                                                                (Object value) {
+                                                            onSelectionChanged:
+                                                                (DateRangePickerSelectionChangedArgs
+                                                                    value) {
                                                               // Navigator.pop(context);
                                                               Navigator
                                                                   .pushReplacementNamed(
                                                                       context,
                                                                       "/timeSelectorPage");
+
+                                                              final formattetDate =
+                                                                  DateTime.parse(
+                                                                      value
+                                                                          .value
+                                                                          .toString());
+                                                              context
+                                                                      .read(
+                                                                          dateProvider)
+                                                                      .state =
+                                                                  formattetDate;
                                                             },
                                                             onCancel: () {
                                                               Navigator.pop(
