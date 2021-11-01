@@ -1,4 +1,4 @@
-// import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +11,7 @@ import 'package:like_button/like_button.dart';
 
 class GymPage extends HookWidget {
   final bool gymopen, traineravailable;
+  final List gymphotos;
   final String gymId,
       gymName,
       gymPhoto,
@@ -21,8 +22,9 @@ class GymPage extends HookWidget {
       trainerrating;
   const GymPage({
     required this.gymId,
-    required this.gymName,
+    required this.gymphotos,
     required this.gymPhoto,
+    required this.gymName,
     required this.gymratings,
     required this.gymopen,
     required this.gymaddress,
@@ -34,8 +36,8 @@ class GymPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final List<String> _urlData = gymPhoto;
-    // final _current = useState(0);
+    final List<dynamic> _urlData = gymphotos;
+    final _current = useState(0);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -53,44 +55,41 @@ class GymPage extends HookWidget {
                     children: [
                       Stack(
                         children: [
-                          // Container(
-                          //   child: CarouselSlider(
-                          //     options: CarouselOptions(
-                          //         height: 400,
-                          //         autoPlay: true,
-                          //         viewportFraction: 1,
-                          //         onPageChanged: (index, reason) {
-                          //           _current.value = index;
-                          //         }),
-                          //     items: _urlData
-                          //         .map((item) => Container(
-                          //               child: ClipRRect(
-                          //                 borderRadius:
-                          //                     BorderRadius.circular(20),
-                          //                 child: Image.network(
-                          //                   item,
-                          //                   fit: BoxFit.cover,
-                          //                   loadingBuilder:
-                          //                       (BuildContext context,
-                          //                           Widget child,
-                          //                           ImageChunkEvent?
-                          //                               loadingProgress) {
-                          //                     if (loadingProgress == null)
-                          //                       return child;
-                          //                     return Center(
-                          //                       child:
-                          //                           CircularProgressIndicator(),
-                          //                     );
-                          //                   },
-                          //                 ),
-                          //               ),
-                          //             ))
-                          //         .toList(),
-                          //   ),
-                          // ),
                           Container(
-                            child: Image.network(
-                              gymPhoto,
+                            child: CarouselSlider(
+                              options: CarouselOptions(
+                                  height: 400,
+                                  autoPlay: true,
+                                  viewportFraction: 1,
+                                  onPageChanged: (index, reason) {
+                                    _current.value = index;
+                                  }),
+                              items: gymphotos
+                                  .map((item) => Container(
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(35),
+                                            bottomRight: Radius.circular(35),
+                                          ),
+                                          child: Image.network(
+                                            item,
+                                            fit: BoxFit.cover,
+                                            loadingBuilder:
+                                                (BuildContext context,
+                                                    Widget child,
+                                                    ImageChunkEvent?
+                                                        loadingProgress) {
+                                              if (loadingProgress == null)
+                                                return child;
+                                              return Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
                             ),
                           ),
                           Container(
@@ -198,26 +197,26 @@ class GymPage extends HookWidget {
                           ),
                         ],
                       ),
-                      // Container(
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.center,
-                          // children: _urlData.map((url) {
-                          //   int index = _urlData.indexOf(url);
-                      //       return Container(
-                      //         width: 8.0,
-                      //         height: 8.0,
-                      //         margin: EdgeInsets.symmetric(
-                      //             vertical: 10.0, horizontal: 3.0),
-                      //         decoration: BoxDecoration(
-                      //           shape: BoxShape.circle,
-                      //           color: _current.value == index
-                      //               ? Colors.redAccent
-                      //               : Color.fromRGBO(0, 0, 0, 0.4),
-                      //         ),
-                      //       );
-                      //     }).toList(),
-                      //   ),
-                      // ),
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                      children: _urlData.map((url) {
+                        int index = _urlData.indexOf(url);
+                            return Container(
+                              width: 8.0,
+                              height: 8.0,
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 3.0),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: _current.value == index
+                                    ? Colors.redAccent
+                                    : Color.fromRGBO(0, 0, 0, 0.4),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
                       Container(
                         margin:
                             EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -280,20 +279,6 @@ class GymPage extends HookWidget {
                               'Facilities',
                               style: kSubHeadingStyle,
                             ),
-                            TextButton(
-                              onPressed: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return FacilitySheet();
-                                    });
-                              },
-                              child: Text(
-                                'View all',
-                                style: kSmallContentStyle.copyWith(
-                                    color: Colors.redAccent),
-                              ),
-                            )
                           ],
                         ),
                       ),
@@ -580,12 +565,17 @@ class GymPage extends HookWidget {
                 ),
                 child: MaterialButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => GymCheckoutPage(
-                      gymcheckName:  gymName,
-     gymcheckPhoto: gymPhoto,
-                      gymcheckId: gymId,
-                      gymcheckAddress: gymaddress,
-                    ),),);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GymCheckoutPage(
+                          gymcheckName: gymName,
+                          gymcheckPhoto: gymPhoto,
+                          gymcheckId: gymId,
+                          gymcheckAddress: gymaddress,
+                        ),
+                      ),
+                    );
                   },
                   child: Text(
                     "Book Now",
@@ -608,19 +598,5 @@ class GymPage extends HookWidget {
       msg: "Added to your Favourites",
     );
     return !isLiked;
-  }
-}
-
-class FacilitySheet extends StatelessWidget {
-  const FacilitySheet({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height / 1.4,
-      child: Center(
-        child: Text("Facility in detail here"),
-      ),
-    );
   }
 }

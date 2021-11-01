@@ -71,7 +71,9 @@ class GymCheckoutPage extends HookWidget {
       return () {
         _razorpay.clear();
       };
-    }, const []);
+    
+    },
+     );
 
     void openCheckout(
         {String? name,

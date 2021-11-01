@@ -30,8 +30,6 @@ final recentCities = [
 ];
 
 class HomePage extends HookWidget {
-  // final Stream<QuerySnapshot> _gymStream =
-  //     FirebaseFirestore.instance.collection('gymdata').snapshots();
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _gymStream =
@@ -42,8 +40,7 @@ class HomePage extends HookWidget {
         stream: _gymStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Scaffold(
-              body: Center(
+            return Center(
                 child: Container(
                   height: 50,
                   width: 50,
@@ -51,20 +48,17 @@ class HomePage extends HookWidget {
                     child: Text("Something Went Wrong"),
                   ),
                 ),
-              ),
             );
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(
-              body: Center(
+            return Center(
                 child: Container(
                   height: 50,
                   width: 50,
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
-                ),
               ),
             );
           }
@@ -252,6 +246,7 @@ class HomePage extends HookWidget {
                                       MaterialPageRoute(
                                         builder: (context) => GymPage(
                                           gymName: data['gname'],
+                                          gymphotos: data['gymphotos'],
                                           gymPhoto: data['gphoto'],
                                           gymratings: data['gratings'],
                                           gymopen: data['open'],

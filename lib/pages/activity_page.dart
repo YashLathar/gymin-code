@@ -7,46 +7,8 @@ import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/widgets/activity_card.dart';
 import 'package:gym_in/widgets/info_circle.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-// import 'package:pedometer/pedometer.dart';
-// import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class ActivityPage extends HookWidget {
-  // String muestrePasos = "";
-  // String _km = "unknown";
-  // String _calories = "unknown";
-  // String _stepCountValue = "unknown";
-  // StreamSubscription<int> _subscription;
-
-  // double _numerox;  //step count
-  // double _kmx;
-  // double burnedx;
-
-  // @override
-  // Void initState() {
-  //   super.initState();
-  //   setUpPedometer();
-  // }
-
-  // void setUpPedometer() {
-  //   Pedometer pedometer = new Pedometer();
-  //   _subscription = pedometer.stepCountStream.listen((onData,
-  //   onError: _onError, onDone: _onDone, cancelOnError: true));
-  // }
-
-  // void _onDone() {}
-
-  // void _onError(error) {
-  //   print("Pedometer Error: $error");
-  // }
-
-  // void _onData(int stepCountValue) async {
-  //   print(stepCountValue);
-  //   setState(() {
-  //     _stepCountValue = "$stepCountValue";
-  //     print(_stepCountValue);
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider);
@@ -83,38 +45,28 @@ class ActivityPage extends HookWidget {
                             child: Row(
                               children: [
                                 IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: Icon(
-                                      Icons.arrow_back_ios,
-                                    )),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: Icon(
+                                    Icons.arrow_back_ios,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                           CircleAvatar(
-                              radius: 50,
-                              backgroundImage: NetworkImage(authControllerState
-                                      .photoURL ??
-                                  "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg")),
-                          // ClipOval(
-                          //   child: Image.network(
-                          //     "https://img.icons8.com/cute-clipart/2x/user-male.png",
-                          //     fit: BoxFit.cover,
-                          //     width: 90,
-                          //     height: 90,
-                          //     loadingBuilder: (BuildContext context, Widget child,
-                          //         ImageChunkEvent? loadingProgress) {
-                          //       if (loadingProgress == null) return child;
-                          //       return Center(
-                          //         child: CircularProgressIndicator(),
-                          //       );
-                          //     },
-                          //   ),
-                          // ),
-                          Text(authControllerState.displayName ?? 'UserName',
-                              style: kHeadingTextStyle.copyWith(
-                                  color: Colors.white))
+                            radius: 50,
+                            backgroundImage: NetworkImage(
+                              authControllerState.photoURL ??
+                                  "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg",
+                            ),
+                          ),
+                          Text(
+                            authControllerState.displayName ?? 'UserName',
+                            style:
+                                kHeadingTextStyle.copyWith(color: Colors.white),
+                          ),
                         ],
                       ),
                     ),
@@ -129,8 +81,8 @@ class ActivityPage extends HookWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('21', style: kHeadingTextStyle),
-                                  Text('Age', style: kSmallContentStyle),
+                                  Text("5'7\"", style: kHeadingTextStyle),
+                                  Text('Height', style: kSmallContentStyle),
                                 ],
                               ),
                             ),
@@ -142,12 +94,12 @@ class ActivityPage extends HookWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '7',
+                                      '23',
                                       style: kHeadingTextStyle.copyWith(
                                           color: Colors.white),
                                     ),
                                     Text(
-                                      'Activities',
+                                      'Age',
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 15),
                                     ),

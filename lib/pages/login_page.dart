@@ -212,6 +212,9 @@ class LoginPage extends ConsumerWidget {
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: 50,
+                    ),
                     Center(
                       child: Image.asset(
                         'assets/img/splashlogo.png',

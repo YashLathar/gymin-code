@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
@@ -83,16 +84,20 @@ class ProductDetailPage extends HookWidget {
                   children: [
                     Container(
                       color: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
+                            // padding: EdgeInsets.only(top: 3),
                             width: 50,
                             height: 50,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(35),
+                              border: Border.all(
+                                width: 2.0,
+                                color: Colors.black,
+                              ),
                             ),
                             child: Center(
                               child: IconButton(
@@ -111,8 +116,11 @@ class ProductDetailPage extends HookWidget {
                                 width: 50,
                                 height: 50,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(35),
+                                  border: Border.all(
+                                    width: 2.0,
+                                    color: Colors.black,
+                                  ),
                                 ),
                                 child: Center(
                                   child: IconButton(
@@ -123,12 +131,16 @@ class ProductDetailPage extends HookWidget {
                                   ),
                                 ),
                               ),
+                              SizedBox(width: 3,),
                               Container(
                                 width: 50,
                                 height: 50,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(35),
+                                  border: Border.all(
+                                    width: 2.0,
+                                    color: Colors.black,
+                                  ),
                                 ),
                                 child: Center(
                                   child: IconButton(
@@ -146,12 +158,16 @@ class ProductDetailPage extends HookWidget {
                                   ),
                                 ),
                               ),
+                              SizedBox(width: 3,),
                               Container(
                                 width: 50,
                                 height: 50,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(35),
+                                  border: Border.all(
+                                    width: 2.0,
+                                    color: Colors.black,
+                                  ),
                                 ),
                                 child: Center(
                                   child: IconButton(
@@ -536,9 +552,14 @@ class ProductDetailPage extends HookWidget {
                                   productId: productID,
                                   image: image,
                                 ));
+                                Fluttertoast.showToast(
+                                    msg: "Product has been added to your cart");
                               } else {
                                 cartControllerProvider
                                     .incrementProductQuantity(productID);
+                                Fluttertoast.showToast(
+                                    msg:
+                                        "Quantity of the product has been inceased");
                               }
                             },
                             child: Text(
@@ -587,19 +608,6 @@ class ProductDetailPage extends HookWidget {
         ),
       ),
     );
-  }
-
-  void openCheckout(
-      {String? name, String? description, String? price, String? image}) async {
-    var options = {
-      'key': 'rzp_test_8NBNETBLt7d5Bg',
-      'amount': price,
-      'name': name,
-      'description': description,
-      'image': image,
-      'prefill': {'contact': '9876543210', 'email': 'test@pay.com'},
-    };
-    // _razorpay.open(options);
   }
 }
 

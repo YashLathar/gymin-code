@@ -23,35 +23,23 @@ class _GymProductsPageState extends State<GymProductsPage> {
       stream: _productStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.redAccent,
-              title: CupertinoSearchTextField(),
-            ),
-            body: Center(
-              child: Container(
-                height: 50,
-                width: 50,
-                child: Center(
-                  child: Text("Something Went Wrong"),
-                ),
+          return Center(
+            child: Container(
+              height: 50,
+              width: 50,
+              child: Center(
+                child: Text("Something Went Wrong"),
               ),
             ),
           );
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.redAccent,
-              title: CupertinoSearchTextField(),
-            ),
-            body: Center(
-              child: Container(
-                height: 50,
-                width: 50,
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
+          return Center(
+            child: Container(
+              height: 50,
+              width: 50,
+              child: Center(
+                child: CircularProgressIndicator(),
               ),
             ),
           );
