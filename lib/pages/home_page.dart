@@ -248,6 +248,7 @@ class HomePage extends HookWidget {
                                       builder: (context) => GymPage(
                                         gymName: data['gname'],
                                         gymPhoto: data['gphoto'],
+                                        gymphotos: data['gymphotos'],
                                         gymratings: data['gratings'],
                                         gymopen: data['open'],
                                         gymaddress: data['gaddress'],
