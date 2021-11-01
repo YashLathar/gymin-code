@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,6 +9,10 @@ final firebaseAuthProvider =
 
 final firebaseStorageProvider = Provider<FirebaseStorage>((ref) =>
     FirebaseStorage.instanceFor(bucket: "gs://gym-in-14938.appspot.com"));
+
+final firestoreProvider = Provider<FirebaseFirestore>((ref) {
+  return FirebaseFirestore.instance;
+});
 
 //gs://gym-in-14938.appspot.com
 
