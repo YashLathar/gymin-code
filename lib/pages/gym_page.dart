@@ -4,7 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/pages/gym_checkout_page.dart';
-import 'package:gym_in/pages/reviews_sheet.dart';
 import 'package:gym_in/widgets/facility_card.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:like_button/like_button.dart';
@@ -40,7 +39,7 @@ class GymPage extends HookWidget {
     final _current = useState(0);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -120,7 +119,10 @@ class GymPage extends HookWidget {
                                       child: Icon(
                                         Icons.arrow_back_ios_new,
                                         size: 25,
-                                        color: Colors.white,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2!
+                                            .color,
                                       ),
                                     ),
                                   ),
@@ -200,8 +202,8 @@ class GymPage extends HookWidget {
                       Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                      children: _urlData.map((url) {
-                        int index = _urlData.indexOf(url);
+                          children: _urlData.map((url) {
+                            int index = _urlData.indexOf(url);
                             return Container(
                               width: 8.0,
                               height: 8.0,
@@ -226,7 +228,13 @@ class GymPage extends HookWidget {
                           children: [
                             Text(
                               gymName,
-                              style: kSubHeadingStyle.copyWith(fontSize: 40),
+                              style: kSubHeadingStyle.copyWith(
+                                fontSize: 40,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color,
+                              ),
                             ),
                             Text(
                               gymopen ? "Open" : "Closed",
@@ -248,7 +256,12 @@ class GymPage extends HookWidget {
                                 Text(
                                   gymaddress,
                                   style: kLoginPageSubHeadingTextStyle.copyWith(
-                                      fontSize: 18),
+                                    fontSize: 18,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color,
+                                  ),
                                 ),
                                 Icon(
                                   Icons.location_pin,
@@ -277,7 +290,12 @@ class GymPage extends HookWidget {
                           children: [
                             Text(
                               'Facilities',
-                              style: kSubHeadingStyle,
+                              style: kSubHeadingStyle.copyWith(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color,
+                              ),
                             ),
                           ],
                         ),
@@ -325,7 +343,10 @@ class GymPage extends HookWidget {
                             EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                         child: Text(
                           "Trainers",
-                          style: kSubHeadingStyle,
+                          style: kSubHeadingStyle.copyWith(color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2!
+                                            .color,),
                         ),
                       ),
                       Container(
@@ -372,7 +393,10 @@ class GymPage extends HookWidget {
                                         children: [
                                           Text(
                                             trainername,
-                                            style: kSubHeadingStyle,
+                                            style: kSubHeadingStyle.copyWith(color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2!
+                                            .color,),
                                           ),
                                           SizedBox(
                                             height: 10,
@@ -447,94 +471,95 @@ class GymPage extends HookWidget {
                         indent: 30,
                         endIndent: 30,
                       ),
-                      Container(
-                        //height: 200,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Reviews",
-                              style: kSubHeadingStyle,
-                            ),
-                            TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                "View all",
-                                style: kSmallHeadingTextStyle.copyWith(
-                                    color: Colors.redAccent),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 5,
-                        ),
-                        child: Container(
-                          height: 260,
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                left: 0, right: 10, top: 20, bottom: 0),
-                            height: 180,
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      "⭐️" + "  " + gymratings.toString(),
-                                      style: kLoginPageSubHeadingTextStyle
-                                          .copyWith(fontSize: 18),
-                                    ),
-                                    Text(
-                                      "(7.9k reviews)",
-                                      style: kSmallContentStyle,
-                                    ),
-                                    SizedBox(
-                                      width: size.width / 6.2,
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        showModalBottomSheet(
-                                            context: context,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.vertical(
-                                                top: Radius.circular(25),
-                                              ),
-                                            ),
-                                            clipBehavior:
-                                                Clip.antiAliasWithSaveLayer,
-                                            builder: (BuildContext context) {
-                                              return RatingsSheet();
-                                            });
-                                      },
-                                      child: Text(
-                                        "Rate us?",
-                                        style: kSmallContentStyle,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                // ReviewCard(
-                                //   userPhotoUrl:
-                                //       reviewsData[dataIndex].userPhotoUrl[0],
-                                //   userName: reviewsData[dataIndex].userName,
-                                //   index: 0,
-                                //   button: reviewsData[dataIndex].editButton,
-                                //   height: 30,
-                                //   width: 30,
-                                // ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Container(
+                      //   //height: 200,
+                      //   padding:
+                      //       EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Text(
+                      //         "Reviews",
+                      //         style: kSubHeadingStyle,
+                      //       ),
+                      //       TextButton(
+                      //         onPressed: () {},
+                      //         child: Text(
+                      //           "View all",
+                      //           style: kSmallHeadingTextStyle.copyWith(
+                      //               color: Colors.redAccent),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(
+                      //     horizontal: 30,
+                      //     vertical: 5,
+                      //   ),
+                      //   child: Container(
+                      //     height: 260,
+                      //     child: Container(
+                      //       margin: EdgeInsets.only(
+                      //           left: 0, right: 10, top: 20, bottom: 0),
+                      //       height: 180,
+                      //       child: Column(
+                      //         children: [
+                      //           Row(
+                      //             children: [
+                      //               Text(
+                      //                 "⭐️" + "  " + gymratings.toString(),
+                      //                 style: kLoginPageSubHeadingTextStyle
+                      //                     .copyWith(fontSize: 18),
+                      //               ),
+                      //               Text(
+                      //                 "(7.9k reviews)",
+                      //                 style: kSmallContentStyle,
+                      //               ),
+                      //               SizedBox(
+                      //                 width: size.width / 6.2,
+                      //               ),
+                      //               ElevatedButton(
+                      //                 onPressed: () {
+                      //                   showModalBottomSheet(
+                      //                       context: context,
+                      //                       shape: RoundedRectangleBorder(
+                      //                         borderRadius:
+                      //                             BorderRadius.vertical(
+                      //                           top: Radius.circular(25),
+                      //                         ),
+                      //                       ),
+                      //                       clipBehavior:
+                      //                           Clip.antiAliasWithSaveLayer,
+                      //                       builder: (BuildContext context) {
+                      //                         return RatingsSheet();
+                      //                       });
+                      //                 },
+                      //                 child: Text(
+                      //                   "Rate us?",
+                      //                   style: kSmallContentStyle,
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //           // ReviewCard(
+                      //           //   userPhotoUrl:
+                      //           //       reviewsData[dataIndex].userPhotoUrl[0],
+                      //           //   userName: reviewsData[dataIndex].userName,
+                      //           //   index: 0,
+                      //           //   button: reviewsData[dataIndex].editButton,
+                      //           //   height: 30,
+                      //           //   width: 30,
+                      //           // ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       Container(
                         height: 130,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -555,7 +580,8 @@ class GymPage extends HookWidget {
             child: Container(
               padding:
                   EdgeInsets.only(bottom: 25, left: 15, right: 15, top: 20),
-              color: Colors.white,
+              color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
               width: size.width,
               child: Container(
                 height: 65,

@@ -27,9 +27,8 @@ class CartProduct extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       height: 200,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
-      ),
+          borderRadius: BorderRadius.circular(20),
+          color: Theme.of(context).scaffoldBackgroundColor),
       child: Row(
         children: [
           ClipRRect(
@@ -58,7 +57,10 @@ class CartProduct extends StatelessWidget {
                       onPressed: () {
                         context.read(cartProvider).removeProduct(productId);
                       },
-                      icon: Icon(Icons.remove_shopping_cart),
+                      icon: Icon(
+                        Icons.remove_shopping_cart,
+                        color: Theme.of(context).backgroundColor,
+                      ),
                     ),
                   ],
                 ),

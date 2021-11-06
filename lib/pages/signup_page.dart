@@ -176,7 +176,7 @@ class SignupPage extends ConsumerWidget {
                             Text(
                               "Already have an account?",
                               style: kRoundedButtonTextStyle.copyWith(
-                                  color: Colors.black),
+                                  color: Theme.of(context).textTheme.bodyText2!.color),
                             ),
                             SizedBox(
                               width: 10,

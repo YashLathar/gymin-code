@@ -21,22 +21,26 @@ class RoundedTextField extends StatelessWidget {
         controller: controller,
         keyboardType: TextInputType.emailAddress,
         obscureText: secureIt,
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
         decoration: InputDecoration(
-          prefixIcon: Icon(
-            Icons.arrow_forward,
-            color: Colors.black,
-          ),
+          prefixIcon: Icon(Icons.arrow_forward,
+              color: Theme.of(context).textTheme.bodyText2!.color),
           hintText: hintText,
           hintStyle: kRoundedButtonTextStyle.copyWith(
-              fontSize: 15, color: Colors.black),
-          border: OutlineInputBorder(
+            fontSize: 15,
+            color: Theme.of(context).textTheme.bodyText2!.color,
+          ),
+          enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(
+              color: Theme.of(context).backgroundColor,
+              width: 2,
+            ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide(
-              color: Color(0xffF14C37),
+              color: Colors.redAccent, //0xffF14C37
               width: 2,
             ),
           ),

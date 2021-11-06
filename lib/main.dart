@@ -33,8 +33,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'GymIn',
       debugShowCheckedModeBanner: false,
-      theme: Styles.themeData(context),
-      // darkTheme: AppTheme.darkTheme,
+      // theme: Styles.themeData(context),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       home: HomeScreen(),
       onGenerateRoute: (settings) {
         final args = settings.arguments;

@@ -8,6 +8,7 @@ import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/pages/setting_page.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UserPage extends HookWidget {
@@ -136,9 +137,9 @@ class UserPage extends HookWidget {
     // final _tabController = useTabController(initialLength: 2);
     // final authControllerState = useProvider(authControllerProvider);
     return Scaffold(
-      backgroundColor: const Color(0xffF2F2F2),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -163,7 +164,7 @@ class UserPage extends HookWidget {
                     style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.bodyText2!.color,
                       ),
                     ),
                   ),
@@ -282,7 +283,7 @@ class UserPage extends HookWidget {
                   },
                   icon: Icon(
                     Icons.settings,
-                    color: Colors.black,
+                    color: Colors.redAccent,
                   ),
                 ),
               ],
@@ -292,12 +293,12 @@ class UserPage extends HookWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           child: Column(
             children: [
               ProfileHeader1(),
               Divider(
-                color: Colors.white,
+                color: Theme.of(context).scaffoldBackgroundColor,
                 thickness: 2.0,
                 height: 0.0,
               ),
@@ -319,7 +320,7 @@ class UserPage extends HookWidget {
 class ProfileHeader1 extends HookWidget {
   const ProfileHeader1({Key? key}) : super(key: key);
 
-  Column buildCountColumn(String label, int count) {
+  Column buildCountColumn(String label, int count, BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
@@ -329,7 +330,7 @@ class ProfileHeader1 extends HookWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.0,
-            color: Colors.black,
+            color: Theme.of(context).textTheme.bodyText2!.color,
           ),
         ),
         Container(
@@ -377,13 +378,14 @@ class ProfileHeader1 extends HookWidget {
         bottom: 14,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        // color: Theme.of(context).textTheme.bodyText2!.color,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(35),
           bottomRight: Radius.circular(35),
         ),
       ),
       child: Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
         padding: EdgeInsets.only(
           left: 20,
           right: 20,
@@ -394,6 +396,7 @@ class ProfileHeader1 extends HookWidget {
               children: [
                 CircleAvatar(
                   radius: 45,
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   backgroundImage: NetworkImage(
                     authControllerState!.photoURL ??
                         "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg",
@@ -440,6 +443,7 @@ class ProfileHeader1 extends HookWidget {
                   width: size.width / 6.6,
                 ),
                 PopupMenuButton<int>(
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   offset: Offset(50, -100),
                   itemBuilder: (context) => [
                     PopupMenuItem<int>(
@@ -476,6 +480,7 @@ class ProfileHeader1 extends HookWidget {
                     children: <Widget>[
                       Icon(
                         Icons.more_vert,
+                        color: Colors.redAccent,
                       ),
                     ],
                   ),
@@ -576,7 +581,7 @@ class PopUpMenuTile extends StatelessWidget {
       children: [
         Icon(
           icon,
-          color: Colors.black,
+          color: Theme.of(context).textTheme.bodyText2!.color,
         ),
         const SizedBox(
           width: 8,
@@ -584,7 +589,7 @@ class PopUpMenuTile extends StatelessWidget {
         Text(
           title,
           style: kSmallContentStyle.copyWith(
-            color: Colors.black,
+            color: Theme.of(context).textTheme.bodyText2!.color,
           ),
         ),
       ],
@@ -604,33 +609,15 @@ class ProfileFooter extends HookWidget {
         ? Container(
             height: size.height / 1.95,
             width: size.width,
-            color: Colors.white,
+            color: Theme.of(context).scaffoldBackgroundColor,
             child: Column(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(120),
-                  child: Container(
-                    height: 200,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(120),
-                      border: Border.all(
-                        width: 2.0,
-                        color: Colors.black,
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "86%",
-                        style: GoogleFonts.montserrat(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                CircularPercentIndicator(
+                  radius: 110,
+                  lineWidth: 5.0,
+                  percent: 0.6,
+                  center: Text("60%"),
+                  progressColor: Colors.redAccent,
                 ),
                 SizedBox(
                   height: 5,

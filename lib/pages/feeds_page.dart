@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
@@ -92,33 +94,41 @@ class _FeedsPageState extends State<FeedsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xffF2F2F2),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: const Color(0xffF2F2F2),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           title: Text(
-                'Feeds',
-                style: kSmallHeadingTextStyle.copyWith(color: Colors.black,),
+            'Feeds',
+            style: kSmallHeadingTextStyle.copyWith(
+              color: Theme.of(context).textTheme.bodyText2!.color,
+            ),
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UploadPage()));
+              },
+              icon: Icon(
+                Icons.add_a_photo,
+                color: Theme.of(context).textTheme.bodyText2!.color,
               ),
-              actions: [
-                IconButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UploadPage()));
-                },
-                icon: Icon(Icons.add_a_photo, color: Colors.black,),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.more_vert,
+                color: Theme.of(context).textTheme.bodyText2!.color,
               ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.more_vert, color: Colors.black,),
-              ),
-              ],
+            ),
+          ],
           // Row(
           //   children: [
-              
+
           //     SizedBox(
           //       width: 205.0,
           //     ),
-          //     
+          //
           //   ],
           // ),
         ),
@@ -156,19 +166,32 @@ class PostHeader extends HookWidget {
     final authControllerState = useProvider(authControllerProvider);
     return ListTile(
       leading: CircleAvatar(
-          backgroundImage: NetworkImage(authControllerState!.photoURL ??
-              "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg")),
+        backgroundImage: NetworkImage(
+          authControllerState!.photoURL ??
+              "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg",
+        ),
+      ),
       title: GestureDetector(
         onTap: () => print("showing profile"),
         child: Text(
           authControllerState.displayName ?? 'username',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).textTheme.bodyText2!.color),
         ),
       ),
-      subtitle: Text("ChimiChangas"),
+      subtitle: Text(
+        "ChimiChangas",
+        style: TextStyle(
+          color: Theme.of(context).textTheme.bodyText2!.color,
+        ),
+      ),
       trailing: IconButton(
         onPressed: () {},
-        icon: Icon(Icons.more_vert),
+        icon: Icon(
+          Icons.more_vert,
+          color: Theme.of(context).textTheme.bodyText2!.color,
+        ),
       ),
     );
   }
@@ -185,9 +208,9 @@ class PostImage extends HookWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          //using profile pic as post image for example
+          //profile pic as post image for example
           Image.network(authControllerState!
-                  .photoURL ?? // use 'mediaUrl' instead for the post image
+                  .photoURL ?? // 'mediaUrl' instead for the post image
               "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg")
         ],
       ),
@@ -219,26 +242,20 @@ class PostFooter extends HookWidget {
             likeBuilder: (bool isLiked) {
               return Icon(
                 Icons.favorite_border,
-                color: isLiked ? Colors.redAccent : Colors.black,
+                color: isLiked
+                    ? Colors.redAccent
+                    : Theme.of(context).textTheme.bodyText2!.color,
                 size: 25,
               );
             },
           ),
-          // GestureDetector(
-          //   onTap: () {},
-          //   child: Icon(
-          //     Icons.favorite_border,
-          //     size: 28.0,
-          //     color: Colors.redAccent,
-          //   ),
-          // ),
           Padding(padding: EdgeInsets.only(right: 20.0)),
           GestureDetector(
             onTap: () {},
             child: Icon(
               Icons.chat,
-              size: 28.0,
-              color: Colors.blue,
+              size: 25.0,
+              color: Theme.of(context).textTheme.bodyText2!.color,
             ),
           ),
         ],
@@ -247,11 +264,11 @@ class PostFooter extends HookWidget {
         children: [
           Container(
             margin: EdgeInsets.only(left: 20.0),
-            child: Text("14 likes",   //use "$likeCount likes" instead
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold
-            ),
+            child: Text(
+              "14 likes", //"$likeCount likes" instead
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText2!.color,
+                  fontWeight: FontWeight.bold),
             ),
           )
         ],
@@ -261,21 +278,23 @@ class PostFooter extends HookWidget {
         children: [
           Container(
             margin: EdgeInsets.only(left: 20.0),
-            child: Text(authControllerState!.displayName ?? 'Username',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold
-            ),
+            child: Text(
+              authControllerState!.displayName ?? 'Username',
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText2!.color,
+                  fontWeight: FontWeight.bold),
             ),
           ),
-          SizedBox(width: 10.0,),
+          SizedBox(
+            width: 10.0,
+          ),
           Expanded(
-            child: Text("Maximum Effort!!", style: TextStyle(fontWeight: FontWeight.w500),
-            )
-            )
+              child: Text(
+            "Maximum Effort!!",
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ))
         ],
       )
-    ]
-    );
+    ]);
   }
 }

@@ -10,19 +10,20 @@ class ActivityCard extends StatelessWidget {
       height: 150,
       margin: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color(0xFF676e8a),
+        // Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: (Colors.grey[400])!,
-            offset: Offset(
-              0,
-              10,
-            ),
-            blurRadius: 10.0,
-            spreadRadius: -5.0,
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: (Colors.grey[400])!,
+        //     offset: Offset(
+        //       0,
+        //       10,
+        //     ),
+        //     blurRadius: 10.0,
+        //     spreadRadius: -5.0,
+        //   ),
+        // ],
       ),
       child: child,
     );

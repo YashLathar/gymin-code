@@ -35,7 +35,7 @@ class GymCard extends HookWidget {
                   child: Container(
                     width: 250,
                     height: 190,
-                    color: Colors.white,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     child: Image.network(
                       gPhoto,
                       fit: BoxFit.cover,
@@ -96,7 +96,9 @@ class GymCard extends HookWidget {
               children: [
                 Text(
                   gname,
-                  style: kLoginPageSubHeadingTextStyle,
+                  style: kLoginPageSubHeadingTextStyle.copyWith(
+                    color: Theme.of(context).textTheme.bodyText2!.color,
+                  ),
                 ),
                 Text(
                   gaddress,
@@ -112,14 +114,16 @@ class GymCard extends HookWidget {
                       Text(
                         open ? "Open" : "Closed",
                         style: TextStyle(
-                            color: open
-                                ? Colors.green
-                                : Colors.redAccent),
+                            color: open ? Colors.green : Colors.redAccent),
                       ),
                       Container(
                         child: Row(
                           children: [
-                            Icon(Icons.star, color: Color(0xffFFD700)),
+                            Icon(
+                              Icons.star,
+                              color: 
+                                  Theme.of(context).textTheme.bodyText2!.color,
+                            ),
                             SizedBox(
                               width: 5,
                             ),
@@ -128,13 +132,18 @@ class GymCard extends HookWidget {
                               height: 20,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
-                                color: Color(0xffFFD700),
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color,
                               ),
                               child: Center(
                                 child: Text(
                                   gratings.toString(),
                                   style: TextStyle(
-                                      color: Colors.white, fontSize: 15),
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      fontSize: 15),
                                 ),
                               ),
                             ),
