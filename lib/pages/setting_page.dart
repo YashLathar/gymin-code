@@ -88,7 +88,7 @@ class SettingPage extends HookWidget {
                           Text(
                             authControllerState.displayName ?? 'UserName',
                             style: TextStyle(
-                                color: Colors.black,
+                                color: Theme.of(context).textTheme.bodyText2!.color,
                                 fontSize: 30.0,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -99,6 +99,7 @@ class SettingPage extends HookWidget {
                       IconButton(
                           onPressed: () {
                             showModalBottomSheet(
+                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.vertical(
                                       top: Radius.circular(25)),
@@ -109,7 +110,9 @@ class SettingPage extends HookWidget {
                                   return UserEditBottomSheet();
                                 });
                           },
-                          icon: Icon(Icons.edit))
+                          icon: Icon(Icons.edit,
+                          color: Theme.of(context).textTheme.bodyText2!.color,
+                          ),)
                     ],
                   ),
                 ),
@@ -118,33 +121,47 @@ class SettingPage extends HookWidget {
                 child: Column(
                   children: [
                     ListTile(
-                      leading: Icon(Icons.email),
-                      title: Text('E-mail'),
+                      leading: Icon(Icons.email,
+                      color: Theme.of(context).textTheme.bodyText2!.color,
+                      ),
+                      title: Text('E-mail',
+                      style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                      ),
                       onTap: null,
                     ),
                     ListTile(
-                      leading: Icon(Icons.phone),
-                      title: Text('Phone Number'),
+                      leading: Icon(Icons.phone,
+                      color: Theme.of(context).textTheme.bodyText2!.color,),
+                      title: Text('Phone Number',
+                      style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),),
                       onTap: null,
                     ),
                     ListTile(
-                      leading: Icon(Icons.notifications),
-                      title: Text('Notification'),
+                      leading: Icon(Icons.notifications,
+                      color: Theme.of(context).textTheme.bodyText2!.color,),
+                      title: Text('Notification',
+                      style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),),
                       onTap: null,
                     ),
                     ListTile(
-                      leading: Icon(Icons.security),
-                      title: Text('Security'),
+                      leading: Icon(Icons.security,
+                      color: Theme.of(context).textTheme.bodyText2!.color,),
+                      title: Text('Security',
+                      style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),),
                       onTap: null,
                     ),
                     ListTile(
-                      leading: Icon(Icons.contact_mail),
-                      title: Text('Contact Us'),
+                      leading: Icon(Icons.contact_mail,
+                      color: Theme.of(context).textTheme.bodyText2!.color,),
+                      title: Text('Contact Us',
+                      style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),),
                       onTap: null,
                     ),
                     ListTile(
-                        title: Text('Sign-Out'),
-                        leading: Icon(Icons.logout),
+                        title: Text('Sign-Out',
+                      style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),),
+                        leading: Icon(Icons.logout,
+                      color: Theme.of(context).textTheme.bodyText2!.color,),
                         onTap: () {
                           // context.read(authControllerProvider.notifier).signOut();
                         }),

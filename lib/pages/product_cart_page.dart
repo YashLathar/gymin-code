@@ -14,7 +14,7 @@ class ProductCartPage extends HookWidget {
     // print(cartControllerProvider.products);
     Size size = MediaQuery.of(context).size;
     return Material(
-      color: Color(0xffF2F2F2),
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: SafeArea(
         child: Stack(
           children: [
@@ -25,7 +25,7 @@ class ProductCartPage extends HookWidget {
                   ? Column(
                       children: [
                         Container(
-                          color: Colors.white,
+                          color: Theme.of(context).scaffoldBackgroundColor,
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           child: Row(
@@ -35,7 +35,11 @@ class ProductCartPage extends HookWidget {
                                 height: 45,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25),
-                                  color: Colors.white,
+                                  border: Border.all(
+                                      width: 2.0,
+                                      color: Theme.of(context).backgroundColor),
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                 ),
                                 child: Center(
                                   child: IconButton(
@@ -44,6 +48,10 @@ class ProductCartPage extends HookWidget {
                                     },
                                     icon: Icon(
                                       Icons.arrow_back_ios,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color,
                                     ),
                                   ),
                                 ),
@@ -52,7 +60,12 @@ class ProductCartPage extends HookWidget {
                                 child: Center(
                                   child: Text(
                                     "My Cart",
-                                    style: kSubHeadingStyle,
+                                    style: kSubHeadingStyle.copyWith(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -60,9 +73,13 @@ class ProductCartPage extends HookWidget {
                                 width: 45,
                                 height: 45,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: Colors.white,
-                                ),
+                                    borderRadius: BorderRadius.circular(25),
+                                    border: Border.all(
+                                        width: 2.0,
+                                        color:
+                                            Theme.of(context).backgroundColor),
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor),
                                 child: Center(
                                   child: IconButton(
                                     onPressed: () {
@@ -70,6 +87,10 @@ class ProductCartPage extends HookWidget {
                                     },
                                     icon: Icon(
                                       Icons.add_shopping_cart_outlined,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color,
                                     ),
                                   ),
                                 ),
@@ -81,9 +102,9 @@ class ProductCartPage extends HookWidget {
                           height: 240,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.white,
-                          ),
+                              borderRadius: BorderRadius.circular(15),
+                              color: Theme.of(context).scaffoldBackgroundColor
+                              ),
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           margin: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
@@ -98,6 +119,10 @@ class ProductCartPage extends HookWidget {
                                 "Your Cart is Empty",
                                 style: kSmallContentStyle,
                               ),
+                              Text(
+                                "Try Adding some Products",
+                                style: kSmallContentStyle,
+                              ),
                             ],
                           ),
                         ),
@@ -106,7 +131,7 @@ class ProductCartPage extends HookWidget {
                   : Column(
                       children: [
                         Container(
-                          color: Colors.white,
+                          color: Theme.of(context).scaffoldBackgroundColor,
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           child: Row(
@@ -115,10 +140,14 @@ class ProductCartPage extends HookWidget {
                                 width: 45,
                                 height: 45,
                                 decoration: BoxDecoration(
+
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(35),
                                   border: Border.all(
                                     width: 2.0,
-                                    color: Colors.black,
+                                    color: Theme.of(context).backgroundColor,
+
                                   ),
                                 ),
                                 child: Center(
@@ -128,6 +157,7 @@ class ProductCartPage extends HookWidget {
                                     },
                                     icon: Icon(
                                       Icons.arrow_back_ios,
+                                      color: Theme.of(context).backgroundColor,
                                     ),
                                   ),
                                 ),
@@ -136,7 +166,11 @@ class ProductCartPage extends HookWidget {
                                 child: Center(
                                   child: Text(
                                     "My Cart",
-                                    style: kSubHeadingStyle,
+                                    style: kSubHeadingStyle.copyWith(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2!
+                                            .color),
                                   ),
                                 ),
                               ),
@@ -147,7 +181,9 @@ class ProductCartPage extends HookWidget {
                                   borderRadius: BorderRadius.circular(35),
                                   border: Border.all(
                                     width: 2.0,
-                                    color: Colors.black,
+
+                                    color: Theme.of(context).backgroundColor,
+
                                   ),
                                 ),
                                 child: Center(
@@ -157,6 +193,7 @@ class ProductCartPage extends HookWidget {
                                     },
                                     icon: Icon(
                                       Icons.add_shopping_cart_outlined,
+                                      color: Theme.of(context).backgroundColor,
                                     ),
                                   ),
                                 ),
@@ -186,7 +223,7 @@ class ProductCartPage extends HookWidget {
                   ? Container(
                       padding: EdgeInsets.only(
                           bottom: 15, left: 15, right: 15, top: 15),
-                      color: Colors.white,
+                      color: Theme.of(context).scaffoldBackgroundColor,
                       width: size.width,
                       child: Container(
                         height: 65,
@@ -210,7 +247,7 @@ class ProductCartPage extends HookWidget {
                   : Container(
                       padding: EdgeInsets.only(
                           bottom: 15, left: 15, right: 15, top: 15),
-                      color: Colors.white,
+                      color: Theme.of(context).scaffoldBackgroundColor,
                       width: size.width,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,7 +256,11 @@ class ProductCartPage extends HookWidget {
                             padding: EdgeInsets.fromLTRB(12, 0, 12, 12),
                             child: Text(
                               "Order Info",
-                              style: kSubHeadingStyle,
+                              style: kSubHeadingStyle.copyWith(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
                             ),
                           ),
                           Container(

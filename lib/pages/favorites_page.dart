@@ -11,7 +11,7 @@ class FavoritesPage extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            color: Colors.white,
+            color: Theme.of(context).scaffoldBackgroundColor,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
             child: Row(
               children: [
@@ -22,7 +22,7 @@ class FavoritesPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(35),
                     border: Border.all(
                       width: 2.0,
-                      color: Colors.black,
+                      color: Theme.of(context).backgroundColor
                     ),
                   ),
                   child: Center(
@@ -32,6 +32,7 @@ class FavoritesPage extends StatelessWidget {
                       },
                       icon: Icon(
                         Icons.arrow_back_ios,
+                        color: Theme.of(context).textTheme.bodyText2!.color,
                       ),
                     ),
                   ),
@@ -40,7 +41,8 @@ class FavoritesPage extends StatelessWidget {
                   child: Center(
                     child: Text(
                       "Your Favourites",
-                      style: kSubHeadingStyle,
+                      style: kSubHeadingStyle.copyWith(
+                          color: Theme.of(context).textTheme.bodyText2!.color),
                     ),
                   ),
                 ),
@@ -51,7 +53,7 @@ class FavoritesPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(35),
                     border: Border.all(
                       width: 2.0,
-                      color: Colors.black,
+                      color: Theme.of(context).backgroundColor,
                     ),
                   ),
                   child: Center(
@@ -59,6 +61,7 @@ class FavoritesPage extends StatelessWidget {
                       onPressed: () {},
                       icon: Icon(
                         Icons.add_circle,
+                        color: Theme.of(context).textTheme.bodyText2!.color,
                       ),
                     ),
                   ),
@@ -66,47 +69,8 @@ class FavoritesPage extends StatelessWidget {
               ],
             ),
           ),
-          // Container(
-          //   child: Column(
-          //     children: [
-          //       Expanded(
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: [
-          //       Text(
-          //         "Light",
-          //         style: Theme.of(context).textTheme.bodyText2,
-          //       ),
-          //       // DarkModeSwitch(),
-          //       Text(
-          //         "Dark",
-          //         style: Theme.of(context).textTheme.bodyText2,
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          //     ],
-          //   ),
-          // )
         ],
       ),
     ));
   }
 }
-
-// class DarkModeSwitch extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     final appThemeState = context.read(appThemeStateNotifier);
-//     return Switch(
-//       value: appThemeState.isDarkModeEnabled,
-//       onChanged: (enabled) {
-//         if (enabled) {
-//           appThemeState.setDarkTheme();
-//         } else {
-//           appThemeState.setLightTheme();
-//         }
-//       },
-//     );
-//   }
-// }

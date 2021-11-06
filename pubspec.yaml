@@ -33,9 +33,17 @@ dependencies:
   qr_flutter: ^4.0.0
   razorpay_flutter: ^1.2.7
   reviews_slider: ^2.0.0
+
+  url_launcher:
+  dotted_line: ^3.0.0
+  pedometer: ^3.0.0
+  path_provider: ^2.0.6
+  barcode_scan2: ^4.1.4
+  health: ^3.2.1
+  percent_indicator: ^3.4.0
   syncfusion_flutter_datepicker: ^19.2.55
   table_calendar: ^3.0.2
-  url_launcher: null
+
 
 dev_dependencies:
   flutter_native_splash: null
@@ -54,6 +62,7 @@ flutter:
   assets:
     - assets/google-icon 1.png
     - assets/Burger-menu.png
+    - assets/BurgermenudarkTheme.png
     - assets/post-image.jpg
     - assets/video_page_assets/AbsOverlay.png
     - assets/video_page_assets/BicepsOverlay.png

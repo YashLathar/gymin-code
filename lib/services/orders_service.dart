@@ -59,6 +59,7 @@ class OrdersService implements BaseOrdersService {
   }
 
   @override
+
   Future<List<Order>> retrievAllOrders() async {
     try {
       final documentSnapshots = await _read(firestoreProvider)
@@ -83,5 +84,6 @@ class OrdersService implements BaseOrdersService {
     } on FirebaseException catch (e) {
       throw Text(e.message ?? "ERROR");
     }
+
   }
 }

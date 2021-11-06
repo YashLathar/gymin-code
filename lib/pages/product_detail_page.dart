@@ -83,8 +83,22 @@ class ProductDetailPage extends HookWidget {
                 child: Column(
                   children: [
                     Container(
-                      color: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: (Colors.grey[400])!,
+                            offset: Offset(
+                              0,
+                              10,
+                            ),
+                            blurRadius: 10.0,
+                            spreadRadius: -5.0,
+                          ),
+                        ],
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 4),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -96,7 +110,7 @@ class ProductDetailPage extends HookWidget {
                               borderRadius: BorderRadius.circular(35),
                               border: Border.all(
                                 width: 2.0,
-                                color: Colors.black,
+                                color: Theme.of(context).backgroundColor,
                               ),
                             ),
                             child: Center(
@@ -106,6 +120,7 @@ class ProductDetailPage extends HookWidget {
                                 },
                                 icon: Icon(
                                   Icons.arrow_back_ios,
+                                  color: Theme.of(context).backgroundColor,
                                 ),
                               ),
                             ),
@@ -118,20 +133,22 @@ class ProductDetailPage extends HookWidget {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(35),
                                   border: Border.all(
-                                    width: 2.0,
-                                    color: Colors.black,
-                                  ),
+                                      width: 2.0,
+                                      color: Theme.of(context).backgroundColor),
                                 ),
                                 child: Center(
                                   child: IconButton(
                                     onPressed: () {},
                                     icon: Icon(
                                       Icons.search,
+                                      color: Theme.of(context).backgroundColor,
                                     ),
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 3,),
+                              SizedBox(
+                                width: 3,
+                              ),
                               Container(
                                 width: 50,
                                 height: 50,
@@ -139,7 +156,7 @@ class ProductDetailPage extends HookWidget {
                                   borderRadius: BorderRadius.circular(35),
                                   border: Border.all(
                                     width: 2.0,
-                                    color: Colors.black,
+                                    color: Theme.of(context).backgroundColor,
                                   ),
                                 ),
                                 child: Center(
@@ -154,11 +171,14 @@ class ProductDetailPage extends HookWidget {
                                     },
                                     icon: Icon(
                                       Icons.favorite,
+                                      color: Theme.of(context).backgroundColor,
                                     ),
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 3,),
+                              SizedBox(
+                                width: 3,
+                              ),
                               Container(
                                 width: 50,
                                 height: 50,
@@ -166,7 +186,7 @@ class ProductDetailPage extends HookWidget {
                                   borderRadius: BorderRadius.circular(35),
                                   border: Border.all(
                                     width: 2.0,
-                                    color: Colors.black,
+                                    color: Theme.of(context).backgroundColor,
                                   ),
                                 ),
                                 child: Center(
@@ -175,7 +195,10 @@ class ProductDetailPage extends HookWidget {
                                       Navigator.pushNamed(
                                           context, "/productCartPage");
                                     },
-                                    icon: Icon(Icons.shopping_cart),
+                                    icon: Icon(
+                                      Icons.shopping_cart,
+                                      color: Theme.of(context).backgroundColor,
+                                    ),
                                   ),
                                 ),
                               )
@@ -185,7 +208,7 @@ class ProductDetailPage extends HookWidget {
                       ),
                     ),
                     Container(
-                      color: Colors.white,
+                      color: Theme.of(context).scaffoldBackgroundColor,
                       child: Column(
                         children: [
                           Hero(
@@ -194,8 +217,12 @@ class ProductDetailPage extends HookWidget {
                               image,
                             ),
                           ),
+                          // DottedLine(
+                          //   dashColor: Theme.of(context).textTheme.bodyText2.color,
+                          // ),
                           Divider(
-                            thickness: 2.0,
+                            thickness: 1.0,
+                            color: Theme.of(context).textTheme.bodyText2!.color,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 15),
@@ -275,11 +302,14 @@ class ProductDetailPage extends HookWidget {
                       ),
                     ),
                     Divider(
-                      thickness: 3.0,
+                      thickness: 1.5,
+                      color: Theme.of(context).backgroundColor,
                     ),
                     InkWell(
                       onTap: () {
                         showModalBottomSheet(
+                          backgroundColor:
+                              Theme.of(context).scaffoldBackgroundColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                               top: Radius.circular(25),
@@ -309,13 +339,16 @@ class ProductDetailPage extends HookWidget {
                             ),
                             Icon(
                               Icons.expand_more,
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color,
                             ),
                           ],
                         ),
                       ),
                     ),
                     Divider(
-                      thickness: 3.0,
+                      thickness: 3.0 / 2,
+                      color: Theme.of(context).backgroundColor,
                     ),
                     Container(
                       padding: EdgeInsets.only(
@@ -354,6 +387,10 @@ class ProductDetailPage extends HookWidget {
                                 children: [
                                   Icon(
                                     Icons.car_rental,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color,
                                   ),
                                   Text(
                                     "Free",
@@ -382,6 +419,10 @@ class ProductDetailPage extends HookWidget {
                                 children: [
                                   Icon(
                                     Icons.find_replace,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color,
                                   ),
                                   Text(
                                     "Deliver in 3 Days,",
@@ -393,6 +434,10 @@ class ProductDetailPage extends HookWidget {
                               ),
                               Icon(
                                 Icons.expand_more,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color,
                               ),
                             ],
                           ),
@@ -409,6 +454,10 @@ class ProductDetailPage extends HookWidget {
                                   ),
                                   FaIcon(
                                     FontAwesomeIcons.dollarSign,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color,
                                     size: 17,
                                   ),
                                   SizedBox(
@@ -424,6 +473,10 @@ class ProductDetailPage extends HookWidget {
                               ),
                               Icon(
                                 Icons.expand_more,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color,
                               ),
                             ],
                           )
@@ -431,7 +484,8 @@ class ProductDetailPage extends HookWidget {
                       ),
                     ),
                     Divider(
-                      thickness: 2.5,
+                      thickness: 1.5,
+                      color: Theme.of(context).backgroundColor,
                     ),
                     InkWell(
                       onTap: () {},
@@ -448,6 +502,10 @@ class ProductDetailPage extends HookWidget {
                               children: [
                                 Icon(
                                   Icons.chat,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color,
                                 ),
                                 SizedBox(
                                   width: 8,
@@ -462,6 +520,8 @@ class ProductDetailPage extends HookWidget {
                             ),
                             Icon(
                               Icons.expand_more,
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color,
                             ),
                           ],
                         ),
@@ -525,8 +585,21 @@ class ProductDetailPage extends HookWidget {
             Positioned(
               bottom: 0,
               child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: (Colors.grey[400])!,
+                      offset: Offset(
+                        0,
+                        -10,
+                      ),
+                      blurRadius: 10.0,
+                      spreadRadius: -5.0,
+                    ),
+                  ],
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                ),
                 width: MediaQuery.of(context).size.width,
-                color: Colors.white,
                 child: Row(
                   children: [
                     Container(
@@ -564,8 +637,7 @@ class ProductDetailPage extends HookWidget {
                             },
                             child: Text(
                               "Add to Cart",
-                              style: kSmallContentStyle.copyWith(
-                                  color: Colors.white),
+                              style: kSmallContentStyle.copyWith(),
                             ),
                           ),
                         ),
@@ -593,8 +665,7 @@ class ProductDetailPage extends HookWidget {
                             },
                             child: Text(
                               "Buy Now",
-                              style: kSmallContentStyle.copyWith(
-                                  color: Colors.white),
+                              style: kSmallContentStyle.copyWith(),
                             ),
                           ),
                         ),
@@ -624,7 +695,10 @@ class OffersandCoupons extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(Icons.drag_handle),
+          Icon(
+            Icons.drag_handle,
+            color: Theme.of(context).textTheme.bodyText2!.color,
+          ),
           Text(
             "Offers will be Added Soon",
             style: kSmallContentStyle,
@@ -671,13 +745,17 @@ class _ReviewsPSheetState extends State<ReviewsPSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
       height: 300,
       child: Stack(
         children: [
           Container(
             alignment: Alignment.topCenter,
             padding: EdgeInsets.all(6),
-            child: Icon(Icons.drag_handle),
+            child: Icon(
+              Icons.drag_handle,
+              color: Theme.of(context).textTheme.bodyText2!.color,
+            ),
           ),
           Align(
             alignment: Alignment.center,
@@ -703,7 +781,10 @@ class _ReviewsPSheetState extends State<ReviewsPSheet> {
                     padding: const EdgeInsets.only(top: 10),
                     child: Text(
                       'How would you rate this Product?',
-                      style: TextStyle(color: Colors.black, fontSize: 18),
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                   SizedBox(height: 20),

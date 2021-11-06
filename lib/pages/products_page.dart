@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
+import 'package:gym_in/pages/product_cart_page.dart';
 import 'package:gym_in/pages/product_detail_page.dart';
 import 'package:gym_in/widgets/product_card.dart';
 
@@ -45,10 +46,11 @@ class _GymProductsPageState extends State<GymProductsPage> {
           );
         }
         return Scaffold(
-          backgroundColor: Colors.white,
+          // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: SafeArea(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 15),
+              color: Theme.of(context).scaffoldBackgroundColor,
               height: size.height,
               width: size.width,
               child: Column(
@@ -70,20 +72,43 @@ class _GymProductsPageState extends State<GymProductsPage> {
                             ),
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, "/productCartPage");
-                          },
-                          icon: Icon(
-                            Icons.shopping_cart,
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(35),
+                            border: Border.all(
+                              width: 2.0,
+                              color: Theme.of(context).backgroundColor,
+                            ),
                           ),
-                        ),
+                          child: Center(
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProductCartPage(),
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.shopping_cart,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color,
+                              ),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 15),
                     child: CupertinoSearchTextField(
+                      backgroundColor: Colors.grey[300],
                       padding: EdgeInsets.all(16),
                     ),
                   ),
@@ -94,7 +119,9 @@ class _GymProductsPageState extends State<GymProductsPage> {
                       children: [
                         Text(
                           'Popular',
-                          style: kSubHeadingStyle,
+                          style: kSubHeadingStyle.copyWith(
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color),
                         ),
                         // Text(
                         //   'View all',

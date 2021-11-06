@@ -48,7 +48,11 @@ class ProductCard extends StatelessWidget {
                 width: 170,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color(0xffF2F2F2),
+                  color: 
+                  Colors.grey[300]
+                  // Color(0xFF676e8a),
+                  // Theme.of(context).scaffoldBackgroundColor,
+                  // Color(0xffF2F2F2),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -65,7 +69,10 @@ class ProductCard extends StatelessWidget {
                       children: [
                         Text(
                           "₹" + price,
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(
+                              fontSize: 20,
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color),
                         ),
                         Container(
                           width: 30,

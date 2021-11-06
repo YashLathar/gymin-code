@@ -102,7 +102,7 @@ class GymListCard extends HookWidget {
                               children: [
                                 Icon(
                                   Icons.star,
-                                  color: Color(0xffFFD700),
+                                  color: Theme.of(context).textTheme.bodyText2!.color,
                                 ),
                                 SizedBox(
                                   width: 5,
@@ -112,13 +112,16 @@ class GymListCard extends HookWidget {
                                   height: 20,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(50),
-                                    color: Color(0xffFFD700),
+                                    color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color,
                                   ),
                                   child: Center(
                                     child: Text(
                                       gratings.toString(),
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: Theme.of(context).scaffoldBackgroundColor,
                                         fontSize: 15,
                                       ),
                                     ),
@@ -142,7 +145,7 @@ class GymListCard extends HookWidget {
                 height: 35,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  color: Colors.black.withOpacity(0.4),
+                  color: Theme.of(context).textTheme.bodyText2!.color    //withOpacity(0.4),
                 ),
                 child: Center(
                   child: LikeButton(
@@ -161,7 +164,7 @@ class GymListCard extends HookWidget {
                     likeBuilder: (bool isLiked) {
                       return Icon(
                         Icons.favorite,
-                        color: isLiked ? Colors.redAccent : Colors.white,
+                        color: isLiked ? Colors.redAccent : Theme.of(context).scaffoldBackgroundColor,
                         size: 25,
                       );
                     },

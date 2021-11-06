@@ -27,9 +27,18 @@ class UserEditBottomSheet extends HookWidget {
     }
 
     return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
         children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Icon(Icons.drag_handle,
+                color: Theme.of(context).backgroundColor),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 50,
+          ),
           Container(
             width: 100,
             height: 100,
@@ -40,7 +49,7 @@ class UserEditBottomSheet extends HookWidget {
               alignment: Alignment.center,
               children: [
                 CircleAvatar(
-                    backgroundColor: Colors.deepPurple,
+                    backgroundColor: Colors.redAccent,
                     radius: 50,
                     backgroundImage: imagePath.value.isEmpty
                         ? null
@@ -67,14 +76,18 @@ class UserEditBottomSheet extends HookWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Update Your Profile'),
+              Text(
+                'Update Your Profile',
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText2!.color),
+              ),
               Spacer(),
               IconButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
                 icon: Icon(Icons.cancel),
-                color: Colors.redAccent,
+                color: Theme.of(context).textTheme.bodyText2!.color,
                 iconSize: 25,
                 //label: Text("Cancel")
               ),
@@ -88,7 +101,19 @@ class UserEditBottomSheet extends HookWidget {
                   child: TextField(
                     controller: usernameController,
                     decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).backgroundColor,
+                          width: 2,
+                        ),
+                      ),
+                      hintText: "Enter Your Name",
+                      hintStyle: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2!.color),
                       helperText: 'What should we call you?',
+                      helperStyle: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2!.color),
                     ),
                   ),
                 ),
@@ -101,8 +126,12 @@ class UserEditBottomSheet extends HookWidget {
               Padding(
                 padding: EdgeInsets.all(30),
                 child: MaterialButton(
-                  color: Colors.grey,
-                  child: Text("Update"),
+                  color: Colors.redAccent,
+                  child: Text(
+                    "Update",
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color),
+                  ),
                   onPressed: () async {
                     if (usernameController.text == "") {
                       return ErrorHandler.errorDialog(

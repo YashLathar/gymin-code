@@ -63,7 +63,11 @@ class LoginPage extends ConsumerWidget {
                             children: [
                               Expanded(
                                 child: OAuthLoginButton(
-                                  icon: Icon(FontAwesomeIcons.google),
+                                  icon: Icon(FontAwesomeIcons.google,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color),
                                   onPressed: () async {
                                     await context
                                         .read(authControllerProvider.notifier)
@@ -74,7 +78,13 @@ class LoginPage extends ConsumerWidget {
                               SizedBox(width: 15),
                               Expanded(
                                 child: OAuthLoginButton(
-                                  icon: Icon(FontAwesomeIcons.apple),
+                                  icon: Icon(
+                                    FontAwesomeIcons.apple,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color,
+                                  ),
                                   onPressed: () {},
                                 ),
                               ),
@@ -192,7 +202,7 @@ class LoginPage extends ConsumerWidget {
                             Text(
                               "Don't have an account?",
                               style: kRoundedButtonTextStyle.copyWith(
-                                  color: Colors.black),
+                                  color: Theme.of(context).textTheme.bodyText2!.color,),
                             ),
                             SizedBox(
                               width: 10,
