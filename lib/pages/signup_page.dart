@@ -164,6 +164,10 @@ class SignupPage extends ConsumerWidget {
                               await context
                                   .read(authControllerProvider.notifier)
                                   .setUserName(_usernameController.text.trim());
+                              await context
+                                  .read(authControllerProvider.notifier)
+                                  .setProfilePhoto(
+                                      "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg");
                               context.read(loadingStateProvider).state = false;
                               Navigator.pop(context);
                             }),

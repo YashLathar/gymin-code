@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/widgets/reusable_button.dart';
 import 'package:gym_in/widgets/rounded_button.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+
+final userSelectedFromTimeProvider = StateProvider<String>((ref) {
+  return TimeOfDay(hour: 8, minute: 0).toString();
+});
+
+final userSelectedToTimeProvider = StateProvider<String>((ref) {
+  return TimeOfDay(hour: 10, minute: 0).toString();
+});
+
+final userSelectedPriceProvider = StateProvider<int>((ref) {
+  return 397;
+});
 
 class TimeSelector extends HookWidget {
   const TimeSelector({Key? key}) : super(key: key);
@@ -19,6 +32,7 @@ class TimeSelector extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final selectedPrice = useProvider(userSelectedPriceProvider);
     final selected = useState(1);
     final fromTime = useState(TimeOfDay(hour: 8, minute: 0));
     final influencedtoHour = fromTime.value.hour + selected.value;
@@ -37,16 +51,21 @@ class TimeSelector extends HookWidget {
                 child: Column(
                   children: [
                     Text(
-                      "From",
+                      "Number of hours",
                       style: kMainHeadingStyle.copyWith(fontSize: 20),
                     ),
                     GestureDetector(
                       onTap: () {
                         selected.value = 1;
+                        selectedPrice.state = 397;
                       },
                       child: ResuableButton(
                         child: Row(
-                          children: [Text("1 Hour")],
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("1 Hour"),
+                            Text("₹ 397"),
+                          ],
                         ),
                         borderColor: selected.value == 1
                             ? Colors.redAccent
@@ -56,11 +75,14 @@ class TimeSelector extends HookWidget {
                     GestureDetector(
                       onTap: () {
                         selected.value = 2;
+                        selectedPrice.state = 700;
                       },
                       child: ResuableButton(
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("2 Hour"),
+                            Text("₹ 700"),
                           ],
                         ),
                         borderColor: selected.value == 2
@@ -71,17 +93,24 @@ class TimeSelector extends HookWidget {
                     GestureDetector(
                       onTap: () {
                         selected.value = 3;
+                        selectedPrice.state = 1000;
                       },
                       child: ResuableButton(
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("3 Hour"),
+                            Text("₹ 1000"),
                           ],
                         ),
                         borderColor: selected.value == 3
                             ? Colors.redAccent
                             : Color(0xffF2F2F2),
                       ),
+                    ),
+                    Text(
+                      "From",
+                      style: kMainHeadingStyle.copyWith(fontSize: 20),
                     ),
                     RoundedButton(
                       buttonText: fromTime.value.hour.toString() +
@@ -104,7 +133,15 @@ class TimeSelector extends HookWidget {
                       onPressed: () {},
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read(userSelectedFromTimeProvider).state =
+                            fromTime.value.hour.toString();
+
+                        context.read(userSelectedToTimeProvider).state =
+                            influencedtoHour.toString();
+
+                        Navigator.pop(context);
+                      },
                       child: Text(
                         "continue",
                       ),

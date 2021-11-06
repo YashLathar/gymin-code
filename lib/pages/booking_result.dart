@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
+import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:dotted_line/dotted_line.dart';
 
 class QrResultScreen extends HookWidget {
   const QrResultScreen({
+    required this.gymName,
+    required this.userName,
+    required this.docId,
+    required this.fromDate,
+    required this.fromTime,
+    required this.planSelected,
+    required this.userImage,
     Key? key,
-    required this.dataIndex,
   }) : super(key: key);
 
-  final dynamic dataIndex;
+  final String gymName;
+  final String? userName;
+  final String docId;
+  final String fromDate;
+  final String fromTime;
+  final String planSelected;
+  final String? userImage;
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +47,7 @@ class QrResultScreen extends HookWidget {
                     margin: EdgeInsets.all(15),
                     height: 60,
                     width: MediaQuery.of(context).size.width,
-                    child: Image.asset("assets/img/splashlogo.png")
-                    // Text(
-                    //   "Gymin - Your TrustWorthy Partner",
-                    //   style: kLoginPageSubHeadingTextStyle.copyWith(fontSize: 28),
-                    // ),
-                    ),
+                    child: Image.asset("assets/img/splashlogo.png")),
               ),
               Container(
                 margin: EdgeInsets.only(top: 15, bottom: 15),
@@ -50,7 +58,7 @@ class QrResultScreen extends HookWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 19, bottom: 12),
                         child: Text(
-                          "Powered By:",
+                          "Powered By: $gymName",
                           style:
                               kSmallContentStyle.copyWith(color: Colors.grey),
                         ),
@@ -105,13 +113,11 @@ class QrResultScreen extends HookWidget {
                     ),
                     ListTile(
                       leading: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          "https://m.media-amazon.com/images/I/91I48aFAZDL._AC_SL1500_.jpg",
-                        ),
+                        backgroundImage: NetworkImage(userImage!),
                         radius: 25,
                       ),
                       title: Text(
-                        "Wade Wilson",
+                        userName!,
                         style: kSmallContentStyle,
                       ),
                     ),
@@ -127,7 +133,7 @@ class QrResultScreen extends HookWidget {
                         Container(
                           margin: EdgeInsets.fromLTRB(12, 12, 12, 15),
                           child: QrImage(
-                            data: "Steve 'Steven' Rogers",
+                            data: docId,
                             size: 160,
                           ),
                         ),
@@ -135,7 +141,7 @@ class QrResultScreen extends HookWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "October 16",
+                              fromDate,
                               style: kSmallContentStyle.copyWith(
                                 fontSize: 20,
                               ),
@@ -151,13 +157,13 @@ class QrResultScreen extends HookWidget {
                               height: 10,
                             ),
                             Text(
-                              "14:00",
+                              fromTime,
                               style: kSmallContentStyle.copyWith(
                                 fontSize: 20,
                               ),
                             ),
                             Text(
-                              "GMT +5:30",
+                              "IST",
                               style: kSmallContentStyle.copyWith(
                                 fontSize: 20,
                               ),
@@ -181,7 +187,7 @@ class QrResultScreen extends HookWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "lu.ma/gymin.co.in",
+                              "https://gymin.co.in",
                               style: kSmallContentStyle.copyWith(
                                 fontSize: 15,
                               ),
@@ -200,32 +206,32 @@ class QrResultScreen extends HookWidget {
                   ],
                 ),
               ),
-              //   Expanded(
-              //  child: SizedBox(),
-              //   ),
-              //   Container(
-              //     color: Colors.white,
-              //     width: MediaQuery.of(context).size.width / 1.5,
-              //     child: Container(
-              //       decoration: BoxDecoration(
-              //         color: Colors.redAccent,
-              //          borderRadius: BorderRadius.circular(20),
-              //       ),
-              //       child: MaterialButton(
-              //         onPressed: () {
-              //           Navigator.pop(context);
-              //           Navigator.pop(context);
-              //           aShowToast(msg: "Saved to Your Orders");
-              //         },
-              //         child: Text(
-              //           "Save Ticket",
-              //           style: kSubHeadingStyle.copyWith(
-              //             color: Colors.white,
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
+              Expanded(
+                child: SizedBox(),
+              ),
+              Container(
+                color: Colors.white,
+                width: MediaQuery.of(context).size.width / 1.5,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: MaterialButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      aShowToast(msg: "Saved to Your Orders");
+                    },
+                    child: Text(
+                      "Save Ticket",
+                      style: kSubHeadingStyle.copyWith(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
