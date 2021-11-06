@@ -115,11 +115,11 @@ class ProductCartPage extends HookWidget {
                                 width: 45,
                                 height: 45,
                                 decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(35),
-                                      border: Border.all(
-                                        width: 2.0,
-                                        color: Colors.black,
-                                      ),
+                                  borderRadius: BorderRadius.circular(35),
+                                  border: Border.all(
+                                    width: 2.0,
+                                    color: Colors.black,
+                                  ),
                                 ),
                                 child: Center(
                                   child: IconButton(
@@ -144,11 +144,11 @@ class ProductCartPage extends HookWidget {
                                 width: 45,
                                 height: 45,
                                 decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(35),
-                                      border: Border.all(
-                                        width: 2.0,
-                                        color: Colors.black,
-                                      ),
+                                  borderRadius: BorderRadius.circular(35),
+                                  border: Border.all(
+                                    width: 2.0,
+                                    color: Colors.black,
+                                  ),
                                 ),
                                 child: Center(
                                   child: IconButton(
@@ -230,7 +230,8 @@ class ProductCartPage extends HookWidget {
                                 Text(
                                   "Subtotal",
                                   style: kSmallContentStyle.copyWith(
-                                    fontSize: 15, color: Colors.grey,
+                                    fontSize: 15,
+                                    color: Colors.grey,
                                   ),
                                 ),
                                 Text(
@@ -242,7 +243,9 @@ class ProductCartPage extends HookWidget {
                               ],
                             ),
                           ),
-                          SizedBox(height: 5,),
+                          SizedBox(
+                            height: 5,
+                          ),
                           Container(
                             padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
                             child: Row(
@@ -251,19 +254,23 @@ class ProductCartPage extends HookWidget {
                                 Text(
                                   "Shipping",
                                   style: kSmallContentStyle.copyWith(
-                                    fontSize: 15, color: Colors.grey,
+                                    fontSize: 15,
+                                    color: Colors.grey,
                                   ),
                                 ),
                                 Text(
                                   "+ Rs. 80",
                                   style: kSmallContentStyle.copyWith(
-                                    fontSize: 15, decoration: TextDecoration.lineThrough,
+                                    fontSize: 15,
+                                    decoration: TextDecoration.lineThrough,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Container(
                             padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
                             child: Row(
@@ -272,7 +279,8 @@ class ProductCartPage extends HookWidget {
                                 Text(
                                   "Total",
                                   style: kSmallContentStyle.copyWith(
-                                    fontSize: 15, color: Colors.grey,
+                                    fontSize: 15,
+                                    color: Colors.grey,
                                   ),
                                 ),
                                 Text(

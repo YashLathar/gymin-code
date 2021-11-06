@@ -40,25 +40,21 @@ class HomePage extends HookWidget {
         stream: _gymStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-
             return Container(
               height: 50,
               width: 50,
               child: Center(
                 child: Text("Something Went Wrong"),
               ),
-
             );
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-
             return Container(
               height: 50,
               width: 50,
               child: Center(
                 child: CircularProgressIndicator(),
-
               ),
             );
           }
@@ -66,7 +62,7 @@ class HomePage extends HookWidget {
             onWillPop: () async => false,
             child: Scaffold(
               appBar: AppBar(
-                toolbarHeight: 50,
+                toolbarHeight: 65,
                 backgroundColor: Colors.transparent,
                 leading: GestureDetector(
                   child: Image.asset('assets/Burger-menu.png'),
@@ -115,14 +111,10 @@ class HomePage extends HookWidget {
                     child: Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                          padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
                           child: CupertinoSearchTextField(
                             padding: EdgeInsets.all(15),
                           ),
-                        ),
-                        Container(
-                          height: 200,
-                          child: Image.asset('assets/home-page-heading.png'),
                         ),
                         // Container(
                         //     padding: EdgeInsets.symmetric(horizontal: 15),
@@ -202,8 +194,8 @@ class HomePage extends HookWidget {
                         //     //   },
                         //     ),
                         Container(
-                          margin: EdgeInsets.only(
-                              left: 25, right: 25, top: 50, bottom: 30),
+                          margin:
+                              EdgeInsets.only(left: 25, right: 25, bottom: 30),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -233,7 +225,6 @@ class HomePage extends HookWidget {
                           height: 350,
                           width: double.infinity,
                           margin: EdgeInsets.only(left: 5),
-
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: snapshot.data!.docs
@@ -258,7 +249,6 @@ class HomePage extends HookWidget {
                                         traineravailable:
                                             data['gtraineravailable'],
                                         gymId: document.id,
-
                                       ),
                                     ),
                                   );

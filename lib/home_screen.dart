@@ -115,14 +115,11 @@ class HomeScreen extends HookWidget {
               ListTile(
                 leading: FaIcon(FontAwesomeIcons.firstOrder),
                 title: Text("Your Orders"),
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, "/ordersPage");
+                },
               ),
-              // ListTile(
-              //   leading: Icon(Icons.money),
-              //   title: Text('E-Wallet'),
-              //   onTap: () =>
-              //     Navigator.pushNamed(context, '/walletPage'),
-              // ),
+
               ListTile(
                 leading: Icon(Icons.favorite),
                 title: Text('Favorites'),
