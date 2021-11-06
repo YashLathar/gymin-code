@@ -143,6 +143,62 @@ class HomeScreen extends HookWidget {
                   title: Text("Your Orders",
                   style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
                   ),
+
+                ],
+              ),
+              ListTile(
+                leading: Icon(Icons.home),
+                title: Text('Gym Owner'),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => GymOwnerPage())),
+              ),
+              ListTile(
+                leading: Icon(Icons.verified_user),
+                title: Text('Trainer Zone'),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TrainerZone())),
+              ),
+              ListTile(
+                  leading: Icon(Icons.post_add),
+                  title: Text('Social'),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => FeedsPage()));
+                  }),
+              // ListTile(
+              //   leading: Icon(
+              //     Icons.play_circle_fill,
+              //   ),
+              //   title: Text('Tutorials'),
+              //   onTap: () =>
+              //     Navigator.pushNamed(context, '/videosPage'),
+              // ),
+              ListTile(
+                leading: FaIcon(FontAwesomeIcons.firstOrder),
+                title: Text("Your Orders"),
+                onTap: () {
+                  Navigator.pushNamed(context, "/ordersPage");
+                },
+              ),
+
+              ListTile(
+                leading: Icon(Icons.favorite),
+                title: Text('Favorites'),
+                onTap: () => Navigator.pushNamed(context, '/favorites'),
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Settings'),
+                onTap: () => Navigator.pushNamed(context, '/settingPage'),
+              ),
+              ListTile(
+                leading: Icon(Icons.description),
+                title: Text('Policies'),
+                onTap: () => null,
+              ),
+              ListTile(
+                  title: Text('Sign-Out'),
+                  leading: Icon(Icons.logout),
                   onTap: () {
                     // Navigator.push(context, MaterialPageRoute(builder: (context) => DarkModeWidget()));
                   },

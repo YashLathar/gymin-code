@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gym_in/home_screen.dart';
 import 'package:gym_in/pages/activity_page.dart';
-import 'package:gym_in/pages/booking_result.dart';
 import 'package:gym_in/pages/chat_page.dart';
 import 'package:gym_in/pages/feeds_page.dart';
 import 'package:gym_in/pages/gymlist_page.dart';
+import 'package:gym_in/pages/orders_page.dart';
 import 'package:gym_in/pages/product_cart_page.dart';
 import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/pages/home_page.dart';
@@ -82,11 +82,8 @@ class MyApp extends StatelessWidget {
           case "/productsPage":
             return MaterialPageRoute(builder: (_) => GymProductsPage());
 
-          case "/QrResult":
-            return MaterialPageRoute(
-                builder: (_) => QrResultScreen(
-                      dataIndex: args,
-                    ));
+          case "/ordersPage":
+            return MaterialPageRoute(builder: (_) => OrdersPage());
 
           case "/gymListPage":
             return MaterialPageRoute(

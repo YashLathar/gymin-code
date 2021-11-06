@@ -140,12 +140,14 @@ class ProductCartPage extends HookWidget {
                                 width: 45,
                                 height: 45,
                                 decoration: BoxDecoration(
+
                                   color:
                                       Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(35),
                                   border: Border.all(
                                     width: 2.0,
                                     color: Theme.of(context).backgroundColor,
+
                                   ),
                                 ),
                                 child: Center(
@@ -179,7 +181,9 @@ class ProductCartPage extends HookWidget {
                                   borderRadius: BorderRadius.circular(35),
                                   border: Border.all(
                                     width: 2.0,
+
                                     color: Theme.of(context).backgroundColor,
+
                                   ),
                                 ),
                                 child: Center(

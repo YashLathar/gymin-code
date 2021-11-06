@@ -55,6 +55,10 @@ class GymPage extends HookWidget {
                       Stack(
                         children: [
                           Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 10,
+                            ),
                             child: CarouselSlider(
                               options: CarouselOptions(
                                   height: 400,
@@ -66,10 +70,8 @@ class GymPage extends HookWidget {
                               items: gymphotos
                                   .map((item) => Container(
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(35),
-                                            bottomRight: Radius.circular(35),
-                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(35),
                                           child: Image.network(
                                             item,
                                             fit: BoxFit.cover,

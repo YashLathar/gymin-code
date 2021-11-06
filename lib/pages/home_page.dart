@@ -37,6 +37,7 @@ class HomePage extends HookWidget {
     final ScrollController _scrollController = ScrollController();
     Size size = MediaQuery.of(context).size;
     return StreamBuilder<QuerySnapshot>(
+
       stream: _gymStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -47,6 +48,7 @@ class HomePage extends HookWidget {
               child: Center(
                 child: Text("Something Went Wrong"),
               ),
+
             ),
           );
         }
@@ -54,11 +56,13 @@ class HomePage extends HookWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: Container(
+
               height: 50,
               width: 50,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
+
             ),
           );
         }
@@ -82,6 +86,7 @@ class HomePage extends HookWidget {
                 IconButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/chatPage');
+
                   },
                   icon: Icon(
                     FontAwesomeIcons.facebookMessenger,
@@ -110,6 +115,7 @@ class HomePage extends HookWidget {
                   ),
                 ),
               ),
+
             ),
             body: ListView(
               controller: _scrollController,
@@ -234,10 +240,12 @@ class HomePage extends HookWidget {
                                 'View all',
                                 style: kSmallContentStyle.copyWith(
                                     color: Colors.redAccent),
+
                               ),
                             )
                           ],
                         ),
+
                       ),
                       Container(
                         height: 350,
@@ -267,6 +275,7 @@ class HomePage extends HookWidget {
                                       traineravailable:
                                           data['gtraineravailable'],
                                       gymId: document.id,
+
                                     ),
                                   ),
                                 );
