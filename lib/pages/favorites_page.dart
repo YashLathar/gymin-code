@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
+import 'package:gym_in/controllers/favourites_controller.dart';
+import 'package:gym_in/widgets/cart_product.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class FavoritesPage extends StatelessWidget {
+class FavoritesPage extends HookWidget {
   const FavoritesPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final favProducts = useProvider(favouritesControllerProvider).favProducts;
     return Scaffold(
         body: SafeArea(
       child: Column(
@@ -21,9 +26,7 @@ class FavoritesPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(35),
                     border: Border.all(
-                      width: 2.0,
-                      color: Theme.of(context).backgroundColor
-                    ),
+                        width: 2.0, color: Theme.of(context).backgroundColor),
                   ),
                   child: Center(
                     child: IconButton(
@@ -67,6 +70,19 @@ class FavoritesPage extends StatelessWidget {
                   ),
                 )
               ],
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              children: favProducts
+                  .map((product) => CartProduct(
+                        productId: product.productId,
+                        imageUrl: product.image,
+                        quantity: product.quantity,
+                        price: product.price.toString(),
+                        productName: product.title,
+                      ))
+                  .toList(),
             ),
           ),
         ],

@@ -1,16 +1,20 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Product {
   final String image;
   final String title;
   final int price;
   final String productId;
+  bool isLiked;
   int quantity;
   Product({
     required this.image,
     required this.title,
     required this.price,
     required this.productId,
+    this.isLiked = false,
     this.quantity = 1,
   });
 
@@ -19,6 +23,7 @@ class Product {
     String? title,
     int? price,
     String? productId,
+    bool? isLiked,
     int? quantity,
   }) {
     return Product(
@@ -26,6 +31,7 @@ class Product {
       title: title ?? this.title,
       price: price ?? this.price,
       productId: productId ?? this.productId,
+      isLiked: isLiked ?? this.isLiked,
       quantity: quantity ?? this.quantity,
     );
   }
@@ -36,6 +42,7 @@ class Product {
       'title': title,
       'price': price,
       'productId': productId,
+      'isLiked': isLiked,
       'quantity': quantity,
     };
   }
@@ -46,8 +53,24 @@ class Product {
       title: map['title'],
       price: map['price'],
       productId: map['productId'],
+      isLiked: map['isLiked'],
       quantity: map['quantity'],
     );
+  }
+
+  factory Product.fromFirebase(Map<String, dynamic> map, String docId) {
+    return Product(
+      image: map['image'],
+      title: map['title'],
+      price: map['price'],
+      productId: docId,
+      quantity: 1,
+    );
+  }
+
+  factory Product.fromDocument(DocumentSnapshot doc) {
+    final dataMap = doc.data() as Map<String, dynamic>;
+    return Product.fromFirebase(dataMap, doc.id);
   }
 
   String toJson() => json.encode(toMap());
@@ -57,7 +80,7 @@ class Product {
 
   @override
   String toString() {
-    return 'Product(image: $image, title: $title, price: $price, productId: $productId, quantity: $quantity)';
+    return 'Product(image: $image, title: $title, price: $price, productId: $productId, isLiked: $isLiked, quantity: $quantity)';
   }
 
   @override
@@ -69,6 +92,7 @@ class Product {
         other.title == title &&
         other.price == price &&
         other.productId == productId &&
+        other.isLiked == isLiked &&
         other.quantity == quantity;
   }
 
@@ -78,6 +102,7 @@ class Product {
         title.hashCode ^
         price.hashCode ^
         productId.hashCode ^
+        isLiked.hashCode ^
         quantity.hashCode;
   }
 }
