@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 // ignore: implementation_imports
 import 'package:flutter_riverpod/src/provider.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
+import 'package:gym_in/services/cart_service.dart';
 import 'package:gym_in/widgets/quantity_counter.dart';
 
-class CartProduct extends StatelessWidget {
+class CartProduct extends HookWidget {
   const CartProduct({
     Key? key,
     required this.imageUrl,
@@ -22,7 +24,7 @@ class CartProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final isLoading = useState(false);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       height: 200,
@@ -48,13 +50,39 @@ class CartProduct extends StatelessWidget {
                   children: [
                     Text(
                       "₹" + price,
-                      style: TextStyle(fontSize: 18, color: Colors.redAccent),
-                    ),
-                    SizedBox(
-                      width: size.width / 5,
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.redAccent,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     IconButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        isLoading.value = true;
+                        if (isLoading.value) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Theme.of(context).backgroundColor,
+                                  ),
+                                  height: 100,
+                                  width: 100,
+                                  child: Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              });
+                        }
+
+                        await context
+                            .read(cartServiceProvider)
+                            .removeItemFromCart(productId);
+
+                        isLoading.value = false;
+                        Navigator.pop(context);
                         context.read(cartProvider).removeProduct(productId);
                       },
                       icon: Icon(

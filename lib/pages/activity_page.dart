@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/widgets/activity_card.dart';
 import 'package:gym_in/widgets/info_circle.dart';
-import 'package:pedometer/pedometer.dart';
 
 class ActivityPage extends StatefulWidget {
   @override
@@ -12,67 +11,6 @@ class ActivityPage extends StatefulWidget {
 }
 
 class _ActivityPageState extends State<ActivityPage> {
-  late Stream<StepCount> _stepCountStream;
-  late Stream<PedestrianStatus> _pedestrianStatusStream;
-  String _status = '?', _steps = '?';
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  void onStepCount(StepCount event) {
-    print("working step counting");
-    print(event);
-    setState(() {
-      _steps = event.steps.toString();
-    });
-  }
-
-  void onPedestrianStatusChanged(PedestrianStatus event) {
-    print(event);
-    setState(() {
-      _status = event.status;
-    });
-  }
-
-  void onPedestrianStatusError(error) {
-    print('onPedestrianStatusError: $error');
-    setState(() {
-      _status = 'Pedestrian Status not available';
-    });
-    print(_status);
-  }
-
-  void onStepCountError(error) {
-    print('onStepCountError: $error');
-    setState(() {
-      _steps = 'Step Count not available';
-    });
-  }
-
-  void initPlatformState() {
-    _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
-    _pedestrianStatusStream
-        .listen((value) => print("working"))
-        .onError(onPedestrianStatusError);
-
-    _stepCountStream = Pedometer.stepCountStream;
-    _stepCountStream
-        .listen(
-          onStepCount,
-          onError: onStepCountError,
-          onDone: _onDone,
-          cancelOnError: true,
-        )
-        .onError(onStepCountError);
-
-    if (!mounted) return;
-  }
-
-  void _onDone() => print("Finished pedometer tracking");
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -223,7 +161,7 @@ class _ActivityPageState extends State<ActivityPage> {
                                               .bodyText2!
                                               .color),
                                     ),
-                                    Text(_steps.toString(),
+                                    Text("",
                                         style:
                                             kLoginPageHeadingTextStyle.copyWith(
                                                 fontFamily: 'Montserrat',
@@ -243,31 +181,6 @@ class _ActivityPageState extends State<ActivityPage> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text('Status', style: kSmallContentStyle),
-                                    Icon(
-                                      _status == 'walking'
-                                          ? Icons.directions_walk
-                                          : _status == 'stopped'
-                                              ? Icons.accessibility_new
-                                              : Icons.error,
-                                      size: 60,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2!
-                                          .color,
-                                    ),
-                                    Text(
-                                      _status,
-                                      style: _status == 'walking' ||
-                                              _status == 'stopped'
-                                          ? TextStyle(fontSize: 30)
-                                          : TextStyle(
-                                              fontSize: 20,
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText2!
-                                                  .color,
-                                            ),
-                                    ),
                                   ],
                                 ),
                               ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
 import 'package:gym_in/models/product.dart';
-import 'package:gym_in/pages/favorites_page.dart';
+import 'package:gym_in/services/cart_service.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -26,7 +27,9 @@ class ProductDetailPage extends HookWidget {
   }) : super(key: key);
 
   Widget build(BuildContext context) {
+    final cartService = useProvider(cartServiceProvider);
     final cartControllerProvider = useProvider(cartProvider);
+    final isLoading = useState(false);
     Size size = MediaQuery.of(context).size;
     late Razorpay _razorpay;
 
@@ -161,14 +164,7 @@ class ProductDetailPage extends HookWidget {
                                 ),
                                 child: Center(
                                   child: IconButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => FavoritesPage(),
-                                        ),
-                                      );
-                                    },
+                                    onPressed: () {},
                                     icon: Icon(
                                       Icons.favorite,
                                       color: Theme.of(context).backgroundColor,
@@ -210,6 +206,7 @@ class ProductDetailPage extends HookWidget {
                     Container(
                       color: Theme.of(context).scaffoldBackgroundColor,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Hero(
                             tag: productID,
@@ -225,7 +222,8 @@ class ProductDetailPage extends HookWidget {
                             color: Theme.of(context).textTheme.bodyText2!.color,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 15),
                             child: Text(
                               title,
                               style: kSmallContentStyle.copyWith(
@@ -585,6 +583,7 @@ class ProductDetailPage extends HookWidget {
             Positioned(
               bottom: 0,
               child: Container(
+                padding: EdgeInsets.symmetric(vertical: 15),
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -601,72 +600,116 @@ class ProductDetailPage extends HookWidget {
                 ),
                 width: MediaQuery.of(context).size.width,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 15),
-                      child: Center(
-                        child: Container(
-                          width: size.width / 3,
-                          decoration: BoxDecoration(
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 15),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 2.0,
                             color: Colors.redAccent,
-                            borderRadius: BorderRadius.circular(15),
                           ),
-                          child: MaterialButton(
-                            onPressed: () {
-                              final thisProduct = cartControllerProvider
-                                  .products
-                                  .where((product) =>
-                                      product.productId == productID);
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: MaterialButton(
+                          onPressed: () async {
+                            final product = Product(
+                              title: title,
+                              price: price,
+                              productId: productID,
+                              image: image,
+                            );
+                            final thisProduct = cartControllerProvider.products
+                                .where((product) =>
+                                    product.productId == productID);
 
-                              if (thisProduct.isEmpty) {
-                                cartControllerProvider.addProduct(Product(
-                                  title: title,
-                                  price: price,
-                                  productId: productID,
-                                  image: image,
-                                ));
-                                Fluttertoast.showToast(
-                                    msg: "Product has been added to your cart");
-                              } else {
-                                cartControllerProvider
-                                    .incrementProductQuantity(productID);
-                                Fluttertoast.showToast(
-                                    msg:
-                                        "Quantity of the product has been inceased");
+                            if (thisProduct.isEmpty) {
+                              isLoading.value = true;
+                              if (isLoading.value) {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color:
+                                              Theme.of(context).backgroundColor,
+                                        ),
+                                        height: 100,
+                                        width: 100,
+                                        child: Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      );
+                                    });
                               }
-                            },
-                            child: Text(
-                              "Add to Cart",
-                              style: kSmallContentStyle.copyWith(),
+
+                              await cartService.addItemToCart(product: product);
+
+                              isLoading.value = false;
+                              Navigator.pop(context);
+
+                              cartControllerProvider.addProduct(product);
+
+                              Fluttertoast.showToast(
+                                  msg: "Product has been added to your cart");
+                            } else {
+                              cartControllerProvider
+                                  .incrementProductQuantity(productID);
+                              Fluttertoast.showToast(
+                                  msg:
+                                      "Quantity of the product has been inceased");
+                            }
+                          },
+                          child: Text(
+                            "Add to Cart",
+                            style: kSmallContentStyle.copyWith(
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color,
                             ),
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 85,
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 15),
-                      child: Center(
-                        child: Container(
-                          width: size.width / 3,
-                          decoration: BoxDecoration(
-                              color: Colors.redAccent,
-                              borderRadius: BorderRadius.circular(15)),
-                          child: MaterialButton(
-                            onPressed: () {
-                              openCheckout(
-                                name: title,
-                                price: price.toString(),
-                                description: description,
-                                image: image,
-                              );
-                            },
-                            child: Text(
-                              "Buy Now",
-                              style: kSmallContentStyle.copyWith(),
-                            ),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 15),
+                        decoration: BoxDecoration(
+                            color: Colors.redAccent,
+                            borderRadius: BorderRadius.circular(15)),
+                        child: MaterialButton(
+                          onPressed: () {
+                            isLoading.value = true;
+                            if (isLoading.value) {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Dialog(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(30)
+                                            // Theme.of(context).backgroundColor,
+                                            ),
+                                        height: 100,
+                                        width: 100,
+                                        child: Container(
+                                          width: 45,
+                                          height: 45,
+                                          child: Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                        ),
+                                      ),
+                                    );
+                                  });
+                            }
+                          },
+                          child: Text(
+                            "Buy Now",
+                            style: kSmallContentStyle.copyWith(),
                           ),
                         ),
                       ),

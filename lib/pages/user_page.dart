@@ -393,6 +393,7 @@ class ProfileHeader1 extends HookWidget {
         child: Column(
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CircleAvatar(
                   radius: 45,
@@ -401,9 +402,6 @@ class ProfileHeader1 extends HookWidget {
                     authControllerState!.photoURL ??
                         "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg",
                   ),
-                ),
-                SizedBox(
-                  width: size.width / 19,
                 ),
                 Row(
                   children: [
@@ -438,9 +436,6 @@ class ProfileHeader1 extends HookWidget {
                       ],
                     ),
                   ],
-                ),
-                SizedBox(
-                  width: size.width / 6.6,
                 ),
                 PopupMenuButton<int>(
                   color: Theme.of(context).scaffoldBackgroundColor,
