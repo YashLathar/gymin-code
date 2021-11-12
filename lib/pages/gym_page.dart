@@ -581,12 +581,12 @@ class GymPage extends HookWidget {
             bottom: 0,
             child: Container(
               padding:
-                  EdgeInsets.only(bottom: 25, left: 15, right: 15, top: 20),
+                  EdgeInsets.only(bottom: 10, left: 15, right: 15, top: 10),
               color: Theme.of(context)
                                             .scaffoldBackgroundColor,
               width: size.width,
               child: Container(
-                height: 65,
+                height: 60,
                 decoration: BoxDecoration(
                   color: Colors.redAccent,
                   borderRadius: BorderRadius.circular(20),

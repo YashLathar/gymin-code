@@ -147,14 +147,14 @@ class HomeScreen extends HookWidget {
                     FontAwesomeIcons.firstOrder,
                     color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
+                  onTap: () {
+                    Navigator.pushNamed(context, "/ordersPage");
+                  },
                   title: Text(
                     "Your Orders",
                     style: TextStyle(
                         color: Theme.of(context).textTheme.bodyText2!.color),
                   ),
-                  onTap: () {
-                    Navigator.pushNamed(context, "/ordersPage");
-                  },
                 ),
                 ListTile(
                   leading: Icon(

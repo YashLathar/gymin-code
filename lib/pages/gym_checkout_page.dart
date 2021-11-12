@@ -59,6 +59,7 @@ class GymCheckoutPage extends HookWidget {
         builder: (context) {
           return QrResultScreen(
             gymName: gymcheckName,
+            // gymphoto: gymcheckPhoto,
             userName: user!.displayName,
             userImage: user.photoURL,
             fromDate: context.read(dateProvider).state.day.toString(),
@@ -75,7 +76,13 @@ class GymCheckoutPage extends HookWidget {
       showDialog(
           context: context,
           builder: (context) {
-            return SimpleDialog(title: Text("Payment Failed"));
+            return SimpleDialog(
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                title: Text(
+                  "Payment Failed",
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyText2!.color),
+                ));
           });
     }
 
@@ -110,7 +117,7 @@ class GymCheckoutPage extends HookWidget {
     }
 
     return Material(
-      color: Colors.white,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: SafeArea(
         child: Container(
           width: size.width,
@@ -123,24 +130,31 @@ class GymCheckoutPage extends HookWidget {
                   Column(
                     children: [
                       Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
                         padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 3),
                         child: Row(
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Color(0xFFf2f2f2),
-                                ),
-                                child: Center(
-                                  child: Icon(
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(35),
+                                border: Border.all(
+                                    width: 2.0,
+                                    color: Theme.of(context).backgroundColor),
+                              ),
+                              child: Center(
+                                child: IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: Icon(
                                     Icons.arrow_back_ios,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color,
                                   ),
                                 ),
                               ),
@@ -149,12 +163,36 @@ class GymCheckoutPage extends HookWidget {
                               child: Center(
                                 child: Text(
                                   "Order Details",
-                                  style: kSubHeadingStyle,
-                                  //kSmallHeadingTextStyle,
+                                  style: kSubHeadingStyle.copyWith(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color),
                                 ),
                               ),
                             ),
-                            SizedBox(width: 50),
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(35),
+                                border: Border.all(
+                                  width: 2.0,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                ),
+                              ),
+                              child: Center(
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.add_circle,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -189,7 +227,11 @@ class GymCheckoutPage extends HookWidget {
                                   const EdgeInsets.symmetric(vertical: 8.0),
                               child: Text(
                                 gymcheckName,
-                                style: kSubHeadingStyle,
+                                style: kSubHeadingStyle.copyWith(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color),
                               ),
                             ),
                             Text(
@@ -209,10 +251,15 @@ class GymCheckoutPage extends HookWidget {
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Text(
                                 "Plans",
-                                style: kSubHeadingStyle,
+                                style: kSubHeadingStyle.copyWith(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color),
                               ),
                             ),
                             Container(
+                              color: Theme.of(context).scaffoldBackgroundColor,
                               child: Column(
                                 children: [
                                   GestureDetector(
@@ -235,12 +282,15 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Hourly",
-                                                      style:
-                                                          kSmallHeadingTextStyle,
+                                                      style: kSmallHeadingTextStyle
+                                                          .copyWith(
+                                                              color: Colors.black),
                                                     ),
                                                     Text(
                                                       "₹" + "397",
-                                                      style: kSubHeadingStyle,
+                                                      style: kSubHeadingStyle
+                                                          .copyWith(
+                                                              color: Colors.black),
                                                     ),
                                                   ],
                                                 )
@@ -253,8 +303,9 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Hourly",
-                                                      style:
-                                                          kSmallHeadingTextStyle,
+                                                      style: kSmallHeadingTextStyle
+                                                          .copyWith(
+                                                              color: Colors.black),
                                                     ),
                                                   ],
                                                 ),
@@ -272,7 +323,7 @@ class GymCheckoutPage extends HookWidget {
                                                                 DateRangePickerSelectionMode
                                                                     .single,
                                                             backgroundColor:
-                                                                Colors.white,
+                                                                Theme.of(context).scaffoldBackgroundColor,
                                                             showActionButtons:
                                                                 true,
                                                             onSelectionChanged:
@@ -309,7 +360,8 @@ class GymCheckoutPage extends HookWidget {
                                                 )
                                               : Text(
                                                   "₹" + "397",
-                                                  style: kSubHeadingStyle,
+                                                  style: kSubHeadingStyle.copyWith(
+                                                      color: Colors.black),
                                                 ),
                                         ],
                                       ),
@@ -342,12 +394,15 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Monthly",
-                                                      style:
-                                                          kSmallHeadingTextStyle,
+                                                      style: kSmallHeadingTextStyle
+                                                          .copyWith(
+                                                              color: Colors.black),
                                                     ),
                                                     Text(
                                                       "₹" + "697",
-                                                      style: kSubHeadingStyle,
+                                                      style: kSubHeadingStyle
+                                                          .copyWith(
+                                                              color: Colors.black),
                                                     ),
                                                   ],
                                                 )
@@ -360,8 +415,9 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Monthly",
-                                                      style:
-                                                          kSmallHeadingTextStyle,
+                                                      style: kSmallHeadingTextStyle
+                                                          .copyWith(
+                                                              color: Colors.black),
                                                     ),
                                                   ],
                                                 ),
@@ -409,7 +465,8 @@ class GymCheckoutPage extends HookWidget {
                                                 )
                                               : Text(
                                                   "₹" + "697",
-                                                  style: kSubHeadingStyle,
+                                                  style: kSubHeadingStyle.copyWith(
+                                                      color: Colors.black),
                                                 ),
                                         ],
                                       ),
@@ -442,12 +499,15 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Quarterly",
-                                                      style:
-                                                          kSmallHeadingTextStyle,
+                                                      style: kSmallHeadingTextStyle
+                                                          .copyWith(
+                                                              color: Colors.black),
                                                     ),
                                                     Text(
                                                       "₹" + "997",
-                                                      style: kSubHeadingStyle,
+                                                      style: kSubHeadingStyle
+                                                          .copyWith(
+                                                              color: Colors.black),
                                                     ),
                                                   ],
                                                 )
@@ -460,8 +520,9 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Quartely",
-                                                      style:
-                                                          kSmallHeadingTextStyle,
+                                                      style: kSmallHeadingTextStyle
+                                                          .copyWith(
+                                                              color: Colors.black),
                                                     ),
                                                   ],
                                                 ),
@@ -509,7 +570,8 @@ class GymCheckoutPage extends HookWidget {
                                                 )
                                               : Text(
                                                   "₹" + "997",
-                                                  style: kSubHeadingStyle,
+                                                  style: kSubHeadingStyle.copyWith(
+                                                      color: Colors.black),
                                                 ),
                                         ],
                                       ),
@@ -542,12 +604,15 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Half-Yearly",
-                                                      style:
-                                                          kSmallHeadingTextStyle,
+                                                      style: kSmallHeadingTextStyle
+                                                          .copyWith(
+                                                              color: Colors.black),
                                                     ),
                                                     Text(
                                                       "₹" + "1497",
-                                                      style: kSubHeadingStyle,
+                                                      style: kSubHeadingStyle
+                                                          .copyWith(
+                                                              color: Colors.black),
                                                     ),
                                                   ],
                                                 )
@@ -560,8 +625,9 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Half-Yearly",
-                                                      style:
-                                                          kSmallHeadingTextStyle,
+                                                      style: kSmallHeadingTextStyle
+                                                          .copyWith(
+                                                              color: Colors.black),
                                                     ),
                                                   ],
                                                 ),
@@ -612,7 +678,8 @@ class GymCheckoutPage extends HookWidget {
                                                 )
                                               : Text(
                                                   "₹" + "1497",
-                                                  style: kSubHeadingStyle,
+                                                  style: kSubHeadingStyle.copyWith(
+                                                      color: Colors.black),
                                                 ),
                                         ],
                                       ),
@@ -645,12 +712,15 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Yearly",
-                                                      style:
-                                                          kSmallHeadingTextStyle,
+                                                      style: kSmallHeadingTextStyle
+                                                          .copyWith(
+                                                              color: Colors.black),
                                                     ),
                                                     Text(
                                                       "₹" + "1997",
-                                                      style: kSubHeadingStyle,
+                                                      style: kSubHeadingStyle
+                                                          .copyWith(
+                                                              color: Colors.black),
                                                     ),
                                                   ],
                                                 )
@@ -663,8 +733,9 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Yearly",
-                                                      style:
-                                                          kSmallHeadingTextStyle,
+                                                      style: kSmallHeadingTextStyle
+                                                          .copyWith(
+                                                              color: Colors.black),
                                                     ),
                                                   ],
                                                 ),
@@ -707,7 +778,8 @@ class GymCheckoutPage extends HookWidget {
                                                 )
                                               : Text(
                                                   "₹" + "1997",
-                                                  style: kSubHeadingStyle,
+                                                  style: kSubHeadingStyle.copyWith(
+                                                      color: Colors.black),
                                                 ),
                                         ],
                                       ),
@@ -731,7 +803,11 @@ class GymCheckoutPage extends HookWidget {
                           children: [
                             Text(
                               "Order Info",
-                              style: kSubHeadingStyle,
+                              style: kSubHeadingStyle.copyWith(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
                             ),
                             SizedBox(height: 20),
                             Row(
@@ -755,7 +831,6 @@ class GymCheckoutPage extends HookWidget {
                       Container(
                         padding: EdgeInsets.only(
                             bottom: 25, left: 15, right: 15, top: 20),
-                        color: Colors.white,
                         width: size.width,
                         child: Container(
                           height: 65,

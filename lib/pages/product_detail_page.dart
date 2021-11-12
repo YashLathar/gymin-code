@@ -59,10 +59,14 @@ class ProductDetailPage extends HookWidget {
         {String? name,
         String? description,
         String? price,
-        String? image}) async {
-      var options = {
+        String? image
+        }) async {
+
+final formattedPrice = price! * 100;
+
+      final options = {
         'key': 'rzp_test_8NBNETBLt7d5Bg',
-        'amount': price,
+        'amount': formattedPrice,
         'name': name,
         'description': description,
         'image': image,

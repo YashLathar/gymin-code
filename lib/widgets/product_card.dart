@@ -58,6 +58,44 @@ class ProductCard extends HookWidget {
                   // Color(0xFF676e8a),
                   // Theme.of(context).scaffoldBackgroundColor,
                   // Color(0xffF2F2F2),
+/////stevechangeso
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(fontSize: 18, 
+                      color: Colors.black,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "₹" + price,
+                          style: TextStyle(
+                              fontSize: 20,
+                              color:
+                                  Colors.black),
+                        ),
+                        Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Colors.redAccent),
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.favorite,
+                              size: 15,
+                              color: Colors.white,
+                            ),
+//////
                   ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -110,6 +148,7 @@ class ProductCard extends HookWidget {
                             Icons.favorite,
                             size: 15,
                             color: isLiked.value ? Colors.black : Colors.white,
+/////
                           ),
                         ),
                       ),

@@ -108,6 +108,13 @@ class UserEditBottomSheet extends HookWidget {
                           width: 2,
                         ),
                       ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(
+                          color: Colors.redAccent, //0xffF14C37
+                          width: 2,
+                        ),
+                      ),
                       hintText: "Enter Your Name",
                       hintStyle: TextStyle(
                           color: Theme.of(context).textTheme.bodyText2!.color),

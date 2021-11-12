@@ -18,7 +18,7 @@ class RoundedButton extends StatelessWidget {
       child: MaterialButton(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
-        color: Colors.white,
+        color: Colors.grey[300],
         child: Text(
           buttonText,
           style: kRoundedButtonTextStyle,

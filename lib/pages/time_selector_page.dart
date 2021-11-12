@@ -6,11 +6,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 final userSelectedFromTimeProvider = StateProvider<String>((ref) {
-  return TimeOfDay(hour: 8, minute: 0).toString();
+  return TimeOfDay(hour: 8, minute: 0).hour.toString();
 });
 
 final userSelectedToTimeProvider = StateProvider<String>((ref) {
-  return TimeOfDay(hour: 10, minute: 0).toString();
+  return TimeOfDay(hour: 10, minute: 0).hour.toString();
 });
 
 final userSelectedPriceProvider = StateProvider<int>((ref) {
@@ -46,25 +46,88 @@ class TimeSelector extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(35),
+                        border: Border.all(
+                            width: 2.0,
+                            color: Theme.of(context).backgroundColor),
+                      ),
+                      child: Center(
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: Theme.of(context).backgroundColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          "Number of hours",
+                          style: kSubHeadingStyle.copyWith(
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(35),
+                        border: Border.all(
+                          width: 2.0,
+                          color: Colors.transparent,
+                        ),
+                      ),
+                      child: Center(
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.transparent,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
                 padding: EdgeInsets.all(15),
                 width: size.width,
                 child: Column(
                   children: [
-                    Text(
-                      "Number of hours",
-                      style: kMainHeadingStyle.copyWith(fontSize: 20),
-                    ),
+                    // Text(
+                    //   "Number of hours",
+                    //   style: kMainHeadingStyle.copyWith(
+                    //       fontSize: 20,
+                    //       color: Theme.of(context).textTheme.bodyText2!.color),
+                    // ),
                     GestureDetector(
                       onTap: () {
                         selected.value = 1;
                         selectedPrice.state = 397;
                       },
                       child: ResuableButton(
+                        
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("1 Hour"),
-                            Text("₹ 397"),
+                            Text("1 Hour", style: kSmallContentStyle.copyWith(color: Colors.black),),
+                            Text("₹ 397", style: kSmallContentStyle.copyWith(color: Colors.black,),),
                           ],
                         ),
                         borderColor: selected.value == 1
@@ -81,8 +144,8 @@ class TimeSelector extends HookWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("2 Hour"),
-                            Text("₹ 700"),
+                            Text("2 Hour", style: kSmallContentStyle.copyWith(color: Colors.black),),
+                            Text("₹ 700", style: kSmallContentStyle.copyWith(color: Colors.black),),
                           ],
                         ),
                         borderColor: selected.value == 2
@@ -99,8 +162,8 @@ class TimeSelector extends HookWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("3 Hour"),
-                            Text("₹ 1000"),
+                            Text("3 Hour", style: kSmallContentStyle.copyWith(color: Colors.black),),
+                            Text("₹ 1000", style: kSmallContentStyle.copyWith(color: Colors.black),),
                           ],
                         ),
                         borderColor: selected.value == 3
@@ -110,7 +173,9 @@ class TimeSelector extends HookWidget {
                     ),
                     Text(
                       "From",
-                      style: kMainHeadingStyle.copyWith(fontSize: 20),
+                      style: kMainHeadingStyle.copyWith(fontSize: 20,
+                      color: Theme.of(context).textTheme.bodyText2!.color
+                      ),
                     ),
                     RoundedButton(
                       buttonText: fromTime.value.hour.toString() +
@@ -124,7 +189,10 @@ class TimeSelector extends HookWidget {
                     ),
                     Text(
                       "To",
-                      style: kMainHeadingStyle.copyWith(fontSize: 20),
+                      style: kMainHeadingStyle.copyWith(
+                        fontSize: 20,
+                        color: Theme.of(context).textTheme.bodyText2!.color
+                        ),
                     ),
                     RoundedButton(
                       buttonText: influencedtoHour.toString() +
@@ -132,14 +200,14 @@ class TimeSelector extends HookWidget {
                           fromTime.value.minute.toString(),
                       onPressed: () {},
                     ),
-                    TextButton(
+                    ElevatedButton(
                       onPressed: () {
                         context.read(userSelectedFromTimeProvider).state =
                             fromTime.value.hour.toString();
-
+                    
                         context.read(userSelectedToTimeProvider).state =
                             influencedtoHour.toString();
-
+                    
                         Navigator.pop(context);
                       },
                       child: Text(

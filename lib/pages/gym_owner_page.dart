@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
 import 'dart:async';
-import 'package:percent_indicator/percent_indicator.dart';
 
 class GymOwnerPage extends StatefulWidget {
   const GymOwnerPage({Key? key}) : super(key: key);
