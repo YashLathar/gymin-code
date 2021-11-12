@@ -10,6 +10,7 @@ import 'package:gym_in/pages/gym_owner_page.dart';
 import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/pages/home_page.dart';
+import 'package:gym_in/pages/trainers_page.dart';
 import 'package:gym_in/pages/user_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:io';
@@ -140,14 +141,7 @@ class HomeScreen extends HookWidget {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => FeedsPage()));
                     }),
-                // ListTile(
-                //   leading: Icon(
-                //     Icons.play_circle_fill,
-                //   ),
-                //   title: Text('Tutorials'),
-                //   onTap: () =>
-                //     Navigator.pushNamed(context, '/videosPage'),
-                // ),
+
                 ListTile(
                   leading: FaIcon(
                     FontAwesomeIcons.firstOrder,
@@ -162,26 +156,6 @@ class HomeScreen extends HookWidget {
                         color: Theme.of(context).textTheme.bodyText2!.color),
                   ),
                 ),
-                // ListTile(
-                //   leading: Icon(Icons.verified_user),
-                //   title: Text('Trainer Zone'),
-                //   onTap: () => Navigator.push(context,
-                //       MaterialPageRoute(builder: (context) => TrainerZone())),
-                // )
-                // ListTile(
-                //   leading: Icon(
-                //     Icons.play_circle_fill,
-                //   ),
-                //   title: Text('Tutorials'),
-                //   onTap: () =>
-                //     Navigator.pushNamed(context, '/videosPage'),
-                // ),
-                // ListTile(
-                //   leading: Icon(Icons.money),
-                //   title: Text('E-Wallet'),
-                //   onTap: () =>
-                //     Navigator.pushNamed(context, '/walletPage'),
-                // ),
                 ListTile(
                   leading: Icon(
                     Icons.favorite,

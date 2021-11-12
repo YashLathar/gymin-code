@@ -1,24 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
+import 'package:gym_in/controllers/cart_controller.dart';
+import 'package:gym_in/controllers/favourites_controller.dart';
 import 'package:gym_in/pages/product_cart_page.dart';
 import 'package:gym_in/pages/product_detail_page.dart';
 import 'package:gym_in/widgets/product_card.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class GymProductsPage extends StatefulWidget {
-  const GymProductsPage({Key? key}) : super(key: key);
-
-  @override
-  State<GymProductsPage> createState() => _GymProductsPageState();
-}
-
-class _GymProductsPageState extends State<GymProductsPage> {
+class GymProductsPage extends HookWidget {
   final Stream<QuerySnapshot> _productStream =
       FirebaseFirestore.instance.collection('product').snapshots();
   @override
   Widget build(BuildContext context) {
+    final cartControllerProvider = useProvider(cartProvider);
+    print(context.read(favouritesControllerProvider).favProducts);
     Size size = MediaQuery.of(context).size;
     return StreamBuilder<QuerySnapshot>(
       stream: _productStream,
@@ -72,36 +71,58 @@ class _GymProductsPageState extends State<GymProductsPage> {
                             ),
                           ),
                         ),
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(35),
-                            border: Border.all(
-                              width: 2.0,
-                              color: Theme.of(context).backgroundColor,
-                            ),
-                          ),
-                          child: Center(
-                            child: IconButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ProductCartPage(),
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(35),
+                                border: Border.all(
+                                  width: 2.0,
+                                  color: Theme.of(context).backgroundColor,
+                                ),
+                              ),
+                              child: Center(
+                                child: IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ProductCartPage(),
+                                      ),
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.shopping_cart,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color,
                                   ),
-                                );
-                              },
-                              icon: Icon(
-                                Icons.shopping_cart,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color,
+                                ),
                               ),
                             ),
-                          ),
-                        )
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              child: Container(
+                                height: 20,
+                                width: 20,
+                                decoration: BoxDecoration(
+                                  color: Colors.redAccent,
+                                  borderRadius: BorderRadius.circular(35),
+                                ),
+                                child: Center(
+                                  child: Text(cartControllerProvider
+                                      .products.length
+                                      .toString()),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -161,7 +182,7 @@ class _GymProductsPageState extends State<GymProductsPage> {
                             productId: document.id,
                             title: data['title'],
                             image: data['image'],
-                            price: data['price'].toString(),
+                            price: data['price'],
                           ),
                         );
                       }).toList(),

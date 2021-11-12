@@ -10,25 +10,6 @@ import 'package:gym_in/pages/gymlist_page.dart';
 import 'package:gym_in/widgets/gym_card.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 
-final cities = [
-  "New Delhi",
-  "Moradabad",
-  "Bangalore",
-  "Kanpur",
-  "Lucknow",
-  "Nagpur",
-  "Agra",
-  "Muzaffarnagar",
-  "Rampur",
-  "Mathura",
-];
-
-final recentCities = [
-  "Moradabad",
-  "Lucknow",
-  "Mathura",
-];
-
 class HomePage extends HookWidget {
   @override
   Widget build(BuildContext context) {
@@ -37,7 +18,6 @@ class HomePage extends HookWidget {
     final ScrollController _scrollController = ScrollController();
     Size size = MediaQuery.of(context).size;
     return StreamBuilder<QuerySnapshot>(
-
       stream: _gymStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -48,7 +28,6 @@ class HomePage extends HookWidget {
               child: Center(
                 child: Text("Something Went Wrong"),
               ),
-
             ),
           );
         }
@@ -56,13 +35,11 @@ class HomePage extends HookWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: Container(
-
               height: 50,
               width: 50,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
-
             ),
           );
         }
@@ -70,14 +47,15 @@ class HomePage extends HookWidget {
           onWillPop: () async => false,
           child: Scaffold(
             appBar: AppBar(
+              elevation: 0,
               toolbarHeight: 50,
               backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
               leading: GestureDetector(
-                child: 
-                // Theme.of(context) == AppTheme.darkTheme
-                    // ? 
+                child:
+                    // Theme.of(context) == AppTheme.darkTheme
+                    // ?
                     Image.asset('assets/BurgermenudarkTheme.png'),
-                    // : Image.asset('assets/Burger-menu.png'),
+                // : Image.asset('assets/Burger-menu.png'),
                 onTap: () {
                   Scaffold.of(context).openDrawer();
                 },
@@ -238,12 +216,10 @@ class HomePage extends HookWidget {
                                 'View all',
                                 style: kSmallContentStyle.copyWith(
                                     color: Colors.redAccent),
-
                               ),
                             )
                           ],
                         ),
-
                       ),
                       Container(
                         height: 350,
@@ -273,7 +249,6 @@ class HomePage extends HookWidget {
                                       traineravailable:
                                           data['gtraineravailable'],
                                       gymId: document.id,
-
                                     ),
                                   ),
                                 );
@@ -514,19 +489,6 @@ class HomePage extends HookWidget {
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: 15, right: 15, bottom: 30, top: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Our Universal Packs',
-                              style: kSmallContentStyle,
                             ),
                           ],
                         ),

@@ -103,8 +103,7 @@ class ProductCartPage extends HookWidget {
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              color: Theme.of(context).scaffoldBackgroundColor
-                              ),
+                              color: Theme.of(context).scaffoldBackgroundColor),
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           margin: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
@@ -140,14 +139,12 @@ class ProductCartPage extends HookWidget {
                                 width: 45,
                                 height: 45,
                                 decoration: BoxDecoration(
-
                                   color:
                                       Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(35),
                                   border: Border.all(
                                     width: 2.0,
                                     color: Theme.of(context).backgroundColor,
-
                                   ),
                                 ),
                                 child: Center(
@@ -181,9 +178,7 @@ class ProductCartPage extends HookWidget {
                                   borderRadius: BorderRadius.circular(35),
                                   border: Border.all(
                                     width: 2.0,
-
                                     color: Theme.of(context).backgroundColor,
-
                                   ),
                                 ),
                                 child: Center(
@@ -276,7 +271,7 @@ class ProductCartPage extends HookWidget {
                                   ),
                                 ),
                                 Text(
-                                  "Rs. ${cartControllerProvider.totalPrice.toString()}",
+                                  "₹${cartControllerProvider.totalPrice.toString()}",
                                   style: kSmallContentStyle.copyWith(
                                     fontSize: 15,
                                   ),
@@ -300,7 +295,7 @@ class ProductCartPage extends HookWidget {
                                   ),
                                 ),
                                 Text(
-                                  "+ Rs. 80",
+                                  "+ ₹80",
                                   style: kSmallContentStyle.copyWith(
                                     fontSize: 15,
                                     decoration: TextDecoration.lineThrough,
@@ -325,7 +320,7 @@ class ProductCartPage extends HookWidget {
                                   ),
                                 ),
                                 Text(
-                                  "Rs. ${cartControllerProvider.totalPrice.toString()}",
+                                  "₹${cartControllerProvider.totalPrice.toString()}",
                                   style: kSmallContentStyle.copyWith(
                                     fontSize: 15,
                                   ),
@@ -337,21 +332,31 @@ class ProductCartPage extends HookWidget {
                             height: 20,
                           ),
                           Container(
-                            height: 65,
+                            height: 50,
                             width: size.width,
                             decoration: BoxDecoration(
                               color: Colors.redAccent,
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: MaterialButton(
-                              onPressed: () {
-                                print("product purchased");
-                              },
-                              child: Text(
-                                "Rs. ${cartControllerProvider.totalPrice.toString()}",
-                                style: kSubHeadingStyle.copyWith(
-                                  color: Colors.white,
-                                ),
+                              onPressed: () {},
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Pay",
+                                    style: kSubHeadingStyle.copyWith(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(width: 15),
+                                  Text(
+                                    "₹${cartControllerProvider.totalPrice.toString()}",
+                                    style: kSubHeadingStyle.copyWith(
+                                      color: Color(0xFF141221),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
