@@ -18,14 +18,14 @@ class ResuableButton extends HookWidget {
       curve: Curves.easeInOut,
       margin: EdgeInsets.symmetric(vertical: 10),
       padding: EdgeInsets.symmetric(horizontal: 15),
-      height: 120,
+      height: 100,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             width: 2,
             color: borderColor,
           ),
-          color: Colors.white),
+          color: Colors.grey[300]),
       child: child,
     );
   }

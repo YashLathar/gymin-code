@@ -87,13 +87,17 @@ class HomeScreen extends HookWidget {
                     ),
                   ],
                 ),
-                
+
                 ListTile(
-                  leading: Icon(Icons.home,
-                  color: Theme.of(context).textTheme.bodyText2!.color,
+                  leading: Icon(
+                    Icons.home,
+                    color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
-                  title: Text('Gym Owner',
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),),
+                  title: Text(
+                    'Gym Owner',
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color),
+                  ),
                   onTap: () => Navigator.push(context,
                       MaterialPageRoute(builder: (context) => GymOwnerPage())),
                 ),
@@ -108,21 +112,29 @@ class HomeScreen extends HookWidget {
                 //       MaterialPageRoute(builder: (context) => TrainerZone())),
                 // ),
                 ListTile(
-                  leading: Icon(Icons.verified,
-                  color: Theme.of(context).textTheme.bodyText2!.color,
+                  leading: Icon(
+                    Icons.verified,
+                    color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
-                  title: Text('Authenticate',
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                  title: Text(
+                    'Authenticate',
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color),
                   ),
-                  onTap: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AuthenticateTicket())),
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AuthenticateTicket())),
                 ),
                 ListTile(
-                    leading: Icon(Icons.image,
-                    color: Theme.of(context).textTheme.bodyText2!.color,
+                    leading: Icon(
+                      Icons.image,
+                      color: Theme.of(context).textTheme.bodyText2!.color,
                     ),
-                    title: Text('Social'
-                    ,style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                    title: Text(
+                      'Social',
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2!.color),
                     ),
                     onTap: () {
                       Navigator.push(context,
@@ -137,72 +149,33 @@ class HomeScreen extends HookWidget {
                 //     Navigator.pushNamed(context, '/videosPage'),
                 // ),
                 ListTile(
-                  leading: FaIcon(FontAwesomeIcons.firstOrder,
-                  color: Theme.of(context).textTheme.bodyText2!.color,
+                  leading: FaIcon(
+                    FontAwesomeIcons.firstOrder,
+                    color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
-                  title: Text("Your Orders",
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
-                  ),
-
-                ],
-              ),
-              ListTile(
-                leading: Icon(Icons.home),
-                title: Text('Gym Owner'),
-                onTap: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => GymOwnerPage())),
-              ),
-              ListTile(
-                leading: Icon(Icons.verified_user),
-                title: Text('Trainer Zone'),
-                onTap: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TrainerZone())),
-              ),
-              ListTile(
-                  leading: Icon(Icons.post_add),
-                  title: Text('Social'),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => FeedsPage()));
-                  }),
-              // ListTile(
-              //   leading: Icon(
-              //     Icons.play_circle_fill,
-              //   ),
-              //   title: Text('Tutorials'),
-              //   onTap: () =>
-              //     Navigator.pushNamed(context, '/videosPage'),
-              // ),
-              ListTile(
-                leading: FaIcon(FontAwesomeIcons.firstOrder),
-                title: Text("Your Orders"),
-                onTap: () {
-                  Navigator.pushNamed(context, "/ordersPage");
-                },
-              ),
-
-              ListTile(
-                leading: Icon(Icons.favorite),
-                title: Text('Favorites'),
-                onTap: () => Navigator.pushNamed(context, '/favorites'),
-              ),
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('Settings'),
-                onTap: () => Navigator.pushNamed(context, '/settingPage'),
-              ),
-              ListTile(
-                leading: Icon(Icons.description),
-                title: Text('Policies'),
-                onTap: () => null,
-              ),
-              ListTile(
-                  title: Text('Sign-Out'),
-                  leading: Icon(Icons.logout),
-                  onTap: () {
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => DarkModeWidget()));
+                    Navigator.pushNamed(context, "/ordersPage");
                   },
+                  title: Text(
+                    "Your Orders",
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color),
+                  ),
                 ),
+                // ListTile(
+                //   leading: Icon(Icons.verified_user),
+                //   title: Text('Trainer Zone'),
+                //   onTap: () => Navigator.push(context,
+                //       MaterialPageRoute(builder: (context) => TrainerZone())),
+                // )
+                // ListTile(
+                //   leading: Icon(
+                //     Icons.play_circle_fill,
+                //   ),
+                //   title: Text('Tutorials'),
+                //   onTap: () =>
+                //     Navigator.pushNamed(context, '/videosPage'),
+                // ),
                 // ListTile(
                 //   leading: Icon(Icons.money),
                 //   title: Text('E-Wallet'),
@@ -210,38 +183,50 @@ class HomeScreen extends HookWidget {
                 //     Navigator.pushNamed(context, '/walletPage'),
                 // ),
                 ListTile(
-                  leading: Icon(Icons.favorite,
-                  color: Theme.of(context).textTheme.bodyText2!.color,
+                  leading: Icon(
+                    Icons.favorite,
+                    color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
-                  title: Text('Favorites',
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                  title: Text(
+                    'Favorites',
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color),
                   ),
                   onTap: () => Navigator.pushNamed(context, '/favorites'),
                 ),
                 ListTile(
-                  leading: Icon(Icons.settings,
-                  color: Theme.of(context).textTheme.bodyText2!.color,
+                  leading: Icon(
+                    Icons.settings,
+                    color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
-                  title: Text('Settings',
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                  title: Text(
+                    'Settings',
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color),
                   ),
                   onTap: () => Navigator.pushNamed(context, '/settingPage'),
                 ),
                 ListTile(
-                  leading: Icon(Icons.description,
-                  color: Theme.of(context).textTheme.bodyText2!.color,
+                  leading: Icon(
+                    Icons.description,
+                    color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
-                  title: Text('Policies',
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                  title: Text(
+                    'Policies',
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color),
                   ),
                   onTap: () => null,
                 ),
                 ListTile(
-                    title: Text('Sign-Out',
-                    style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                    title: Text(
+                      'Sign-Out',
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2!.color),
                     ),
-                    leading: Icon(Icons.logout,
-                    color: Theme.of(context).textTheme.bodyText2!.color,
+                    leading: Icon(
+                      Icons.logout,
+                      color: Theme.of(context).textTheme.bodyText2!.color,
                     ),
                     onTap: () {
                       context.read(authControllerProvider.notifier).signOut();

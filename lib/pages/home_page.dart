@@ -85,8 +85,7 @@ class HomePage extends HookWidget {
               actions: [
                 IconButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/chatPage');
-
+                    aShowToast(msg: "In App Messaging Coming Soon");
                   },
                   icon: Icon(
                     FontAwesomeIcons.facebookMessenger,
@@ -115,7 +114,6 @@ class HomePage extends HookWidget {
                   ),
                 ),
               ),
-
             ),
             body: ListView(
               controller: _scrollController,
@@ -126,7 +124,7 @@ class HomePage extends HookWidget {
                   child: Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.fromLTRB(15, 10, 15, 15),
+                        padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
                         child: CupertinoSearchTextField(
                           backgroundColor: Colors.grey[300],
                           padding: EdgeInsets.all(15),

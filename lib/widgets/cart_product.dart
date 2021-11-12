@@ -25,7 +25,7 @@ class CartProduct extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      height: 200,
+      height: 160,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Theme.of(context).scaffoldBackgroundColor),

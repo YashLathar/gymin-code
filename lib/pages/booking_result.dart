@@ -8,6 +8,7 @@ import 'package:dotted_line/dotted_line.dart';
 class QrResultScreen extends HookWidget {
   const QrResultScreen({
     required this.gymName,
+    // required this.gymphoto,
     required this.userName,
     required this.docId,
     required this.fromDate,
@@ -18,6 +19,7 @@ class QrResultScreen extends HookWidget {
   }) : super(key: key);
 
   final String gymName;
+  // final String gymphoto;
   final String? userName;
   final String docId;
   final String fromDate;
@@ -28,6 +30,7 @@ class QrResultScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -35,6 +38,7 @@ class QrResultScreen extends HookWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
+            color: Theme.of(context).scaffoldBackgroundColor,
           ),
           height: 606,
           width: MediaQuery.of(context).size.width,
@@ -44,10 +48,13 @@ class QrResultScreen extends HookWidget {
               Container(
                 alignment: Alignment.topCenter,
                 child: Container(
-                    margin: EdgeInsets.all(15),
-                    height: 60,
-                    width: MediaQuery.of(context).size.width,
-                    child: Image.asset("assets/img/splashlogo.png")),
+                  margin: EdgeInsets.all(15),
+                  height: 60,
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.asset(
+                    "assets/img/splashlogo.png",
+                  ),
+                ),
               ),
               Container(
                 margin: EdgeInsets.only(top: 15, bottom: 15),
@@ -58,47 +65,55 @@ class QrResultScreen extends HookWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 19, bottom: 12),
                         child: Text(
-                          "Powered By: $gymName",
+                          "Powered By:", // $gymName",
                           style:
                               kSmallContentStyle.copyWith(color: Colors.grey),
                         ),
                       ),
                     ),
-                    // Container(
-                    //   margin: EdgeInsets.only(left: 20, right: 20),
-                    //   child: Row(
-                    //     children: [
-                    //       ClipRRect(
-                    //         borderRadius: BorderRadius.circular(30),
-                    //         child: Container(
-                    //           width: 50,
-                    //           height: 50,
-                    //           color: Colors.white,
-                    //           child: Image.network(
-                    //             gymsData[dataIndex].gymPhotoUrl[0],
-                    //             fit: BoxFit.cover,
-                    //             filterQuality: FilterQuality.high,
-                    //             loadingBuilder: (BuildContext context,
-                    //                 Widget child,
-                    //                 ImageChunkEvent? loadingProgress) {
-                    //               if (loadingProgress == null) return child;
-                    //               return Center(
-                    //                 child: CircularProgressIndicator(),
-                    //               );
-                    //             },
-                    //           ),
-                    //         ),
-                    //       ),
-                    //       SizedBox(
-                    //         width: 15,
-                    //       ),
-                    //       Text(
-                    //         gymsData[dataIndex].gymName,
-                    //         style: kSmallContentStyle,
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
+                    Container(
+                      margin: EdgeInsets.only(left: 20, right: 20),
+                      child: Row(
+                        children: [
+                          // ClipRRect(
+                          //   borderRadius: BorderRadius.circular(30),
+                          //   child: Container(
+                          //     width: 50,
+                          //     height: 50,
+                          //     color: Colors.white,
+                          //     child: Image.network(
+                          //       ,
+                          //       fit: BoxFit.cover,
+                          //       filterQuality: FilterQuality.high,
+                          //       loadingBuilder: (BuildContext context,
+                          //           Widget child,
+                          //           ImageChunkEvent? loadingProgress) {
+                          //         if (loadingProgress == null) return child;
+                          //         return Center(
+                          //           child: CircularProgressIndicator(),
+                          //         );
+                          //       },
+                          //     ),
+                          //   ),
+                          // ),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              color: Colors.redAccent,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            gymName,
+                            style: kSmallContentStyle,
+                          ),
+                        ],
+                      ),
+                    ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
@@ -118,7 +133,9 @@ class QrResultScreen extends HookWidget {
                       ),
                       title: Text(
                         userName!,
-                        style: kSmallContentStyle,
+                        style: kSmallContentStyle.copyWith(
+                          color: Theme.of(context).textTheme.bodyText2!.color,
+                        ),
                       ),
                     ),
                   ],
@@ -144,6 +161,10 @@ class QrResultScreen extends HookWidget {
                               fromDate,
                               style: kSmallContentStyle.copyWith(
                                 fontSize: 20,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color,
                               ),
                             ),
                             Text(
@@ -160,6 +181,10 @@ class QrResultScreen extends HookWidget {
                               fromTime,
                               style: kSmallContentStyle.copyWith(
                                 fontSize: 20,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color,
                               ),
                             ),
                             Text(
@@ -210,7 +235,7 @@ class QrResultScreen extends HookWidget {
                 child: SizedBox(),
               ),
               Container(
-                color: Colors.white,
+                // color: Colors.white,
                 width: MediaQuery.of(context).size.width / 1.5,
                 child: Container(
                   decoration: BoxDecoration(

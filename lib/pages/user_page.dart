@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
@@ -146,19 +147,19 @@ class UserPage extends HookWidget {
             Row(
               children: [
                 GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(25),
-                        ),
-                      ),
-                      context: context,
-                      builder: (context) {
-                        return logOutSheet(context);
-                      },
-                    );
-                  },
+                  // onTap: () {
+                  //   showModalBottomSheet(
+                  //     shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.vertical(
+                  //         top: Radius.circular(25),
+                  //       ),
+                  //     ),
+                  //     context: context,
+                  //     builder: (context) {
+                  //       return logOutSheet(context);
+                  //     },
+                  //   );
+                  // },
                   child: Text(
                     'Gymin',
                     style: GoogleFonts.montserrat(
@@ -170,56 +171,56 @@ class UserPage extends HookWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return SimpleDialog(
-                          children: [
-                            Center(
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "You don't have Gymin Rights",
-                                    style: kSmallContentStyle.copyWith(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      ElevatedButton(
-                                        onPressed: () async {
-                                          await Future.delayed(
-                                              Duration(seconds: 1));
-                                          Navigator.pop(context);
-                                          aShowToast(
-                                              msg:
-                                                  "Your Request has been Accepted !");
-                                        },
-                                        child: Text(
-                                          "Request",
-                                        ),
-                                      ),
-                                      SimpleDialogOption(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text("Cancel"),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
+                  onPressed: () {},
+                  //   showDialog(
+                  //     context: context,
+                  //     builder: (context) {
+                  //       return SimpleDialog(
+                  //         children: [
+                  //           Center(
+                  //             child: Column(
+                  //               children: [
+                  //                 Text(
+                  //                   "You don't have Gymin Rights",
+                  //                   style: kSmallContentStyle.copyWith(
+                  //                     fontSize: 14,
+                  //                   ),
+                  //                 ),
+                  //                 SizedBox(
+                  //                   height: 15,
+                  //                 ),
+                  //                 Row(
+                  //                   mainAxisAlignment: MainAxisAlignment.center,
+                  //                   children: [
+                  //                     ElevatedButton(
+                  //                       onPressed: () async {
+                  //                         await Future.delayed(
+                  //                             Duration(seconds: 1));
+                  //                         Navigator.pop(context);
+                  //                         aShowToast(
+                  //                             msg:
+                  //                                 "Your Request has been Accepted !");
+                  //                       },
+                  //                       child: Text(
+                  //                         "Request",
+                  //                       ),
+                  //                     ),
+                  //                     SimpleDialogOption(
+                  //                       onPressed: () {
+                  //                         Navigator.pop(context);
+                  //                       },
+                  //                       child: Text("Cancel"),
+                  //                     )
+                  //                   ],
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       );
+                  //     },
+                  //   );
+                  // },
                   icon: Icon(
                     Icons.check_circle,
                     color: Colors.redAccent,
@@ -229,53 +230,53 @@ class UserPage extends HookWidget {
             ),
             Row(
               children: [
-                IconButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return SimpleDialog(
-                          title: Text(
-                            "Create a Post",
-                            style: kSmallContentStyle,
-                          ),
-                          children: [
-                            SimpleDialogOption(
-                              child: Text(
-                                'Photo with Camera',
-                                style:
-                                    kSmallContentStyle.copyWith(fontSize: 13),
-                              ),
-                              onPressed: () {}, //handleTakePhoto
-                            ),
-                            SimpleDialogOption(
-                              child: Text(
-                                'Image with Gallery',
-                                style:
-                                    kSmallContentStyle.copyWith(fontSize: 13),
-                              ),
-                              onPressed: () {}, //handleChooseFromGallery
-                            ),
-                            SimpleDialogOption(
-                              child: Text(
-                                'Cancel',
-                                style:
-                                    kSmallContentStyle.copyWith(fontSize: 13),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  icon: Icon(
-                    Icons.add_box_rounded,
-                    color: Colors.redAccent,
-                  ),
-                ),
+                // IconButton(
+                //   onPressed: () {
+                //     showDialog(
+                //       context: context,
+                //       builder: (context) {
+                //         return SimpleDialog(
+                //           title: Text(
+                //             "Create a Post",
+                //             style: kSmallContentStyle,
+                //           ),
+                //           children: [
+                //             SimpleDialogOption(
+                //               child: Text(
+                //                 'Photo with Camera',
+                //                 style:
+                //                     kSmallContentStyle.copyWith(fontSize: 13),
+                //               ),
+                //               onPressed: () {},
+                //             ),
+                //             SimpleDialogOption(
+                //               child: Text(
+                //                 'Image with Gallery',
+                //                 style:
+                //                     kSmallContentStyle.copyWith(fontSize: 13),
+                //               ),
+                //               onPressed: () {},
+                //             ),
+                //             SimpleDialogOption(
+                //               child: Text(
+                //                 'Cancel',
+                //                 style:
+                //                     kSmallContentStyle.copyWith(fontSize: 13),
+                //               ),
+                //               onPressed: () {
+                //                 Navigator.pop(context);
+                //               },
+                //             ),
+                //           ],
+                //         );
+                //       },
+                //     );
+                //   },
+                //   icon: Icon(
+                //     Icons.add_box_rounded,
+                //     color: Colors.redAccent,
+                //   ),
+                // ),
                 IconButton(
                   onPressed: () {
                     Navigator.push(context,
@@ -302,7 +303,8 @@ class UserPage extends HookWidget {
                 thickness: 2.0,
                 height: 0.0,
               ),
-              ProfileFooter(),
+              // ProfileFooter1(), //or
+              ProfileFooter2(),
               // ProfileHeader2(),
               // Divider(
               //   thickness: 3.0,
@@ -449,8 +451,8 @@ class ProfileHeader1 extends HookWidget {
                     PopupMenuItem<int>(
                       value: 0,
                       child: PopUpMenuTile(
-                        icon: Icons.person,
-                        title: 'Account',
+                        icon: FontAwesomeIcons.firstOrder,
+                        title: 'Your Orders',
                       ),
                     ),
                     PopupMenuItem<int>(
@@ -470,8 +472,8 @@ class ProfileHeader1 extends HookWidget {
                     PopupMenuItem<int>(
                       value: 3,
                       child: PopUpMenuTile(
-                        icon: Icons.settings,
-                        title: 'Settings',
+                        icon: Icons.favorite,
+                        title: 'favourites',
                       ),
                     ),
                   ],
@@ -551,7 +553,9 @@ class ProfileHeader1 extends HookWidget {
               ),
               // ignore: deprecated_member_use
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: () {
+                  aShowToast(msg: "Work in Progress");
+                },
                 child: Text(
                   "Edit Profile",
                 ),
@@ -597,8 +601,8 @@ class PopUpMenuTile extends StatelessWidget {
   }
 }
 
-class ProfileFooter extends HookWidget {
-  const ProfileFooter({Key? key}) : super(key: key);
+class ProfileFooter1 extends HookWidget {
+  const ProfileFooter1({Key? key}) : super(key: key);
 
   final bool isCompleted = true;
 
@@ -715,6 +719,17 @@ class ProfileFooter extends HookWidget {
               ),
             ],
           );
+  }
+}
+
+class ProfileFooter2 extends HookWidget {
+  const ProfileFooter2({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [],
+    );
   }
 }
 
@@ -1120,83 +1135,3 @@ class ProfileFooter extends HookWidget {
 //     );
 //   }
 // }
-
-
-                // Column(
-                //   children: [
-                //     Container(
-                //       child: Column(
-                //         children: [
-                //           // Row(
-                //           //   children: [
-                //           //     Column(
-                //           //       children: [
-                //           //         Text(
-                //           //           "Height:",
-                //           //           style: TextStyle(
-                //           //             fontWeight: FontWeight.w600,
-                //           //             fontSize: 12,
-                //           //           ),
-                //           //         ),
-                //           //         Text(
-                //           //           "Weight:",
-                //           //           style: TextStyle(
-                //           //             fontWeight: FontWeight.w600,
-                //           //             fontSize: 12,
-                //           //           ),
-                //           //         ),
-                //           //         Text(
-                //           //           "Age:",
-                //           //           style: TextStyle(
-                //           //             fontWeight: FontWeight.w600,
-                //           //             fontSize: 12,
-                //           //           ),
-                //           //         ),
-                //           //         Text(
-                //           //           "Activity:",
-                //           //           style: TextStyle(
-                //           //             fontWeight: FontWeight.w600,
-                //           //             fontSize: 12,
-                //           //           ),
-                //           //         ),
-                //           //       ],
-                //           //     ),
-                //           //     Column(
-                //           //       children: [
-                //           //         Text(
-                //           //           "5'11\"",
-                //           //           style: TextStyle(
-                //           //             fontWeight: FontWeight.w600,
-                //           //             fontSize: 12,
-                //           //           ),
-                //           //         ),
-                //           //         Text(
-                //           //           "81 Kg\"",
-                //           //           style: TextStyle(
-                //           //             fontWeight: FontWeight.w600,
-                //           //             fontSize: 12,
-                //           //           ),
-                //           //         ),
-                //           //         Text(
-                //           //           "21\"",
-                //           //           style: TextStyle(
-                //           //             fontWeight: FontWeight.w600,
-                //           //             fontSize: 12,
-                //           //           ),
-                //           //         ),
-                //           //         Text(
-                //           //           "7.9⭐️",
-                //           //           style: TextStyle(
-                //           //             fontWeight: FontWeight.w600,
-                //           //             fontSize: 12,
-                //           //           ),
-                //           //         ),
-                //           //       ],
-                //           //     ),
-                //           //   ],
-                //           // ),
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
