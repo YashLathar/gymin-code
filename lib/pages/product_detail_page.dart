@@ -635,16 +635,21 @@ final formattedPrice = price! * 100;
                                     context: context,
                                     builder: (context) {
                                       return Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          color:
-                                              Theme.of(context).backgroundColor,
-                                        ),
-                                        height: 100,
-                                        width: 100,
+                                        color: Colors.transparent,
                                         child: Center(
-                                          child: CircularProgressIndicator(),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              color:
+                                                  Colors.white,
+                                            ),
+                                            height: 100,
+                                            width: 100,
+                                            child: Center(
+                                              child: CircularProgressIndicator(),
+                                            ),
+                                          ),
                                         ),
                                       );
                                     });

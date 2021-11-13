@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:dotted_line/dotted_line.dart';
 
 class QrResultScreen extends HookWidget {
   const QrResultScreen({
@@ -141,7 +140,7 @@ class QrResultScreen extends HookWidget {
                   ],
                 ),
               ),
-              DottedLine(),
+              // DottedLine(),
               Container(
                 child: Column(
                   children: [

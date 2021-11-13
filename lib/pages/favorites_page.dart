@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/favourites_controller.dart';
-import 'package:gym_in/widgets/cart_product.dart';
+import 'package:gym_in/widgets/fav_product.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class FavoritesPage extends HookWidget {
@@ -75,7 +75,7 @@ class FavoritesPage extends HookWidget {
           Expanded(
             child: ListView(
               children: favProducts
-                  .map((product) => CartProduct(
+                  .map((product) => FavProduct(
                         productId: product.productId,
                         imageUrl: product.image,
                         quantity: product.quantity,
