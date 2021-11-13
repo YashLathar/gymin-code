@@ -277,14 +277,47 @@ class UserPage extends HookWidget {
                 //     color: Colors.redAccent,
                 //   ),
                 // ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SettingPage()));
-                  },
-                  icon: Icon(
-                    Icons.settings,
-                    color: Colors.redAccent,
+                PopupMenuButton<int>(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  offset: Offset(50, -100),
+                  itemBuilder: (context) => [
+                    PopupMenuItem<int>(
+                      value: 0,
+                      child: PopUpMenuTile(
+                        icon: FontAwesomeIcons.firstOrder,
+                        title: 'Your Orders',
+                      ),
+                    ),
+                    PopupMenuItem<int>(
+                      value: 1,
+                      child: PopUpMenuTile(
+                        icon: Icons.edit,
+                        title: 'Edit profile',
+                      ),
+                    ),
+                    PopupMenuItem<int>(
+                      value: 2,
+                      child: PopUpMenuTile(
+                        icon: Icons.change_circle,
+                        title: 'Change Theme',
+                      ),
+                    ),
+                    PopupMenuItem<int>(
+                      value: 3,
+                      child: PopUpMenuTile(
+                        icon: Icons.favorite,
+                        title: 'favourites',
+                      ),
+                    ),
+                  ],
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(
+                        Icons.more_vert,
+                        color: Colors.redAccent,
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -356,7 +389,6 @@ class ProfileHeader1 extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider);
-    final size = MediaQuery.of(context).size;
     Future<void> _launchURLBrowser() async {
       const url = 'https://gymin.co.in';
       if (await canLaunch(url)) {
@@ -393,152 +425,62 @@ class ProfileHeader1 extends HookWidget {
           right: 20,
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CircleAvatar(
-                  radius: 45,
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  backgroundImage: NetworkImage(
-                    authControllerState!.photoURL ??
-                        "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg",
-                  ),
-                ),
-                Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          authControllerState.displayName ?? 'UserName',
-                          style: GoogleFonts.montserrat(
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                            ),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.location_pin,
-                              color: Colors.grey,
-                              size: 16,
-                            ),
-                            Text(
-                              "Line Par, Moradabad",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: Colors.grey),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-                PopupMenuButton<int>(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  offset: Offset(50, -100),
-                  itemBuilder: (context) => [
-                    PopupMenuItem<int>(
-                      value: 0,
-                      child: PopUpMenuTile(
-                        icon: FontAwesomeIcons.firstOrder,
-                        title: 'Your Orders',
-                      ),
-                    ),
-                    PopupMenuItem<int>(
-                      value: 1,
-                      child: PopUpMenuTile(
-                        icon: Icons.edit,
-                        title: 'Edit profile',
-                      ),
-                    ),
-                    PopupMenuItem<int>(
-                      value: 2,
-                      child: PopUpMenuTile(
-                        icon: Icons.change_circle,
-                        title: 'Change Theme',
-                      ),
-                    ),
-                    PopupMenuItem<int>(
-                      value: 3,
-                      child: PopUpMenuTile(
-                        icon: Icons.favorite,
-                        title: 'favourites',
-                      ),
-                    ),
-                  ],
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Icon(
-                        Icons.more_vert,
-                        color: Colors.redAccent,
-                      ),
-                    ],
-                  ),
-                )
-              ],
+            SizedBox(
+              height: 5,
             ),
-            SizedBox(height: 12),
-            Container(
-              alignment: Alignment.topLeft,
-              margin: EdgeInsets.only(left: 5),
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "23 | 5'7\" | 140 lbs",
-                        style: kSmallContentStyle.copyWith(
-                          fontSize: 13,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 3,
-                      ),
-                      Text(
-                        "Flutter developer | Gym Freak",
-                        style: kSmallContentStyle.copyWith(
-                          fontSize: 13,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 3,
-                      ),
-                      Text(
-                        "Whatever_it_takes!!",
-                        style: kSmallContentStyle.copyWith(
-                          fontSize: 13,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 3,
-                      ),
-                      InkWell(
-                        highlightColor: Colors.redAccent,
-                        onTap:
-                            // _launchURLApp,
-                            _launchURLBrowser,
-                        child: Text(
-                          "https://www.gymin.co.in",
-                          style: kSmallContentStyle.copyWith(
-                            color: Colors.blue,
-                            fontSize: 13,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
+            CircleAvatar(
+              radius: 60,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              backgroundImage: NetworkImage(
+                authControllerState!.photoURL ??
+                    "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg",
               ),
             ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              authControllerState.displayName ?? 'UserName',
+              style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.location_pin,
+                  color: Colors.grey,
+                  size: 16,
+                ),
+                Text(
+                  "Line Par, Moradabad",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.grey),
+                ),
+              ],
+            ),
             SizedBox(height: 5),
+            InkWell(
+              highlightColor: Colors.redAccent,
+              onTap:
+                  // _launchURLApp,
+                  _launchURLBrowser,
+              child: Text(
+                "https://www.gymin.co.in",
+                style: kSmallContentStyle.copyWith(
+                  color: Colors.blue,
+                  fontSize: 13,
+                ),
+              ),
+            ),
             ButtonTheme(
               height: 35,
               minWidth: 300,
@@ -549,11 +491,422 @@ class ProfileHeader1 extends HookWidget {
               // ignore: deprecated_member_use
               child: RaisedButton(
                 onPressed: () {
-                  aShowToast(msg: "Work in Progress");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SettingPage(),
+                    ),
+                  );
                 },
                 child: Text(
                   "Edit Profile",
                 ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 15),
+              height: 340,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: GestureDetector(
+                            onTap: () {
+                              aShowToast(
+                                msg:
+                                    "Modification feature will be provided soon",
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                  ),
+                                  color: Colors.grey[300]),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8),
+                                    alignment: Alignment.topLeft,
+                                    color: Colors.transparent,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8, right: 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Height',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20.0,
+                                                color: Colors.grey[600]),
+                                          ),
+                                          Icon(Icons.games_outlined)
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8, top: 15),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "5'8\"",
+                                      style: kSmallContentStyle.copyWith(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: GestureDetector(
+                            onTap: () {
+                              aShowToast(
+                                msg:
+                                    "Modification feature will be provided soon",
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                  ),
+                                  color: Colors.grey[300]),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8),
+                                    alignment: Alignment.topLeft,
+                                    color: Colors.transparent,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8, right: 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Weight',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20.0,
+                                                color: Colors.grey[600]),
+                                          ),
+                                          Icon(FontAwesomeIcons.weight)
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8, top: 15),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "84 kg",
+                                      style: kSmallContentStyle.copyWith(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Flexible(
+                          child: GestureDetector(
+                            onTap: () {
+                              aShowToast(
+                                msg:
+                                    "Modification feature will be provided soon",
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                  ),
+                                  color: Colors.grey[300]),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8),
+                                    alignment: Alignment.topLeft,
+                                    color: Colors.transparent,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 16, right: 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'About',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 22.0,
+                                                color: Colors.grey[600]),
+                                          ),
+                                          Icon(FontAwesomeIcons.toolbox),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8, top: 10),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "Flutter Developer",
+                                      style: kSmallContentStyle.copyWith(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: GestureDetector(
+                            onTap: () {
+                              aShowToast(
+                                  msg:
+                                      "Modification feature will be provided soon");
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                  ),
+                                  color: Colors.grey[300]),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8),
+                                    alignment: Alignment.topLeft,
+                                    color: Colors.transparent,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 14, right: 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Age',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20.0,
+                                                color: Colors.grey[600]),
+                                          ),
+                                          Icon(Icons.format_list_numbered)
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8, top: 15),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "22 years",
+                                      style: kSmallContentStyle.copyWith(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Flexible(
+                          child: GestureDetector(
+                            onTap: () {
+                              aShowToast(
+                                msg:
+                                    "Modification feature will be provided soon",
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                  ),
+                                  color: Colors.grey[300]),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8),
+                                    alignment: Alignment.topLeft,
+                                    color: Colors.transparent,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 16, right: 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Reminder',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 22.0,
+                                                color: Colors.grey[600]),
+                                          ),
+                                          Icon(FontAwesomeIcons.moon),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8, top: 15),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "06:15 AM",
+                                      style: kSmallContentStyle.copyWith(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8),
+                                    alignment: Alignment.centerLeft,
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Set",
+                                          style: kSmallContentStyle.copyWith(
+                                            color: Colors.grey[600],
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        Icon(
+                                          Icons.alarm,
+                                          size: 18,
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: GestureDetector(
+                            onTap: () {
+                              aShowToast(
+                                msg:
+                                    "Modification feature will be provided soon",
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                  ),
+                                  color: Colors.grey[300]),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8),
+                                    alignment: Alignment.topLeft,
+                                    color: Colors.transparent,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 14, right: 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Bio',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20.0,
+                                                color: Colors.grey[600]),
+                                          ),
+                                          Icon(FontAwesomeIcons.book)
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8, top: 15),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "Whatever it takes",
+                                      style: kSmallContentStyle.copyWith(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

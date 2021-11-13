@@ -10,7 +10,6 @@ import 'package:gym_in/pages/gym_owner_page.dart';
 import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/pages/home_page.dart';
-import 'package:gym_in/pages/trainers_page.dart';
 import 'package:gym_in/pages/user_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:io';

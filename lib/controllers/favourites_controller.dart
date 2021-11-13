@@ -5,7 +5,7 @@ import 'package:gym_in/models/gym.dart';
 import 'package:gym_in/models/product.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final favouritesControllerProvider = Provider<FavouritesContorller>((ref) {
+final favouritesControllerProvider = ChangeNotifierProvider<FavouritesContorller>((ref) {
   return FavouritesContorller(ref.read);
 });
 
@@ -14,7 +14,7 @@ class FavouritesContorller extends ChangeNotifier {
   List<Product> _favProducts = [];
   List<Gym> _favGyms = [];
 
-  FavouritesContorller(this._read) : super();
+  FavouritesContorller(this._read);  // : super();
 
   UnmodifiableListView<Product> get favProducts =>
       UnmodifiableListView(_favProducts);

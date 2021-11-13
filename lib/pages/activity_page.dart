@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:gym_in/widgets/topbar.dart';
-import 'package:pedometer/pedometer.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 
@@ -50,6 +48,13 @@ class _ActivityPageState extends State<ActivityPage> {
                           ),
                           Text(
                             DateTime.now().month.toString(),
+                            style: kSmallContentStyle.copyWith(
+                              fontSize: 30,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            "-2021",
                             style: kSmallContentStyle.copyWith(
                               fontSize: 30,
                               color: Colors.black,
@@ -638,6 +643,12 @@ class _ActivityPageState extends State<ActivityPage> {
                       decoration: BoxDecoration(
                         color: Colors.grey[300],
                         borderRadius: BorderRadius.circular(20)
+                      ),
+                      child: Center(
+                        child: Text("Loading...",
+                        style: kSmallContentStyle.copyWith(
+                          color: Colors.black),
+                        ),
                       ),
                     )
                     // Expanded(

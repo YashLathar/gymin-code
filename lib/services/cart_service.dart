@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/custom_exception.dart';
 import 'package:gym_in/general_providers.dart';
 import 'package:gym_in/models/product.dart';
-import 'package:gym_in/services/error_Handler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 abstract class BaseCartService {
