@@ -149,6 +149,7 @@ class QrResultScreen extends HookWidget {
                         Container(
                           margin: EdgeInsets.fromLTRB(12, 12, 12, 15),
                           child: QrImage(
+                            foregroundColor: Theme.of(context).backgroundColor,
                             data: docId,
                             size: 160,
                           ),

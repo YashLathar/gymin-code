@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
-import 'package:gym_in/pages/citylist_page.dart';
 import 'package:gym_in/pages/gym_page.dart';
-import 'package:gym_in/pages/gymlist_page.dart';
 import 'package:gym_in/widgets/gym_card.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 
@@ -319,7 +317,7 @@ class HomePage extends HookWidget {
                                 Column(
                                   children: [
                                     CircleAvatar(
-                                      backgroundImage: NetworkImage("https://www.hospitalitynet.org/picture/xxl_153116922.jpg?t=20200803125617"),
+                                      backgroundImage: NetworkImage("http://static2.tripoto.com/media/filter/tst/img/15546/TripDocument/4126922057_8e74c08828_o.jpg"),
                                       backgroundColor: Colors.redAccent,
                                       radius: 40,
                                     ),
@@ -332,11 +330,11 @@ class HomePage extends HookWidget {
                                 Column(
                                   children: [
                                     CircleAvatar(
-                                      backgroundImage: NetworkImage("https://spiderimg.amarujala.com/assets/images/2019/10/03/moradabad-railway-station_1570048208.jpeg"),
+                                      backgroundImage: NetworkImage("https://www.holidify.com/images/bgImages/DEHRADUN.jpg"),
                                       backgroundColor: Colors.redAccent,
                                       radius: 40,
                                     ),
-                                    Text("Ramnagar"),
+                                    Text("Dehradun"),
                                   ],
                                 ),
                                 SizedBox(
@@ -345,7 +343,7 @@ class HomePage extends HookWidget {
                                 Column(
                                   children: [
                                     CircleAvatar(
-                                      backgroundImage: NetworkImage("https://pbs.twimg.com/profile_images/458286447670202368/xcHOodM-.jpeg"),
+                                      backgroundImage: NetworkImage("https://media.istockphoto.com/photos/rush-in-the-city-picture-id1190475811?k=20&m=1190475811&s=612x612&w=0&h=HeJgO_nRyUU3U9w9_sl8ikumN-Vd5FGnMEyDdWkuKC0="),
                                       backgroundColor: Colors.redAccent,
                                       radius: 40,
                                     ),
@@ -362,7 +360,7 @@ class HomePage extends HookWidget {
                                 Column(
                                   children: [
                                     CircleAvatar(
-                                      backgroundImage: NetworkImage("https://spiderimg.amarujala.com/assets/images/2019/10/03/moradabad-railway-station_1570048208.jpeg"),
+                                      backgroundImage: NetworkImage("https://media.istockphoto.com/photos/puratchi-thalaivar-dr-mgr-central-railway-stationchennai-central-picture-id1226340114?k=20&m=1226340114&s=612x612&w=0&h=Fb2w07580AHJoElti5zras-TbBkv4ePkMcCXqoGfYLc="),
                                       radius: 40,
                                     ),
                                     Text("Chennai"),
@@ -375,7 +373,7 @@ class HomePage extends HookWidget {
                                   children: [
                                     CircleAvatar(
                                       backgroundColor: Colors.redAccent,
-                                      backgroundImage: NetworkImage("https://pbs.twimg.com/profile_images/458286447670202368/xcHOodM-.jpeg"),
+                                      backgroundImage: NetworkImage("https://curlytales.com/wp-content/uploads/2019/07/noida.jpg"),
                                       radius: 40,
                                     ),
                                     Text("Noida"),

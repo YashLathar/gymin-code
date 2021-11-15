@@ -283,6 +283,9 @@ class UserPage extends HookWidget {
                   itemBuilder: (context) => [
                     PopupMenuItem<int>(
                       value: 0,
+                      onTap: () {
+                        aShowToast(msg: "Coming soon");
+                      },
                       child: PopUpMenuTile(
                         icon: FontAwesomeIcons.firstOrder,
                         title: 'Your Orders',
@@ -290,6 +293,9 @@ class UserPage extends HookWidget {
                     ),
                     PopupMenuItem<int>(
                       value: 1,
+                      onTap: () {
+                        aShowToast(msg: "Coming soon");
+                      },
                       child: PopUpMenuTile(
                         icon: Icons.edit,
                         title: 'Edit profile',
@@ -297,6 +303,9 @@ class UserPage extends HookWidget {
                     ),
                     PopupMenuItem<int>(
                       value: 2,
+                      onTap: () {
+                        aShowToast(msg: "Coming soon");
+                      },
                       child: PopUpMenuTile(
                         icon: Icons.change_circle,
                         title: 'Change Theme',
@@ -304,6 +313,9 @@ class UserPage extends HookWidget {
                     ),
                     PopupMenuItem<int>(
                       value: 3,
+                      onTap: () {
+                        aShowToast(msg: "Coming soon");
+                      },
                       child: PopUpMenuTile(
                         icon: Icons.favorite,
                         title: 'favourites',

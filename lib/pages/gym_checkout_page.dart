@@ -323,7 +323,7 @@ class GymCheckoutPage extends HookWidget {
                                                                 DateRangePickerSelectionMode
                                                                     .single,
                                                             backgroundColor:
-                                                                Theme.of(context).scaffoldBackgroundColor,
+                                                                Theme.of(context).backgroundColor,
                                                             showActionButtons:
                                                                 true,
                                                             onSelectionChanged:
@@ -825,6 +825,51 @@ class GymCheckoutPage extends HookWidget {
                                 ),
                               ],
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Selected Plan",
+                                  style: kSmallContentStyle.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Text(
+                                  "${context.read(userselectedforhoursProvider).state.toString()} Hour",
+                                  style: kSmallHeadingTextStyle,
+                                ),
+                              ]
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Date",
+                                  style: kSmallContentStyle.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Text(
+                                  "unavailable",
+                                  style: kSmallHeadingTextStyle,
+                                ),
+                              ]
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Timing",
+                                  style: kSmallContentStyle.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Text(
+                                  "${context.read(userSelectedFromTimeProvider).state} to ${context.read(userSelectedToTimeProvider).state}",
+                                  style: kSmallHeadingTextStyle,
+                                ),
+                              ]
+                            )
                           ],
                         ),
                       ),

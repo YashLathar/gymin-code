@@ -1,10 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
-import 'package:gym_in/pages/uploadpage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:like_button/like_button.dart';
 // import 'package:gym_in/dumy-data/posts_info.dart';
@@ -106,8 +103,8 @@ class _FeedsPageState extends State<FeedsPage> {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UploadPage()));
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => UploadPage()));
               },
               icon: Icon(
                 Icons.add_a_photo,
@@ -294,7 +291,18 @@ class PostFooter extends HookWidget {
             style: TextStyle(fontWeight: FontWeight.w500),
           ))
         ],
-      )
+      ),
+      SizedBox(
+        height: 20,
+      ),
+      Container(
+        height: 100,
+        color: Theme.of(context).scaffoldBackgroundColor,
+        child: Text(
+          "Coming Soon...",
+          style: kSmallContentStyle.copyWith(color: Colors.redAccent),
+        ),
+      ),
     ]);
   }
 }

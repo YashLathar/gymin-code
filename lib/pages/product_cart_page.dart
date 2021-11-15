@@ -4,15 +4,90 @@ import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
 import 'package:gym_in/widgets/cart_product.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class ProductCartPage extends HookWidget {
-  ProductCartPage({Key? key}) : super(key: key);
+  ProductCartPage({
+    Key? key,
+    required this.title,
+    required this.price,
+    required this.image,
+    required this.productId, productID,
+  }) : super(key: key);
+
+  final String image;
+  final String title;
+  final int price;
+  final String productId;
 
   @override
   Widget build(BuildContext context) {
     final cartControllerProvider = useProvider(cartProvider);
     // print(cartControllerProvider.products);
     Size size = MediaQuery.of(context).size;
+
+    late Razorpay _razorpay;
+
+    Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
+      // succeeds
+      showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleDialog(
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                title: Text(
+                  "Order Success",
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyText2!.color),
+                ));
+          });
+    }
+
+    void _handlePaymentError(PaymentFailureResponse response) {
+      // Do something when payment fails
+      showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleDialog(
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                title: Text(
+                  "Order Failed",
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyText2!.color),
+                ));
+          });
+    }
+
+    void _handleExternalWallet(ExternalWalletResponse response) {
+      // Do something when an external wallet is selected
+    }
+
+    useEffect(() {
+      _razorpay = Razorpay();
+      _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+      _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+      _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+      return () {
+        _razorpay.clear();
+      };
+    });
+
+    void openCheckout(
+        {String? name,
+        String? description,
+        String? price,
+        String? image}) async {
+      var options = {
+        'key': 'rzp_test_8NBNETBLt7d5Bg',
+        'amount': price,
+        'name': name,
+        'description': description,
+        'image': image,
+        'prefill': {'contact': '8979642723', 'email': 'test@pay.com'},
+      };
+      _razorpay.open(options);
+    }
+
     return Material(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: SafeArea(
@@ -112,7 +187,10 @@ class ProductCartPage extends HookWidget {
                               Container(
                                 child: Image.asset(
                                   // "assets/img/empty-cart.gif",
-                                  "assets/img/animation_cart.gif",
+                                  // "assets/img/animation_cart.gif",
+                                  "assets/img/animation_1.gif",
+                                  // "assets/img/animation_2.gif",
+                                  // "assets/img/animation_3.gif",
                                   height: 175.0,
                                   width: 150.0,
                                 ),
@@ -342,7 +420,15 @@ class ProductCartPage extends HookWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: MaterialButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                // final formatprice = selectedPrice.state * 100;
+                                openCheckout(
+                                  name: title,
+                                  price: price.toString(),
+                                  description: productId,
+                                  image: image,
+                                );
+                              },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [

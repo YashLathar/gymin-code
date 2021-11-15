@@ -215,7 +215,7 @@ class GymPage extends HookWidget {
                                 shape: BoxShape.circle,
                                 color: _current.value == index
                                     ? Colors.redAccent
-                                    : Color.fromRGBO(0, 0, 0, 0.4),
+                                    : Theme.of(context).backgroundColor,
                               ),
                             );
                           }).toList(),
@@ -283,6 +283,7 @@ class GymPage extends HookWidget {
                         thickness: 2,
                         indent: 30,
                         endIndent: 30,
+                        color: Theme.of(context).backgroundColor,
                       ),
                       Container(
                         padding:
@@ -339,16 +340,16 @@ class GymPage extends HookWidget {
                         thickness: 2,
                         indent: 30,
                         endIndent: 30,
+                        color: Theme.of(context).backgroundColor,
                       ),
                       Container(
                         padding:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                         child: Text(
                           "Trainers",
-                          style: kSubHeadingStyle.copyWith(color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2!
-                                            .color,),
+                          style: kSubHeadingStyle.copyWith(
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color),
                         ),
                       ),
                       Container(
@@ -361,6 +362,7 @@ class GymPage extends HookWidget {
                           child: Column(
                             children: [
                               Container(
+                                color: Theme.of(context).scaffoldBackgroundColor,
                                 child: Stack(
                                   children: [
                                     ClipRRect(
@@ -368,7 +370,7 @@ class GymPage extends HookWidget {
                                       child: Container(
                                         width: 75,
                                         height: 75,
-                                        color: Colors.white,
+                                        color: Theme.of(context).scaffoldBackgroundColor,
                                         child: Image.network(
                                           trainerphoto,
                                           fit: BoxFit.cover,
@@ -395,10 +397,12 @@ class GymPage extends HookWidget {
                                         children: [
                                           Text(
                                             trainername,
-                                            style: kSubHeadingStyle.copyWith(color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2!
-                                            .color,),
+                                            style: kSubHeadingStyle.copyWith(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2!
+                                                  .color,
+                                            ),
                                           ),
                                           SizedBox(
                                             height: 10,
@@ -582,8 +586,7 @@ class GymPage extends HookWidget {
             child: Container(
               padding:
                   EdgeInsets.only(bottom: 10, left: 15, right: 15, top: 10),
-              color: Theme.of(context)
-                                            .scaffoldBackgroundColor,
+              color: Theme.of(context).scaffoldBackgroundColor,
               width: size.width,
               child: Container(
                 height: 60,

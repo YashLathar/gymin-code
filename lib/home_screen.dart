@@ -6,7 +6,6 @@ import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/pages/activity_page.dart';
 import 'package:gym_in/pages/authenticate_ticket.dart';
 import 'package:gym_in/pages/feeds_page.dart';
-import 'package:gym_in/pages/gym_owner_page.dart';
 import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/pages/home_page.dart';
@@ -88,19 +87,19 @@ class HomeScreen extends HookWidget {
                   ],
                 ),
 
-                ListTile(
-                  leading: Icon(
-                    Icons.home,
-                    color: Theme.of(context).textTheme.bodyText2!.color,
-                  ),
-                  title: Text(
-                    'Gym Owner',
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText2!.color),
-                  ),
-                  onTap: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => GymOwnerPage())),
-                ),
+                // ListTile(
+                //   leading: Icon(
+                //     Icons.home,
+                //     color: Theme.of(context).textTheme.bodyText2!.color,
+                //   ),
+                //   title: Text(
+                //     'Gym Owner',
+                //     style: TextStyle(
+                //         color: Theme.of(context).textTheme.bodyText2!.color),
+                //   ),
+                //   onTap: () => Navigator.push(context,
+                //       MaterialPageRoute(builder: (context) => GymOwnerPage())),
+                // ),
                 // ListTile(
                 //   leading: Icon(Icons.verified_user,
                 //   color: Theme.of(context).textTheme.bodyText2!.color,

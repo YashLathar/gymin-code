@@ -17,6 +17,10 @@ final userSelectedPriceProvider = StateProvider<int>((ref) {
   return 397;
 });
 
+final userselectedforhoursProvider = StateProvider<int>((ref) {
+  return 1;
+});
+
 class TimeSelector extends HookWidget {
   const TimeSelector({Key? key}) : super(key: key);
 
@@ -120,6 +124,7 @@ class TimeSelector extends HookWidget {
                       onTap: () {
                         selected.value = 1;
                         selectedPrice.state = 397;
+                        context.read(userselectedforhoursProvider).state = 1;
                       },
                       child: ResuableButton(
                         
@@ -139,6 +144,7 @@ class TimeSelector extends HookWidget {
                       onTap: () {
                         selected.value = 2;
                         selectedPrice.state = 700;
+                        context.read(userselectedforhoursProvider).state = 2;
                       },
                       child: ResuableButton(
                         child: Row(
@@ -157,6 +163,7 @@ class TimeSelector extends HookWidget {
                       onTap: () {
                         selected.value = 3;
                         selectedPrice.state = 1000;
+                        context.read(userselectedforhoursProvider).state = 3;
                       },
                       child: ResuableButton(
                         child: Row(
@@ -204,10 +211,10 @@ class TimeSelector extends HookWidget {
                       onPressed: () {
                         context.read(userSelectedFromTimeProvider).state =
                             fromTime.value.hour.toString();
-                    
+
                         context.read(userSelectedToTimeProvider).state =
                             influencedtoHour.toString();
-                    
+
                         Navigator.pop(context);
                       },
                       child: Text(

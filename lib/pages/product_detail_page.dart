@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
+import 'package:gym_in/controllers/favourites_controller.dart';
 import 'package:gym_in/models/product.dart';
 import 'package:gym_in/pages/product_cart_page.dart';
 import 'package:gym_in/services/cart_service.dart';
@@ -28,6 +29,8 @@ class ProductDetailPage extends HookWidget {
   Widget build(BuildContext context) {
     final cartService = useProvider(cartServiceProvider);
     final cartControllerProvider = useProvider(cartProvider);
+    final favControllerProvider = useProvider(favouritesControllerProvider);
+    final isUiLiked = useState(false);
     final isLoading = useState(false);
     Size size = MediaQuery.of(context).size;
 
@@ -39,7 +42,7 @@ class ProductDetailPage extends HookWidget {
               physics: ClampingScrollPhysics(),
               child: Container(
                 width: size.width,
-                height: 1350,
+                height: 1070,
                 child: Column(
                   children: [
                     Container(
@@ -62,10 +65,94 @@ class ProductDetailPage extends HookWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          Container(
+                            // padding: EdgeInsets.only(top: 3),
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(35),
+                              border: Border.all(
+                                width: 2.0,
+                                color: Theme.of(context).backgroundColor,
+                              ),
+                            ),
+                            child: Center(
+                              child: IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Theme.of(context).backgroundColor,
+                                ),
+                              ),
+                            ),
+                          ),
                           Row(
                             children: [
+                              Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(35),
+                                      border: Border.all(
+                                        width: 2.0,
+                                        color:
+                                            Theme.of(context).backgroundColor,
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ProductCartPage(
+                                                title: title,
+                                                image: image,
+                                                price: price,
+                                                productId: productID,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        icon: Icon(
+                                          Icons.shopping_cart,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2!
+                                              .color,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: Container(
+                                      height: 20,
+                                      width: 20,
+                                      decoration: BoxDecoration(
+                                        color: Colors.redAccent,
+                                        borderRadius: BorderRadius.circular(35),
+                                      ),
+                                      child: Center(
+                                        child: Text(cartControllerProvider
+                                            .products.length
+                                            .toString()),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
                               Container(
-                                // padding: EdgeInsets.only(top: 3),
                                 width: 50,
                                 height: 50,
                                 decoration: BoxDecoration(
@@ -77,40 +164,19 @@ class ProductDetailPage extends HookWidget {
                                 ),
                                 child: Center(
                                   child: IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
+                                    onPressed: () {},
                                     icon: Icon(
-                                      Icons.arrow_back_ios,
-                                      color: Theme.of(context).backgroundColor,
+                                      Icons.share,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color,
                                     ),
                                   ),
                                 ),
                               ),
-                              // Container(
-                              //   margin: EdgeInsets.only(left: 15),
-                              //   child: Center(
-                              //     child: Text(
-                              //       "Details",
-                              //       style: kSubHeadingStyle.copyWith(
-                              //           color: Theme.of(context)
-                              //               .textTheme
-                              //               .bodyText2!
-                              //               .color),
-                              //     ),
-                              //   ),
-                              // ),
                             ],
                           ),
-                          // Container(
-                          //   child: IconButton(
-                          //     onPressed: () {},
-                          //     icon: Icon(
-                          //       Icons.more_vert,
-                          //       color: Colors.redAccent,
-                          //     ),
-                          //   ),
-                          // ),
                         ],
                       ),
                     ),
@@ -156,29 +222,79 @@ class ProductDetailPage extends HookWidget {
                                                 fontSize: 22,
                                               ),
                                             ),
-                                            Container(
-                                              width: 45,
-                                              height: 38,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                border: Border.all(
-                                                    width: 2.0,
-                                                    color: Colors.redAccent),
-                                              ),
-                                              child: Center(
-                                                child: IconButton(
-                                                  onPressed: () {},
-                                                  icon: Icon(
-                                                    Icons.favorite,
-                                                    color: Theme.of(context)
-                                                        .backgroundColor,
-                                                    size: 20,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                            // Container(
+                                            //   width: 45,
+                                            //   height: 38,
+                                            //   decoration: BoxDecoration(
+                                            //     borderRadius:
+                                            //         BorderRadius.circular(10),
+                                            //     border: Border.all(
+                                            //         width: 2.0,
+                                            //         color: Colors.redAccent),
+                                            //   ),
+                                            //   child: Center(
+                                            //     child: IconButton(
+                                            //       onPressed: () {
+                                            //         final thisProduct =
+                                            //             favControllerProvider
+                                            //                 .favProducts
+                                            //                 .where((product) =>
+                                            //                     product
+                                            //                         .productId ==
+                                            //                     productID);
+
+                                            //         if (thisProduct.isEmpty) {
+                                            //           isUiLiked.value =
+                                            //               !isUiLiked.value;
+                                            //           if (isUiLiked.value) {
+                                            //             final product = Product(
+                                            //               image: image,
+                                            //               title: title,
+                                            //               price: price,
+                                            //               productId: productID,
+                                            //               isLiked:
+                                            //                   isUiLiked.value,
+                                            //             );
+
+                                            //             favControllerProvider
+                                            //                 .addProductToFav(
+                                            //                     product);
+                                            //             Fluttertoast.showToast(
+                                            //                 msg:
+                                            //                     "Added to Favourites");
+                                            //           }
+                                            //         } else {
+                                            //           Fluttertoast.showToast(
+                                            //               msg:
+                                            //                   "Already in Favourites");
+                                            //         }
+                                            //       },
+                                            //       icon: Icon(
+                                            //         Icons.favorite,
+                                            //         color: Theme.of(context)
+                                            //             .backgroundColor,
+                                            //         size: 20,
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            // ),
                                           ],
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: 15,
+                                        // vertical: 5,
+                                      ),
+                                      child: Text(
+                                        "₹" + price.toString(),
+                                        style: GoogleFonts.lato(
+                                          textStyle: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 22,
+                                            color: Colors.redAccent,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -230,10 +346,10 @@ class ProductDetailPage extends HookWidget {
                                         description,
                                       ),
                                     ),
-                                    // Divider(
-                                    //   thickness: 1.5,
-                                    //   color: Theme.of(context).backgroundColor,
-                                    // ),
+                                    Divider(
+                                      thickness: 1.5,
+                                      color: Theme.of(context).backgroundColor,
+                                    ),
                                     InkWell(
                                       onTap: () {
                                         showModalBottomSheet(
@@ -251,14 +367,14 @@ class ProductDetailPage extends HookWidget {
                                         );
                                       },
                                       child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          border: Border.all(
-                                              width: 2,
-                                              color: Theme.of(context)
-                                                  .backgroundColor),
-                                        ),
+                                        // decoration: BoxDecoration(
+                                        //   // borderRadius:
+                                        //   //     BorderRadius.circular(25),
+                                        //   border: Border.all(
+                                        //       width: 2,
+                                        //       color: Theme.of(context)
+                                        //           .backgroundColor),
+                                        //),
                                         padding: EdgeInsets.only(
                                           left: 15,
                                           right: 15,
@@ -287,20 +403,21 @@ class ProductDetailPage extends HookWidget {
                                         ),
                                       ),
                                     ),
-                                    // Divider(
-                                    //   thickness: 3.0 / 2,
-                                    //   color: Theme.of(context).backgroundColor,
-                                    // ),
+                                    Divider(
+                                      thickness: 3.0 / 2,
+                                      color: Theme.of(context).backgroundColor,
+                                    ),
                                     SizedBox(
                                       height: 10,
                                     ),
                                     Container(
-                                      decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    border: Border.all(
-                                        width: 2,
-                                        color:
-                                            Theme.of(context).backgroundColor),),
+                                      // decoration: BoxDecoration(
+                                      //   borderRadius: BorderRadius.circular(25),
+                                      //   border: Border.all(
+                                      //       width: 2,
+                                      //       color: Theme.of(context)
+                                      //           .backgroundColor),
+                                      // ),
                                       padding: EdgeInsets.only(
                                         left: 15,
                                         right: 15,
@@ -370,17 +487,18 @@ class ProductDetailPage extends HookWidget {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    // Divider(
-                                    //   thickness: 2.0,
-                                    //   color: Theme.of(context).backgroundColor,
-                                    // ),
+                                    Divider(
+                                      thickness: 2.0,
+                                      color: Theme.of(context).backgroundColor,
+                                    ),
                                     Container(
-                                      decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    border: Border.all(
-                                        width: 2,
-                                        color:
-                                            Theme.of(context).backgroundColor),),
+                                      // decoration: BoxDecoration(
+                                      //   borderRadius: BorderRadius.circular(25),
+                                      //   border: Border.all(
+                                      //       width: 2,
+                                      //       color: Theme.of(context)
+                                      //           .backgroundColor),
+                                      // ),
                                       padding: EdgeInsets.only(
                                         left: 15,
                                         right: 15,
@@ -541,15 +659,15 @@ class ProductDetailPage extends HookWidget {
                             Fluttertoast.showToast(
                                 msg: "Product has been added to your cart");
                           } else {
-                            cartControllerProvider
-                                .incrementProductQuantity(productID);
+                            // cartControllerProvider
+                            //     .incrementProductQuantity(productID);
                             Fluttertoast.showToast(
                                 msg:
-                                    "Quantity of the product has been increased");
+                                    "Product already exist in cart");
                           }
                         },
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               "Add to Cart",
@@ -560,16 +678,16 @@ class ProductDetailPage extends HookWidget {
                                     .color,
                               ),
                             ),
-                            Text(
-                              "₹" + price.toString(),
-                              style: GoogleFonts.lato(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 22,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
+                            // Text(
+                            //   "₹" + price.toString(),
+                            //   style: GoogleFonts.lato(
+                            //     textStyle: TextStyle(
+                            //       fontWeight: FontWeight.w700,
+                            //       fontSize: 22,
+                            //       color: Colors.black,
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -583,14 +701,32 @@ class ProductDetailPage extends HookWidget {
                             borderRadius: BorderRadius.circular(15)),
                         child: MaterialButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ProductCartPage(),
-                              ),
-                            );
+                            final thisProduct = favControllerProvider
+                                .favProducts
+                                .where((product) =>
+                                    product.productId == productID);
+
+                            if (thisProduct.isEmpty) {
+                              isUiLiked.value = !isUiLiked.value;
+                              if (isUiLiked.value) {
+                                final product = Product(
+                                  image: image,
+                                  title: title,
+                                  price: price,
+                                  productId: productID,
+                                  isLiked: isUiLiked.value,
+                                );
+
+                                favControllerProvider.addProductToFav(product);
+                                Fluttertoast.showToast(
+                                    msg: "Added to Favourites");
+                              }
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: "Already in Favourites");
+                            }
                           },
-                          child: Icon(Icons.shopping_cart,
+                          child: Icon(Icons.favorite,
                               color: Theme.of(context).backgroundColor),
                         ),
                       ),

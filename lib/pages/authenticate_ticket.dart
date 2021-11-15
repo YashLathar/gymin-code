@@ -59,7 +59,7 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
                   Expanded(
                     child: Center(
                       child: Text(
-                        "Authenticate",
+                        "Authenticate User",
                         style: kSubHeadingStyle.copyWith(
                             color:
                                 Theme.of(context).textTheme.bodyText2!.color),
@@ -73,15 +73,15 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
                       borderRadius: BorderRadius.circular(35),
                       border: Border.all(
                         width: 2.0,
-                        color: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                       ),
                     ),
                     child: Center(
                       child: IconButton(
-                        onPressed: _captureAndSharePng,
+                        onPressed: () {}, //_captureAndSharePng,
                         icon: Icon(
                           FontAwesomeIcons.share,
-                          color: Theme.of(context).textTheme.bodyText2!.color,
+                          color: Theme.of(context).scaffoldBackgroundColor,
                         ),
                       ),
                     ),
@@ -143,6 +143,7 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
     }
   }
 
+  // ignore: unused_element
   Future<void> _captureAndSharePng() async {
     try {
       var globalKey;

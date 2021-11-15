@@ -5,8 +5,6 @@ import 'package:gym_in/pages/chat_page.dart';
 import 'package:gym_in/pages/feeds_page.dart';
 import 'package:gym_in/pages/gymlist_page.dart';
 import 'package:gym_in/pages/orders_page.dart';
-import 'package:gym_in/pages/product_cart_page.dart';
-import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/pages/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gym_in/pages/login_page.dart';
@@ -56,8 +54,8 @@ class MyApp extends StatelessWidget {
           case "/settingPage":
             return MaterialPageRoute(builder: (_) => SettingPage());
 
-          case "/productCartPage":
-            return MaterialPageRoute(builder: (_) => ProductCartPage());
+          // case "/productCartPage":
+          //   return MaterialPageRoute(builder: (_) => ProductCartPage());
 
           case "/signInPage":
             return MaterialPageRoute(builder: (_) => LoginPage());
@@ -79,8 +77,8 @@ class MyApp extends StatelessWidget {
           case "/favorites":
             return MaterialPageRoute(builder: (_) => FavoritesPage());
 
-          case "/productsPage":
-            return MaterialPageRoute(builder: (_) => GymProductsPage());
+          // case "/productsPage":
+          //   return MaterialPageRoute(builder: (_) => GymProductsPage());
 
           case "/ordersPage":
             return MaterialPageRoute(builder: (_) => OrdersPage());
