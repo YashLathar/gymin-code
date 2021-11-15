@@ -5,7 +5,8 @@ import 'package:gym_in/models/gym.dart';
 import 'package:gym_in/models/product.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final favouritesControllerProvider = ChangeNotifierProvider<FavouritesContorller>((ref) {
+final favouritesControllerProvider =
+    ChangeNotifierProvider<FavouritesContorller>((ref) {
   return FavouritesContorller(ref.read);
 });
 
@@ -14,7 +15,7 @@ class FavouritesContorller extends ChangeNotifier {
   List<Product> _favProducts = [];
   List<Gym> _favGyms = [];
 
-  FavouritesContorller(this._read);  // : super();
+  FavouritesContorller(this._read) : super();
 
   UnmodifiableListView<Product> get favProducts =>
       UnmodifiableListView(_favProducts);
@@ -22,6 +23,11 @@ class FavouritesContorller extends ChangeNotifier {
 
   void addProductToFav(Product product) {
     _favProducts.add(product);
+    _favProducts.map((item) {
+      if (item.productId == product.productId) {
+        return product.isLiked = true;
+      }
+    }).toList();
 
     notifyListeners();
   }
@@ -32,7 +38,7 @@ class FavouritesContorller extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addGymToFav(Gym gym) {
+  void addGymToFav(Gym gym) async {
     _favGyms.add(gym);
 
     notifyListeners();

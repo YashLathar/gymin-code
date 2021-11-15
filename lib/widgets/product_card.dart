@@ -22,7 +22,8 @@ class ProductCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final favControllerProvider = useProvider(favouritesControllerProvider);
-    final isLiked = useState(false);
+    final isUiLiked = useState(false);
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
@@ -76,10 +77,8 @@ class ProductCard extends HookWidget {
                         "₹" + price.toString(),
                         style: TextStyle(
                             fontSize: 20,
-                            color:
-                                Colors.redAccent,
-                                fontWeight: FontWeight.w600
-                                ),
+                            color: Colors.redAccent,
+                            fontWeight: FontWeight.w600),
                       ),
                       Container(
                         width: 30,
@@ -89,29 +88,36 @@ class ProductCard extends HookWidget {
                             color: Colors.redAccent),
                         child: IconButton(
                           onPressed: () {
-                            isLiked.value = !isLiked.value;
-                            if (isLiked.value) {
-                              final product = Product(
-                                image: image,
-                                title: title,
-                                price: price,
-                                productId: productId,
-                                isLiked: isLiked.value,
-                              );
+                            final thisProduct = favControllerProvider
+                                .favProducts
+                                .where((product) =>
+                                    product.productId == productId);
 
-                              favControllerProvider.addProductToFav(product);
-                              Fluttertoast.showToast(
-                                  msg: "Added to Favourites");
+                            if (thisProduct.isEmpty) {
+                              isUiLiked.value = !isUiLiked.value;
+                              if (isUiLiked.value) {
+                                final product = Product(
+                                  image: image,
+                                  title: title,
+                                  price: price,
+                                  productId: productId,
+                                  isLiked: isUiLiked.value,
+                                );
+
+                                favControllerProvider.addProductToFav(product);
+                                Fluttertoast.showToast(
+                                    msg: "Added to Favourites");
+                              }
                             } else {
-                              favControllerProvider.removeProduct(productId);
                               Fluttertoast.showToast(
-                                  msg: "Removed from Favourites");
+                                  msg: "Already in Favourites");
                             }
                           },
                           icon: Icon(
                             Icons.favorite,
                             size: 15,
-                            color: isLiked.value ? Colors.black : Colors.white,
+                            color:
+                                isUiLiked.value ? Colors.black : Colors.white,
                           ),
                         ),
                       ),

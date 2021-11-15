@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/favourites_controller.dart';
+import 'package:gym_in/models/gym.dart';
+import 'package:gym_in/widgets/fav_gym.dart';
 import 'package:gym_in/widgets/fav_product.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,6 +13,9 @@ class FavoritesPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final favProducts = useProvider(favouritesControllerProvider).favProducts;
+    final favGyms = useProvider(favouritesControllerProvider).favGyms;
+    final tabController = useTabController(initialLength: 2);
+    final size = MediaQuery.of(context).size;
     return Scaffold(
         body: SafeArea(
       child: Column(
@@ -72,17 +77,54 @@ class FavoritesPage extends HookWidget {
               ],
             ),
           ),
+          Container(
+            width: size.width,
+            height: 75,
+            child: TabBar(
+              controller: tabController,
+              indicatorColor: Colors.redAccent,
+              tabs: [
+                Tab(
+                  child: Text(
+                    "FavProducts",
+                    style: TextStyle(fontSize: 22),
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    "FavGyms",
+                    style: TextStyle(fontSize: 22),
+                  ),
+                ),
+              ],
+            ),
+          ),
           Expanded(
-            child: ListView(
-              children: favProducts
-                  .map((product) => FavProduct(
-                        productId: product.productId,
-                        imageUrl: product.image,
-                        quantity: product.quantity,
-                        price: product.price.toString(),
-                        productName: product.title,
-                      ))
-                  .toList(),
+            child: TabBarView(
+              controller: tabController,
+              children: [
+                ListView(
+                  children: favProducts
+                      .map((product) => FavProduct(
+                            productId: product.productId,
+                            imageUrl: product.image,
+                            quantity: product.quantity,
+                            price: product.price.toString(),
+                            productName: product.title,
+                          ))
+                      .toList(),
+                ),
+                ListView(
+                  children: favGyms
+                      .map((gym) => FavGym(
+                            gymId: gym.gymId,
+                            imageUrl: gym.gymPhoto,
+                            address: gym.gymaddress,
+                            gymName: gym.gymName,
+                          ))
+                      .toList(),
+                ),
+              ],
             ),
           ),
         ],

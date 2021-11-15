@@ -256,11 +256,18 @@ class HomePage extends HookWidget {
                               child: Container(
                                 child: Container(
                                   child: GymCard(
-                                      gname: data['gname'],
-                                      gPhoto: data['gphoto'],
-                                      gratings: data['gratings'],
-                                      open: data['open'],
-                                      gaddress: data['gaddress']),
+                                    gymName: data['gname'],
+                                    gymPhoto: data['gphoto'],
+                                    gymphotos: data['gymphotos'],
+                                    gymratings: data['gratings'],
+                                    gymopen: data['open'],
+                                    gymaddress: data['gaddress'],
+                                    trainername: data['gtrainername'],
+                                    trainerphoto: data['gtrainerphoto'],
+                                    trainerrating: data['gtrainerrating'],
+                                    traineravailable: data['gtraineravailable'],
+                                    gymId: document.id,
+                                  ),
                                 ),
                               ),
                             );

@@ -1,27 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gym_in/constants.dart';
-import 'package:gym_in/widgets/toast_msg.dart';
+import 'package:gym_in/controllers/favourites_controller.dart';
+import 'package:gym_in/models/gym.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:like_button/like_button.dart';
 import 'package:flutter/cupertino.dart';
 
 class GymCard extends HookWidget {
   GymCard({
-    required this.gname,
-    required this.gPhoto,
-    required this.gratings,
-    required this.open,
-    required this.gaddress,
+    required this.gymId,
+    required this.gymphotos,
+    required this.gymPhoto,
+    required this.gymName,
+    required this.gymratings,
+    required this.gymopen,
+    required this.gymaddress,
+    required this.trainername,
+    required this.trainerphoto,
+    required this.trainerrating,
+    required this.traineravailable,
   });
 
-  final String gname;
-  final String gPhoto;
-  final bool open;
-  final String gratings;
-  final String gaddress;
+  final bool gymopen, traineravailable;
+  final List gymphotos;
+  final String gymId,
+      gymName,
+      gymPhoto,
+      gymratings,
+      gymaddress,
+      trainername,
+      trainerphoto,
+      trainerrating;
 
   @override
   Widget build(BuildContext context) {
+    final favGymsController = useProvider(favouritesControllerProvider);
+    Future<bool> onLikeButtonTapped(bool isLiked) async {
+      final thisGym =
+          favGymsController.favGyms.where((gym) => gym.gymId == gymId);
+
+      if (thisGym.isEmpty) {
+        final gym = Gym(
+          gymName: gymName,
+          gymPhoto: gymPhoto,
+          gymphotos: gymphotos,
+          gymratings: gymratings,
+          gymopen: gymopen,
+          gymaddress: gymaddress,
+          trainername: trainername,
+          trainerphoto: trainerphoto,
+          trainerrating: trainerrating,
+          traineravailable: traineravailable,
+          gymId: gymId,
+        );
+        favGymsController.addGymToFav(gym);
+
+        Fluttertoast.showToast(msg: "Added to Favourites");
+        return isLiked = true;
+      } else {
+        Fluttertoast.showToast(msg: "Already in Favourites");
+        return isLiked;
+      }
+    }
+
     return Container(
       width: 270,
       margin: EdgeInsets.symmetric(horizontal: 10),
@@ -37,7 +80,7 @@ class GymCard extends HookWidget {
                     height: 190,
                     color: Theme.of(context).scaffoldBackgroundColor,
                     child: Image.network(
-                      gPhoto,
+                      gymPhoto,
                       fit: BoxFit.cover,
                       filterQuality: FilterQuality.high,
                       loadingBuilder: (BuildContext context, Widget child,
@@ -95,13 +138,13 @@ class GymCard extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  gname,
+                  gymName,
                   style: kLoginPageSubHeadingTextStyle.copyWith(
                     color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
                 ),
                 Text(
-                  gaddress,
+                  gymaddress,
                   style: TextStyle(fontSize: 15),
                 ),
                 SizedBox(
@@ -112,16 +155,16 @@ class GymCard extends HookWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        open ? "Open" : "Closed",
+                        gymopen ? "Open" : "Closed",
                         style: TextStyle(
-                            color: open ? Colors.green : Colors.redAccent),
+                            color: gymopen ? Colors.green : Colors.redAccent),
                       ),
                       Container(
                         child: Row(
                           children: [
                             Icon(
                               Icons.star,
-                              color: 
+                              color:
                                   Theme.of(context).textTheme.bodyText2!.color,
                             ),
                             SizedBox(
@@ -139,7 +182,7 @@ class GymCard extends HookWidget {
                               ),
                               child: Center(
                                 child: Text(
-                                  gratings.toString(),
+                                  gymratings.toString(),
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .scaffoldBackgroundColor,
@@ -160,83 +203,4 @@ class GymCard extends HookWidget {
       ),
     );
   }
-
-  Future<bool> onLikeButtonTapped(bool isLiked) async {
-    await Future.delayed(Duration(seconds: 1));
-    aShowToast(
-      msg: "Added to your Favourites",
-    );
-    return !isLiked;
-  }
 }
-
-//  gymhomecontainer() {
-//   final Stream<QuerySnapshot> _gymStream =
-//       FirebaseFirestore.instance.collection('gymdata').snapshots();
-//   return StreamBuilder<QuerySnapshot>(
-//       stream: _gymStream,
-//       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//         if (snapshot.hasError) {
-//           return Center(
-//               child: Container(
-//                 height: 50,
-//                 width: 50,
-//                 child: Center(
-//                   child: Text("Something Went Wrong"),
-//                 ),
-//               ),
-//           );
-//         }
-
-//         if (snapshot.connectionState == ConnectionState.waiting) {
-//           return Center(
-//               child: Container(
-//                 height: 50,
-//                 width: 50,
-//                 child: Center(
-//                   child: CircularProgressIndicator(),
-//                 ),
-//               ),
-//           );
-//         }
-
-//         return Container(
-//             padding: EdgeInsets.all(8),
-//             child: ListView(
-//               children: snapshot.data!.docs.map((DocumentSnapshot document) {
-//                 Map<String, dynamic> data =
-//                     document.data()! as Map<String, dynamic>;
-//                 return GestureDetector(
-//                   onTap: () {
-//                     Navigator.push(
-//                       context,
-//                       MaterialPageRoute(
-//                         builder: (context) => GymPage(
-//                           gymName: data['gname'],
-//                           gymPhoto: data['gphoto'],
-//                           gymratings: data['gratings'],
-//                           gymopen: data['open'],
-//                           gymaddress: data['gaddress'],
-//                           trainername: data['gtrainername'],
-//                           trainerphoto: data['gtrainerphoto'],
-//                           trainerrating: data['gtrainerrating'],
-//                           traineravailable: data['gtraineravailable'],
-//                           gymId: document.id,
-//                         ),
-//                       ),
-//                     );
-//                   },
-//                   child: GymCard(
-//                     gname: data['gname'],
-//                     gPhoto: data['gphoto'],
-//                     gratings: data['gratings'],
-//                     open: data['open'],
-//                     gaddress: data['gaddress'],
-//                   ),
-//                 );
-//               }).toList(),
-//             ),
-//         );
-//       },
-//     );
-// }
