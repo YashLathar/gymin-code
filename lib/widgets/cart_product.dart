@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/src/provider.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
 import 'package:gym_in/services/cart_service.dart';
 import 'package:gym_in/widgets/quantity_counter.dart';
+import 'package:gym_in/widgets/toast_msg.dart';
 
 class CartProduct extends HookWidget {
   const CartProduct({
@@ -90,6 +91,7 @@ class CartProduct extends HookWidget {
                         isLoading.value = false;
                         Navigator.pop(context);
                         context.read(cartProvider).removeProduct(productId);
+                        aShowToast(msg: "Product has been rremoved from Cart");
                       },
                       icon: Icon(
                         Icons.remove_shopping_cart,

@@ -5,12 +5,13 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
-import 'package:gym_in/pages/product_cart_page.dart';
 import 'package:gym_in/pages/product_detail_page.dart';
 import 'package:gym_in/widgets/product_card.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class GymProductsPage extends HookWidget {
+  GymProductsPage({
+    Key? key}) : super(key: key);
   final Stream<QuerySnapshot> _productStream =
       FirebaseFirestore.instance.collection('product').snapshots();
   @override
@@ -43,7 +44,6 @@ class GymProductsPage extends HookWidget {
           );
         }
         return Scaffold(
-          // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: SafeArea(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 15),
@@ -85,12 +85,17 @@ class GymProductsPage extends HookWidget {
                               child: Center(
                                 child: IconButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ProductCartPage(),
-                                      ),
-                                    );
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (context) => ProductCartPage(
+                                    //       title: title,
+                                    //       image: image,
+                                    //       price: price, 
+                                    //       productId: productID,
+                                    //     ),
+                                    //   ),
+                                    // );
                                   },
                                   icon: Icon(
                                     Icons.shopping_cart,

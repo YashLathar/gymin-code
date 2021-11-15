@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // ignore: implementation_imports
 import 'package:flutter_riverpod/src/provider.dart';
 import 'package:gym_in/general_providers.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DarkModeSwitch extends StatelessWidget {
   @override
@@ -54,3 +55,37 @@ class DarkModeWidget extends StatelessWidget {
     );
   }
 }
+
+
+// // @immutable
+// class ThemeModeSwitch extends ConsumerWidget {
+//   const ThemeModeSwitch({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context, ScopedReader ref) {
+//     final ThemeMode themeMode = useProvider(appThemeStateNotifier);
+//     final List<bool> isSelected = <bool>[
+//       themeMode == ThemeMode.light,
+//       themeMode == ThemeMode.system,
+//       themeMode == ThemeMode.dark,
+//     ];
+//     return ToggleButtons(
+//       isSelected: isSelected,
+//       onPressed: (int newIndex) {
+//         if (newIndex == 0) {
+//           context.read(appThemeStateNotifier).state = ThemeMode.light;
+//         } else if (newIndex == 1) {
+//           context.read(appThemeStateNotifier).state = ThemeMode.system;
+//         } else {
+//           context.read(appThemeStateNotifier).state = ThemeMode.dark;
+//         }
+//       },
+//       children: const <Widget>[
+//         Icon(Icons.light),
+//         Icon(Icons.system_security_update),
+//         Icon(Icons.dark_mode),
+//       ],
+//     );
+//   }
+// }
+
