@@ -5,7 +5,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
-import 'package:gym_in/controllers/favourites_controller.dart';
 import 'package:gym_in/pages/product_cart_page.dart';
 import 'package:gym_in/pages/product_detail_page.dart';
 import 'package:gym_in/widgets/product_card.dart';
@@ -17,7 +16,6 @@ class GymProductsPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final cartControllerProvider = useProvider(cartProvider);
-    print(context.read(favouritesControllerProvider).favProducts);
     Size size = MediaQuery.of(context).size;
     return StreamBuilder<QuerySnapshot>(
       stream: _productStream,

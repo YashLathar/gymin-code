@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_in/controllers/cart_controller.dart';
 import 'package:gym_in/services/auth_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -52,6 +53,7 @@ class AuthController extends StateNotifier<User?> {
   // }
 
   void signOut() async {
+    _read(cartProvider).dispose();
     await _read(authServiceProvider).signOut();
   }
 }
