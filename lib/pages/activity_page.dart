@@ -645,7 +645,7 @@ class _ActivityPageState extends State<ActivityPage> {
                         borderRadius: BorderRadius.circular(20)
                       ),
                       child: Center(
-                        child: Text("Loading...",
+                        child: Text("Coming Soon...",
                         style: kSmallContentStyle.copyWith(
                           color: Colors.black),
                         ),

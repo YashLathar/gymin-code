@@ -49,7 +49,7 @@ class SettingPage extends HookWidget {
                     Expanded(
                       child: Center(
                         child: Text(
-                          "Settings",
+                          "Edit Profile",
                           style: kSubHeadingStyle.copyWith(
                               color:
                                   Theme.of(context).textTheme.bodyText2!.color),
