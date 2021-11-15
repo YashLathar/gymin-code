@@ -109,10 +109,13 @@ class ProductCartPage extends HookWidget {
                               horizontal: 20, vertical: 10),
                           child: Column(
                             children: [
-                              Image.asset(
-                                "assets/img/empty-cart.gif",
-                                height: 175.0,
-                                width: 150.0,
+                              Container(
+                                child: Image.asset(
+                                  // "assets/img/empty-cart.gif",
+                                  "assets/img/animation_cart.gif",
+                                  height: 175.0,
+                                  width: 150.0,
+                                ),
                               ),
                               Text(
                                 "Your Cart is Empty",

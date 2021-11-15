@@ -24,7 +24,7 @@ class OrdersPage extends HookWidget {
     final orders = useProvider(ordersListProvider);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.redAccent,
         title: const Text("Orders"),
       ),
       body: orders.when(

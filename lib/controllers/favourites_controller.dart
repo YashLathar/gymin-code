@@ -11,6 +11,7 @@ final favouritesControllerProvider =
 });
 
 class FavouritesContorller extends ChangeNotifier {
+  // ignore: unused_field
   final Reader _read;
   List<Product> _favProducts = [];
   List<Gym> _favGyms = [];

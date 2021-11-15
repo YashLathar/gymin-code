@@ -205,15 +205,15 @@ class HomePage extends HookWidget {
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => GymListPage(),
-                                  ),
-                                );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => GymListPage(),
+                                //   ),
+                                // );
                               },
                               child: Text(
-                                'View all',
+                                'Available',
                                 style: kSmallContentStyle.copyWith(
                                     color: Colors.redAccent),
                               ),
@@ -288,218 +288,130 @@ class HomePage extends HookWidget {
                                       .bodyText2!
                                       .color),
                             ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CityListPage(
-                                      dataIndex: 0,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                'View all',
+                            Text(
+                                'Coming Soon',
                                 style: kSmallContentStyle.copyWith(
                                     color: Colors.redAccent),
                               ),
-                            )
                           ],
                         ),
                       ),
                       Container(
-                        ////
-                        margin: EdgeInsets.symmetric(horizontal: 15),
-                        height: 400,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        margin: EdgeInsets.only(left: 30, right: 30),
+                        height: 220,
+                        child: Column(
                           children: [
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Flexible(
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        await Future.delayed(
-                                            Duration(seconds: 1));
-                                        aShowToast(
-                                          msg: "We're Coming to your City Soon",
-                                        );
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(24),
-                                            topRight: Radius.circular(24),
-                                            bottomLeft: Radius.circular(24),
-                                            bottomRight: Radius.circular(24),
-                                          ),
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://spiderimg.amarujala.com/assets/images/2019/10/03/moradabad-railway-station_1570048208.jpeg'),
-                                          ),
-                                        ),
-                                        child: Container(
-                                          alignment: Alignment.topCenter,
-                                          color: Colors.transparent,
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 8),
-                                            child: Text(
-                                              'Moradabad',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20.0,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                            Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundImage: NetworkImage("https://i.pinimg.com/originals/1e/2b/09/1e2b0958e83b682ee976afb3aeb77c47.jpg"),
+                                      backgroundColor: Colors.redAccent,
+                                      radius: 40,
                                     ),
-                                  ),
-                                  Flexible(
-                                    flex: 2,
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        await Future.delayed(
-                                            Duration(seconds: 1));
-                                        aShowToast(
-                                          msg: "We're Coming to your City Soon",
-                                        );
-                                      },
-                                      child: Container(
-                                        //height: 1200,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(24),
-                                            topRight: Radius.circular(24),
-                                            bottomLeft: Radius.circular(24),
-                                            bottomRight: Radius.circular(24),
-                                          ),
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://pbs.twimg.com/profile_images/458286447670202368/xcHOodM-.jpeg'),
-                                          ),
-                                        ),
-                                        child: Container(
-                                          alignment: Alignment.topCenter,
-                                          color: Colors.transparent,
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 8),
-                                            child: Text(
-                                              'Shahjahanpur',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 24.0,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                    Text("Lukhnow"),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundImage: NetworkImage("https://www.hospitalitynet.org/picture/xxl_153116922.jpg?t=20200803125617"),
+                                      backgroundColor: Colors.redAccent,
+                                      radius: 40,
                                     ),
-                                  ),
-                                ],
-                              ),
+                                    Text("Delhi"),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundImage: NetworkImage("https://spiderimg.amarujala.com/assets/images/2019/10/03/moradabad-railway-station_1570048208.jpeg"),
+                                      backgroundColor: Colors.redAccent,
+                                      radius: 40,
+                                    ),
+                                    Text("Ramnagar"),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundImage: NetworkImage("https://pbs.twimg.com/profile_images/458286447670202368/xcHOodM-.jpeg"),
+                                      backgroundColor: Colors.redAccent,
+                                      radius: 40,
+                                    ),
+                                    Text("Kolkata"),
+                                  ],
+                                )
+                              ],
                             ),
-                            SizedBox(width: 10),
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Flexible(
-                                    flex: 2,
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        await Future.delayed(
-                                            Duration(seconds: 1));
-                                        aShowToast(
-                                          msg: "We're Coming to your City Soon",
-                                        );
-                                      },
-                                      child: Container(
-                                        height: 1200,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(24),
-                                            topRight: Radius.circular(24),
-                                            bottomLeft: Radius.circular(24),
-                                            bottomRight: Radius.circular(24),
-                                          ),
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://i.pinimg.com/originals/1e/2b/09/1e2b0958e83b682ee976afb3aeb77c47.jpg'),
-                                          ),
-                                        ),
-                                        child: Container(
-                                          alignment: Alignment.topCenter,
-                                          color: Colors.transparent,
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 14),
-                                            child: Text(
-                                              'Rampur',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 24.0,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        await Future.delayed(
-                                            Duration(seconds: 1));
-                                        aShowToast(
-                                          msg: "We're Coming to your City Soon",
-                                        );
-                                      },
-                                      child: Container(
-                                        height: 1200,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(24),
-                                            topRight: Radius.circular(24),
-                                            bottomLeft: Radius.circular(24),
-                                            bottomRight: Radius.circular(24),
-                                          ),
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://www.hospitalitynet.org/picture/xxl_153116922.jpg?t=20200803125617'),
-                                          ),
-                                        ),
-                                        child: Container(
-                                          alignment: Alignment.topCenter,
-                                          color: Colors.transparent,
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 16),
-                                            child: Text(
-                                              'Lucknow',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 22.0,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            SizedBox(
+                              height: 15,
                             ),
+                            Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundImage: NetworkImage("https://spiderimg.amarujala.com/assets/images/2019/10/03/moradabad-railway-station_1570048208.jpeg"),
+                                      radius: 40,
+                                    ),
+                                    Text("Chennai"),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: Colors.redAccent,
+                                      backgroundImage: NetworkImage("https://pbs.twimg.com/profile_images/458286447670202368/xcHOodM-.jpeg"),
+                                      radius: 40,
+                                    ),
+                                    Text("Noida"),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundImage: NetworkImage("https://i.pinimg.com/originals/1e/2b/09/1e2b0958e83b682ee976afb3aeb77c47.jpg"),
+                                      backgroundColor: Colors.redAccent,
+                                      radius: 40,
+                                    ),
+                                    Text("Almorah"),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundImage: NetworkImage("https://www.hospitalitynet.org/picture/xxl_153116922.jpg?t=20200803125617"),
+                                      backgroundColor: Colors.redAccent,
+                                      radius: 40,
+                                    ),
+                                    Text("Mumbai"),
+                                  ],
+                                )
+                              ],
+                            )
                           ],
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),
@@ -511,3 +423,197 @@ class HomePage extends HookWidget {
     );
   }
 }
+
+
+// Container(
+//                         ////
+//                         margin: EdgeInsets.symmetric(horizontal: 15),
+//                         height: 400,
+//                         child: Row(
+//                           mainAxisAlignment: MainAxisAlignment.center,
+//                           children: [
+//                             Expanded(
+//                               child: Column(
+//                                 children: [
+//                                   Flexible(
+//                                     child: GestureDetector(
+//                                       onTap: () async {
+//                                         await Future.delayed(
+//                                             Duration(seconds: 1));
+//                                         aShowToast(
+//                                           msg: "We're Coming to your City Soon",
+//                                         );
+//                                       },
+//                                       child: Container(
+//                                         decoration: BoxDecoration(
+//                                           borderRadius: BorderRadius.only(
+//                                             topLeft: Radius.circular(24),
+//                                             topRight: Radius.circular(24),
+//                                             bottomLeft: Radius.circular(24),
+//                                             bottomRight: Radius.circular(24),
+//                                           ),
+//                                           image: DecorationImage(
+//                                             image: NetworkImage(
+//                                                 'https://spiderimg.amarujala.com/assets/images/2019/10/03/moradabad-railway-station_1570048208.jpeg'),
+//                                           ),
+//                                         ),
+//                                         child: Container(
+//                                           alignment: Alignment.topCenter,
+//                                           color: Colors.transparent,
+//                                           child: Padding(
+//                                             padding:
+//                                                 const EdgeInsets.only(top: 8),
+//                                             child: Text(
+//                                               'Moradabad',
+//                                               style: TextStyle(
+//                                                 fontWeight: FontWeight.bold,
+//                                                 fontSize: 20.0,
+//                                                 color: Colors.white,
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                       ),
+//                                     ),
+//                                   ),
+//                                   Flexible(
+//                                     flex: 2,
+//                                     child: GestureDetector(
+//                                       onTap: () async {
+//                                         await Future.delayed(
+//                                             Duration(seconds: 1));
+//                                         aShowToast(
+//                                           msg: "We're Coming to your City Soon",
+//                                         );
+//                                       },
+//                                       child: Container(
+//                                         //height: 1200,
+//                                         decoration: BoxDecoration(
+//                                           borderRadius: BorderRadius.only(
+//                                             topLeft: Radius.circular(24),
+//                                             topRight: Radius.circular(24),
+//                                             bottomLeft: Radius.circular(24),
+//                                             bottomRight: Radius.circular(24),
+//                                           ),
+//                                           image: DecorationImage(
+//                                             image: NetworkImage(
+//                                                 'https://pbs.twimg.com/profile_images/458286447670202368/xcHOodM-.jpeg'),
+//                                           ),
+//                                         ),
+//                                         child: Container(
+//                                           alignment: Alignment.topCenter,
+//                                           color: Colors.transparent,
+//                                           child: Padding(
+//                                             padding:
+//                                                 const EdgeInsets.only(top: 8),
+//                                             child: Text(
+//                                               'Shahjahanpur',
+//                                               style: TextStyle(
+//                                                 fontWeight: FontWeight.bold,
+//                                                 fontSize: 24.0,
+//                                                 color: Colors.black,
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                       ),
+//                                     ),
+//                                   ),
+//                                 ],
+//                               ),
+//                             ),
+//                             SizedBox(width: 10),
+//                             Expanded(
+//                               child: Column(
+//                                 children: [
+//                                   Flexible(
+//                                     flex: 2,
+//                                     child: GestureDetector(
+//                                       onTap: () async {
+//                                         await Future.delayed(
+//                                             Duration(seconds: 1));
+//                                         aShowToast(
+//                                           msg: "We're Coming to your City Soon",
+//                                         );
+//                                       },
+//                                       child: Container(
+//                                         height: 1200,
+//                                         decoration: BoxDecoration(
+//                                           borderRadius: BorderRadius.only(
+//                                             topLeft: Radius.circular(24),
+//                                             topRight: Radius.circular(24),
+//                                             bottomLeft: Radius.circular(24),
+//                                             bottomRight: Radius.circular(24),
+//                                           ),
+//                                           image: DecorationImage(
+//                                             image: NetworkImage(
+//                                                 'https://i.pinimg.com/originals/1e/2b/09/1e2b0958e83b682ee976afb3aeb77c47.jpg'),
+//                                           ),
+//                                         ),
+//                                         child: Container(
+//                                           alignment: Alignment.topCenter,
+//                                           color: Colors.transparent,
+//                                           child: Padding(
+//                                             padding:
+//                                                 const EdgeInsets.only(top: 14),
+//                                             child: Text(
+//                                               'Rampur',
+//                                               style: TextStyle(
+//                                                 fontWeight: FontWeight.bold,
+//                                                 fontSize: 24.0,
+//                                                 color: Colors.black,
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                       ),
+//                                     ),
+//                                   ),
+//                                   Flexible(
+//                                     child: GestureDetector(
+//                                       onTap: () async {
+//                                         await Future.delayed(
+//                                             Duration(seconds: 1));
+//                                         aShowToast(
+//                                           msg: "We're Coming to your City Soon",
+//                                         );
+//                                       },
+//                                       child: Container(
+//                                         height: 1200,
+//                                         decoration: BoxDecoration(
+//                                           borderRadius: BorderRadius.only(
+//                                             topLeft: Radius.circular(24),
+//                                             topRight: Radius.circular(24),
+//                                             bottomLeft: Radius.circular(24),
+//                                             bottomRight: Radius.circular(24),
+//                                           ),
+//                                           image: DecorationImage(
+//                                             image: NetworkImage(
+//                                                 'https://www.hospitalitynet.org/picture/xxl_153116922.jpg?t=20200803125617'),
+//                                           ),
+//                                         ),
+//                                         child: Container(
+//                                           alignment: Alignment.topCenter,
+//                                           color: Colors.transparent,
+//                                           child: Padding(
+//                                             padding:
+//                                                 const EdgeInsets.only(top: 16),
+//                                             child: Text(
+//                                               'Lucknow',
+//                                               style: TextStyle(
+//                                                 fontWeight: FontWeight.bold,
+//                                                 fontSize: 22.0,
+//                                                 color: Colors.black,
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                       ),
+//                                     ),
+//                                   ),
+//                                 ],
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
