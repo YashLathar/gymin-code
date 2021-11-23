@@ -622,7 +622,6 @@ class ProductDetailPage extends HookWidget {
                           final thisProduct = cartControllerProvider.products
                               .where(
                                   (product) => product.productId == productID);
-
                           if (thisProduct.isEmpty) {
                             isLoading.value = true;
                             if (isLoading.value) {
@@ -630,22 +629,33 @@ class ProductDetailPage extends HookWidget {
                                   context: context,
                                   builder: (context) {
                                     return Container(
-                                      color: Colors.transparent,
+                                  color: Colors.transparent,
+                                  child: Center(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: Colors.white,
+                                      ),
+                                      height: 80,
+                                      width: size.width / 1.5,
                                       child: Center(
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color: Colors.white,
-                                          ),
-                                          height: 100,
-                                          width: 100,
-                                          child: Center(
-                                            child: CircularProgressIndicator(),
-                                          ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: [
+                                            CircularProgressIndicator(),
+                                            Text(
+                                              "Adding Product",
+                                              style:
+                                                  kSmallContentStyle.copyWith(
+                                                color: Colors.black,
+                                              ),
+                                            )
+                                          ],
                                         ),
                                       ),
-                                    );
+                                    ),
+                                  ),
+                                );
                                   });
                             }
 
@@ -663,7 +673,7 @@ class ProductDetailPage extends HookWidget {
                             //     .incrementProductQuantity(productID);
                             Fluttertoast.showToast(
                                 msg:
-                                    "Product already exist in cart");
+                                    "Product already exists in cart");
                           }
                         },
                         child: Row(

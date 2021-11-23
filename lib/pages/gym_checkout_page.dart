@@ -323,7 +323,7 @@ class GymCheckoutPage extends HookWidget {
                                                                 DateRangePickerSelectionMode
                                                                     .single,
                                                             backgroundColor:
-                                                                Theme.of(context).backgroundColor,
+                                                                Colors.white,
                                                             showActionButtons:
                                                                 true,
                                                             onSelectionChanged:
@@ -865,7 +865,7 @@ class GymCheckoutPage extends HookWidget {
                                   ),
                                 ),
                                 Text(
-                                  "${context.read(userSelectedFromTimeProvider).state} to ${context.read(userSelectedToTimeProvider).state}",
+                                  "${context.read(userSelectedFromTimeProvider).state}", //",
                                   style: kSmallHeadingTextStyle,
                                 ),
                               ]

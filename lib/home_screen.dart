@@ -5,11 +5,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/pages/activity_page.dart';
 import 'package:gym_in/pages/authenticate_ticket.dart';
-import 'package:gym_in/pages/feeds_page.dart';
 import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/pages/home_page.dart';
 import 'package:gym_in/pages/user_page.dart';
+import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:io';
 
@@ -136,9 +136,11 @@ class HomeScreen extends HookWidget {
                           color: Theme.of(context).textTheme.bodyText2!.color),
                     ),
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => FeedsPage()));
-                    }),
+                      aShowToast(msg: "Coming soon");
+                      // Navigator.push(context,
+                          // MaterialPageRoute(builder: (context) => FeedsPage()));
+                    }
+                    ),
 
                 ListTile(
                   leading: FaIcon(
