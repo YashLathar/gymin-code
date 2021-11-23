@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/favourites_controller.dart';
 import 'package:gym_in/widgets/fav_gym.dart';
@@ -67,7 +68,7 @@ class FavoritesPage extends HookWidget {
                     child: IconButton(
                       onPressed: () {},
                       icon: Icon(
-                        Icons.add_circle,
+                        FontAwesomeIcons.plus,
                         color: Theme.of(context).textTheme.bodyText2!.color,
                       ),
                     ),
@@ -85,14 +86,18 @@ class FavoritesPage extends HookWidget {
               tabs: [
                 Tab(
                   child: Text(
-                    "FavProducts",
-                    style: TextStyle(fontSize: 22),
+                    "Products",
+                    style: TextStyle(fontSize: 22,
+                    color: Theme.of(context).textTheme.bodyText2!.color
+                    ),
                   ),
                 ),
                 Tab(
                   child: Text(
-                    "FavGyms",
-                    style: TextStyle(fontSize: 22),
+                    "Gyms",
+                    style: TextStyle(fontSize: 22,
+                    color: Theme.of(context).textTheme.bodyText2!.color
+                    ),
                   ),
                 ),
               ],

@@ -12,7 +12,8 @@ class ProductCartPage extends HookWidget {
     required this.title,
     required this.price,
     required this.image,
-    required this.productId, productID,
+    required this.productId,
+    productID,
   }) : super(key: key);
 
   final String image;
@@ -34,12 +35,13 @@ class ProductCartPage extends HookWidget {
           context: context,
           builder: (context) {
             return SimpleDialog(
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                title: Text(
-                  "Order Success",
-                  style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyText2!.color),
-                ));
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              title: Text(
+                "Order Success",
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText2!.color),
+              ),
+            );
           });
     }
 
@@ -49,12 +51,13 @@ class ProductCartPage extends HookWidget {
           context: context,
           builder: (context) {
             return SimpleDialog(
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                title: Text(
-                  "Order Failed",
-                  style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyText2!.color),
-                ));
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              title: Text(
+                "Order Failed",
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText2!.color),
+              ),
+            );
           });
     }
 
@@ -95,7 +98,6 @@ class ProductCartPage extends HookWidget {
           children: [
             Container(
               width: size.width,
-              height: size.width,
               child: cartControllerProvider.products.isEmpty
                   ? Column(
                       children: [
@@ -268,7 +270,7 @@ class ProductCartPage extends HookWidget {
                                       Navigator.pop(context);
                                     },
                                     icon: Icon(
-                                      Icons.add_shopping_cart_outlined,
+                                      Icons.add_shopping_cart,
                                       color: Theme.of(context).backgroundColor,
                                     ),
                                   ),
@@ -277,17 +279,20 @@ class ProductCartPage extends HookWidget {
                             ],
                           ),
                         ),
-                        Expanded(
-                          child: ListView(
-                            children: cartControllerProvider.products
-                                .map((product) => CartProduct(
-                                      productId: product.productId,
-                                      imageUrl: product.image,
-                                      quantity: product.quantity,
-                                      price: product.price.toString(),
-                                      productName: product.title,
-                                    ))
-                                .toList(),
+                        Container(
+                          height: size.height / 1.7,
+                          child: Expanded(
+                            child: ListView(
+                              children: cartControllerProvider.products
+                                  .map((product) => CartProduct(
+                                        productId: product.productId,
+                                        imageUrl: product.image,
+                                        quantity: product.quantity,
+                                        price: product.price.toString(),
+                                        productName: product.title,
+                                      ))
+                                  .toList(),
+                            ),
                           ),
                         ),
                       ],
@@ -324,6 +329,7 @@ class ProductCartPage extends HookWidget {
                       padding: EdgeInsets.only(
                           bottom: 15, left: 15, right: 15, top: 15),
                       color: Theme.of(context).scaffoldBackgroundColor,
+                      height: size.height / 3.5,
                       width: size.width,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -375,12 +381,22 @@ class ProductCartPage extends HookWidget {
                                     color: Colors.grey,
                                   ),
                                 ),
-                                Text(
-                                  "+ ₹80",
-                                  style: kSmallContentStyle.copyWith(
-                                    fontSize: 15,
-                                    decoration: TextDecoration.lineThrough,
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "+",
+                                      style: kSmallContentStyle.copyWith(
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    Text(
+                                      "₹80",
+                                      style: kSmallContentStyle.copyWith(
+                                        fontSize: 15,
+                                        decoration: TextDecoration.lineThrough,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -421,10 +437,10 @@ class ProductCartPage extends HookWidget {
                             ),
                             child: MaterialButton(
                               onPressed: () {
-                                // final formatprice = selectedPrice.state * 100;
+                                final formatprice = price * 100;
                                 openCheckout(
                                   name: title,
-                                  price: price.toString(),
+                                  price: formatprice.toString(),
                                   description: productId,
                                   image: image,
                                 );

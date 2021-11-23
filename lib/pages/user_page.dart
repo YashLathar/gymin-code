@@ -287,7 +287,7 @@ class UserPage extends HookWidget {
                         aShowToast(msg: "Coming soon");
                       },
                       child: PopUpMenuTile(
-                        icon: FontAwesomeIcons.firstOrder,
+                        icon: FontAwesomeIcons.list,
                         title: 'Your Orders',
                       ),
                     ),
@@ -444,7 +444,7 @@ class ProfileHeader1 extends HookWidget {
             ),
             CircleAvatar(
               radius: 60,
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              backgroundColor: Colors.redAccent,
               backgroundImage: NetworkImage(
                 authControllerState!.photoURL ??
                     "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg",

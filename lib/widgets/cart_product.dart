@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 // ignore: implementation_imports
 import 'package:flutter_riverpod/src/provider.dart';
+import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
 import 'package:gym_in/services/cart_service.dart';
 import 'package:gym_in/widgets/quantity_counter.dart';
@@ -26,9 +27,10 @@ class CartProduct extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final isLoading = useState(false);
+    final size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      height: 160,
+      height: 120,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Theme.of(context).scaffoldBackgroundColor),
@@ -73,10 +75,22 @@ class CartProduct extends HookWidget {
                                         borderRadius: BorderRadius.circular(15),
                                         color: Colors.white,
                                       ),
-                                      height: 100,
-                                      width: 100,
+                                      height: 80,
+                                      width: size.width / 1.5,
                                       child: Center(
-                                        child: CircularProgressIndicator(),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: [
+                                            CircularProgressIndicator(),
+                                            Text(
+                                              "Removing Product",
+                                              style:
+                                                  kSmallContentStyle.copyWith(
+                                                color: Colors.black,
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -91,7 +105,7 @@ class CartProduct extends HookWidget {
                         isLoading.value = false;
                         Navigator.pop(context);
                         context.read(cartProvider).removeProduct(productId);
-                        aShowToast(msg: "Product has been rremoved from Cart");
+                        aShowToast(msg: "Product has been removed from Cart");
                       },
                       icon: Icon(
                         Icons.remove_shopping_cart,

@@ -121,10 +121,7 @@ class GymPage extends HookWidget {
                                       child: Icon(
                                         Icons.arrow_back_ios_new,
                                         size: 25,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2!
-                                            .color,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
