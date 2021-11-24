@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_in/home_screen.dart';
 import 'package:gym_in/pages/activity_page.dart';
@@ -19,9 +20,12 @@ import 'package:gym_in/pages/wallet_page.dart';
 import 'package:gym_in/themes.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+late FirebaseAnalytics analytics;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  analytics = FirebaseAnalytics();
   runApp(ProviderScope(child: MyApp()));
 }
 
