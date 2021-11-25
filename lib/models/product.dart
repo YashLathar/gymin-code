@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Product {
@@ -6,6 +7,7 @@ class Product {
   final String title;
   final int price;
   final String productId;
+  final String description;
   bool isLiked;
   int quantity;
   Product({
@@ -13,6 +15,7 @@ class Product {
     required this.title,
     required this.price,
     required this.productId,
+    required this.description,
     this.isLiked = false,
     this.quantity = 1,
   });
@@ -22,6 +25,7 @@ class Product {
     String? title,
     int? price,
     String? productId,
+    String? description,
     bool? isLiked,
     int? quantity,
   }) {
@@ -30,6 +34,7 @@ class Product {
       title: title ?? this.title,
       price: price ?? this.price,
       productId: productId ?? this.productId,
+      description: description ?? this.description,
       isLiked: isLiked ?? this.isLiked,
       quantity: quantity ?? this.quantity,
     );
@@ -41,6 +46,7 @@ class Product {
       'title': title,
       'price': price,
       'productId': productId,
+      'description': description,
       'isLiked': isLiked,
       'quantity': quantity,
     };
@@ -52,6 +58,7 @@ class Product {
       title: map['title'],
       price: map['price'],
       productId: map['productId'],
+      description: map['description'],
       isLiked: map['isLiked'],
       quantity: map['quantity'],
     );
@@ -59,11 +66,11 @@ class Product {
 
   factory Product.fromFirebase(Map<String, dynamic> map, String docId) {
     return Product(
+      description: map['description'],
       image: map['image'],
       title: map['title'],
       price: map['price'],
       productId: docId,
-      quantity: 1,
     );
   }
 
@@ -79,7 +86,7 @@ class Product {
 
   @override
   String toString() {
-    return 'Product(image: $image, title: $title, price: $price, productId: $productId, isLiked: $isLiked, quantity: $quantity)';
+    return 'Product(image: $image, title: $title, price: $price, productId: $productId, description: $description, isLiked: $isLiked, quantity: $quantity)';
   }
 
   @override
@@ -91,6 +98,7 @@ class Product {
         other.title == title &&
         other.price == price &&
         other.productId == productId &&
+        other.description == description &&
         other.isLiked == isLiked &&
         other.quantity == quantity;
   }
@@ -101,6 +109,7 @@ class Product {
         title.hashCode ^
         price.hashCode ^
         productId.hashCode ^
+        description.hashCode ^
         isLiked.hashCode ^
         quantity.hashCode;
   }

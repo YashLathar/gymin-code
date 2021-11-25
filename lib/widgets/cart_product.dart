@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-// ignore: implementation_imports
-import 'package:flutter_riverpod/src/provider.dart';
-import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
 import 'package:gym_in/services/cart_service.dart';
 import 'package:gym_in/widgets/quantity_counter.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CartProduct extends HookWidget {
   const CartProduct({
@@ -27,7 +25,6 @@ class CartProduct extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final isLoading = useState(false);
-    final size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       height: 120,
@@ -76,21 +73,9 @@ class CartProduct extends HookWidget {
                                         color: Colors.white,
                                       ),
                                       height: 80,
-                                      width: size.width / 1.5,
+                                      width: 80,
                                       child: Center(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            CircularProgressIndicator(),
-                                            Text(
-                                              "Removing Product",
-                                              style:
-                                                  kSmallContentStyle.copyWith(
-                                                color: Colors.black,
-                                              ),
-                                            )
-                                          ],
-                                        ),
+                                        child: CircularProgressIndicator(),
                                       ),
                                     ),
                                   ),

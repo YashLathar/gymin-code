@@ -80,6 +80,7 @@ class OrdersPage extends HookWidget {
                                 builder: (context) {
                                   return QrResultScreen(
                                     gymName: order.gymName,
+                                    gymPhoto: order.gymPhoto,
                                     userImage: user!.photoURL,
                                     userName: order.userName,
                                     fromDate: order.fromDate,

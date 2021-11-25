@@ -111,12 +111,7 @@ class ProductDetailPage extends HookWidget {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  ProductCartPage(
-                                                title: title,
-                                                image: image,
-                                                price: price,
-                                                productId: productID,
-                                              ),
+                                                  ProductCartPage(),
                                             ),
                                           );
                                         },
@@ -614,6 +609,7 @@ class ProductDetailPage extends HookWidget {
                       child: MaterialButton(
                         onPressed: () async {
                           final product = Product(
+                            description: description,
                             title: title,
                             price: price,
                             productId: productID,
@@ -629,33 +625,22 @@ class ProductDetailPage extends HookWidget {
                                   context: context,
                                   builder: (context) {
                                     return Container(
-                                  color: Colors.transparent,
-                                  child: Center(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Colors.white,
-                                      ),
-                                      height: 80,
-                                      width: size.width / 1.5,
+                                      color: Colors.transparent,
                                       child: Center(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            CircularProgressIndicator(),
-                                            Text(
-                                              "Adding Product",
-                                              style:
-                                                  kSmallContentStyle.copyWith(
-                                                color: Colors.black,
-                                              ),
-                                            )
-                                          ],
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            color: Colors.white,
+                                          ),
+                                          height: 80,
+                                          width: 80,
+                                          child: Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                );
+                                    );
                                   });
                             }
 
@@ -672,8 +657,7 @@ class ProductDetailPage extends HookWidget {
                             // cartControllerProvider
                             //     .incrementProductQuantity(productID);
                             Fluttertoast.showToast(
-                                msg:
-                                    "Product already exists in cart");
+                                msg: "Product already exists in cart");
                           }
                         },
                         child: Row(
@@ -720,6 +704,7 @@ class ProductDetailPage extends HookWidget {
                               isUiLiked.value = !isUiLiked.value;
                               if (isUiLiked.value) {
                                 final product = Product(
+                                  description: description,
                                   image: image,
                                   title: title,
                                   price: price,

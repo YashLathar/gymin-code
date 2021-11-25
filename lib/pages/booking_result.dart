@@ -7,7 +7,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 class QrResultScreen extends HookWidget {
   const QrResultScreen({
     required this.gymName,
-    // required this.gymphoto,
+    required this.gymPhoto,
     required this.userName,
     required this.docId,
     required this.fromDate,
@@ -18,7 +18,7 @@ class QrResultScreen extends HookWidget {
   }) : super(key: key);
 
   final String gymName;
-  // final String gymphoto;
+  final String gymPhoto;
   final String? userName;
   final String docId;
   final String fromDate;
@@ -74,35 +74,35 @@ class QrResultScreen extends HookWidget {
                       margin: EdgeInsets.only(left: 20, right: 20),
                       child: Row(
                         children: [
-                          // ClipRRect(
-                          //   borderRadius: BorderRadius.circular(30),
-                          //   child: Container(
-                          //     width: 50,
-                          //     height: 50,
-                          //     color: Colors.white,
-                          //     child: Image.network(
-                          //       ,
-                          //       fit: BoxFit.cover,
-                          //       filterQuality: FilterQuality.high,
-                          //       loadingBuilder: (BuildContext context,
-                          //           Widget child,
-                          //           ImageChunkEvent? loadingProgress) {
-                          //         if (loadingProgress == null) return child;
-                          //         return Center(
-                          //           child: CircularProgressIndicator(),
-                          //         );
-                          //       },
-                          //     ),
-                          //   ),
-                          // ),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(30),
                             child: Container(
                               width: 50,
                               height: 50,
-                              color: Colors.redAccent,
+                              color: Colors.white,
+                              child: Image.network(
+                                gymPhoto,
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.high,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
+                              ),
                             ),
                           ),
+                          // ClipRRect(
+                          //   borderRadius: BorderRadius.circular(30),
+                          //   child: Container(
+                          //     width: 50,
+                          //     height: 50,
+                          //     color: Colors.redAccent,
+                          //   ),
+                          // ),
                           SizedBox(
                             width: 15,
                           ),

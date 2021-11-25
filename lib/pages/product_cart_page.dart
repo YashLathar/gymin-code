@@ -9,17 +9,7 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 class ProductCartPage extends HookWidget {
   ProductCartPage({
     Key? key,
-    required this.title,
-    required this.price,
-    required this.image,
-    required this.productId,
-    productID,
   }) : super(key: key);
-
-  final String image;
-  final String title;
-  final int price;
-  final String productId;
 
   @override
   Widget build(BuildContext context) {
@@ -437,13 +427,19 @@ class ProductCartPage extends HookWidget {
                             ),
                             child: MaterialButton(
                               onPressed: () {
-                                final formatprice = price * 100;
-                                openCheckout(
-                                  name: title,
-                                  price: formatprice.toString(),
-                                  description: productId,
-                                  image: image,
-                                );
+                                if (cartControllerProvider
+                                    .products.isNotEmpty) {
+                                  final formatprice =
+                                      cartControllerProvider.totalPrice * 100;
+                                  openCheckout(
+                                      name: cartControllerProvider
+                                          .products[0].title,
+                                      price: formatprice.toString(),
+                                      description: cartControllerProvider
+                                          .products[0].description,
+                                      image: cartControllerProvider
+                                          .products[0].image);
+                                }
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,

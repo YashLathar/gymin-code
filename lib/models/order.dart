@@ -7,6 +7,7 @@ class Order {
   final String fromDate;
   final String fromTime;
   final String planSelected;
+  final String gymPhoto;
   final String? userImage;
   Order({
     required this.gymName,
@@ -15,6 +16,7 @@ class Order {
     required this.fromDate,
     required this.fromTime,
     required this.planSelected,
+    required this.gymPhoto,
     this.userImage,
   });
 
@@ -25,6 +27,7 @@ class Order {
     String? fromDate,
     String? fromTime,
     String? planSelected,
+    String? gymPhoto,
     String? userImage,
   }) {
     return Order(
@@ -34,6 +37,7 @@ class Order {
       fromDate: fromDate ?? this.fromDate,
       fromTime: fromTime ?? this.fromTime,
       planSelected: planSelected ?? this.planSelected,
+      gymPhoto: gymPhoto ?? this.gymPhoto,
       userImage: userImage ?? this.userImage,
     );
   }
@@ -46,6 +50,7 @@ class Order {
       'fromDate': fromDate,
       'fromTime': fromTime,
       'planSelected': planSelected,
+      'gymPhoto': gymPhoto,
       'userImage': userImage,
     };
   }
@@ -58,6 +63,7 @@ class Order {
       fromDate: map['fromDate'],
       fromTime: map['fromTime'],
       planSelected: map['planSelected'],
+      gymPhoto: map['gymPhoto'],
       userImage: map['userImage'] != null ? map['userImage'] : null,
     );
   }
@@ -68,7 +74,7 @@ class Order {
 
   @override
   String toString() {
-    return 'Order(gymName: $gymName, userName: $userName, docId: $docId, fromDate: $fromDate, fromTime: $fromTime, planSelected: $planSelected, userImage: $userImage)';
+    return 'Order(gymName: $gymName, userName: $userName, docId: $docId, fromDate: $fromDate, fromTime: $fromTime, planSelected: $planSelected, gymPhoto: $gymPhoto, userImage: $userImage)';
   }
 
   @override
@@ -82,6 +88,7 @@ class Order {
         other.fromDate == fromDate &&
         other.fromTime == fromTime &&
         other.planSelected == planSelected &&
+        other.gymPhoto == gymPhoto &&
         other.userImage == userImage;
   }
 
@@ -93,6 +100,7 @@ class Order {
         fromDate.hashCode ^
         fromTime.hashCode ^
         planSelected.hashCode ^
+        gymPhoto.hashCode ^
         userImage.hashCode;
   }
 }

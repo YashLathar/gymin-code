@@ -1,5 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/home_screen.dart';
 import 'package:gym_in/pages/activity_page.dart';
 import 'package:gym_in/pages/chat_page.dart';
@@ -9,6 +10,7 @@ import 'package:gym_in/pages/orders_page.dart';
 import 'package:gym_in/pages/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gym_in/pages/login_page.dart';
+import 'package:gym_in/pages/product_cart_page.dart';
 import 'package:gym_in/pages/setting_page.dart';
 import 'package:gym_in/pages/signup_page.dart';
 import 'package:gym_in/pages/favorites_page.dart';
@@ -22,6 +24,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 late FirebaseAnalytics analytics;
 
+final appThemeProvider = StateProvider<bool>((ref) {
+  return false;
+});
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -29,15 +35,15 @@ Future<void> main() async {
   runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends HookWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = useProvider(appThemeProvider).state;
+
     return MaterialApp(
       title: 'GymIn',
       debugShowCheckedModeBanner: false,
-      // theme: Styles.themeData(context),
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
+      theme: theme ? AppTheme.darkTheme : AppTheme.lightTheme,
       home: HomeScreen(),
       onGenerateRoute: (settings) {
         final args = settings.arguments;
@@ -58,8 +64,8 @@ class MyApp extends StatelessWidget {
           case "/settingPage":
             return MaterialPageRoute(builder: (_) => SettingPage());
 
-          // case "/productCartPage":
-          //   return MaterialPageRoute(builder: (_) => ProductCartPage());
+          case "/productCartPage":
+            return MaterialPageRoute(builder: (_) => ProductCartPage());
 
           case "/signInPage":
             return MaterialPageRoute(builder: (_) => LoginPage());

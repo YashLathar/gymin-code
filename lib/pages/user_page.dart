@@ -147,19 +147,6 @@ class UserPage extends HookWidget {
             Row(
               children: [
                 GestureDetector(
-                  // onTap: () {
-                  //   showModalBottomSheet(
-                  //     shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.vertical(
-                  //         top: Radius.circular(25),
-                  //       ),
-                  //     ),
-                  //     context: context,
-                  //     builder: (context) {
-                  //       return logOutSheet(context);
-                  //     },
-                  //   );
-                  // },
                   child: Text(
                     'Gymin',
                     style: GoogleFonts.montserrat(
@@ -302,20 +289,8 @@ class UserPage extends HookWidget {
                       ),
                     ),
                     PopupMenuItem<int>(
-                      value: 2,
-                      onTap: () {
-                        aShowToast(msg: "Coming soon");
-                      },
-                      child: PopUpMenuTile(
-                        icon: Icons.change_circle,
-                        title: 'Change Theme',
-                      ),
-                    ),
-                    PopupMenuItem<int>(
                       value: 3,
-                      onTap: () {
-                        aShowToast(msg: "Coming soon");
-                      },
+                      onTap: () {},
                       child: PopUpMenuTile(
                         icon: Icons.favorite,
                         title: 'favourites',

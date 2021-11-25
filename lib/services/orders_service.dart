@@ -14,6 +14,7 @@ abstract class BaseOrdersService {
     String bookingToTime,
     String userPlan,
     String date,
+    String gymPhoto,
     BuildContext context,
   );
   Future<List<Order>> retrievAllOrders();
@@ -33,6 +34,7 @@ class OrdersService implements BaseOrdersService {
   @override
   Future<DocumentReference> addToOrders(
     String gymName,
+    String gymPhoto,
     String bookingFromTiming,
     String bookingToTime,
     String userPlan,
@@ -50,6 +52,7 @@ class OrdersService implements BaseOrdersService {
         "userPlan": userPlan,
         "bookingFromTiming": bookingFromTiming,
         "bookingToTiming": bookingToTime,
+        "gymPhoto": gymPhoto,
         "date": date,
       });
       return doc;
@@ -59,7 +62,6 @@ class OrdersService implements BaseOrdersService {
   }
 
   @override
-
   Future<List<Order>> retrievAllOrders() async {
     try {
       final documentSnapshots = await _read(firestoreProvider)
@@ -71,6 +73,7 @@ class OrdersService implements BaseOrdersService {
       final orders = documentSnapshots.docs.map((order) {
         return Order(
           docId: order.id,
+          gymPhoto: order.data()["gymPhoto"],
           userImage: user!.photoURL,
           userName: user!.displayName,
           fromTime: order.data()["bookingFromTiming"],
@@ -84,6 +87,5 @@ class OrdersService implements BaseOrdersService {
     } on FirebaseException catch (e) {
       throw Text(e.message ?? "ERROR");
     }
-
   }
 }
