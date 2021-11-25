@@ -3,12 +3,14 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/main.dart';
 import 'package:gym_in/pages/activity_page.dart';
 import 'package:gym_in/pages/authenticate_ticket.dart';
 import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/pages/home_page.dart';
 import 'package:gym_in/pages/user_page.dart';
+import 'package:gym_in/services/theme_persistence_service.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:io';
@@ -138,13 +140,34 @@ class HomeScreen extends HookWidget {
                     onTap: () {
                       aShowToast(msg: "Coming soon");
                       // Navigator.push(context,
-                          // MaterialPageRoute(builder: (context) => FeedsPage()));
-                    }
-                    ),
+                      // MaterialPageRoute(builder: (context) => FeedsPage()));
+                    }),
+                ListTile(
+                  leading: Icon(
+                      context.read(appThemeProvider).state
+                          ? FontAwesomeIcons.moon
+                          : FontAwesomeIcons.sun,
+                      color: Theme.of(context).textTheme.bodyText2!.color),
+                  title: Text(
+                    'Theme',
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color),
+                  ),
+                  trailing: Switch(
+                    value: context.read(appThemeProvider).state,
+                    onChanged: (enabled) {},
+                  ),
+                  onTap: () {
+                    context.read(appThemeProvider).state =
+                        !context.read(appThemeProvider).state;
+                    // final ThemePreferences preferences = ThemePreferences();
 
+                    // preferences.setTheme(context.read(appThemeProvider).state);
+                  },
+                ),
                 ListTile(
                   leading: FaIcon(
-                    FontAwesomeIcons.firstOrder,
+                    FontAwesomeIcons.list,
                     color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
                   onTap: () {
@@ -180,6 +203,7 @@ class HomeScreen extends HookWidget {
                   ),
                   onTap: () => Navigator.pushNamed(context, '/settingPage'),
                 ),
+
                 ListTile(
                   leading: Icon(
                     Icons.description,

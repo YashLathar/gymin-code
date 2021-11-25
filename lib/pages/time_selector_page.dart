@@ -29,8 +29,11 @@ class TimeSelector extends HookWidget {
     await showTimePicker(
       context: context,
       initialTime: fromTime,
-    ).then((value) => fromTime = value!);
-
+    ).then((value) {
+      if (value != null) {
+        fromTime = value;
+      }
+    });
     return fromTime;
   }
 
@@ -45,184 +48,219 @@ class TimeSelector extends HookWidget {
       body: SafeArea(
         child: Container(
           width: size.width,
-          height: size.height,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
             children: [
-              Container(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(35),
-                        border: Border.all(
-                            width: 2.0,
-                            color: Theme.of(context).backgroundColor),
-                      ),
-                      child: Center(
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: Theme.of(context).backgroundColor,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(35),
+                            border: Border.all(
+                                width: 2.0,
+                                color: Theme.of(context).backgroundColor),
+                          ),
+                          child: Center(
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(
+                                Icons.arrow_back_ios,
+                                color: Theme.of(context).backgroundColor,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              "Number of hours",
+                              style: kSubHeadingStyle.copyWith(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(35),
+                            border: Border.all(
+                              width: 2.0,
+                              color: Colors.transparent,
+                            ),
+                          ),
+                          child: Center(
+                            child: IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.transparent,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          "Number of hours",
-                          style: kSubHeadingStyle.copyWith(
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(15),
+                    width: size.width,
+                    child: Column(
+                      children: [
+                        // Text(
+                        //   "Number of hours",
+                        //   style: kMainHeadingStyle.copyWith(
+                        //       fontSize: 20,
+                        //       color: Theme.of(context).textTheme.bodyText2!.color),
+                        // ),
+                        GestureDetector(
+                          onTap: () {
+                            selected.value = 1;
+                            selectedPrice.state = 397;
+                            context.read(userselectedforhoursProvider).state =
+                                1;
+                          },
+                          child: ResuableButton(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "1 Hour",
+                                  style: kSmallContentStyle.copyWith(
+                                      color: Colors.black),
+                                ),
+                                Text(
+                                  "₹ 397",
+                                  style: kSmallContentStyle.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            borderColor: selected.value == 1
+                                ? Colors.redAccent
+                                : Color(0xffF2F2F2),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            selected.value = 2;
+                            selectedPrice.state = 700;
+                            context.read(userselectedforhoursProvider).state =
+                                2;
+                          },
+                          child: ResuableButton(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "2 Hour",
+                                  style: kSmallContentStyle.copyWith(
+                                      color: Colors.black),
+                                ),
+                                Text(
+                                  "₹ 700",
+                                  style: kSmallContentStyle.copyWith(
+                                      color: Colors.black),
+                                ),
+                              ],
+                            ),
+                            borderColor: selected.value == 2
+                                ? Colors.redAccent
+                                : Color(0xffF2F2F2),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            selected.value = 3;
+                            selectedPrice.state = 1000;
+                            context.read(userselectedforhoursProvider).state =
+                                3;
+                          },
+                          child: ResuableButton(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "3 Hour",
+                                  style: kSmallContentStyle.copyWith(
+                                      color: Colors.black),
+                                ),
+                                Text(
+                                  "₹ 1000",
+                                  style: kSmallContentStyle.copyWith(
+                                      color: Colors.black),
+                                ),
+                              ],
+                            ),
+                            borderColor: selected.value == 3
+                                ? Colors.redAccent
+                                : Color(0xffF2F2F2),
+                          ),
+                        ),
+                        Text(
+                          "From",
+                          style: kMainHeadingStyle.copyWith(
+                              fontSize: 20,
                               color:
                                   Theme.of(context).textTheme.bodyText2!.color),
                         ),
-                      ),
-                    ),
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(35),
-                        border: Border.all(
-                          width: 2.0,
-                          color: Colors.transparent,
+                        RoundedButton(
+                            buttonText: fromTime.value.hour.toString() +
+                                " : " +
+                                fromTime.value.minute.toString(),
+                            onPressed: () async {
+                              final selectedFromTime =
+                                  await pickFromTime(context);
+
+                              context.read(userSelectedFromTimeProvider).state =
+                                  selectedFromTime.hour.toString();
+
+                              print("🤣🤣🤣" +
+                                  context
+                                      .read(userSelectedFromTimeProvider)
+                                      .state);
+
+                              fromTime.value = selectedFromTime;
+                            }),
+                        Text(
+                          "To",
+                          style: kMainHeadingStyle.copyWith(
+                              fontSize: 20,
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color),
                         ),
-                      ),
-                      child: Center(
-                        child: IconButton(
+                        RoundedButton(
+                          buttonText: influencedtoHour.toString() +
+                              " : " +
+                              fromTime.value.minute.toString(),
                           onPressed: () {},
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.transparent,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "Continue",
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(15),
-                width: size.width,
-                child: Column(
-                  children: [
-                    // Text(
-                    //   "Number of hours",
-                    //   style: kMainHeadingStyle.copyWith(
-                    //       fontSize: 20,
-                    //       color: Theme.of(context).textTheme.bodyText2!.color),
-                    // ),
-                    GestureDetector(
-                      onTap: () {
-                        selected.value = 1;
-                        selectedPrice.state = 397;
-                        context.read(userselectedforhoursProvider).state = 1;
-                      },
-                      child: ResuableButton(
-                        
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("1 Hour", style: kSmallContentStyle.copyWith(color: Colors.black),),
-                            Text("₹ 397", style: kSmallContentStyle.copyWith(color: Colors.black,),),
-                          ],
-                        ),
-                        borderColor: selected.value == 1
-                            ? Colors.redAccent
-                            : Color(0xffF2F2F2),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        selected.value = 2;
-                        selectedPrice.state = 700;
-                        context.read(userselectedforhoursProvider).state = 2;
-                      },
-                      child: ResuableButton(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("2 Hour", style: kSmallContentStyle.copyWith(color: Colors.black),),
-                            Text("₹ 700", style: kSmallContentStyle.copyWith(color: Colors.black),),
-                          ],
-                        ),
-                        borderColor: selected.value == 2
-                            ? Colors.redAccent
-                            : Color(0xffF2F2F2),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        selected.value = 3;
-                        selectedPrice.state = 1000;
-                        context.read(userselectedforhoursProvider).state = 3;
-                      },
-                      child: ResuableButton(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("3 Hour", style: kSmallContentStyle.copyWith(color: Colors.black),),
-                            Text("₹ 1000", style: kSmallContentStyle.copyWith(color: Colors.black),),
-                          ],
-                        ),
-                        borderColor: selected.value == 3
-                            ? Colors.redAccent
-                            : Color(0xffF2F2F2),
-                      ),
-                    ),
-                    Text(
-                      "From",
-                      style: kMainHeadingStyle.copyWith(fontSize: 20,
-                      color: Theme.of(context).textTheme.bodyText2!.color
-                      ),
-                    ),
-                    RoundedButton(
-                      buttonText: fromTime.value.hour.toString() +
-                          " : " +
-                          fromTime.value.minute.toString(),
-                      onPressed: () async {
-                        await pickFromTime(context).then((value) {
-                          fromTime.value = value;
-                        });
-                      },
-                    ),
-                    Text(
-                      "To",
-                      style: kMainHeadingStyle.copyWith(
-                        fontSize: 20,
-                        color: Theme.of(context).textTheme.bodyText2!.color
-                        ),
-                    ),
-                    RoundedButton(
-                      buttonText: influencedtoHour.toString() +
-                          " : " +
-                          fromTime.value.minute.toString(),
-                      onPressed: () {},
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        context.read(userSelectedFromTimeProvider).state =
-                            fromTime.value.hour.toString();
-
-                        context.read(userSelectedToTimeProvider).state =
-                            influencedtoHour.toString();
-
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        "continue",
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

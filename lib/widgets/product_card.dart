@@ -11,12 +11,14 @@ class ProductCard extends HookWidget {
     required this.title,
     required this.price,
     required this.image,
+    required this.description,
     required this.productId,
   }) : super(key: key);
 
   final String image;
   final String title;
   final int price;
+  final String description;
   final String productId;
 
   @override
@@ -97,6 +99,7 @@ class ProductCard extends HookWidget {
                               isUiLiked.value = !isUiLiked.value;
                               if (isUiLiked.value) {
                                 final product = Product(
+                                  description: description,
                                   image: image,
                                   title: title,
                                   price: price,

@@ -39,6 +39,7 @@ class CartService implements BaseCartService {
         "image": product.image,
         "title": product.title,
         "price": product.price,
+        "description": product.description,
         "timeStamp": FieldValue.serverTimestamp(),
       });
     } on FirebaseException catch (e) {

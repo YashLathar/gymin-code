@@ -10,8 +10,7 @@ import 'package:gym_in/widgets/product_card.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class GymProductsPage extends HookWidget {
-  GymProductsPage({
-    Key? key}) : super(key: key);
+  GymProductsPage({Key? key}) : super(key: key);
   final Stream<QuerySnapshot> _productStream =
       FirebaseFirestore.instance.collection('product').snapshots();
   @override
@@ -85,17 +84,8 @@ class GymProductsPage extends HookWidget {
                               child: Center(
                                 child: IconButton(
                                   onPressed: () {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => ProductCartPage(
-                                    //       title: title,
-                                    //       image: image,
-                                    //       price: price, 
-                                    //       productId: productID,
-                                    //     ),
-                                    //   ),
-                                    // );
+                                    Navigator.pushNamed(
+                                        context, "/productCartPage");
                                   },
                                   icon: Icon(
                                     Icons.shopping_cart,
@@ -184,6 +174,7 @@ class GymProductsPage extends HookWidget {
                           child: ProductCard(
                             productId: document.id,
                             title: data['title'],
+                            description: data['description'],
                             image: data['image'],
                             price: data['price'],
                           ),

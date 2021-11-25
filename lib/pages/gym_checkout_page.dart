@@ -6,6 +6,7 @@ import 'package:gym_in/pages/booking_result.dart';
 import 'package:gym_in/pages/time_selector_page.dart';
 import 'package:gym_in/services/orders_service.dart';
 import 'package:gym_in/widgets/reusable_button.dart';
+import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -34,11 +35,22 @@ class GymCheckoutPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fromTime = useProvider(userSelectedFromTimeProvider).state;
+    final toTime = useProvider(userSelectedToTimeProvider).state;
     final selectedPrice = useProvider(userSelectedPriceProvider);
     final user = useProvider(authControllerProvider);
     final selected = useState(Plans.hourly);
     final today = DateTime.now();
     Size size = MediaQuery.of(context).size;
+
+    bool isValidDate(DateTime date) {
+      final todayDate = DateTime.now();
+      if (date.day > todayDate.day) {
+        return true;
+      } else {
+        return false;
+      }
+    }
 
     late Razorpay _razorpay;
 
@@ -47,10 +59,11 @@ class GymCheckoutPage extends HookWidget {
 
       final doc = await context.read(ordersServiceProvider).addToOrders(
             gymcheckName,
-            context.read(userSelectedFromTimeProvider).state,
-            context.read(userSelectedToTimeProvider).state,
+            fromTime,
+            toTime,
             selected.value.toString(),
             context.read(dateProvider).state.day.toString(),
+            gymcheckPhoto,
             context,
           );
 
@@ -59,7 +72,7 @@ class GymCheckoutPage extends HookWidget {
         builder: (context) {
           return QrResultScreen(
             gymName: gymcheckName,
-            // gymphoto: gymcheckPhoto,
+            gymPhoto: gymcheckPhoto,
             userName: user!.displayName,
             userImage: user.photoURL,
             fromDate: context.read(dateProvider).state.day.toString(),
@@ -282,15 +295,18 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Hourly",
-                                                      style: kSmallHeadingTextStyle
-                                                          .copyWith(
-                                                              color: Colors.black),
+                                                      style:
+                                                          kSmallHeadingTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .black),
                                                     ),
                                                     Text(
                                                       "₹" + "397",
                                                       style: kSubHeadingStyle
                                                           .copyWith(
-                                                              color: Colors.black),
+                                                              color:
+                                                                  Colors.black),
                                                     ),
                                                   ],
                                                 )
@@ -303,9 +319,11 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Hourly",
-                                                      style: kSmallHeadingTextStyle
-                                                          .copyWith(
-                                                              color: Colors.black),
+                                                      style:
+                                                          kSmallHeadingTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .black),
                                                     ),
                                                   ],
                                                 ),
@@ -329,22 +347,32 @@ class GymCheckoutPage extends HookWidget {
                                                             onSelectionChanged:
                                                                 (DateRangePickerSelectionChangedArgs
                                                                     value) {
-                                                              // Navigator.pop(context);
-                                                              Navigator
-                                                                  .pushReplacementNamed(
-                                                                      context,
-                                                                      "/timeSelectorPage");
-
-                                                              final formattetDate =
-                                                                  DateTime.parse(
-                                                                      value
+                                                              final isVerified =
+                                                                  isValidDate(DateTime
+                                                                      .parse(value
                                                                           .value
-                                                                          .toString());
-                                                              context
-                                                                      .read(
-                                                                          dateProvider)
-                                                                      .state =
-                                                                  formattetDate;
+                                                                          .toString()));
+
+                                                              if (isVerified) {
+                                                                Navigator
+                                                                    .pushReplacementNamed(
+                                                                        context,
+                                                                        "/timeSelectorPage");
+
+                                                                final formattetDate =
+                                                                    DateTime.parse(value
+                                                                        .value
+                                                                        .toString());
+                                                                context
+                                                                        .read(
+                                                                            dateProvider)
+                                                                        .state =
+                                                                    formattetDate;
+                                                              } else {
+                                                                aShowToast(
+                                                                    msg:
+                                                                        "GYMS CAN NOT BE BOOKED ON PRIOR DATE");
+                                                              }
                                                             },
                                                             onCancel: () {
                                                               Navigator.pop(
@@ -360,8 +388,9 @@ class GymCheckoutPage extends HookWidget {
                                                 )
                                               : Text(
                                                   "₹" + "397",
-                                                  style: kSubHeadingStyle.copyWith(
-                                                      color: Colors.black),
+                                                  style:
+                                                      kSubHeadingStyle.copyWith(
+                                                          color: Colors.black),
                                                 ),
                                         ],
                                       ),
@@ -394,15 +423,18 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Monthly",
-                                                      style: kSmallHeadingTextStyle
-                                                          .copyWith(
-                                                              color: Colors.black),
+                                                      style:
+                                                          kSmallHeadingTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .black),
                                                     ),
                                                     Text(
                                                       "₹" + "697",
                                                       style: kSubHeadingStyle
                                                           .copyWith(
-                                                              color: Colors.black),
+                                                              color:
+                                                                  Colors.black),
                                                     ),
                                                   ],
                                                 )
@@ -415,9 +447,11 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Monthly",
-                                                      style: kSmallHeadingTextStyle
-                                                          .copyWith(
-                                                              color: Colors.black),
+                                                      style:
+                                                          kSmallHeadingTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .black),
                                                     ),
                                                   ],
                                                 ),
@@ -465,8 +499,9 @@ class GymCheckoutPage extends HookWidget {
                                                 )
                                               : Text(
                                                   "₹" + "697",
-                                                  style: kSubHeadingStyle.copyWith(
-                                                      color: Colors.black),
+                                                  style:
+                                                      kSubHeadingStyle.copyWith(
+                                                          color: Colors.black),
                                                 ),
                                         ],
                                       ),
@@ -499,15 +534,18 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Quarterly",
-                                                      style: kSmallHeadingTextStyle
-                                                          .copyWith(
-                                                              color: Colors.black),
+                                                      style:
+                                                          kSmallHeadingTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .black),
                                                     ),
                                                     Text(
                                                       "₹" + "997",
                                                       style: kSubHeadingStyle
                                                           .copyWith(
-                                                              color: Colors.black),
+                                                              color:
+                                                                  Colors.black),
                                                     ),
                                                   ],
                                                 )
@@ -520,9 +558,11 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Quartely",
-                                                      style: kSmallHeadingTextStyle
-                                                          .copyWith(
-                                                              color: Colors.black),
+                                                      style:
+                                                          kSmallHeadingTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .black),
                                                     ),
                                                   ],
                                                 ),
@@ -570,8 +610,9 @@ class GymCheckoutPage extends HookWidget {
                                                 )
                                               : Text(
                                                   "₹" + "997",
-                                                  style: kSubHeadingStyle.copyWith(
-                                                      color: Colors.black),
+                                                  style:
+                                                      kSubHeadingStyle.copyWith(
+                                                          color: Colors.black),
                                                 ),
                                         ],
                                       ),
@@ -604,15 +645,18 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Half-Yearly",
-                                                      style: kSmallHeadingTextStyle
-                                                          .copyWith(
-                                                              color: Colors.black),
+                                                      style:
+                                                          kSmallHeadingTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .black),
                                                     ),
                                                     Text(
                                                       "₹" + "1497",
                                                       style: kSubHeadingStyle
                                                           .copyWith(
-                                                              color: Colors.black),
+                                                              color:
+                                                                  Colors.black),
                                                     ),
                                                   ],
                                                 )
@@ -625,9 +669,11 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Half-Yearly",
-                                                      style: kSmallHeadingTextStyle
-                                                          .copyWith(
-                                                              color: Colors.black),
+                                                      style:
+                                                          kSmallHeadingTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .black),
                                                     ),
                                                   ],
                                                 ),
@@ -678,8 +724,9 @@ class GymCheckoutPage extends HookWidget {
                                                 )
                                               : Text(
                                                   "₹" + "1497",
-                                                  style: kSubHeadingStyle.copyWith(
-                                                      color: Colors.black),
+                                                  style:
+                                                      kSubHeadingStyle.copyWith(
+                                                          color: Colors.black),
                                                 ),
                                         ],
                                       ),
@@ -712,15 +759,18 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Yearly",
-                                                      style: kSmallHeadingTextStyle
-                                                          .copyWith(
-                                                              color: Colors.black),
+                                                      style:
+                                                          kSmallHeadingTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .black),
                                                     ),
                                                     Text(
                                                       "₹" + "1997",
                                                       style: kSubHeadingStyle
                                                           .copyWith(
-                                                              color: Colors.black),
+                                                              color:
+                                                                  Colors.black),
                                                     ),
                                                   ],
                                                 )
@@ -733,9 +783,11 @@ class GymCheckoutPage extends HookWidget {
                                                   children: [
                                                     Text(
                                                       "Yearly",
-                                                      style: kSmallHeadingTextStyle
-                                                          .copyWith(
-                                                              color: Colors.black),
+                                                      style:
+                                                          kSmallHeadingTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .black),
                                                     ),
                                                   ],
                                                 ),
@@ -778,8 +830,9 @@ class GymCheckoutPage extends HookWidget {
                                                 )
                                               : Text(
                                                   "₹" + "1997",
-                                                  style: kSubHeadingStyle.copyWith(
-                                                      color: Colors.black),
+                                                  style:
+                                                      kSubHeadingStyle.copyWith(
+                                                          color: Colors.black),
                                                 ),
                                         ],
                                       ),
@@ -826,50 +879,54 @@ class GymCheckoutPage extends HookWidget {
                               ],
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Selected Plan",
-                                  style: kSmallContentStyle.copyWith(
-                                    color: Colors.grey,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Selected Plan",
+                                    style: kSmallContentStyle.copyWith(
+                                      color: Colors.grey,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "${context.read(userselectedforhoursProvider).state.toString()} Hour",
-                                  style: kSmallHeadingTextStyle,
-                                ),
-                              ]
-                            ),
+                                  Text(
+                                    "${context.read(userselectedforhoursProvider).state.toString()} Hour",
+                                    style: kSmallHeadingTextStyle,
+                                  ),
+                                ]),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Date",
-                                  style: kSmallContentStyle.copyWith(
-                                    color: Colors.grey,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Date",
+                                    style: kSmallContentStyle.copyWith(
+                                      color: Colors.grey,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "unavailable",
-                                  style: kSmallHeadingTextStyle,
-                                ),
-                              ]
-                            ),
+                                  Text(
+                                    context
+                                        .read(dateProvider)
+                                        .state
+                                        .day
+                                        .toString(),
+                                    style: kSmallHeadingTextStyle,
+                                  ),
+                                ]),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Timing",
-                                  style: kSmallContentStyle.copyWith(
-                                    color: Colors.grey,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Timing",
+                                    style: kSmallContentStyle.copyWith(
+                                      color: Colors.grey,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "${context.read(userSelectedFromTimeProvider).state}", //",
-                                  style: kSmallHeadingTextStyle,
-                                ),
-                              ]
-                            )
+                                  Text(
+                                    fromTime,
+                                    style: kSmallHeadingTextStyle,
+                                  ),
+                                ])
                           ],
                         ),
                       ),
