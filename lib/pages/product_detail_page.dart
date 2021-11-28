@@ -183,11 +183,20 @@ class ProductDetailPage extends HookWidget {
                             children: [
                               Container(
                                 height: size.width,
-                                // color: Colors.white,
-                                child: Hero(
-                                  tag: productID,
-                                  child: Image.network(
-                                    image,
+                                child: Container(
+                                  margin: EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Theme.of(context).backgroundColor,
+                                    ),
+                                  ),
+                                  child: Hero(
+                                    tag: productID,
+                                    child: Image.network(
+                                      image,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -205,76 +214,100 @@ class ProductDetailPage extends HookWidget {
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 15, horizontal: 15),
-                                      child: Container(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            child: Text(
                                               title,
                                               style:
                                                   kSmallContentStyle.copyWith(
                                                 fontSize: 22,
                                               ),
                                             ),
-                                            // Container(
-                                            //   width: 45,
-                                            //   height: 38,
-                                            //   decoration: BoxDecoration(
-                                            //     borderRadius:
-                                            //         BorderRadius.circular(10),
-                                            //     border: Border.all(
-                                            //         width: 2.0,
-                                            //         color: Colors.redAccent),
-                                            //   ),
-                                            //   child: Center(
-                                            //     child: IconButton(
-                                            //       onPressed: () {
-                                            //         final thisProduct =
-                                            //             favControllerProvider
-                                            //                 .favProducts
-                                            //                 .where((product) =>
-                                            //                     product
-                                            //                         .productId ==
-                                            //                     productID);
-
-                                            //         if (thisProduct.isEmpty) {
-                                            //           isUiLiked.value =
-                                            //               !isUiLiked.value;
-                                            //           if (isUiLiked.value) {
-                                            //             final product = Product(
-                                            //               image: image,
-                                            //               title: title,
-                                            //               price: price,
-                                            //               productId: productID,
-                                            //               isLiked:
-                                            //                   isUiLiked.value,
-                                            //             );
-
-                                            //             favControllerProvider
-                                            //                 .addProductToFav(
-                                            //                     product);
-                                            //             Fluttertoast.showToast(
-                                            //                 msg:
-                                            //                     "Added to Favourites");
-                                            //           }
-                                            //         } else {
-                                            //           Fluttertoast.showToast(
-                                            //               msg:
-                                            //                   "Already in Favourites");
-                                            //         }
-                                            //       },
-                                            //       icon: Icon(
-                                            //         Icons.favorite,
-                                            //         color: Theme.of(context)
-                                            //             .backgroundColor,
-                                            //         size: 20,
-                                            //       ),
-                                            //     ),
-                                            //   ),
-                                            // ),
-                                          ],
-                                        ),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              // Container(
+                                              //   height: 20,
+                                              //   width: 150,
+                                              //   padding: EdgeInsets.fromLTRB(8, 2, 5, 2),
+                                              //   decoration: BoxDecoration(
+                                              //       borderRadius:
+                                              //           BorderRadius.circular(
+                                              //         15,
+                                              //       ),
+                                              //       color: Colors.redAccent),
+                                              //   child: Text(
+                                              //     "Currently unavailable",
+                                              //     style: kSmallContentStyle
+                                              //         .copyWith(fontSize: 12),
+                                              //   ),
+                                              // ),
+                                              Container(
+                                                height: 20,
+                                                width: 125,
+                                                padding: EdgeInsets.fromLTRB(8, 2, 5, 2),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      15,
+                                                    ),
+                                                    color: Colors.green),
+                                                child: Text(
+                                                  "Available in Stock",
+                                                  style: kSmallContentStyle
+                                                      .copyWith(fontSize: 12),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 15,
+                                                  vertical: 5,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        left: 5,
+                                                        right: 5,
+                                                        top: 2,
+                                                        bottom: 2,
+                                                      ),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                          15,
+                                                        ),
+                                                        color: Colors.redAccent,
+                                                      ),
+                                                      child:
+                                                          Text(rating + "⭐️"),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Container(
+                                                      child: Text(
+                                                        "317 ratings",
+                                                        style:
+                                                            kSmallContentStyle
+                                                                .copyWith(
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
                                       ),
                                     ),
                                     Container(
@@ -293,44 +326,44 @@ class ProductDetailPage extends HookWidget {
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      margin: const EdgeInsets.symmetric(
-                                        horizontal: 15,
-                                        vertical: 5,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.only(
-                                              left: 5,
-                                              right: 5,
-                                              top: 2,
-                                              bottom: 2,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                15,
-                                              ),
-                                              color: Colors.redAccent,
-                                            ),
-                                            child: Text(rating + "⭐️"),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              "317 ratings",
-                                              style:
-                                                  kSmallContentStyle.copyWith(
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
+                                    // Container(
+                                    //   margin: const EdgeInsets.symmetric(
+                                    //     horizontal: 15,
+                                    //     vertical: 5,
+                                    //   ),
+                                    //   child: Row(
+                                    //     children: [
+                                    //       Container(
+                                    //         padding: const EdgeInsets.only(
+                                    //           left: 5,
+                                    //           right: 5,
+                                    //           top: 2,
+                                    //           bottom: 2,
+                                    //         ),
+                                    //         decoration: BoxDecoration(
+                                    //           borderRadius:
+                                    //               BorderRadius.circular(
+                                    //             15,
+                                    //           ),
+                                    //           color: Colors.redAccent,
+                                    //         ),
+                                    //         child: Text(rating + "⭐️"),
+                                    //       ),
+                                    //       SizedBox(
+                                    //         width: 5,
+                                    //       ),
+                                    //       Container(
+                                    //         child: Text(
+                                    //           "317 ratings",
+                                    //           style:
+                                    //               kSmallContentStyle.copyWith(
+                                    //             fontSize: 12,
+                                    //           ),
+                                    //         ),
+                                    //       )
+                                    //     ],
+                                    //   ),
+                                    // ),
                                     Container(
                                       margin: EdgeInsets.only(
                                         left: 15,
@@ -342,7 +375,7 @@ class ProductDetailPage extends HookWidget {
                                       ),
                                     ),
                                     Divider(
-                                      thickness: 1.5,
+                                      thickness: 1,
                                       color: Theme.of(context).backgroundColor,
                                     ),
                                     InkWell(
@@ -399,7 +432,7 @@ class ProductDetailPage extends HookWidget {
                                       ),
                                     ),
                                     Divider(
-                                      thickness: 3.0 / 2,
+                                      thickness: 1,
                                       color: Theme.of(context).backgroundColor,
                                     ),
                                     SizedBox(
@@ -440,7 +473,9 @@ class ProductDetailPage extends HookWidget {
                                               ),
                                             ],
                                           ),
-                                          Divider(),
+                                          Divider(
+                                            color: Theme.of(context).backgroundColor,
+                                          ),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
@@ -483,7 +518,7 @@ class ProductDetailPage extends HookWidget {
                                       height: 10,
                                     ),
                                     Divider(
-                                      thickness: 2.0,
+                                      thickness: 1.0,
                                       color: Theme.of(context).backgroundColor,
                                     ),
                                     Container(
@@ -548,7 +583,7 @@ class ProductDetailPage extends HookWidget {
                                           ),
                                           SizedBox(
                                             height: 25,
-                                          )
+                                          ),
                                           // ReviewCard(
                                           //   userPhotoUrl:
                                           //       reviewsData[dataIndex].userPhotoUrl[0],

@@ -10,7 +10,6 @@ import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/pages/home_page.dart';
 import 'package:gym_in/pages/user_page.dart';
-import 'package:gym_in/services/theme_persistence_service.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:io';

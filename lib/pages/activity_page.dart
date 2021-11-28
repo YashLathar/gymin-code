@@ -76,7 +76,7 @@ class _ActivityPageState extends State<ActivityPage> {
   void onPedestrianStatusError(error) {
     print('onPedestrianStatusError: $error');
     setState(() {
-      _status = 'Pedestrian Status not available';
+      _status = '404 error';
     });
     print(_status);
   }
@@ -84,7 +84,7 @@ class _ActivityPageState extends State<ActivityPage> {
   void onStepCountError(error) {
     print('onStepCountError: $error');
     setState(() {
-      _steps = 'Step Count not available';
+      _steps = '404 error';
     });
   }
 
@@ -162,12 +162,39 @@ class _ActivityPageState extends State<ActivityPage> {
             Expanded(
               child: Container(
                 color: Theme.of(context).scaffoldBackgroundColor,
-                margin: EdgeInsets.symmetric(
-                  horizontal: 15,
-                  vertical: 40,
-                ),
+                margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
                 child: ListView(
                   children: [
+                    Container(
+                        margin: EdgeInsets.symmetric(horizontal: 15),
+                        height: 80,
+                        width: 20,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            ),
+                            color: Colors.redAccent[400]),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _status == 'walking'
+                                ? Image.asset("assets/img/animation_50.gif")
+                                : _status == 'stopped'
+                                    ? Image.asset("assets/img/start_50.gif")
+                                    : Image.asset("assets/img/error_50.gif"),
+                            _status == 'walking'
+                                ? Text("Walking", style: kSmallContentStyle)
+                                : _status == 'stopped'
+                                    ? Text("Start Walking",
+                                        style: kSmallContentStyle)
+                                    : Text("404 Error",
+                                        style: kSmallContentStyle),
+                          ],
+                        )),
+                    SizedBox(height: 10),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 15),
                       height: 448,
@@ -489,12 +516,15 @@ class _ActivityPageState extends State<ActivityPage> {
                                                       //     );
                                                       //   },
                                                       // ),
-                                                      Text(
-                                                    entry.toString(),
-                                                    style: TextStyle(
-                                                        color: Theme.of(
-                                                                context)
-                                                            .scaffoldBackgroundColor),
+                                                      Container(
+                                                    height: size.width,
+                                                    child: Text(
+                                                      entry.toString(),
+                                                      style: TextStyle(
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .scaffoldBackgroundColor),
+                                                    ),
                                                   ),
                                                 ),
                                               ],

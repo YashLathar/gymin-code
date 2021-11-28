@@ -75,11 +75,10 @@ flutter:
     - assets/g12.png
     - assets/img/splashlogo.png
     - assets/img/instagram.png
-    - assets/img/empty-cart.gif
-    - assets/img/animation_cart.gif
     - assets/img/animation_1.gif
-    - assets/img/animation_2.gif
-    - assets/img/animation_3.gif
+    - assets/img/animation_50.gif
+    - assets/img/start_50.gif
+    - assets/img/error_50.gif
 
   fonts:
     - family: YellowTail
