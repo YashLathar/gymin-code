@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/pages/login_page.dart';
+import 'package:gym_in/pages/signup_page2.dart';
 import 'package:gym_in/widgets/rounded_textfield.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -156,6 +157,12 @@ class SignupPage extends ConsumerWidget {
                               ),
                             ),
                             onTap: () async {
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => SignupPage2(),
+                              //   ),
+                              // );
                               context.read(loadingStateProvider).state = true;
                               await context
                                   .read(authControllerProvider.notifier)
@@ -180,7 +187,10 @@ class SignupPage extends ConsumerWidget {
                             Text(
                               "Already have an account?",
                               style: kRoundedButtonTextStyle.copyWith(
-                                  color: Theme.of(context).textTheme.bodyText2!.color),
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .color),
                             ),
                             SizedBox(
                               width: 10,

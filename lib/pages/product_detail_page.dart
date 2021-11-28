@@ -42,7 +42,7 @@ class ProductDetailPage extends HookWidget {
               physics: ClampingScrollPhysics(),
               child: Container(
                 width: size.width,
-                height: 1070,
+                height: 1100,
                 child: Column(
                   children: [
                     Container(
@@ -183,34 +183,27 @@ class ProductDetailPage extends HookWidget {
                             children: [
                               Container(
                                 height: size.width,
-                                child: Container(
-                                  margin: EdgeInsets.all(20),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    border: Border.all(
-                                      width: 1,
-                                      color: Theme.of(context).backgroundColor,
-                                    ),
-                                  ),
-                                  child: Hero(
-                                    tag: productID,
-                                    child: Image.network(
-                                      image,
-                                    ),
+                                child: Hero(
+                                  tag: productID,
+                                  child: Image.network(
+                                    image,
                                   ),
                                 ),
                               ),
                               Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  border: Border.all(
-                                      width: 2,
-                                      color: Theme.of(context).backgroundColor),
-                                ),
+                                // decoration: BoxDecoration(
+                                //   borderRadius: BorderRadius.circular(25),
+                                //   border: Border.all(
+                                //       width: 1,
+                                //       color: Theme.of(context).backgroundColor),
+                                // ),
                                 margin: EdgeInsets.only(top: size.width),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Divider(
+                                      color: Theme.of(context).backgroundColor,
+                                    ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 15, horizontal: 15),
@@ -407,7 +400,7 @@ class ProductDetailPage extends HookWidget {
                                           left: 15,
                                           right: 15,
                                         ),
-                                        height: 50,
+                                        height: 40,
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
