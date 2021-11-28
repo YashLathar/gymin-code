@@ -59,11 +59,11 @@ class GymCheckoutPage extends HookWidget {
 
       final doc = await context.read(ordersServiceProvider).addToOrders(
             gymcheckName,
+            gymcheckPhoto,
             fromTime,
             toTime,
             selected.value.toString(),
             context.read(dateProvider).state.day.toString(),
-            gymcheckPhoto,
             context,
           );
 
