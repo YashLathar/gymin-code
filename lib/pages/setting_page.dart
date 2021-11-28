@@ -112,6 +112,7 @@ class SettingPage extends HookWidget {
                       IconButton(
                         onPressed: () {
                           showModalBottomSheet(
+                              isDismissible: true,
                               backgroundColor:
                                   Theme.of(context).scaffoldBackgroundColor,
                               shape: RoundedRectangleBorder(
@@ -147,7 +148,21 @@ class SettingPage extends HookWidget {
                             color:
                                 Theme.of(context).textTheme.bodyText2!.color),
                       ),
-                      onTap: null,
+                      onTap: () {
+                        showModalBottomSheet(
+                            isDismissible: true,
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(25)),
+                            ),
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            context: context,
+                            builder: (BuildContext buildContext) {
+                              return PhoneNumber();
+                            });
+                      },
                     ),
                     ListTile(
                       leading: Icon(
@@ -160,7 +175,21 @@ class SettingPage extends HookWidget {
                             color:
                                 Theme.of(context).textTheme.bodyText2!.color),
                       ),
-                      onTap: null,
+                      onTap: () {
+                        showModalBottomSheet(
+                            isDismissible: true,
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(25)),
+                            ),
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            context: context,
+                            builder: (BuildContext buildContext) {
+                              return Container();
+                            });
+                      },
                     ),
                     ListTile(
                       leading: Icon(
@@ -173,7 +202,21 @@ class SettingPage extends HookWidget {
                             color:
                                 Theme.of(context).textTheme.bodyText2!.color),
                       ),
-                      onTap: null,
+                      onTap: () {
+                        showModalBottomSheet(
+                            isDismissible: true,
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(25)),
+                            ),
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            context: context,
+                            builder: (BuildContext buildContext) {
+                              return Container();
+                            });
+                      },
                     ),
                     ListTile(
                       leading: Icon(
@@ -186,7 +229,21 @@ class SettingPage extends HookWidget {
                             color:
                                 Theme.of(context).textTheme.bodyText2!.color),
                       ),
-                      onTap: null,
+                      onTap: () {
+                        showModalBottomSheet(
+                            isDismissible: true,
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(25)),
+                            ),
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            context: context,
+                            builder: (BuildContext buildContext) {
+                              return Container();
+                            });
+                      },
                     ),
                     ListTile(
                       leading: Icon(
@@ -199,7 +256,21 @@ class SettingPage extends HookWidget {
                             color:
                                 Theme.of(context).textTheme.bodyText2!.color),
                       ),
-                      onTap: null,
+                      onTap: () {
+                        showModalBottomSheet(
+                            isDismissible: true,
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(25)),
+                            ),
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            context: context,
+                            builder: (BuildContext buildContext) {
+                              return Container();
+                            });
+                      },
                     ),
                     ListTile(
                       leading: Icon(
@@ -212,7 +283,21 @@ class SettingPage extends HookWidget {
                             color:
                                 Theme.of(context).textTheme.bodyText2!.color),
                       ),
-                      onTap: null,
+                      onTap: () {
+                        showModalBottomSheet(
+                            isDismissible: true,
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(25)),
+                            ),
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            context: context,
+                            builder: (BuildContext buildContext) {
+                              return Container();
+                            });
+                      },
                     ),
                     ListTile(
                       leading: Icon(
@@ -225,7 +310,21 @@ class SettingPage extends HookWidget {
                             color:
                                 Theme.of(context).textTheme.bodyText2!.color),
                       ),
-                      onTap: null,
+                      onTap: () {
+                        showModalBottomSheet(
+                            isDismissible: true,
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(25)),
+                            ),
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            context: context,
+                            builder: (BuildContext buildContext) {
+                              return Container();
+                            });
+                      },
                     ),
                   ],
                 ),
@@ -237,5 +336,116 @@ class SettingPage extends HookWidget {
     } else {
       return UserPage();
     }
+  }
+}
+
+class PhoneNumber extends StatelessWidget {
+  const PhoneNumber({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      child: ListView(
+        physics: ClampingScrollPhysics(),
+        children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Icon(Icons.drag_handle,
+                color: Theme.of(context).backgroundColor),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 50,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Update Your Profile',
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText2!.color),
+              ),
+              Spacer(),
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.cancel),
+                color: Theme.of(context).textTheme.bodyText2!.color,
+                iconSize: 25,
+                //label: Text("Cancel")
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    right: 15.0,
+                  ),
+                  child: TextField(
+                    // controller: usernameController,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).backgroundColor,
+                          width: 2,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(
+                          color: Colors.redAccent, //0xffF14C37
+                          width: 2,
+                        ),
+                      ),
+                      hintText: "Enter Your Phone Number",
+                      hintStyle: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2!.color),
+                      helperText: 'How Should we contact you?',
+                      helperStyle: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2!.color),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                    30, 30, 30, MediaQuery.of(context).viewInsets.bottom),
+                child: MaterialButton(
+                  color: Colors.redAccent,
+                  child: Text(
+                    "Update",
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color),
+                  ),
+                  onPressed: () {},
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class AgeUpdate extends StatelessWidget {
+  const AgeUpdate({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: Column(
+      children: [],
+    ));
   }
 }

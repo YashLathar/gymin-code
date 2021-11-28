@@ -295,7 +295,7 @@ class HomePage extends HookWidget {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(left: 30),
+                        padding: EdgeInsets.only(left: 30, right: 30),
                         child: Column(
                           children: [
                             Container(
