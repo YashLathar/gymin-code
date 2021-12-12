@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/pages/signup_page2.dart';
 import 'package:gym_in/widgets/oauthlogin_button.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:gym_in/widgets/rounded_textfield.dart';
@@ -202,14 +203,24 @@ class LoginPage extends ConsumerWidget {
                             Text(
                               "Don't have an account?",
                               style: kRoundedButtonTextStyle.copyWith(
-                                  color: Theme.of(context).textTheme.bodyText2!.color,),
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color,
+                              ),
                             ),
                             SizedBox(
                               width: 10,
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(context, "/signUpPage");
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SignupPage2(),
+                                  ),
+                                );
+                                // Navigator.pushNamed(context, "/signUpPage");
                               },
                               child: Text(
                                 "Sign up",
