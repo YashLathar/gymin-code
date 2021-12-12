@@ -4,18 +4,22 @@ import 'package:gym_in/constants.dart';
 import 'package:gym_in/pages/login_page.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class SignupPage2 extends ConsumerWidget {
-  // final _usernameController = TextEditingController();
-  // final _emailController = TextEditingController();
-  // final _passwordController = TextEditingController();
+class SignupPage2 extends HookWidget {
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final heightController = useTextEditingController();
+    final ageController = useTextEditingController();
+    final weightController = useTextEditingController();
+    final phoneController = useTextEditingController();
+    final bioController = useTextEditingController();
+    final aboutController = useTextEditingController();
 
     return ModalProgressHUD(
-      inAsyncCall: watch(loadingStateProvider).state,
+      inAsyncCall: context.read(loadingStateProvider).state,
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -34,9 +38,9 @@ class SignupPage2 extends ConsumerWidget {
                       children: [
                         Padding(
                           padding:
-                              EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                              EdgeInsets.only(right: 30, top: 20, left: 30, bottom: 0),
                           child: Text(
-                            "Continue",
+                            "More About\nYou...",
                             style: GoogleFonts.montserrat(
                               textStyle: TextStyle(
                                 fontSize: 40,
@@ -45,15 +49,15 @@ class SignupPage2 extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20.0),
-                          // ignore: deprecated_member_use
-                          child: RaisedButton(
-                            color: Colors.redAccent,
-                            onPressed: () {},
-                          child: Text("Skip"),
-                          ),
-                        )
+                        // Padding(
+                        //   padding: const EdgeInsets.only(right: 20.0),
+                        //   // ignore: deprecated_member_use
+                        //   child: RaisedButton(
+                        //     color: Colors.redAccent,
+                        //     onPressed: () {},
+                        //   child: Text("Skip"),
+                        //   ),
+                        // )
                       ],
                     ),
                     Container(
@@ -79,7 +83,8 @@ class SignupPage2 extends ConsumerWidget {
                                     ),
                                     SizedBox(height: 5),
                                     TextField(
-                                      // keyboardType: i,
+                                      controller: heightController,
+                                      keyboardType: TextInputType.phone,
                                       decoration: InputDecoration(
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius:
@@ -99,7 +104,7 @@ class SignupPage2 extends ConsumerWidget {
                                             width: 2,
                                           ),
                                         ),
-                                        hintText: "Enter Your height",
+                                        hintText: "Enter Your height(cms)",
                                         hintStyle: TextStyle(
                                             color: Theme.of(context)
                                                 .textTheme
@@ -125,6 +130,8 @@ class SignupPage2 extends ConsumerWidget {
                                     ),
                                     SizedBox(height: 5),
                                     TextField(
+                                      controller: ageController,
+                                      keyboardType: TextInputType.phone,
                                       decoration: InputDecoration(
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius:
@@ -171,6 +178,8 @@ class SignupPage2 extends ConsumerWidget {
                                 ),
                                 SizedBox(height: 5),
                                 TextField(
+                                  controller: weightController,
+                                  keyboardType: TextInputType.phone,
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -187,7 +196,7 @@ class SignupPage2 extends ConsumerWidget {
                                         width: 2,
                                       ),
                                     ),
-                                    hintText: "Enter your height",
+                                    hintText: "Enter your Weight(Kg)",
                                     hintStyle: TextStyle(
                                         color: Theme.of(context)
                                             .textTheme
@@ -204,7 +213,7 @@ class SignupPage2 extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "About",
+                                  "Phone Number",
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500,
@@ -212,6 +221,8 @@ class SignupPage2 extends ConsumerWidget {
                                 ),
                                 SizedBox(height: 5),
                                 TextField(
+                                  controller: phoneController,
+                                  keyboardType: TextInputType.phone,
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -228,7 +239,7 @@ class SignupPage2 extends ConsumerWidget {
                                         width: 2,
                                       ),
                                     ),
-                                    hintText: "Enter your About",
+                                    hintText: "Enter your Phone Number",
                                     hintStyle: TextStyle(
                                         color: Theme.of(context)
                                             .textTheme
@@ -253,6 +264,7 @@ class SignupPage2 extends ConsumerWidget {
                                 ),
                                 SizedBox(height: 5),
                                 TextField(
+                                  controller: bioController,
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -280,6 +292,49 @@ class SignupPage2 extends ConsumerWidget {
                               ],
                             ),
                           ),
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "About",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                TextField(
+                                  controller: aboutController,
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      borderSide: BorderSide(
+                                        color:
+                                            Theme.of(context).backgroundColor,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      borderSide: BorderSide(
+                                        color: Colors.redAccent, //0xffF14C37
+                                        width: 2,
+                                      ),
+                                    ),
+                                    hintText: "Enter your About",
+                                    hintStyle: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2!
+                                            .color),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          
                         ],
                       ),
                     ),
@@ -291,7 +346,7 @@ class SignupPage2 extends ConsumerWidget {
                                 left: 30,
                                 right: 30,
                                 bottom: 30,
-                                top: 10,
+                                top: 5,
                               ),
                               height: 55,
                               decoration: BoxDecoration(
@@ -362,13 +417,13 @@ class SignupPage2 extends ConsumerWidget {
                     // SizedBox(
                     //   height: 50,
                     // ),
-                    Center(
-                      child: Image.asset(
-                        'assets/img/splashlogo.png',
-                        height: 100,
-                        width: 200,
-                      ),
-                    ),
+                    // Center(
+                    //   child: Image.asset(
+                    //     'assets/img/splashlogo.png',
+                    //     height: 100,
+                    //     width: 200,
+                    //   ),
+                    // ),
                   ],
                 ),
               ],
