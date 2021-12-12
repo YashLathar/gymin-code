@@ -29,75 +29,89 @@ class OrdersPage extends HookWidget {
       ),
       body: orders.when(
           data: (orders) {
-            return RefreshIndicator(
-              onRefresh: () {
-                return context.refresh(ordersListProvider);
-              },
-              child: ListView(
-                padding: const EdgeInsets.only(top: 10),
-                children: orders
-                    .map(
-                      (order) => Card(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.white70, width: 1),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        elevation: 8.0,
-                        margin: EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 6.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xff676e8a),
-                          ),
-                          child: ListTile(
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 10.0),
-                            leading: Container(
-                              padding: EdgeInsets.only(right: 12.0),
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                      right: BorderSide(
-                                          width: 1.0, color: Colors.white24))),
-                              child: Icon(Icons.book, color: Colors.white),
-                            ),
-                            title: Text(
-                              order.gymName,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Text(
-                              order.userName ?? "username",
-                              style: TextStyle(
-                                color: Colors.white,
+            return orders.isEmpty
+                ? Center(
+                    child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "No Orders",
+                        style: TextStyle(fontSize: 35),
+                      ),
+                    ],
+                  ))
+                : RefreshIndicator(
+                    onRefresh: () {
+                      return context.refresh(ordersListProvider);
+                    },
+                    child: ListView(
+                      padding: const EdgeInsets.only(top: 10),
+                      children: orders
+                          .map(
+                            (order) => Card(
+                              shape: RoundedRectangleBorder(
+                                side:
+                                    BorderSide(color: Colors.white70, width: 1),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              elevation: 8.0,
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 6.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xff676e8a),
+                                ),
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 20.0, vertical: 10.0),
+                                  leading: Container(
+                                    padding: EdgeInsets.only(right: 12.0),
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            right: BorderSide(
+                                                width: 1.0,
+                                                color: Colors.white24))),
+                                    child:
+                                        Icon(Icons.book, color: Colors.white),
+                                  ),
+                                  title: Text(
+                                    order.gymName,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  subtitle: Text(
+                                    order.userName ?? "username",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  trailing: Icon(Icons.keyboard_arrow_right,
+                                      color: Colors.white, size: 30.0),
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return QrResultScreen(
+                                          gymName: order.gymName,
+                                          gymPhoto: order.gymPhoto,
+                                          userImage: user!.photoURL,
+                                          userName: order.userName,
+                                          fromDate: order.fromDate,
+                                          fromTime: order.fromTime,
+                                          planSelected: order.planSelected,
+                                          docId: order.docId,
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
                               ),
                             ),
-                            trailing: Icon(Icons.keyboard_arrow_right,
-                                color: Colors.white, size: 30.0),
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return QrResultScreen(
-                                    gymName: order.gymName,
-                                    gymPhoto: order.gymPhoto,
-                                    userImage: user!.photoURL,
-                                    userName: order.userName,
-                                    fromDate: order.fromDate,
-                                    fromTime: order.fromTime,
-                                    planSelected: order.planSelected,
-                                    docId: order.docId,
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
-            );
+                          )
+                          .toList(),
+                    ),
+                  );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, s) {

@@ -1,15 +1,30 @@
+import 'dart:collection';
+
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ThemePreferences {
-  static const PREF_KEY = "pref_key";
+abstract class BaseThemeService {
+  Future<void> setTheme(bool value);
+  Future<bool> getTheme();
+}
 
-  setTheme(bool value) async {
+final themeServiceProvider = Provider<ThemeService>((ref) {
+  return ThemeService();
+});
+
+class ThemeService implements BaseThemeService {
+  static const PREF_KEY = "themeOnDisk";
+
+  @override
+  Future<void> setTheme(bool value) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setBool(PREF_KEY, value);
   }
 
-  getTheme() async {
+  @override
+  Future<bool> getTheme() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
     return sharedPreferences.getBool(PREF_KEY) ?? false;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:gym_in/controllers/theme_controller.dart';
 import 'package:gym_in/home_screen.dart';
 import 'package:gym_in/pages/activity_page.dart';
 import 'package:gym_in/pages/chat_page.dart';
@@ -24,10 +25,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 late FirebaseAnalytics analytics;
 
-final appThemeProvider = StateProvider<bool>((ref) {
-  return false;
-});
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -38,7 +35,7 @@ Future<void> main() async {
 class MyApp extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final theme = useProvider(appThemeProvider).state;
+    final theme = useProvider(themeControllerProvider).theme;
 
     return MaterialApp(
       title: 'GymIn',

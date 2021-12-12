@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:gym_in/controllers/cart_controller.dart';
 import 'package:gym_in/general_providers.dart';
 import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/services/error_Handler.dart';
@@ -64,6 +65,7 @@ class AuthenticatioSevice implements BaseAuthenticationService {
   @override
   Future<void> signOut() async {
     await _read(firebaseAuthProvider).signOut();
+    GoogleSignIn().disconnect();
   }
 
   @override
@@ -86,14 +88,16 @@ class AuthenticatioSevice implements BaseAuthenticationService {
   @override
   Future<void> signInWithGoogle(BuildContext context) async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final googleUser = await GoogleSignIn().signIn();
 
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+      if (googleUser == null) return;
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
 
       await FirebaseAuth.instance.signInWithCredential(credential);

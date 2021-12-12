@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:barcode_scan2/barcode_scan2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -18,11 +19,45 @@ class AuthenticateTicket extends StatefulWidget {
 }
 
 class _AuthenticateTicketState extends State<AuthenticateTicket> {
-  String barcode = "";
+  String barcodeResult = "";
 
-  @override
-  initState() {
-    super.initState();
+  Future<void> scan() async {
+    try {
+      final barcode = await BarcodeScanner.scan();
+      setState(() => barcodeResult = barcode.toString());
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.cameraAccessDenied) {
+        setState(() {
+          barcodeResult = 'The user did not grant the camera permission!';
+        });
+      } else {
+        setState(() => barcodeResult = 'Unknown error: $e');
+      }
+    } on FormatException {
+      setState(() => barcodeResult =
+          'null (User returned using the "back"-button before scanning anything. Result)');
+    } catch (e) {
+      setState(() => barcodeResult = 'Unknown error: $e');
+    }
+  }
+
+  // ignore: unused_element
+  Future<void> _captureAndSharePng() async {
+    try {
+      var globalKey;
+      RenderRepaintBoundary boundary =
+          globalKey.currentContext.findRenderObject();
+      var image = await boundary.toImage();
+      ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
+      Uint8List pngBytes = byteData!.buffer.asUint8List();
+      final tempDir = await getTemporaryDirectory();
+      final file = await new File('${tempDir.path}/image.png').create();
+      await file.writeAsBytes(pngBytes);
+      final channel = const MethodChannel('channel:me.alfian.share/share');
+      channel.invokeMethod('shareFile', 'image.png');
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -110,7 +145,7 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
                   child: Container(
                     height: 150,
                     child: Text(
-                      barcode,
+                      barcodeResult,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -121,44 +156,5 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
         ),
       ),
     );
-  }
-
-  Future scan() async {
-    try {
-      final barcode = await BarcodeScanner.scan();
-      setState(() => this.barcode = barcode.toString());
-    } on PlatformException catch (e) {
-      if (e.code == BarcodeScanner.cameraAccessDenied) {
-        setState(() {
-          this.barcode = 'The user did not grant the camera permission!';
-        });
-      } else {
-        setState(() => this.barcode = 'Unknown error: $e');
-      }
-    } on FormatException {
-      setState(() => this.barcode =
-          'null (User returned using the "back"-button before scanning anything. Result)');
-    } catch (e) {
-      setState(() => this.barcode = 'Unknown error: $e');
-    }
-  }
-
-  // ignore: unused_element
-  Future<void> _captureAndSharePng() async {
-    try {
-      var globalKey;
-      RenderRepaintBoundary boundary =
-          globalKey.currentContext.findRenderObject();
-      var image = await boundary.toImage();
-      ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
-      Uint8List pngBytes = byteData!.buffer.asUint8List();
-      final tempDir = await getTemporaryDirectory();
-      final file = await new File('${tempDir.path}/image.png').create();
-      await file.writeAsBytes(pngBytes);
-      final channel = const MethodChannel('channel:me.alfian.share/share');
-      channel.invokeMethod('shareFile', 'image.png');
-    } catch (e) {
-      print(e.toString());
-    }
   }
 }
