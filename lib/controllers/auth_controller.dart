@@ -53,7 +53,7 @@ class AuthController extends StateNotifier<User?> {
   // }
 
   void signOut() async {
-    _read(cartProvider).dispose();
     await _read(authServiceProvider).signOut();
+    _read(cartProvider).clearState();
   }
 }

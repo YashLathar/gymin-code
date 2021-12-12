@@ -3,6 +3,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/controllers/theme_controller.dart';
 import 'package:gym_in/main.dart';
 import 'package:gym_in/pages/activity_page.dart';
 import 'package:gym_in/pages/authenticate_ticket.dart';
@@ -143,7 +144,7 @@ class HomeScreen extends HookWidget {
                     }),
                 ListTile(
                   leading: Icon(
-                      context.read(appThemeProvider).state
+                      context.read(themeControllerProvider).theme
                           ? FontAwesomeIcons.moon
                           : FontAwesomeIcons.sun,
                       color: Theme.of(context).textTheme.bodyText2!.color),
@@ -153,12 +154,18 @@ class HomeScreen extends HookWidget {
                         color: Theme.of(context).textTheme.bodyText2!.color),
                   ),
                   trailing: Switch(
-                    value: context.read(appThemeProvider).state,
+                    value: context.read(themeControllerProvider).theme,
                     onChanged: (enabled) {},
                   ),
                   onTap: () {
-                    context.read(appThemeProvider).state =
-                        !context.read(appThemeProvider).state;
+                    final currentTheme =
+                        context.read(themeControllerProvider).theme;
+                    if (!currentTheme) {
+                      context.read(themeControllerProvider).setTheme(true);
+                    } else {
+                      context.read(themeControllerProvider).setTheme(false);
+                    }
+
                     // final ThemePreferences preferences = ThemePreferences();
 
                     // preferences.setTheme(context.read(appThemeProvider).state);

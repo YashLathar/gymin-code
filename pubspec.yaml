@@ -35,7 +35,6 @@ dependencies:
   reviews_slider: ^2.0.0
   shared_preferences: ^2.0.9
   dotted_line: ^3.1.0
-
   url_launcher:
   pedometer: ^3.0.0
   sensors_plus: ^1.2.1
