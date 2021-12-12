@@ -70,6 +70,13 @@ class HomeScreen extends HookWidget {
                               Image.network(
                             authControllerState.photoURL ??
                                 "https://img.icons8.com/cute-clipart/2x/user-male.png",
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
                             fit: BoxFit.cover,
                             width: 90,
                             height: 90,
@@ -77,7 +84,7 @@ class HomeScreen extends HookWidget {
                         ),
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: Colors.redAccent,
                         image: DecorationImage(
                           fit: BoxFit.fill,
                           image: NetworkImage(
