@@ -458,6 +458,10 @@ class GymCheckoutPage extends HookWidget {
                                           selected.value == Plans.monthly
                                               ? InkWell(
                                                   onTap: () {
+                                                    context
+                                                        .read(
+                                                            userselectedforhoursProvider)
+                                                        .state = 1;
                                                     showDialog<Widget>(
                                                         barrierColor:
                                                             Colors.transparent,
@@ -889,7 +893,8 @@ class GymCheckoutPage extends HookWidget {
                                     ),
                                   ),
                                   Text(
-                                    "${context.read(userselectedforhoursProvider).state.toString()} Hour",
+                                    "${context.read(userselectedforhoursProvider).state.toString()}" +
+                                        selected.value.toString(),
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
@@ -912,21 +917,23 @@ class GymCheckoutPage extends HookWidget {
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Timing",
-                                    style: kSmallContentStyle.copyWith(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  Text(
-                                    fromTime,
-                                    style: kSmallHeadingTextStyle,
-                                  ),
-                                ])
+                            selected.value == Plans.hourly
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                        Text(
+                                          "Timing",
+                                          style: kSmallContentStyle.copyWith(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        Text(
+                                          fromTime,
+                                          style: kSmallHeadingTextStyle,
+                                        ),
+                                      ])
+                                : Container(),
                           ],
                         ),
                       ),

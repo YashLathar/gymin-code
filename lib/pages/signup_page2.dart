@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/pages/login_page.dart';
+import 'package:gym_in/services/user_detail_service.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class SignupPage2 extends HookWidget {
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -17,6 +17,7 @@ class SignupPage2 extends HookWidget {
     final phoneController = useTextEditingController();
     final bioController = useTextEditingController();
     final aboutController = useTextEditingController();
+    final userDetailProvider = useProvider(userDetailServiceProvider);
 
     return ModalProgressHUD(
       inAsyncCall: context.read(loadingStateProvider).state,
@@ -37,8 +38,8 @@ class SignupPage2 extends HookWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding:
-                              EdgeInsets.only(right: 30, top: 20, left: 30, bottom: 0),
+                          padding: EdgeInsets.only(
+                              right: 30, top: 20, left: 30, bottom: 0),
                           child: Text(
                             "More About\nYou...",
                             style: GoogleFonts.montserrat(
@@ -334,54 +335,73 @@ class SignupPage2 extends HookWidget {
                               ],
                             ),
                           ),
-                          
                         ],
                       ),
                     ),
                     Column(
                       children: [
                         GestureDetector(
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                left: 30,
-                                right: 30,
-                                bottom: 30,
-                                top: 5,
+                          child: Container(
+                            margin: EdgeInsets.only(
+                              left: 30,
+                              right: 30,
+                              bottom: 30,
+                              top: 5,
+                            ),
+                            height: 55,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(15),
                               ),
-                              height: 55,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(15),
-                                ),
-                                color: Colors.red,
-                                gradient: LinearGradient(
-                                  begin: Alignment.bottomLeft,
-                                  end: Alignment.topRight,
-                                  colors: [
-                                    Color(0xff1EE1D72),
-                                    Color(0xffF14C37),
-                                  ],
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.lock_outlined,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    'Continue Sign up',
-                                    style: kRoundedButtonTextStyle.copyWith(
-                                        color: Colors.white),
-                                  ),
+                              color: Colors.red,
+                              gradient: LinearGradient(
+                                begin: Alignment.bottomLeft,
+                                end: Alignment.topRight,
+                                colors: [
+                                  Color(0xff1EE1D72),
+                                  Color(0xffF14C37),
                                 ],
                               ),
                             ),
-                            onTap: () {}),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.lock_outlined,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  'Continue Sign up',
+                                  style: kRoundedButtonTextStyle.copyWith(
+                                      color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                          onTap: () async {
+                            final intHeight = int.parse(heightController.text);
+                            final intAge = int.parse(ageController.text);
+                            final intWeight = int.parse(weightController.text);
+                            final intPhone = int.parse(phoneController.text);
+                            context.read(loadingStateProvider).state = true;
+
+                            await userDetailProvider.addUserInfo(
+                              intHeight,
+                              intAge,
+                              intPhone,
+                              intWeight,
+                              bioController.text,
+                              aboutController.text,
+                            );
+                            context.read(loadingStateProvider).state = false;
+
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                        ),
                         // SizedBox(
                         //   height: 5,
                         // ),
