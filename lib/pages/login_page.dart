@@ -214,13 +214,13 @@ class LoginPage extends ConsumerWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SignupPage2(),
-                                  ),
-                                );
-                                // Navigator.pushNamed(context, "/signUpPage");
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => SignupPage2(),
+                                //   ),
+                                // );
+                                Navigator.pushNamed(context, "/signUpPage");
                               },
                               child: Text(
                                 "Sign up",

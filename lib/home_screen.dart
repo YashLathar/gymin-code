@@ -1,10 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/controllers/theme_controller.dart';
-import 'package:gym_in/main.dart';
 import 'package:gym_in/pages/activity_page.dart';
 import 'package:gym_in/pages/authenticate_ticket.dart';
 import 'package:gym_in/pages/login_page.dart';
@@ -66,17 +66,13 @@ class HomeScreen extends HookWidget {
                       ),
                       currentAccountPicture: CircleAvatar(
                         child: ClipOval(
-                          child: //ImageProfile(),
-                              Image.network(
-                            authControllerState.photoURL ??
+                          child: CachedNetworkImage(
+                            imageUrl: authControllerState.photoURL ??
                                 "https://img.icons8.com/cute-clipart/2x/user-male.png",
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            },
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                             fit: BoxFit.cover,
                             width: 90,
                             height: 90,

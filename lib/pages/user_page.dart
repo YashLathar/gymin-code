@@ -1,16 +1,27 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/models/user.dart';
 import 'package:gym_in/pages/setting_page.dart';
+import 'package:gym_in/services/user_detail_service.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+final userDetailFutureShowProvider =
+    FutureProvider.autoDispose<UserInApp>((ref) async {
+  ref.maintainState = false;
+
+  final user = ref.read(userDetailServiceProvider).getYourInfo();
+  return user;
+});
 
 class UserPage extends HookWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -376,6 +387,7 @@ class ProfileHeader1 extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider);
+    final userDetailProvider = useProvider(userDetailFutureShowProvider);
     Future<void> _launchURLBrowser() async {
       const url = 'https://gymin.co.in';
       if (await canLaunch(url)) {
@@ -420,9 +432,9 @@ class ProfileHeader1 extends HookWidget {
             CircleAvatar(
               radius: 60,
               backgroundColor: Colors.redAccent,
-              backgroundImage: NetworkImage(
+              backgroundImage: CachedNetworkImageProvider(
                 authControllerState!.photoURL ??
-                    "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg",
+                    "https://img.icons8.com/cute-clipart/2x/user-male.png",
               ),
             ),
             SizedBox(
@@ -496,405 +508,427 @@ class ProfileHeader1 extends HookWidget {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 15),
               height: 340,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Column(
+              child: userDetailProvider.when(
+                  data: (data) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Flexible(
-                          flex: 1,
-                          child: GestureDetector(
-                            onTap: () {
-                              aShowToast(
-                                msg:
-                                    "Modification feature will be provided soon",
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20),
-                                    bottomLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
-                                  ),
-                                  color: Colors.grey[300]),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.only(left: 8),
-                                    alignment: Alignment.topLeft,
-                                    color: Colors.transparent,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 8, right: 8),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Height',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20.0,
-                                                color: Colors.grey[600]),
-                                          ),
-                                          Icon(Icons.games_outlined)
-                                        ],
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Flexible(
+                                flex: 1,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                        bottomLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
                                       ),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 8, top: 15),
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "5'8\"",
-                                      style: kSmallContentStyle.copyWith(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: GestureDetector(
-                            onTap: () {
-                              aShowToast(
-                                msg:
-                                    "Modification feature will be provided soon",
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20),
-                                    bottomLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
-                                  ),
-                                  color: Colors.grey[300]),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.only(left: 8),
-                                    alignment: Alignment.topLeft,
-                                    color: Colors.transparent,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 8, right: 8),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Weight',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20.0,
-                                                color: Colors.grey[600]),
-                                          ),
-                                          Icon(FontAwesomeIcons.weight)
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 8, top: 15),
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "84 kg",
-                                      style: kSmallContentStyle.copyWith(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Flexible(
-                          child: GestureDetector(
-                            onTap: () {
-                              aShowToast(
-                                msg:
-                                    "Modification feature will be provided soon",
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20),
-                                    bottomLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
-                                  ),
-                                  color: Colors.grey[300]),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.only(left: 8),
-                                    alignment: Alignment.topLeft,
-                                    color: Colors.transparent,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 16, right: 8),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'About',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 22.0,
-                                                color: Colors.grey[600]),
-                                          ),
-                                          Icon(FontAwesomeIcons.toolbox),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 8, top: 10),
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "Flutter Developer",
-                                      style: kSmallContentStyle.copyWith(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Flexible(
-                          flex: 1,
-                          child: GestureDetector(
-                            onTap: () {
-                              aShowToast(
-                                  msg:
-                                      "Modification feature will be provided soon");
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20),
-                                    bottomLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
-                                  ),
-                                  color: Colors.grey[300]),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.only(left: 8),
-                                    alignment: Alignment.topLeft,
-                                    color: Colors.transparent,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 14, right: 8),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Age',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20.0,
-                                                color: Colors.grey[600]),
-                                          ),
-                                          Icon(Icons.format_list_numbered)
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 8, top: 15),
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "22 years",
-                                      style: kSmallContentStyle.copyWith(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Flexible(
-                          child: GestureDetector(
-                            onTap: () {
-                              aShowToast(
-                                msg:
-                                    "Modification feature will be provided soon",
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20),
-                                    bottomLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
-                                  ),
-                                  color: Colors.grey[300]),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.only(left: 8),
-                                    alignment: Alignment.topLeft,
-                                    color: Colors.transparent,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 16, right: 8),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Reminder',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 22.0,
-                                                color: Colors.grey[600]),
-                                          ),
-                                          Icon(FontAwesomeIcons.moon),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 8, top: 15),
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "06:15 AM",
-                                      style: kSmallContentStyle.copyWith(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 8),
-                                    alignment: Alignment.centerLeft,
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "Set",
-                                          style: kSmallContentStyle.copyWith(
-                                            color: Colors.grey[600],
-                                            fontSize: 15,
+                                      color: Colors.grey[300]),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.only(left: 8),
+                                        alignment: Alignment.topLeft,
+                                        color: Colors.transparent,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 8, right: 8),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Height',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20.0,
+                                                    color: Colors.grey[600]),
+                                              ),
+                                              Icon(Icons.games_outlined)
+                                            ],
                                           ),
                                         ),
-                                        Icon(
-                                          Icons.alarm,
-                                          size: 18,
+                                      ),
+                                      Container(
+                                        padding:
+                                            EdgeInsets.only(left: 8, top: 15),
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          "${data.height} cm",
+                                          style: kSmallContentStyle.copyWith(
+                                            color: Colors.black,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Flexible(
+                                flex: 1,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    aShowToast(
+                                      msg:
+                                          "Modification feature will be provided soon",
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20),
+                                          bottomLeft: Radius.circular(20),
+                                          bottomRight: Radius.circular(20),
+                                        ),
+                                        color: Colors.grey[300]),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(left: 8),
+                                          alignment: Alignment.topLeft,
+                                          color: Colors.transparent,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 8, right: 8),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Weight',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20.0,
+                                                      color: Colors.grey[600]),
+                                                ),
+                                                Icon(FontAwesomeIcons.weight)
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding:
+                                              EdgeInsets.only(left: 8, top: 15),
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            "${data.weight} kg",
+                                            style: kSmallContentStyle.copyWith(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Flexible(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    aShowToast(
+                                      msg:
+                                          "Modification feature will be provided soon",
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20),
+                                          bottomLeft: Radius.circular(20),
+                                          bottomRight: Radius.circular(20),
+                                        ),
+                                        color: Colors.grey[300]),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(left: 8),
+                                          alignment: Alignment.topLeft,
+                                          color: Colors.transparent,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 16, right: 8),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'About',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 22.0,
+                                                      color: Colors.grey[600]),
+                                                ),
+                                                Icon(FontAwesomeIcons.toolbox),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding:
+                                              EdgeInsets.only(left: 8, top: 10),
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            "${data.about}",
+                                            style: kSmallContentStyle.copyWith(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Flexible(
+                                flex: 1,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    aShowToast(
+                                        msg:
+                                            "Modification feature will be provided soon");
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20),
+                                          bottomLeft: Radius.circular(20),
+                                          bottomRight: Radius.circular(20),
+                                        ),
+                                        color: Colors.grey[300]),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(left: 8),
+                                          alignment: Alignment.topLeft,
+                                          color: Colors.transparent,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 14, right: 8),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Age',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20.0,
+                                                      color: Colors.grey[600]),
+                                                ),
+                                                Icon(Icons.format_list_numbered)
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding:
+                                              EdgeInsets.only(left: 8, top: 15),
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            "${data.age} years",
+                                            style: kSmallContentStyle.copyWith(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Flexible(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    aShowToast(
+                                      msg:
+                                          "Modification feature will be provided soon",
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20),
+                                          bottomLeft: Radius.circular(20),
+                                          bottomRight: Radius.circular(20),
+                                        ),
+                                        color: Colors.grey[300]),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(left: 8),
+                                          alignment: Alignment.topLeft,
+                                          color: Colors.transparent,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 16, right: 8),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Reminder',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 22.0,
+                                                      color: Colors.grey[600]),
+                                                ),
+                                                Icon(FontAwesomeIcons.moon),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding:
+                                              EdgeInsets.only(left: 8, top: 15),
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            "06:15 AM",
+                                            style: kSmallContentStyle.copyWith(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 8),
+                                          alignment: Alignment.centerLeft,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "Set",
+                                                style:
+                                                    kSmallContentStyle.copyWith(
+                                                  color: Colors.grey[600],
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.alarm,
+                                                size: 18,
+                                              )
+                                            ],
+                                          ),
                                         )
                                       ],
                                     ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: GestureDetector(
-                            onTap: () {
-                              aShowToast(
-                                msg:
-                                    "Modification feature will be provided soon",
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20),
-                                    bottomLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
                                   ),
-                                  color: Colors.grey[300]),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.only(left: 8),
-                                    alignment: Alignment.topLeft,
-                                    color: Colors.transparent,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 14, right: 8),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Bio',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20.0,
-                                                color: Colors.grey[600]),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Flexible(
+                                flex: 1,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    aShowToast(
+                                      msg:
+                                          "Modification feature will be provided soon",
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20),
+                                          bottomLeft: Radius.circular(20),
+                                          bottomRight: Radius.circular(20),
+                                        ),
+                                        color: Colors.grey[300]),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(left: 8),
+                                          alignment: Alignment.topLeft,
+                                          color: Colors.transparent,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 14, right: 8),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Bio',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20.0,
+                                                      color: Colors.grey[600]),
+                                                ),
+                                                Icon(FontAwesomeIcons.book)
+                                              ],
+                                            ),
                                           ),
-                                          Icon(FontAwesomeIcons.book)
-                                        ],
-                                      ),
+                                        ),
+                                        Container(
+                                          padding:
+                                              EdgeInsets.only(left: 8, top: 15),
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            "${data.bio}",
+                                            style: kSmallContentStyle.copyWith(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 8, top: 15),
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "Whatever it takes",
-                                      style: kSmallContentStyle.copyWith(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                ],
-              ),
+                    );
+                  },
+                  loading: () => Container(
+                        height: 55,
+                        width: 55,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                  error: (e, s) {
+                    return Center(child: Text("No Data"));
+                  }),
             ),
           ],
         ),

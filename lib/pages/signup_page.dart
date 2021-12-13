@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/pages/login_page.dart';
+import 'package:gym_in/pages/signup_page2.dart';
 import 'package:gym_in/widgets/rounded_textfield.dart';
+import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -156,26 +158,35 @@ class SignupPage extends ConsumerWidget {
                               ),
                             ),
                             onTap: () async {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => SignupPage2(),
-                              //   ),
-                              // );
-                              context.read(loadingStateProvider).state = true;
-                              await context
-                                  .read(authControllerProvider.notifier)
-                                  .signUp(_emailController.text.trim(),
-                                      _passwordController.text.trim(), context);
-                              await context
-                                  .read(authControllerProvider.notifier)
-                                  .setUserName(_usernameController.text.trim());
-                              await context
-                                  .read(authControllerProvider.notifier)
-                                  .setProfilePhoto(
-                                      "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg");
-                              context.read(loadingStateProvider).state = false;
-                              Navigator.pop(context);
+                              if (_usernameController.text.isNotEmpty) {
+                                context.read(loadingStateProvider).state = true;
+                                await context
+                                    .read(authControllerProvider.notifier)
+                                    .signUp(
+                                        _emailController.text.trim(),
+                                        _passwordController.text.trim(),
+                                        context);
+                                await context
+                                    .read(authControllerProvider.notifier)
+                                    .setUserName(
+                                        _usernameController.text.trim());
+                                await context
+                                    .read(authControllerProvider.notifier)
+                                    .setProfilePhoto(
+                                        "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg");
+                                context.read(loadingStateProvider).state =
+                                    false;
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SignupPage2(),
+                                  ),
+                                );
+                              } else {
+                                aShowToast(msg: "Please provide your name");
+                              }
+
+                              // Navigator.pop(context);
                             }),
                         SizedBox(
                           height: 5,

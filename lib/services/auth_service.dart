@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:gym_in/controllers/cart_controller.dart';
 import 'package:gym_in/general_providers.dart';
 import 'package:gym_in/pages/login_page.dart';
+import 'package:gym_in/pages/user_page.dart';
 import 'package:gym_in/services/error_Handler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -39,6 +39,8 @@ class AuthenticatioSevice implements BaseAuthenticationService {
     try {
       await _read(firebaseAuthProvider)
           .signInWithEmailAndPassword(email: email, password: password);
+
+      context.refresh(userDetailFutureShowProvider);
     } on FirebaseAuthException catch (e) {
       context.read(loadingStateProvider).state = false;
       return ErrorHandler.errorDialog(context, e);
@@ -51,6 +53,7 @@ class AuthenticatioSevice implements BaseAuthenticationService {
     try {
       await _read(firebaseAuthProvider)
           .createUserWithEmailAndPassword(email: email, password: password);
+      context.refresh(userDetailFutureShowProvider);
     } on FirebaseAuthException catch (e) {
       context.read(loadingStateProvider).state = false;
       return ErrorHandler.errorDialog(context, e);
