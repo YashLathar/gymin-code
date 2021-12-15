@@ -485,6 +485,7 @@ class CustomBottomSheet extends HookWidget {
                         ),
                         child: TextField(
                           controller: controller,
+                          style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),

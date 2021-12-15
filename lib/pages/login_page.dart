@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
-import 'package:gym_in/pages/signup_page2.dart';
 import 'package:gym_in/widgets/oauthlogin_button.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:gym_in/widgets/rounded_textfield.dart';

@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_in/controllers/cart_controller.dart';
-import 'package:gym_in/pages/user_page.dart';
 import 'package:gym_in/services/auth_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
