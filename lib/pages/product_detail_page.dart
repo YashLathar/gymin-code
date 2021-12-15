@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
+import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
 import 'package:gym_in/controllers/favourites_controller.dart';
 import 'package:gym_in/models/product.dart';
@@ -32,6 +33,7 @@ class ProductDetailPage extends HookWidget {
     final favControllerProvider = useProvider(favouritesControllerProvider);
     final isUiLiked = useState(false);
     final isLoading = useState(false);
+    final user = useProvider(authControllerProvider);
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -208,7 +210,8 @@ class ProductDetailPage extends HookWidget {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 15, horizontal: 15),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             child: Text(
@@ -242,7 +245,8 @@ class ProductDetailPage extends HookWidget {
                                               Container(
                                                 height: 20,
                                                 width: 125,
-                                                padding: EdgeInsets.fromLTRB(8, 2, 5, 2),
+                                                padding: EdgeInsets.fromLTRB(
+                                                    8, 2, 5, 2),
                                                 decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -467,7 +471,8 @@ class ProductDetailPage extends HookWidget {
                                             ],
                                           ),
                                           Divider(
-                                            color: Theme.of(context).backgroundColor,
+                                            color: Theme.of(context)
+                                                .backgroundColor,
                                           ),
                                           Row(
                                             mainAxisAlignment:
@@ -672,7 +677,8 @@ class ProductDetailPage extends HookWidget {
                                   });
                             }
 
-                            await cartService.addItemToCart(product: product);
+                            await cartService.addItemToCart(
+                                product: product, userUID: user!.uid);
 
                             isLoading.value = false;
                             Navigator.pop(context);

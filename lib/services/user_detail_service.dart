@@ -22,7 +22,7 @@ abstract class BaseUserDetailService {
   Future<void> updateUserBio(String updatedBio);
   Future<void> updateUserAbout(String updatedAbout);
   Future<void> deleteUserInfo();
-  Future<UserInApp> getYourInfo();
+  Future<UserInApp> getYourInfo(String userUID);
 }
 
 final userDetailServiceProvider = Provider<UserDetailService>((ref) {
@@ -63,12 +63,10 @@ class UserDetailService implements BaseUserDetailService {
   }
 
   @override
-  Future<UserInApp> getYourInfo() async {
+  Future<UserInApp> getYourInfo(String userUID) async {
     try {
-      final doc = await _read(firestoreProvider)
-          .collection("users")
-          .doc(currentUser!.uid)
-          .get();
+      final doc =
+          await _read(firestoreProvider).collection("users").doc(userUID).get();
 
       if (doc.exists) {
         final userInApp = UserInApp.fromDocument(doc);

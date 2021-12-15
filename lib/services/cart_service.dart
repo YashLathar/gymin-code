@@ -7,32 +7,35 @@ import 'package:gym_in/models/product.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 abstract class BaseCartService {
-  Future<List<Product>> getCartItems();
+  Future<List<Product>> getCartItems(String userUID);
   Future<void> addItemToCart({
     required Product product,
+    required String userUID,
   });
-  Future<void> removeItemFromCart(String docID);
+  Future<void> removeItemFromCart(
+    String docID,
+    String userUID,
+  );
 }
 
 final cartServiceProvider = Provider<CartService>((ref) {
-  final user = ref.read(authControllerProvider);
-  return CartService(ref.read, user);
+  return CartService(ref.read);
 });
 
 class CartService implements BaseCartService {
   final Reader _read;
-  final User? user;
 
-  CartService(this._read, this.user);
+  CartService(this._read);
 
   @override
   Future<void> addItemToCart({
     required Product product,
+    required String userUID,
   }) async {
     try {
       await _read(firestoreProvider)
           .collection("cart")
-          .doc(user!.uid)
+          .doc(userUID)
           .collection("userCart")
           .doc(product.productId)
           .set({
@@ -48,11 +51,11 @@ class CartService implements BaseCartService {
   }
 
   @override
-  Future<List<Product>> getCartItems() async {
+  Future<List<Product>> getCartItems(String userUID) async {
     try {
       final documents = await _read(firestoreProvider)
           .collection("cart")
-          .doc(user!.uid)
+          .doc(userUID)
           .collection("userCart")
           .get();
 
@@ -66,11 +69,14 @@ class CartService implements BaseCartService {
   }
 
   @override
-  Future<void> removeItemFromCart(String docID) async {
+  Future<void> removeItemFromCart(
+    String docID,
+    String userUID,
+  ) async {
     try {
       await _read(firestoreProvider)
           .collection("cart")
-          .doc(user!.uid)
+          .doc(userUID)
           .collection("userCart")
           .doc(docID)
           .delete();
