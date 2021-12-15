@@ -23,11 +23,6 @@ class CartContoller extends ChangeNotifier {
   int get totalPrice => _products.fold(
       0, (int total, item) => total + item.price * item.quantity);
 
-  void clearState() {
-    _products = [];
-    notifyListeners();
-  }
-
   Future<void> retrieveItemFromCart() async {
     final user = _read(authControllerProvider);
     final cartProducts =

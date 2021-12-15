@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/controllers/favourites_controller.dart';
+import 'package:gym_in/services/favourites_service.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -21,6 +22,7 @@ class FavGym extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final favController = useProvider(favouritesControllerProvider);
+    final favService = useProvider(favServiceProvider);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       height: 160,
@@ -62,7 +64,8 @@ class FavGym extends HookWidget {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: TextButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        await favService.deleteGymFromFav(gymId);
                         favController.removeGym(gymId);
                         aShowToast(msg: "Removed from Favourites");
                       },
