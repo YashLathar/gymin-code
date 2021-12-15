@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/models/user.dart';
+import 'package:gym_in/pages/editprofile_page.dart';
 import 'package:gym_in/pages/setting_page.dart';
 import 'package:gym_in/services/user_detail_service.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
@@ -275,49 +276,77 @@ class UserPage extends HookWidget {
                 //     color: Colors.redAccent,
                 //   ),
                 // ),
-                PopupMenuButton<int>(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  offset: Offset(50, -100),
-                  itemBuilder: (context) => [
-                    PopupMenuItem<int>(
-                      value: 0,
-                      onTap: () {
-                        aShowToast(msg: "Coming soon");
-                      },
-                      child: PopUpMenuTile(
-                        icon: FontAwesomeIcons.list,
-                        title: 'Your Orders',
-                      ),
-                    ),
-                    PopupMenuItem<int>(
-                      value: 1,
-                      onTap: () {
-                        aShowToast(msg: "Coming soon");
-                      },
-                      child: PopUpMenuTile(
-                        icon: Icons.edit,
-                        title: 'Edit profile',
-                      ),
-                    ),
-                    PopupMenuItem<int>(
-                      value: 3,
-                      onTap: () {},
-                      child: PopUpMenuTile(
-                        icon: Icons.favorite,
-                        title: 'favourites',
-                      ),
-                    ),
-                  ],
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Icon(
-                        Icons.more_vert,
-                        color: Colors.redAccent,
-                      ),
-                    ],
+                IconButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                        isDismissible: true,
+                        backgroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(25)),
+                        ),
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        context: context,
+                        builder: (BuildContext buildContext) {
+                          return UserEditBottomSheet();
+                        });
+                  },
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.redAccent,
                   ),
-                ),
+                )
+                // PopupMenuButton<int>(
+                //   color: Theme.of(context).scaffoldBackgroundColor,
+                //   offset: Offset(50, -100),
+                //   itemBuilder: (context) => [
+                //     PopupMenuItem<int>(
+                //       value: 0,
+                //       onTap: () {
+                //         aShowToast(msg: "Coming soon");
+                //       },
+                //       child: PopUpMenuTile(
+                //         icon: FontAwesomeIcons.list,
+                //         title: 'Your Orders',
+                //       ),
+                //     ),
+                //     PopupMenuItem<int>(
+                //       value: 1,
+                //       onTap: () {
+                //         aShowToast(msg: "Coming soon");
+                //       },
+                //       child: PopUpMenuTile(
+                //         icon: Icons.edit,
+                //         title: 'Edit profile',
+                //       ),
+                //     ),
+                //     PopupMenuItem(
+                //       value: 3,
+                //       onTap: () {
+                //         Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) => FavoritesPage(),
+                //           ),
+                //         );
+                //       },
+                //       child: PopUpMenuTile(
+                //         icon: Icons.favorite,
+                //         title: 'favourites',
+                //       ),
+                //     ),
+                //   ],
+                //   child: Column(
+                //     mainAxisSize: MainAxisSize.min,
+                //     children: <Widget>[
+                //       Icon(
+                //         Icons.more_vert,
+                //         color: Colors.redAccent,
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             )
           ],
