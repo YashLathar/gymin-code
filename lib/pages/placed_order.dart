@@ -1,38 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class QrResultScreen extends HookWidget {
-  const QrResultScreen({
-    required this.gymName,
-    required this.gymPhoto,
-    required this.userName,
-    required this.docId,
-    required this.fromDate,
-    required this.fromTime,
-    required this.planSelected,
-    required this.userImage,
-    Key? key,
-  }) : super(key: key);
-
-  final String gymName;
-  final String gymPhoto;
-  final String? userName;
-  final String docId;
-  final String fromDate;
-  final String fromTime;
-  final String planSelected;
-  final String? userImage;
+class PlacedOrderScreen extends StatelessWidget {
+  const PlacedOrderScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       children: [
         Container(
           decoration: BoxDecoration(
@@ -42,7 +22,7 @@ class QrResultScreen extends HookWidget {
           height: 606,
           width: MediaQuery.of(context).size.width,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 alignment: Alignment.topCenter,
@@ -81,7 +61,7 @@ class QrResultScreen extends HookWidget {
                               height: 50,
                               color: Colors.white,
                               child: Image.network(
-                                gymPhoto,
+                                "https://images-na.ssl-images-amazon.com/images/I/81mGkr-aYHS.jpg",
                                 fit: BoxFit.cover,
                                 filterQuality: FilterQuality.high,
                                 loadingBuilder: (BuildContext context,
@@ -107,7 +87,7 @@ class QrResultScreen extends HookWidget {
                             width: 15,
                           ),
                           Text(
-                            gymName,
+                            "productname",
                             style: kSmallContentStyle,
                           ),
                         ],
@@ -127,11 +107,12 @@ class QrResultScreen extends HookWidget {
                     ),
                     ListTile(
                       leading: CircleAvatar(
-                        backgroundImage: NetworkImage(userImage!),
+                        backgroundImage: NetworkImage(
+                            "https://images-na.ssl-images-amazon.com/images/I/81mGkr-aYHS.jpg"), //userimage
                         radius: 25,
                       ),
                       title: Text(
-                        userName!,
+                        "userName!",
                         style: kSmallContentStyle.copyWith(
                           color: Theme.of(context).textTheme.bodyText2!.color,
                         ),
@@ -150,7 +131,7 @@ class QrResultScreen extends HookWidget {
                           margin: EdgeInsets.fromLTRB(12, 12, 12, 15),
                           child: QrImage(
                             foregroundColor: Theme.of(context).backgroundColor,
-                            data: docId,
+                            data: "docOrderId",
                             size: 160,
                           ),
                         ),
@@ -158,7 +139,7 @@ class QrResultScreen extends HookWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              fromDate,
+                              "orderdate",
                               style: kSmallContentStyle.copyWith(
                                 fontSize: 20,
                                 color: Theme.of(context)
@@ -178,7 +159,7 @@ class QrResultScreen extends HookWidget {
                               height: 10,
                             ),
                             Text(
-                              fromTime,
+                              "Expected",
                               style: kSmallContentStyle.copyWith(
                                 fontSize: 20,
                                 color: Theme.of(context)
@@ -248,7 +229,7 @@ class QrResultScreen extends HookWidget {
                       aShowToast(msg: "Saved to Your Orders");
                     },
                     child: Text(
-                      "Save Ticket",
+                      "Saved in Orders",
                       style: kSubHeadingStyle.copyWith(
                         color: Colors.white,
                       ),
@@ -258,8 +239,12 @@ class QrResultScreen extends HookWidget {
               ),
             ],
           ),
-        ),
+        )
       ],
+      // title: Text(
+      //   "Order Success",
+      //   style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+      // ),
     );
   }
 }

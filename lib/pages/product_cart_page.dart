@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
+import 'package:gym_in/pages/placed_order.dart';
 import 'package:gym_in/widgets/cart_product.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -24,14 +25,7 @@ class ProductCartPage extends HookWidget {
       showDialog(
           context: context,
           builder: (context) {
-            return SimpleDialog(
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              title: Text(
-                "Order Success",
-                style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyText2!.color),
-              ),
-            );
+            return PlacedOrderScreen();
           });
     }
 
