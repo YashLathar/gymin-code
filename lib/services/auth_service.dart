@@ -38,8 +38,6 @@ class AuthenticatioSevice implements BaseAuthenticationService {
     try {
       await _read(firebaseAuthProvider)
           .signInWithEmailAndPassword(email: email, password: password);
-      // context.refresh(userDetailFutureShowProvider);
-      // context.refresh(cartProvider);
     } on FirebaseAuthException catch (e) {
       context.read(loadingStateProvider).state = false;
       return ErrorHandler.errorDialog(context, e);
@@ -52,8 +50,6 @@ class AuthenticatioSevice implements BaseAuthenticationService {
     try {
       await _read(firebaseAuthProvider)
           .createUserWithEmailAndPassword(email: email, password: password);
-      // context.refresh(userDetailFutureShowProvider);
-      // context.refresh(cartProvider);
     } on FirebaseAuthException catch (e) {
       context.read(loadingStateProvider).state = false;
       return ErrorHandler.errorDialog(context, e);

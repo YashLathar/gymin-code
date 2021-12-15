@@ -1,32 +1,33 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class Gym {
-  final bool gymopen;
-  final bool traineravailable;
+  final bool? gymopen;
+  final bool? traineravailable;
   final List gymphotos;
-  final String gymId;
-  final String gymName;
-  final String gymPhoto;
-  final String gymratings;
-  final String trainername;
-  final String gymaddress;
+  final String? gymId;
+  final String? gymName;
+  final String? gymPhoto;
+  final String? gymratings;
+  final String? trainername;
+  final String? gymaddress;
 
-  final String trainerphoto;
-  final String trainerrating;
+  final String? trainerphoto;
+  final String? trainerrating;
   Gym({
-    required this.gymopen,
-    required this.traineravailable,
+    this.gymopen,
+    this.traineravailable,
     required this.gymphotos,
-    required this.gymId,
-    required this.gymName,
-    required this.gymPhoto,
-    required this.gymratings,
-    required this.trainername,
-    required this.gymaddress,
-    required this.trainerphoto,
-    required this.trainerrating,
+    this.gymId,
+    this.gymName,
+    this.gymPhoto,
+    this.gymratings,
+    this.trainername,
+    this.gymaddress,
+    this.trainerphoto,
+    this.trainerrating,
   });
 
   Gym copyWith({
@@ -87,6 +88,21 @@ class Gym {
       trainerphoto: map['trainerphoto'],
       trainerrating: map['trainerrating'],
     );
+  }
+
+  factory Gym.fromFirebase(Map<String, dynamic> map, String docId) {
+    return Gym(
+      gymPhoto: map['image'],
+      gymName: map['title'],
+      gymaddress: map['address'],
+      gymphotos: [],
+      gymId: docId,
+    );
+  }
+
+  factory Gym.fromDocument(DocumentSnapshot doc) {
+    final dataMap = doc.data() as Map<String, dynamic>;
+    return Gym.fromFirebase(dataMap, doc.id);
   }
 
   String toJson() => json.encode(toMap());

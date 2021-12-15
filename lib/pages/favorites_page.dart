@@ -87,17 +87,17 @@ class FavoritesPage extends HookWidget {
                 Tab(
                   child: Text(
                     "Products",
-                    style: TextStyle(fontSize: 22,
-                    color: Theme.of(context).textTheme.bodyText2!.color
-                    ),
+                    style: TextStyle(
+                        fontSize: 22,
+                        color: Theme.of(context).textTheme.bodyText2!.color),
                   ),
                 ),
                 Tab(
                   child: Text(
                     "Gyms",
-                    style: TextStyle(fontSize: 22,
-                    color: Theme.of(context).textTheme.bodyText2!.color
-                    ),
+                    style: TextStyle(
+                        fontSize: 22,
+                        color: Theme.of(context).textTheme.bodyText2!.color),
                   ),
                 ),
               ],
@@ -121,10 +121,10 @@ class FavoritesPage extends HookWidget {
                 ListView(
                   children: favGyms
                       .map((gym) => FavGym(
-                            gymId: gym.gymId,
-                            imageUrl: gym.gymPhoto,
-                            address: gym.gymaddress,
-                            gymName: gym.gymName,
+                            gymId: gym.gymId!,
+                            imageUrl: gym.gymPhoto!,
+                            address: gym.gymaddress!,
+                            gymName: gym.gymName!,
                           ))
                       .toList(),
                 ),
