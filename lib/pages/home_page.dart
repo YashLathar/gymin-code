@@ -13,6 +13,7 @@ class HomePage extends HookWidget {
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _gymStream =
         FirebaseFirestore.instance.collection('gymdata').snapshots();
+
     final ScrollController _scrollController = ScrollController();
     Size size = MediaQuery.of(context).size;
     return StreamBuilder<QuerySnapshot>(

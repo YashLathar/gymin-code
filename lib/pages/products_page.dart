@@ -13,6 +13,7 @@ class GymProductsPage extends HookWidget {
   GymProductsPage({Key? key}) : super(key: key);
   final Stream<QuerySnapshot> _productStream =
       FirebaseFirestore.instance.collection('product').snapshots();
+
   @override
   Widget build(BuildContext context) {
     final cartControllerProvider = useProvider(cartProvider);

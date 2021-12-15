@@ -18,8 +18,11 @@ import 'package:url_launcher/url_launcher.dart';
 final userDetailFutureShowProvider =
     FutureProvider.autoDispose<UserInApp>((ref) async {
   ref.maintainState = false;
+  final userFromFirebaseAuth = ref.read(authControllerProvider);
 
-  final user = ref.read(userDetailServiceProvider).getYourInfo();
+  final user = ref
+      .read(userDetailServiceProvider)
+      .getYourInfo(userFromFirebaseAuth!.uid);
   return user;
 });
 
@@ -353,41 +356,42 @@ class UserPage extends HookWidget {
 class ProfileHeader1 extends HookWidget {
   const ProfileHeader1({Key? key}) : super(key: key);
 
-  Column buildCountColumn(String label, int count, BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          count.toString(),
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18.0,
-            color: Theme.of(context).textTheme.bodyText2!.color,
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(
-            top: 4.0,
-            left: 5,
-          ),
-          child: Text(
-            label,
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 16.0,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  // Column buildCountColumn(String label, int count, BuildContext context) {
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     mainAxisSize: MainAxisSize.min,
+  //     children: [
+  //       Text(
+  //         count.toString(),
+  //         style: TextStyle(
+  //           fontWeight: FontWeight.bold,
+  //           fontSize: 18.0,
+  //           color: Theme.of(context).textTheme.bodyText2!.color,
+  //         ),
+  //       ),
+  //       Container(
+  //         margin: EdgeInsets.only(
+  //           top: 4.0,
+  //           left: 5,
+  //         ),
+  //         child: Text(
+  //           label,
+  //           style: TextStyle(
+  //             color: Colors.grey,
+  //             fontSize: 16.0,
+  //             fontWeight: FontWeight.w400,
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider);
     final userDetailProvider = useProvider(userDetailFutureShowProvider);
+
     Future<void> _launchURLBrowser() async {
       const url = 'https://gymin.co.in';
       if (await canLaunch(url)) {

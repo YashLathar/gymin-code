@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
+import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/models/product.dart';
 import 'package:gym_in/services/cart_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -28,7 +29,11 @@ class CartContoller extends ChangeNotifier {
   }
 
   Future<void> retrieveItemFromCart() async {
-    final cartProducts = await _read(cartServiceProvider).getCartItems();
+    final user = _read(authControllerProvider);
+    final cartProducts =
+        await _read(cartServiceProvider).getCartItems(user!.uid);
+
+    print(cartProducts);
 
     _products = cartProducts;
 

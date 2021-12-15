@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
 import 'package:gym_in/services/cart_service.dart';
 import 'package:gym_in/widgets/quantity_counter.dart';
@@ -24,6 +25,7 @@ class CartProduct extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = useProvider(authControllerProvider);
     final isLoading = useState(false);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -85,7 +87,7 @@ class CartProduct extends HookWidget {
 
                         await context
                             .read(cartServiceProvider)
-                            .removeItemFromCart(productId);
+                            .removeItemFromCart(productId, user!.uid);
 
                         isLoading.value = false;
                         Navigator.pop(context);
