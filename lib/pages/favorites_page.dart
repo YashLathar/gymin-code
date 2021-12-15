@@ -61,7 +61,7 @@ class FavoritesPage extends HookWidget {
                     borderRadius: BorderRadius.circular(35),
                     border: Border.all(
                       width: 2.0,
-                      color: Theme.of(context).backgroundColor,
+                      color: Theme.of(context).scaffoldBackgroundColor,
                     ),
                   ),
                   child: Center(
@@ -69,7 +69,7 @@ class FavoritesPage extends HookWidget {
                       onPressed: () {},
                       icon: Icon(
                         FontAwesomeIcons.plus,
-                        color: Theme.of(context).textTheme.bodyText2!.color,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                       ),
                     ),
                   ),
