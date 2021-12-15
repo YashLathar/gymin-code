@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gym_in/controllers/favourites_controller.dart';
 import 'package:gym_in/models/product.dart';
+import 'package:gym_in/services/favourites_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProductCard extends HookWidget {
@@ -24,6 +25,7 @@ class ProductCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final favControllerProvider = useProvider(favouritesControllerProvider);
+    final favProvider = useProvider(favServiceProvider);
     final isUiLiked = useState(false);
 
     return Container(
@@ -89,7 +91,7 @@ class ProductCard extends HookWidget {
                             borderRadius: BorderRadius.circular(50),
                             color: Colors.redAccent),
                         child: IconButton(
-                          onPressed: () {
+                          onPressed: () async {
                             final thisProduct = favControllerProvider
                                 .favProducts
                                 .where((product) =>
@@ -106,6 +108,8 @@ class ProductCard extends HookWidget {
                                   productId: productId,
                                   isLiked: isUiLiked.value,
                                 );
+
+                                await favProvider.addProductToFav(product);
 
                                 favControllerProvider.addProductToFav(product);
                                 Fluttertoast.showToast(

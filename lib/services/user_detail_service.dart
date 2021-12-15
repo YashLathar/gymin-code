@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/custom_exception.dart';
 import 'package:gym_in/general_providers.dart';
 import 'package:gym_in/models/user.dart';
-import 'package:gym_in/services/auth_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 abstract class BaseUserDetailService {
@@ -26,7 +26,7 @@ abstract class BaseUserDetailService {
 }
 
 final userDetailServiceProvider = Provider<UserDetailService>((ref) {
-  final user = ref.read(authServiceProvider).getCurrentUser();
+  final user = ref.read(authControllerProvider);
   return UserDetailService(ref.read, user);
 });
 

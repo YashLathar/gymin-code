@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/favourites_controller.dart';
 import 'package:gym_in/models/gym.dart';
+import 'package:gym_in/services/favourites_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:like_button/like_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,6 +38,7 @@ class GymCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final favGymsController = useProvider(favouritesControllerProvider);
+    final favService = useProvider(favServiceProvider);
     Future<bool> onLikeButtonTapped(bool isLiked) async {
       final thisGym =
           favGymsController.favGyms.where((gym) => gym.gymId == gymId);
@@ -55,6 +57,9 @@ class GymCard extends HookWidget {
           traineravailable: traineravailable,
           gymId: gymId,
         );
+
+        await favService.addGymToFav(gym);
+
         favGymsController.addGymToFav(gym);
 
         Fluttertoast.showToast(msg: "Added to Favourites");
