@@ -48,17 +48,17 @@ class HomeScreen extends HookWidget {
                       ),
                       accountEmail: ListTile(
                         contentPadding: EdgeInsets.zero,
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UserPage()));
-                        },
-                        trailing: Icon(
-                          Icons.chevron_right,
-                          color: Colors.white,
-                          size: 30,
-                        ),
+                        // onTap: () {
+                        //   Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) => UserPage()));
+                        // },
+                        // trailing: Icon(
+                        //   Icons.chevron_right,
+                        //   color: Colors.white,
+                        //   size: 30,
+                        // ),
                         title: Text(
                           authControllerState.email ?? 'example@email.com',
                           style: TextStyle(color: Colors.white),
