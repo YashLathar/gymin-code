@@ -169,28 +169,28 @@ class GymPage extends HookWidget {
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 10),
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(35),
-                                        border: Border.all(
-                                          width: 2.0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            FontAwesomeIcons.share,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    )
+                                    // Container(
+                                    //   margin:
+                                    //       EdgeInsets.symmetric(horizontal: 10),
+                                    //   width: 50,
+                                    //   height: 50,
+                                    //   decoration: BoxDecoration(
+                                    //     borderRadius: BorderRadius.circular(35),
+                                    //     border: Border.all(
+                                    //       width: 2.0,
+                                    //       color: Colors.white,
+                                    //     ),
+                                    //   ),
+                                    //   child: Center(
+                                    //     child: IconButton(
+                                    //       onPressed: () {},
+                                    //       icon: Icon(
+                                    //         FontAwesomeIcons.share,
+                                    //         color: Colors.white,
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // )
                                   ],
                                 )
                               ],
@@ -359,7 +359,8 @@ class GymPage extends HookWidget {
                           child: Column(
                             children: [
                               Container(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 child: Stack(
                                   children: [
                                     ClipRRect(
@@ -367,7 +368,8 @@ class GymPage extends HookWidget {
                                       child: Container(
                                         width: 75,
                                         height: 75,
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         child: Image.network(
                                           trainerphoto,
                                           fit: BoxFit.cover,

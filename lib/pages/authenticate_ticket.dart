@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:barcode_scan2/barcode_scan2.dart';
@@ -9,7 +7,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/pages/booking_result.dart';
+import 'package:gym_in/services/orders_service.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AuthenticateTicket extends StatefulWidget {
   const AuthenticateTicket({Key? key}) : super(key: key);
@@ -25,6 +26,26 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
     try {
       final barcode = await BarcodeScanner.scan();
       setState(() => barcodeResult = barcode.toString());
+      final user = context.read(authControllerProvider);
+      final order = await context
+          .read(ordersServiceProvider)
+          .getSingleOrder(barcodeResult);
+
+      showDialog(
+        context: context,
+        builder: (context) {
+          return QrResultScreen(
+            gymName: order.gymName,
+            gymPhoto: order.gymPhoto,
+            userImage: user!.photoURL,
+            userName: order.userName,
+            fromDate: order.fromDate,
+            fromTime: order.fromTime,
+            planSelected: order.planSelected,
+            docId: order.docId,
+          );
+        },
+      );
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
         setState(() {
@@ -41,24 +62,24 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
     }
   }
 
-  // ignore: unused_element
-  Future<void> _captureAndSharePng() async {
-    try {
-      var globalKey;
-      RenderRepaintBoundary boundary =
-          globalKey.currentContext.findRenderObject();
-      var image = await boundary.toImage();
-      ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
-      Uint8List pngBytes = byteData!.buffer.asUint8List();
-      final tempDir = await getTemporaryDirectory();
-      final file = await new File('${tempDir.path}/image.png').create();
-      await file.writeAsBytes(pngBytes);
-      final channel = const MethodChannel('channel:me.alfian.share/share');
-      channel.invokeMethod('shareFile', 'image.png');
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+  // // ignore: unused_element
+  // Future<void> _captureAndSharePng() async {
+  //   try {
+  //     var globalKey;
+  //     RenderRepaintBoundary boundary =
+  //         globalKey.currentContext.findRenderObject();
+  //     var image = await boundary.toImage();
+  //     ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
+  //     Uint8List pngBytes = byteData!.buffer.asUint8List();
+  //     final tempDir = await getTemporaryDirectory();
+  //     final file = await new File('${tempDir.path}/image.png').create();
+  //     await file.writeAsBytes(pngBytes);
+  //     final channel = const MethodChannel('channel:me.alfian.share/share');
+  //     channel.invokeMethod('shareFile', 'image.png');
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

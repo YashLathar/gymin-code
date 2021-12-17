@@ -149,7 +149,7 @@ class HomeScreen extends HookWidget {
                   leading: Icon(
                       context.read(themeControllerProvider).theme
                           ? FontAwesomeIcons.moon
-                          : FontAwesomeIcons.sun,
+                          : Icons.light_mode,
                       color: Theme.of(context).textTheme.bodyText2!.color),
                   title: Text(
                     'Theme',
