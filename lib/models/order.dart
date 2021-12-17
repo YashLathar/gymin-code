@@ -68,6 +68,17 @@ class Order {
     );
   }
 
+  factory Order.mtOrder() {
+    return Order(
+      gymName: "unknown",
+      docId: "invalid",
+      fromDate: "unknown",
+      fromTime: "unknown",
+      planSelected: "unknown",
+      gymPhoto: "unknown",
+    );
+  }
+
   String toJson() => json.encode(toMap());
 
   factory Order.fromJson(String source) => Order.fromMap(json.decode(source));

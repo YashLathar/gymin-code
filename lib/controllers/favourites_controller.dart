@@ -1,7 +1,6 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/models/gym.dart';
 import 'package:gym_in/models/product.dart';
 import 'package:gym_in/services/favourites_service.dart';
