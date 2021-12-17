@@ -17,6 +17,7 @@ abstract class BaseOrdersService {
     String gymPhoto,
     BuildContext context,
   );
+  Future<Order> getSingleOrder(String docId);
   Future<List<Order>> retrievAllOrders();
 }
 
@@ -84,6 +85,52 @@ class OrdersService implements BaseOrdersService {
       }).toList();
 
       return orders;
+    } on FirebaseException catch (e) {
+      throw Text(e.message ?? "ERROR");
+    }
+  }
+
+  @override
+  Future<Order> getSingleOrder(String docId) async {
+    try {
+      final documentSnapshot = await _read(firestoreProvider)
+          .collection("bookings")
+          .doc(user!.uid)
+          .collection("userBookings")
+          .doc(docId)
+          .get();
+
+      if (documentSnapshot.exists) {
+        final order = Order(
+          gymName: documentSnapshot.data()!["gymName"],
+          docId: docId,
+          fromDate: documentSnapshot.data()!["date"],
+          fromTime: documentSnapshot.data()!["bookingFromTiming"],
+          planSelected: documentSnapshot.data()!["userPlan"],
+          gymPhoto: documentSnapshot.data()!["gymPhoto"],
+        );
+
+        return order;
+      } else {
+        final mtyOrder = Order.mtOrder();
+
+        return mtyOrder;
+      }
+
+      // final orders = documentSnapshots.docs.map((order) {
+      //   return Order(
+      //     docId: order.id,
+      //     gymPhoto: order.data()["gymPhoto"],
+      //     userImage: user!.photoURL,
+      //     userName: user!.displayName,
+      //     fromTime: order.data()["bookingFromTiming"],
+      //     fromDate: order.data()["date"],
+      //     gymName: order.data()["gymName"],
+      //     planSelected: order.data()["userPlan"],
+      //   );
+      // }).toList();
+
+      // return orders;
     } on FirebaseException catch (e) {
       throw Text(e.message ?? "ERROR");
     }
