@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
-
+import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/services/contact_service.dart';
+import 'package:gym_in/widgets/toast_msg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ContactScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final usernameController = useTextEditingController();
     final phoneController = useTextEditingController();
-    final emailController = useTextEditingController();
+    final messageController = useTextEditingController();
+    final contactService = useProvider(contactServiceProvider);
+    final user = useProvider(authControllerProvider);
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -89,7 +94,6 @@ class ContactScreen extends HookWidget {
                     SizedBox(height: 10),
                     TextField(
                       controller: usernameController,
-                      keyboardType: TextInputType.phone,
                       style: TextStyle(
                           color: Theme.of(context).textTheme.bodyText2!.color),
                       decoration: InputDecoration(
@@ -117,44 +121,44 @@ class ContactScreen extends HookWidget {
                       ),
                     ),
                     SizedBox(height: 15),
-                    Text(
-                      "Your Email",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    TextField(
-                      controller: emailController,
-                      keyboardType: TextInputType.phone,
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText2!.color),
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.mail,
-                            color:
-                                Theme.of(context).textTheme.bodyText2!.color),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(
-                            color: Theme.of(context).backgroundColor,
-                            width: 2,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(
-                            color: Colors.redAccent, //0xffF14C37
-                            width: 2,
-                          ),
-                        ),
-                        hintText: "Enter your email",
-                        hintStyle: TextStyle(
-                            color:
-                                Theme.of(context).textTheme.bodyText2!.color),
-                      ),
-                    ),
-                    SizedBox(height: 15),
+                    // Text(
+                    //   "Your Email",
+                    //   style: TextStyle(
+                    //     fontSize: 18,
+                    //     fontWeight: FontWeight.w500,
+                    //   ),
+                    // ),
+                    // SizedBox(height: 10),
+                    // TextField(
+                    //   controller: emailController,
+                    //   keyboardType: TextInputType.phone,
+                    //   style: TextStyle(
+                    //       color: Theme.of(context).textTheme.bodyText2!.color),
+                    //   decoration: InputDecoration(
+                    //     prefixIcon: Icon(Icons.mail,
+                    //         color:
+                    //             Theme.of(context).textTheme.bodyText2!.color),
+                    //     enabledBorder: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(15),
+                    //       borderSide: BorderSide(
+                    //         color: Theme.of(context).backgroundColor,
+                    //         width: 2,
+                    //       ),
+                    //     ),
+                    //     focusedBorder: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(15),
+                    //       borderSide: BorderSide(
+                    //         color: Colors.redAccent, //0xffF14C37
+                    //         width: 2,
+                    //       ),
+                    //     ),
+                    //     hintText: "Enter your email",
+                    //     hintStyle: TextStyle(
+                    //         color:
+                    //             Theme.of(context).textTheme.bodyText2!.color),
+                    //   ),
+                    // ),
+                    // SizedBox(height: 15),
                     Text(
                       "Phone Number",
                       style: TextStyle(
@@ -202,7 +206,7 @@ class ContactScreen extends HookWidget {
                     ),
                     SizedBox(height: 10),
                     TextField(
-                      controller: usernameController,
+                      controller: messageController,
                       keyboardType: TextInputType.multiline,
                       maxLines: 5,
                       style: TextStyle(
@@ -238,7 +242,29 @@ class ContactScreen extends HookWidget {
                       child: ElevatedButton(
                         style:
                             ElevatedButton.styleFrom(primary: Colors.redAccent),
-                        onPressed: () {},
+                        onPressed: () async {
+                          final intPhone = int.parse(phoneController.text);
+
+                          if (messageController.text.isNotEmpty) {
+                            await contactService
+                                .addContactDocument(
+                                    usernameController.text,
+                                    user!.email!,
+                                    intPhone,
+                                    messageController.text,
+                                    user.uid)
+                                .onError((error, stackTrace) => aShowToast(
+                                    msg:
+                                        "CANNOT make multiple contact requests"));
+
+                            usernameController.clear();
+                            phoneController.clear();
+                            messageController.clear();
+                            aShowToast(msg: "Your request has been submmited");
+                          } else {
+                            aShowToast(msg: "Fields can't be empty");
+                          }
+                        },
                         child: Text("Submit Response"),
                       ),
                     )
