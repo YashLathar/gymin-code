@@ -1,44 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
+import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/services/feedback_service.dart';
+import 'package:gym_in/widgets/toast_msg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reviews_slider/reviews_slider.dart';
 
-class FeedbackFormPage extends StatefulWidget {
+class FeedbackFormPage extends HookWidget {
   const FeedbackFormPage({Key? key}) : super(key: key);
 
   @override
-  State<FeedbackFormPage> createState() => _FeedbackFormPageState();
-}
-
-class _FeedbackFormPageState extends State<FeedbackFormPage> {
-  bool buttonPressed = false;
-  bool buttonnotpressed = false;
-  final responseController = TextEditingController();
-
-  int selectedValue1 = 0;
-  int selectedValue2 = 0;
-  int selectedValue3 = 0;
-
-  void onChange1(int value) {
-    setState(() {
-      selectedValue1 = value;
-    });
-  }
-
-  void onChange2(int value) {
-    setState(() {
-      selectedValue2 = value;
-    });
-  }
-
-  void onChange3(int value) {
-    setState(() {
-      selectedValue3 = value;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final feedbackController = useTextEditingController();
+    final user = useProvider(authControllerProvider);
+    final feedbackService = useProvider(feedbackServiceProvider);
+    final selectedValue1 = useState(0);
+    final selectedValue2 = useState(0);
+
+    void onChange1(int value) {
+      selectedValue1.value = value;
+    }
+
+    String convertRatingToResponse(int rating) {
+      if (rating == 4) {
+        return "Great";
+      } else if (rating == 3) {
+        return "Good";
+      } else if (rating == 2) {
+        return "Okay";
+      } else if (rating == 1) {
+        return "Bad";
+      } else {
+        return "Terrible";
+      }
+    }
+
+    void onChange2(int value) {
+      selectedValue2.value = value;
+    }
+
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -146,7 +148,7 @@ class _FeedbackFormPageState extends State<FeedbackFormPage> {
                         color: Colors.redAccent,
                         fontWeight: FontWeight.bold,
                       ),
-                      onChange: onChange3,
+                      onChange: onChange2,
                       initialValue: 3,
                     ),
                     // Align(
@@ -173,7 +175,7 @@ class _FeedbackFormPageState extends State<FeedbackFormPage> {
                     ),
                     SizedBox(height: 10),
                     TextField(
-                      controller: responseController,
+                      controller: feedbackController,
                       keyboardType: TextInputType.multiline,
                       maxLines: 5,
                       style: TextStyle(
@@ -214,22 +216,31 @@ class _FeedbackFormPageState extends State<FeedbackFormPage> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: Colors.redAccent),
                     onPressed: () async {
-                      // setState(() {
-                      //   buttonnotpressed = true;
-                      // });
-                      // await Future.delayed(Duration(seconds: 2));
-                      // Navigator.pop(context);
-                      // aShowToast(
-                      //   msg: "Thanks For Your FeedBack",
-                      // );
-                      // setState(() {
-                      //   buttonnotpressed = false;
-                      //   buttonPressed = true;
-                      // });
+                      final serviceResponse =
+                          convertRatingToResponse(selectedValue1.value);
+
+                      final productsResponse =
+                          convertRatingToResponse(selectedValue2.value);
+
+                      if (feedbackController.text.isNotEmpty) {
+                        await feedbackService
+                            .addFeedbackDocument(
+                              serviceResponse,
+                              productsResponse,
+                              user!.email!,
+                              feedbackController.text,
+                              user.uid,
+                            )
+                            .onError((error, stackTrace) => aShowToast(
+                                msg: "CANNOT make multiple contact requests"));
+
+                        feedbackController.clear();
+                        aShowToast(msg: "Your request has been submmited");
+                      } else {
+                        aShowToast(msg: "Fields can't be empty");
+                      }
                     },
-                    child: Text("Submit Your Response"
-                        // buttonnotpressed ? "Submitting" : "Send Review",
-                        ),
+                    child: Text("Submit Your Response"),
                   ),
                 ),
               ),
