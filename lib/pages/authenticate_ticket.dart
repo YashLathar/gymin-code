@@ -28,8 +28,8 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
       final user = context.read(authControllerProvider);
       final order = await context
           .read(ordersServiceProvider)
-          .getSingleOrder(barcode.toString());
-
+          .getSingleOrder(barcode.rawContent);
+          print(barcode.rawContent);
       showDialog(
         context: context,
         builder: (context) {
@@ -60,25 +60,6 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
       setState(() => barcodeResult = 'Unknown error: $e');
     }
   }
-
-  // // ignore: unused_element
-  // Future<void> _captureAndSharePng() async {
-  //   try {
-  //     var globalKey;
-  //     RenderRepaintBoundary boundary =
-  //         globalKey.currentContext.findRenderObject();
-  //     var image = await boundary.toImage();
-  //     ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
-  //     Uint8List pngBytes = byteData!.buffer.asUint8List();
-  //     final tempDir = await getTemporaryDirectory();
-  //     final file = await new File('${tempDir.path}/image.png').create();
-  //     await file.writeAsBytes(pngBytes);
-  //     final channel = const MethodChannel('channel:me.alfian.share/share');
-  //     channel.invokeMethod('shareFile', 'image.png');
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

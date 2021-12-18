@@ -120,7 +120,7 @@ class StopWatchPage extends HookWidget {
                       borderRadius: BorderRadius.circular(35),
                       border: Border.all(
                         width: 2.0,
-                        color: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                       ),
                     ),
                     child: Center(
@@ -128,7 +128,7 @@ class StopWatchPage extends HookWidget {
                         onPressed: () {},
                         icon: Icon(
                           Icons.timer,
-                          color: Theme.of(context).backgroundColor,
+                          color: Theme.of(context).scaffoldBackgroundColor,
                         ),
                       ),
                     ),
@@ -465,108 +465,6 @@ class StopWatchPage extends HookWidget {
                                             ),
                                           ),
                                         ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 4),
-                                            // ignore: deprecated_member_use
-                                            child: RaisedButton(
-                                              padding: const EdgeInsets.all(4),
-                                              color: Colors.pinkAccent,
-                                              shape: const StadiumBorder(),
-                                              onPressed: () async {
-                                                _stopWatchTimer
-                                                    .setPresetHoursTime(1);
-                                              },
-                                              child: const Text(
-                                                'Set Hours',
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 4),
-                                            // ignore: deprecated_member_use
-                                            child: RaisedButton(
-                                              padding: const EdgeInsets.all(4),
-                                              color: Colors.pinkAccent,
-                                              shape: const StadiumBorder(),
-                                              onPressed: () async {
-                                                _stopWatchTimer
-                                                    .setPresetMinuteTime(5);
-                                              },
-                                              child: const Text(
-                                                'Set Minute',
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 4),
-                                            // ignore: deprecated_member_use
-                                            child: RaisedButton(
-                                              padding: const EdgeInsets.all(4),
-                                              color: Colors.pinkAccent,
-                                              shape: const StadiumBorder(),
-                                              onPressed: () async {
-                                                _stopWatchTimer
-                                                    .setPresetSecondTime(10);
-                                              },
-                                              child: const Text(
-                                                'Set Second',
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.symmetric(
-                                    //       horizontal: 4),
-                                    //   // ignore: deprecated_member_use
-                                    //   child: RaisedButton(
-                                    //     padding: const EdgeInsets.all(4),
-                                    //     color: Colors.pinkAccent,
-                                    //     shape: const StadiumBorder(),
-                                    //     onPressed: () async {
-                                    //       _stopWatchTimer.setPresetTime(
-                                    //           mSec: 3599 * 1000);
-                                    //     },
-                                    //     child: const Text(
-                                    //       'Set PresetTime',
-                                    //       style: TextStyle(color: Colors.white),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4),
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          primary: Colors.pinkAccent,
-                                          onPrimary: Colors.white,
-                                          shape: const StadiumBorder(),
-                                        ),
-                                        onPressed: () async {
-                                          _stopWatchTimer.clearPresetTime();
-                                        },
-                                        child: const Text(
-                                          'Clear PresetTime',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
                                       ),
                                     ),
                                   ],

@@ -3,20 +3,21 @@ import 'package:activity_recognition_flutter/activity_recognition_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
-import 'package:gym_in/pages/alarm_page.dart';
 import 'package:gym_in/pages/stopwatch_page.dart';
 import 'package:gym_in/widgets/topbar.dart';
 import 'package:pedometer/pedometer.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:vector_math/vector_math_64.dart' as math;
 
 class ActivityPage extends StatefulWidget {
+  final double goalCompleted = 0.7;
   @override
   State<ActivityPage> createState() => _ActivityPageState();
 }
 
-class _ActivityPageState extends State<ActivityPage> {
+class _ActivityPageState extends State<ActivityPage>
+    with SingleTickerProviderStateMixin {
   late Stream<StepCount> _stepCountStream;
   late Stream<PedestrianStatus> _pedestrianStatusStream;
   String _status = 'unknown';
@@ -27,6 +28,11 @@ class _ActivityPageState extends State<ActivityPage> {
   final List<ActivityEvent> _events = [];
   ActivityRecognition activityRecognition = ActivityRecognition.instance;
   final _isHours = true;
+  final Duration fadeInDuration = Duration(milliseconds: 500);
+  double progressDegrees = 0;
+  late AnimationController _radialProgressAnimationController;
+  late Animation<double> _progressAnimation;
+  final Duration fillDuration = Duration(seconds: 2);
 
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(
     mode: StopWatchMode.countUp,
@@ -34,6 +40,8 @@ class _ActivityPageState extends State<ActivityPage> {
     onChangeRawSecond: (value) => print('onChangeRawSecond $value'),
     onChangeRawMinute: (value) => print('onChangeRawMinute $value'),
   );
+
+  var count = 0;
 
   @override
   void initState() {
@@ -43,6 +51,17 @@ class _ActivityPageState extends State<ActivityPage> {
     _stopWatchTimer.minuteTime.listen((value) => print('minuteTime $value'));
     _stopWatchTimer.secondTime.listen((value) => print('secondTime $value'));
     _stopWatchTimer.records.listen((value) => print('records $value'));
+    _radialProgressAnimationController =
+        AnimationController(vsync: this, duration: fillDuration);
+    _progressAnimation = Tween(begin: 0.0, end: 360.0).animate(CurvedAnimation(
+        parent: _radialProgressAnimationController, curve: Curves.easeIn))
+      ..addListener(() {
+        setState(() {
+          progressDegrees = widget.goalCompleted * _progressAnimation.value;
+        });
+      });
+
+    _radialProgressAnimationController.forward();
 
     initPlatformState();
     _init();
@@ -55,6 +74,7 @@ class _ActivityPageState extends State<ActivityPage> {
   void dispose() async {
     super.dispose();
     await _stopWatchTimer.dispose();
+    _radialProgressAnimationController.dispose();
   }
 
   // @override
@@ -139,7 +159,7 @@ class _ActivityPageState extends State<ActivityPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final entry = _events;
+    // final entry = _events;
 
     // if (authControllerState != null) {
     return Scaffold(
@@ -202,72 +222,73 @@ class _ActivityPageState extends State<ActivityPage> {
                 margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
                 child: ListView(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return SimpleDialog(
-                                children: [
-                                  Center(
-                                    child:
-                                        // ListView.builder(
-                                        //   itemCount: _events.length,
-                                        //   reverse: true,
-                                        //   itemBuilder: (BuildContext context, int idx) {
-                                        //     final entry = _events[idx];
-                                        //     return ListTile(
-                                        //       leading: Text(
-                                        //         entry.timeStamp.toString().substring(0, 19),
-                                        //       ),
-                                        //       trailing: Text(entry.type.toString().split('.').last),
-                                        //     );
-                                        //   },
-                                        // ),
-                                        Container(
-                                      height: size.width,
-                                      child: Text(
-                                        entry.toString(),
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .scaffoldBackgroundColor),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            });
-                      },
-                      child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 15),
-                          height: 80,
-                          width: 20,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                                bottomLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                              ),
-                              color: Colors.redAccent[400]),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              _status == 'walking'
-                                  ? Image.asset("assets/img/animation_50.gif")
-                                  : _status == 'stopped'
-                                      ? Image.asset("assets/img/start_50.gif")
-                                      : Image.asset("assets/img/error_50.gif"),
-                              _status == 'walking'
-                                  ? Text("Walking", style: kSmallContentStyle)
-                                  : _status == 'stopped'
-                                      ? Text("Start Walking",
-                                          style: kSmallContentStyle)
-                                      : Text("404 Error",
-                                          style: kSmallContentStyle),
-                            ],
-                          )),
-                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     showDialog(
+                    //         context: context,
+                    //         builder: (context) {
+                    //           return SimpleDialog(
+                    //             children: [
+                    //               Center(
+                    //                 child:
+                    // ListView.builder(
+                    //   itemCount: _events.length,
+                    //   reverse: true,
+                    //   itemBuilder: (BuildContext context, int idx) {
+                    //     final entry = _events[idx];
+                    //     return ListTile(
+                    //       leading: Text(
+                    //         entry.timeStamp.toString().substring(0, 19),
+                    //       ),
+                    //       trailing: Text(entry.type.toString().split('.').last),
+                    //     );
+                    //   },
+                    // ),
+                    //                   Container(
+                    //                 height: size.width,
+                    //                 child: Text(
+                    //                   entry.toString(),
+                    //                   style: TextStyle(
+                    //                       color: Theme.of(context)
+                    //                           .scaffoldBackgroundColor),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         );
+                    //       });
+                    // },
+                    // child: Container(
+                    //     margin: EdgeInsets.symmetric(horizontal: 15),
+                    //     height: 80,
+                    //     width: 20,
+                    //     decoration: BoxDecoration(
+                    //         borderRadius: BorderRadius.only(
+                    //           topLeft: Radius.circular(20),
+                    //           topRight: Radius.circular(20),
+                    //           bottomLeft: Radius.circular(20),
+                    //           bottomRight: Radius.circular(20),
+                    //         ),
+                    //         color: Colors.redAccent[400]),
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //       children: [
+                    //         _status == 'walking'
+                    //             ? Image.asset("assets/img/animation_50.gif")
+                    //             : _status == 'stopped'
+                    //                 ? Image.asset("assets/img/start_50.gif")
+                    //                 : Image.asset("assets/img/error_50.gif"),
+                    //         _status == 'walking'
+                    //             ? Text("Walking", style: kSmallContentStyle)
+                    //             : _status == 'stopped'
+                    //                 ? Text("Start Walking",
+                    //                     style: kSmallContentStyle)
+                    //                 : Text("404 Error",
+                    //                     style: kSmallContentStyle),
+                    //       ],
+                    //     ),
+                    //    ),
+                    // ),
                     SizedBox(height: 10),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 15),
@@ -332,15 +353,6 @@ class _ActivityPageState extends State<ActivityPage> {
                                                   fontSize: 18,
                                                 ),
                                               ),
-                                              // SizedBox(width: 5),
-                                              // Text(W
-                                              //   "(Total)",
-                                              //   style:
-                                              //       kSmallContentStyle.copyWith(
-                                              //     color: Colors.grey[600],
-                                              //     fontSize: 18,
-                                              //   ),
-                                              // ),
                                             ],
                                           ),
                                         ),
@@ -398,17 +410,20 @@ class _ActivityPageState extends State<ActivityPage> {
                                             ),
                                           ),
                                         ),
-                                        Container(
-                                          padding: EdgeInsets.only(top: 15),
-                                          child: CircularPercentIndicator(
-                                            radius: 140,
-                                            lineWidth: 9.0,
-                                            percent: 0.6,
-                                            center: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
+                                        SizedBox(height: 10),
+                                        CustomPaint(
+                                          child: Container(
+                                            height: 150,
+                                            width: 130,
+                                            child: AnimatedOpacity(
+                                              opacity: progressDegrees > 30
+                                                  ? 1.0
+                                                  : 0.0,
+                                              duration: fadeInDuration,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
                                                   _steps.toString(),
                                                   style: TextStyle(
                                                     color: Colors.black,
@@ -420,11 +435,40 @@ class _ActivityPageState extends State<ActivityPage> {
                                                     color: Colors.black,
                                                   ),
                                                 ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                            progressColor: Colors.redAccent,
                                           ),
-                                        )
+                                          painter:
+                                              RadialPainter(progressDegrees),
+                                        ),
+                                        // Container(
+                                        //   padding: EdgeInsets.only(top: 15),
+                                        //   child: CircularPercentIndicator(
+                                        //     radius: 140,
+                                        //     lineWidth: 9.0,
+                                        //     percent: 0.6,
+                                        //     center: Column(
+                                        //       mainAxisAlignment:
+                                        //           MainAxisAlignment.center,
+                                        //       children: [
+                                        //         Text(
+                                        //           _steps.toString(),
+                                        //           style: TextStyle(
+                                        //             color: Colors.black,
+                                        //           ),
+                                        //         ),
+                                        //         Text(
+                                        //           "steps",
+                                        //           style: TextStyle(
+                                        //             color: Colors.black,
+                                        //           ),
+                                        //         ),
+                                        //       ],
+                                        //     ),
+                                        //     progressColor: Colors.redAccent,
+                                        //   ),
+                                        // )
                                       ],
                                     ),
                                   ),
@@ -451,28 +495,30 @@ class _ActivityPageState extends State<ActivityPage> {
                                           color: Colors.transparent,
                                           child: Padding(
                                             padding: const EdgeInsets.only(
-                                                top: 8, right: 8),
+                                                top: 5, right: 0),
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  'Gym',
+                                                  'Water',
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 20.0,
                                                       color: Colors.grey[600]),
                                                 ),
-                                                Icon(FontAwesomeIcons.clock)
+                                                IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(Icons.add))
                                               ],
                                             ),
                                           ),
                                         ),
                                         Container(
                                           padding:
-                                              EdgeInsets.only(left: 8, top: 15),
+                                              EdgeInsets.only(left: 8, top: 0),
                                           alignment: Alignment.centerLeft,
                                           child: Row(
                                             children: [
@@ -491,7 +537,7 @@ class _ActivityPageState extends State<ActivityPage> {
                                           padding: EdgeInsets.only(left: 8),
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            "Hours",
+                                            "Glasses",
                                             style: kSmallContentStyle.copyWith(
                                               color: Colors.grey[600],
                                               fontSize: 18,
@@ -547,33 +593,65 @@ class _ActivityPageState extends State<ActivityPage> {
                                             ),
                                           ),
                                         ),
-                                        Container(
-                                          padding: EdgeInsets.only(top: 15),
-                                          child: CircularPercentIndicator(
-                                            radius: 140,
-                                            lineWidth: 9.0,
-                                            percent: 0.4,
-                                            center: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  calories.toString(),
-                                                  style: TextStyle(
-                                                    color: Colors.black,
+                                        SizedBox(height: 10),
+                                        CustomPaint(
+                                          child: Container(
+                                            height: 150,
+                                            width: 130,
+                                            child: AnimatedOpacity(
+                                              opacity: progressDegrees > 30
+                                                  ? 1.0
+                                                  : 0.0,
+                                              duration: fadeInDuration,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    calories.toString(),
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
-                                                ),
-                                                Text(
-                                                  "calories",
-                                                  style: TextStyle(
-                                                    color: Colors.black,
+                                                  Text(
+                                                    "calories",
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                            progressColor: Colors.redAccent,
                                           ),
+                                          painter:
+                                              RadialPainter(progressDegrees),
                                         )
+                                        // Container(
+                                        //   padding: EdgeInsets.only(top: 15),
+                                        //   child: CircularPercentIndicator(
+                                        //     radius: 140,
+                                        //     lineWidth: 9.0,
+                                        //     percent: 0.4,
+                                        //     center: Column(
+                                        //       mainAxisAlignment:
+                                        //           MainAxisAlignment.center,
+                                        //       children: [
+                                        //         Text(
+                                        //           calories.toString(),
+                                        //           style: TextStyle(
+                                        //             color: Colors.black,
+                                        //           ),
+                                        //         ),
+                                        //         Text(
+                                        //           "calories",
+                                        //           style: TextStyle(
+                                        //             color: Colors.black,
+                                        //           ),
+                                        //         ),
+                                        //       ],
+                                        //     ),
+                                        //     progressColor: Colors.redAccent,
+                                        //   ),
+                                        // )
                                       ],
                                     ),
                                   ),
@@ -748,86 +826,75 @@ class _ActivityPageState extends State<ActivityPage> {
                                 SizedBox(height: 10),
                                 Flexible(
                                   flex: 1,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AlarmPage()));
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(20),
-                                            topRight: Radius.circular(20),
-                                            bottomLeft: Radius.circular(20),
-                                            bottomRight: Radius.circular(20),
-                                          ),
-                                          color: Colors.grey[300]),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.only(left: 8),
-                                            alignment: Alignment.topLeft,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 16, right: 8),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    'Sleep',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 22.0,
-                                                        color:
-                                                            Colors.grey[600]),
-                                                  ),
-                                                  Icon(FontAwesomeIcons.moon),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(
-                                                left: 8, top: 15),
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              "06:15 AM",
-                                              style:
-                                                  kSmallContentStyle.copyWith(
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(left: 8),
-                                            alignment: Alignment.centerLeft,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20),
+                                          bottomLeft: Radius.circular(20),
+                                          bottomRight: Radius.circular(20),
+                                        ),
+                                        color: Colors.grey[300]),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(left: 8),
+                                          alignment: Alignment.topLeft,
+                                          color: Colors.transparent,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 16, right: 8),
                                             child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
-                                                  "reminder",
-                                                  style: kSmallContentStyle
-                                                      .copyWith(
-                                                    color: Colors.grey[600],
-                                                    fontSize: 15,
-                                                  ),
+                                                  'Sleep',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 22.0,
+                                                      color: Colors.grey[600]),
                                                 ),
-                                                Icon(
-                                                  Icons.alarm,
-                                                  size: 18,
-                                                )
+                                                Icon(FontAwesomeIcons.moon),
                                               ],
                                             ),
-                                          )
-                                        ],
-                                      ),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding:
+                                              EdgeInsets.only(left: 8, top: 15),
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            "10:15 PM",
+                                            style: kSmallContentStyle.copyWith(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 8),
+                                          alignment: Alignment.centerLeft,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "reminder",
+                                                style:
+                                                    kSmallContentStyle.copyWith(
+                                                  color: Colors.grey[600],
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.alarm,
+                                                size: 18,
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -881,6 +948,44 @@ class _ActivityPageState extends State<ActivityPage> {
   // return LoginPage();
   // }
   // }
+}
+
+class RadialPainter extends CustomPainter {
+  double progressInDegrees;
+
+  RadialPainter(this.progressInDegrees);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..color = Colors.black12
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 8.0;
+
+    Offset center = Offset(size.width / 2, size.height / 2);
+    canvas.drawCircle(center, size.width / 2, paint);
+
+    Paint progressPaint = Paint()
+      ..shader = LinearGradient(
+              colors: [Colors.red, Colors.purple, Colors.purpleAccent])
+          .createShader(Rect.fromCircle(center: center, radius: size.width / 2))
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 8.0;
+
+    canvas.drawArc(
+        Rect.fromCircle(center: center, radius: size.width / 2),
+        math.radians(-90),
+        math.radians(progressInDegrees),
+        false,
+        progressPaint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
+  }
 }
 
 
