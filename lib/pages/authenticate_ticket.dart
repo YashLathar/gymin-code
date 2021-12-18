@@ -25,11 +25,10 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
   Future<void> scan() async {
     try {
       final barcode = await BarcodeScanner.scan();
-      setState(() => barcodeResult = barcode.toString());
       final user = context.read(authControllerProvider);
       final order = await context
           .read(ordersServiceProvider)
-          .getSingleOrder(barcodeResult);
+          .getSingleOrder(barcode.toString());
 
       showDialog(
         context: context,
