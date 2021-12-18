@@ -7,11 +7,12 @@ import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/controllers/theme_controller.dart';
 import 'package:gym_in/pages/activity_page.dart';
 import 'package:gym_in/pages/authenticate_ticket.dart';
+import 'package:gym_in/pages/contact_page.dart';
+import 'package:gym_in/pages/feedback_form.dart';
 import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/pages/home_page.dart';
 import 'package:gym_in/pages/user_page.dart';
-import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:io';
 
@@ -130,21 +131,21 @@ class HomeScreen extends HookWidget {
                       MaterialPageRoute(
                           builder: (context) => AuthenticateTicket())),
                 ),
-                ListTile(
-                    leading: Icon(
-                      Icons.image,
-                      color: Theme.of(context).textTheme.bodyText2!.color,
-                    ),
-                    title: Text(
-                      'Social',
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText2!.color),
-                    ),
-                    onTap: () {
-                      aShowToast(msg: "Coming soon");
-                      // Navigator.push(context,
-                      // MaterialPageRoute(builder: (context) => FeedsPage()));
-                    }),
+                // ListTile(
+                //     leading: Icon(
+                //       Icons.image,
+                //       color: Theme.of(context).textTheme.bodyText2!.color,
+                //     ),
+                //     title: Text(
+                //       'Social',
+                //       style: TextStyle(
+                //           color: Theme.of(context).textTheme.bodyText2!.color),
+                //     ),
+                //     onTap: () {
+                //       aShowToast(msg: "Coming soon");
+                //       // Navigator.push(context,
+                //       // MaterialPageRoute(builder: (context) => FeedsPage()));
+                //     }),
                 ListTile(
                   leading: Icon(
                       context.read(themeControllerProvider).theme
@@ -212,7 +213,40 @@ class HomeScreen extends HookWidget {
                   ),
                   onTap: () => Navigator.pushNamed(context, '/settingPage'),
                 ),
-
+                ListTile(
+                  leading: Icon(
+                    Icons.contact_mail,
+                    color: Theme.of(context).textTheme.bodyText2!.color,
+                  ),
+                  title: Text(
+                    'Contact Us',
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color),
+                  ),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ContactScreen(),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.feedback,
+                    color: Theme.of(context).textTheme.bodyText2!.color,
+                  ),
+                  title: Text(
+                    'Give Feedback',
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color),
+                  ),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FeedbackFormPage(),
+                    ),
+                  ),
+                ),
                 ListTile(
                   leading: Icon(
                     Icons.description,

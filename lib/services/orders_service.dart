@@ -108,11 +108,13 @@ class OrdersService implements BaseOrdersService {
           fromTime: documentSnapshot.data()!["bookingFromTiming"],
           planSelected: documentSnapshot.data()!["userPlan"],
           gymPhoto: documentSnapshot.data()!["gymPhoto"],
+          userName: documentSnapshot.data()!["userName"],
         );
-
+        print("heyya");
         return order;
       } else {
         final mtyOrder = Order.mtOrder();
+        print("bye bye");
 
         return mtyOrder;
       }
