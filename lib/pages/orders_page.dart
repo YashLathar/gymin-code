@@ -117,126 +117,113 @@ class OrdersPage extends HookWidget {
             child: TabBarView(
           controller: tabController,
           children: [
-            ListView(
-              children: [
-                orders.when(
-                    data: (orders) {
-                      return orders.isEmpty
-                          ? Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "Wow, Such Empty",
-                                    style: TextStyle(fontSize: 30),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : RefreshIndicator(
-                              onRefresh: () {
-                                return context.refresh(ordersListProvider);
-                              },
-                              child: ListView(
-                                padding: const EdgeInsets.only(top: 10),
-                                children: orders
-                                    .map(
-                                      (order) => Card(
-                                        shape: RoundedRectangleBorder(
-                                          side: BorderSide(
-                                              color: Colors.white70, width: 1),
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        elevation: 8.0,
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 10.0, vertical: 6.0),
-                                        child: Container(
+            orders.when(
+                data: (orders) {
+                  return orders.isEmpty
+                      ? Center(
+                          child: const Text(
+                            "Wow, Such Empty",
+                            style: TextStyle(fontSize: 30),
+                          ),
+                        )
+                      : RefreshIndicator(
+                          onRefresh: () {
+                            return context.refresh(ordersListProvider);
+                          },
+                          child: ListView(
+                            padding: const EdgeInsets.only(top: 10),
+                            children: orders
+                                .map(
+                                  (order) => Card(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.white70, width: 1),
+                                      borderRadius:
+                                          BorderRadius.circular(15),
+                                    ),
+                                    elevation: 8.0,
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 10.0, vertical: 6.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Color(0xff676e8a),
+                                      ),
+                                      child: ListTile(
+                                        contentPadding:
+                                            EdgeInsets.symmetric(
+                                                horizontal: 20.0,
+                                                vertical: 10.0),
+                                        leading: Container(
+                                          padding:
+                                              EdgeInsets.only(right: 12.0),
                                           decoration: BoxDecoration(
-                                            color: Color(0xff676e8a),
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      width: 1.0,
+                                                      color:
+                                                          Colors.white24))),
+                                          child: Icon(Icons.book,
+                                              color: Colors.white),
+                                        ),
+                                        title: Text(
+                                          order.gymName,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        subtitle: Text(
+                                          order.userName ?? "username",
+                                          style: TextStyle(
+                                            color: Colors.white,
                                           ),
-                                          child: ListTile(
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 20.0,
-                                                    vertical: 10.0),
-                                            leading: Container(
-                                              padding:
-                                                  EdgeInsets.only(right: 12.0),
-                                              decoration: BoxDecoration(
-                                                  border: Border(
-                                                      right: BorderSide(
-                                                          width: 1.0,
-                                                          color:
-                                                              Colors.white24))),
-                                              child: Icon(Icons.book,
-                                                  color: Colors.white),
-                                            ),
-                                            title: Text(
-                                              order.gymName,
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            subtitle: Text(
-                                              order.userName ?? "username",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            trailing: Icon(
-                                                Icons.keyboard_arrow_right,
-                                                color: Colors.white,
-                                                size: 30.0),
-                                            onTap: () {
-                                              showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return QrResultScreen(
-                                                    gymName: order.gymName,
-                                                    gymPhoto: order.gymPhoto,
-                                                    userImage: user!.photoURL,
-                                                    userName: order.userName,
-                                                    fromDate: order.fromDate,
-                                                    fromTime: order.fromTime,
-                                                    planSelected:
-                                                        order.planSelected,
-                                                    docId: order.docId,
-                                                  );
-                                                },
+                                        ),
+                                        trailing: Icon(
+                                            Icons.keyboard_arrow_right,
+                                            color: Colors.white,
+                                            size: 30.0),
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return QrResultScreen(
+                                                gymName: order.gymName,
+                                                gymPhoto: order.gymPhoto,
+                                                userImage: user!.photoURL,
+                                                userName: order.userName,
+                                                fromDate: order.fromDate,
+                                                fromTime: order.fromTime,
+                                                planSelected:
+                                                    order.planSelected,
+                                                docId: order.docId,
                                               );
                                             },
-                                          ),
-                                        ),
+                                          );
+                                        },
                                       ),
-                                    )
-                                    .toList(),
-                              ),
-                            );
-                    },
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
-                    error: (e, s) {
-                      return Center(
-                          child: ErrorBody(
-                              message: "Oops, something unexpected happened"));
-                    }),
-              ],
-            ),
-            ListView(
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        );
+                },
+                loading: () =>
+                    const Center(child: CircularProgressIndicator()),
+                error: (e, s) {
+                  return Center(
+                      child: ErrorBody(
+                          message: "Oops, something unexpected happened"));
+                }),
+            Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Wow, Such Empty",
-                      style: TextStyle(fontSize: 30),
-                    ),
-                  ],
-                ))
+                const Text(
+                  "Wow, Such Empty",
+                  style: TextStyle(fontSize: 30),
+                ),
               ],
-            ),
+            )),
           ],
         ))
       ],
