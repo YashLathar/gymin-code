@@ -13,7 +13,7 @@ class ContactScreen extends HookWidget {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          child: Column(
+          child: ListView(
             children: [
               Container(
                 color: Theme.of(context).scaffoldBackgroundColor,
@@ -208,9 +208,9 @@ class ContactScreen extends HookWidget {
                       style: TextStyle(
                           color: Theme.of(context).textTheme.bodyText2!.color),
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.text_fields,
-                            color:
-                                Theme.of(context).textTheme.bodyText2!.color),
+                        // prefixIcon: Icon(Icons.text_fields,
+                        //     color:
+                        //         Theme.of(context).textTheme.bodyText2!.color),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15),
                           borderSide: BorderSide(
