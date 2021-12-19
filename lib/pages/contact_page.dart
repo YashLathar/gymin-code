@@ -120,7 +120,7 @@ class ContactScreen extends HookWidget {
                                 Theme.of(context).textTheme.bodyText2!.color),
                       ),
                     ),
-                    SizedBox(height: 15),
+                    SizedBox(height: 25),
                     // Text(
                     //   "Your Email",
                     //   style: TextStyle(
@@ -196,7 +196,7 @@ class ContactScreen extends HookWidget {
                                 Theme.of(context).textTheme.bodyText2!.color),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 25),
                     Text(
                       "Message",
                       style: TextStyle(
@@ -235,6 +235,7 @@ class ContactScreen extends HookWidget {
                                 Theme.of(context).textTheme.bodyText2!.color),
                       ),
                     ),
+                    SizedBox(height: 15),
                     Container(
                       margin: EdgeInsets.only(
                           top: 10,
