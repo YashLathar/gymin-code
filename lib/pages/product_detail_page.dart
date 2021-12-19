@@ -79,13 +79,16 @@ class ProductDetailPage extends HookWidget {
                               ),
                             ),
                             child: Center(
-                              child: IconButton(
-                                onPressed: () {
+                              child: GestureDetector(
+                                onTap: () {
                                   Navigator.pop(context);
                                 },
-                                icon: Icon(
-                                  Icons.arrow_back_ios,
-                                  color: Theme.of(context).backgroundColor,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Icon(
+                                      Icons.arrow_back_ios,
+                                      color: Theme.of(context).backgroundColor,
+                                    ),
                                 ),
                               ),
                             ),
@@ -149,29 +152,27 @@ class ProductDetailPage extends HookWidget {
                               SizedBox(
                                 width: 5,
                               ),
-                              Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(35),
-                                  border: Border.all(
-                                    width: 2.0,
-                                    color: Theme.of(context).backgroundColor,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.share,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2!
-                                          .color,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              // Container(
+                              //   width: 50,
+                              //   height: 50,
+                              //   decoration: BoxDecoration(
+                              //     borderRadius: BorderRadius.circular(35),
+                              //     border: Border.all(
+                              //       width: 2.0,
+                              //       color: Theme.of(context).backgroundColor,
+                              //     ),
+                              //   ),
+                              //   child: Center(
+                              //     child: IconButton(
+                              //       onPressed: () {},
+                              //       icon: Icon(
+                              //         Icons.share,
+                              //         color: Theme.of(context)
+                              //             .scaffoldBackgroundColor,
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ],

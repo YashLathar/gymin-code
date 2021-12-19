@@ -45,13 +45,16 @@ class SettingPage extends HookWidget {
                             color: Theme.of(context).backgroundColor),
                       ),
                       child: Center(
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: Theme.of(context).backgroundColor,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 6.0),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                              color: Theme.of(context).backgroundColor,
+                            ),
                           ),
                         ),
                       ),
@@ -91,17 +94,10 @@ class SettingPage extends HookWidget {
               ),
               Container(
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.only(left: 30, right: 30),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CircleAvatar(
-                          radius: 50,
-                          backgroundImage: NetworkImage(authControllerState
-                                  .photoURL ??
-                              "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg")),
-                      SizedBox(
-                        width: 10,
-                      ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -118,28 +114,39 @@ class SettingPage extends HookWidget {
                           Text(authControllerState.email ?? 'example@email.com')
                         ],
                       ),
-                      Expanded(child: SizedBox()),
-                      IconButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-                              isDismissible: true,
-                              backgroundColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(25)),
-                              ),
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              context: context,
-                              builder: (BuildContext buildContext) {
-                                return UserEditBottomSheet();
-                              });
-                        },
-                        icon: Icon(
-                          Icons.edit,
-                          color: Theme.of(context).textTheme.bodyText2!.color,
-                        ),
-                      )
+                      Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundImage: NetworkImage(authControllerState
+                                    .photoURL ??
+                                "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg"),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                  isDismissible: true,
+                                  backgroundColor:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(25)),
+                                  ),
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  context: context,
+                                  builder: (BuildContext buildContext) {
+                                    return UserEditBottomSheet();
+                                  });
+                            },
+                            icon: Icon(
+                              Icons.edit,
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -485,7 +492,9 @@ class CustomBottomSheet extends HookWidget {
                         ),
                         child: TextField(
                           controller: controller,
-                          style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color),
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
