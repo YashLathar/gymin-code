@@ -385,37 +385,6 @@ class UserPage extends HookWidget {
 class ProfileHeader1 extends HookWidget {
   const ProfileHeader1({Key? key}) : super(key: key);
 
-  // Column buildCountColumn(String label, int count, BuildContext context) {
-  //   return Column(
-  //     mainAxisAlignment: MainAxisAlignment.center,
-  //     mainAxisSize: MainAxisSize.min,
-  //     children: [
-  //       Text(
-  //         count.toString(),
-  //         style: TextStyle(
-  //           fontWeight: FontWeight.bold,
-  //           fontSize: 18.0,
-  //           color: Theme.of(context).textTheme.bodyText2!.color,
-  //         ),
-  //       ),
-  //       Container(
-  //         margin: EdgeInsets.only(
-  //           top: 4.0,
-  //           left: 5,
-  //         ),
-  //         child: Text(
-  //           label,
-  //           style: TextStyle(
-  //             color: Colors.grey,
-  //             fontSize: 16.0,
-  //             fontWeight: FontWeight.w400,
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider);
@@ -456,94 +425,95 @@ class ProfileHeader1 extends HookWidget {
           left: 20,
           right: 20,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 5,
-            ),
-            CircleAvatar(
-              radius: 60,
-              backgroundColor: Colors.redAccent,
-              backgroundImage: CachedNetworkImageProvider(
-                authControllerState!.photoURL ??
-                    "https://img.icons8.com/cute-clipart/2x/user-male.png",
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              authControllerState.displayName ?? 'UserName',
-              style: GoogleFonts.montserrat(
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.location_pin,
-                  color: Colors.grey,
-                  size: 16,
-                ),
-                Text(
-                  "Line Par, Moradabad",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.grey),
-                ),
-              ],
-            ),
-            SizedBox(height: 5),
-            InkWell(
-              highlightColor: Colors.redAccent,
-              onTap:
-                  // _launchURLApp,
-                  _launchURLBrowser,
-              child: Text(
-                "https://www.gymin.co.in",
-                style: kSmallContentStyle.copyWith(
-                  color: Colors.blue,
-                  fontSize: 13,
-                ),
-              ),
-            ),
-            ButtonTheme(
-              height: 35,
-              minWidth: 300,
-              buttonColor: Colors.redAccent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-              ),
-              // ignore: deprecated_member_use
-              child: RaisedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SettingPage(),
+        child: userDetailProvider.when(
+            data: (data) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 5,
+                  ),
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundColor: Colors.redAccent,
+                    backgroundImage: CachedNetworkImageProvider(
+                      authControllerState!.photoURL ??
+                          "https://img.icons8.com/cute-clipart/2x/user-male.png",
                     ),
-                  );
-                },
-                child: Text(
-                  "Edit Profile",
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 15),
-              height: 340,
-              child: userDetailProvider.when(
-                  data: (data) {
-                    return Row(
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    authControllerState.displayName ?? 'UserName',
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.location_pin,
+                        color: Colors.grey,
+                        size: 16,
+                      ),
+                      Text(
+                        "${data.address}",
+                        // "Line Par, Moradabad",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 5),
+                  InkWell(
+                    highlightColor: Colors.redAccent,
+                    onTap:
+                        // _launchURLApp,
+                        _launchURLBrowser,
+                    child: Text(
+                      "https://www.gymin.co.in",
+                      style: kSmallContentStyle.copyWith(
+                        color: Colors.blue,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                  ButtonTheme(
+                    height: 35,
+                    minWidth: 300,
+                    buttonColor: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    ),
+                    // ignore: deprecated_member_use
+                    child: RaisedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SettingPage(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "Edit Profile",
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    height: 340,
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
@@ -627,14 +597,12 @@ class ProfileHeader1 extends HookWidget {
                                               top: 8, right: 8),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 'Weight',
                                                 style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold,
+                                                    fontWeight: FontWeight.bold,
                                                     fontSize: 20.0,
                                                     color: Colors.grey[600]),
                                               ),
@@ -683,14 +651,12 @@ class ProfileHeader1 extends HookWidget {
                                               top: 16, right: 8),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 'About',
                                                 style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold,
+                                                    fontWeight: FontWeight.bold,
                                                     fontSize: 22.0,
                                                     color: Colors.grey[600]),
                                               ),
@@ -744,14 +710,12 @@ class ProfileHeader1 extends HookWidget {
                                               top: 14, right: 8),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 'Age',
                                                 style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold,
+                                                    fontWeight: FontWeight.bold,
                                                     fontSize: 20.0,
                                                     color: Colors.grey[600]),
                                               ),
@@ -798,14 +762,12 @@ class ProfileHeader1 extends HookWidget {
                                               top: 16, right: 8),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 'Reminder',
                                                 style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold,
+                                                    fontWeight: FontWeight.bold,
                                                     fontSize: 22.0,
                                                     color: Colors.grey[600]),
                                               ),
@@ -875,14 +837,12 @@ class ProfileHeader1 extends HookWidget {
                                               top: 14, right: 8),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 'Bio',
                                                 style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold,
+                                                    fontWeight: FontWeight.bold,
                                                     fontSize: 20.0,
                                                     color: Colors.grey[600]),
                                               ),
@@ -911,21 +871,21 @@ class ProfileHeader1 extends HookWidget {
                           ),
                         ),
                       ],
-                    );
-                  },
-                  loading: () => Container(
-                        height: 55,
-                        width: 55,
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-                  error: (e, s) {
-                    return Center(child: Text("No Data"));
-                  }),
-            ),
-          ],
-        ),
+                    ),
+                  ),
+                ],
+              );
+            },
+            loading: () => Container(
+                  height: 55,
+                  width: 55,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+            error: (e, s) {
+              return Center(child: Text("No Data"));
+            }),
       ),
     );
   }
