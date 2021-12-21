@@ -1,7 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
+// import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:gym_in/controllers/theme_controller.dart';
 import 'package:gym_in/home_screen.dart';
 import 'package:gym_in/pages/activity_page.dart';
@@ -28,7 +28,7 @@ late FirebaseAnalytics analytics;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Stripe.publishableKey = 'pk_test_51K6yeVSFVtFb5q91yNhlqx1efoje0LyLSJGivFWK1W9ImNKeZyHFEItoOjX01ns0sFQZRNfOmxXSrQHHciXjuxXr006vWOopYI';
+  // Stripe.publishableKey = 'pk_test_51K6yeVSFVtFb5q91yNhlqx1efoje0LyLSJGivFWK1W9ImNKeZyHFEItoOjX01ns0sFQZRNfOmxXSrQHHciXjuxXr006vWOopYI';
   await Firebase.initializeApp();
   analytics = FirebaseAnalytics();
   runApp(ProviderScope(child: MyApp()));

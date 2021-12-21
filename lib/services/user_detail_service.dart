@@ -14,6 +14,9 @@ abstract class BaseUserDetailService {
     int weight,
     String bio,
     String about,
+    String address,
+    bool isTrainer,
+    bool authorization,
   );
   Future<void> updateUserHeight(int updatedHeight);
   Future<void> updateUserAge(int updatedAge);
@@ -21,6 +24,7 @@ abstract class BaseUserDetailService {
   Future<void> updateUserWeight(int updatedWeight);
   Future<void> updateUserBio(String updatedBio);
   Future<void> updateUserAbout(String updatedAbout);
+  Future<void> updateUserAddress(String updateAddress);
   Future<void> deleteUserInfo();
   Future<UserInApp> getYourInfo(String userUID);
 }
@@ -44,6 +48,9 @@ class UserDetailService implements BaseUserDetailService {
     int weight,
     String bio,
     String about,
+    String address,
+    bool isTrainer,
+    bool authorization
   ) async {
     try {
       await _read(firestoreProvider)
@@ -56,6 +63,9 @@ class UserDetailService implements BaseUserDetailService {
         "weight": weight,
         "bio": bio,
         "about": about,
+        "address": address,
+        "isTrainer": false,
+        "authorization" : false,
       });
     } on FirebaseException catch (e) {
       throw CustomExeption(message: e.message);
@@ -80,6 +90,8 @@ class UserDetailService implements BaseUserDetailService {
           height: 0,
           weight: 0,
           bio: "not given",
+          address: "not givenn"
+          
         );
       }
     } on FirebaseException catch (e) {
@@ -182,4 +194,20 @@ class UserDetailService implements BaseUserDetailService {
       throw CustomExeption(message: e.message);
     }
   }
+
+  @override
+  Future<void> updateUserAddress(String updateAddress) async {
+    try {
+      await _read(firestoreProvider)
+          .collection("users")
+          .doc(currentUser!.uid)
+          .update({
+        "address": updateAddress,
+      });
+    } on FirebaseException catch (e) {
+      throw CustomExeption(message: e.message);
+    }
+  }
+
+
 }

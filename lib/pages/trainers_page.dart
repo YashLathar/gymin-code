@@ -1,81 +1,129 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
 
 class TrainerZone extends StatefulWidget {
-  const TrainerZone({ Key? key }) : super(key: key);
+  const TrainerZone({Key? key}) : super(key: key);
 
   @override
   _TrainerZoneState createState() => _TrainerZoneState();
 }
 
 class _TrainerZoneState extends State<TrainerZone> {
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  List adminList = [];
+  Future adminListFromFirebase() async {
+    final userFromUsersCollection = await _firestore
+        .collection('users')
+        .where("isTrainer", isEqualTo: true)
+        .get();
+
+    setState(() {
+      adminList = userFromUsersCollection.docs;
+    });
+  }
+
+  @override
+  void initState() {
+    adminListFromFirebase();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Material(
-      color: Color(0xffF2F2F2),
-      child: Container(
-        margin: EdgeInsets.only(top: 50),
-        width: size.width,
-        height: size.height,
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
+    // Size size = MediaQuery.of(context).size;
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          child: Column(
+            children: [
+              Container(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+                child: Row(
+                  children: [
+                    Container(
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(35),
+                        border: Border.all(
+                            width: 2.0,
+                            color: Theme.of(context).backgroundColor),
                       ),
                       child: Center(
-                        child: Icon(
-                          Icons.arrow_back_ios,
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: Theme.of(context).textTheme.bodyText2!.color,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        "Trainer's Zone",
-                        style: kSubHeadingStyle,
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          "Trainers",
+                          style: kSubHeadingStyle.copyWith(
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color),
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    child: Center(
-                      child: IconButton(
-                        onPressed: () {
-                          
-                        }, 
-                        icon: Icon(Icons.add))
-                    ),
-                  )
-                ],
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(35),
+                        border: Border.all(
+                          width: 2.0,
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                        ),
+                      ),
+                      child: Center(
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            FontAwesomeIcons.plus,
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            Container(
-              child: Center(
-                child: Text("trainer's"),
+              Expanded(
+                child: ListView(
+                  children: adminList.map((data) {
+                    return ListTile(
+                      leading: Icon(
+                        Icons.verified_user,
+                        color: Colors.redAccent,
+                      ),
+                      title: Text(
+                        data['bio'],
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyText2!.color),
+                      ),
+                      subtitle: Text("Tap here to chat to admin"),
+                      trailing: Icon(
+                        Icons.chat,
+                        color: Colors.redAccent,
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
-            )
-          ]
-        )
-      )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

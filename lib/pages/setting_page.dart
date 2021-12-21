@@ -22,6 +22,7 @@ class SettingPage extends HookWidget {
     final ageController = useTextEditingController();
     final heightController = useTextEditingController();
     final weightController = useTextEditingController();
+    final addressController = useTextEditingController();
 
     //final _tabController = useTabController(initialLength: 2);
     if (authControllerState != null) {
@@ -377,6 +378,43 @@ class SettingPage extends HookWidget {
                                 onTap: () async {
                                   await userDetailProvider
                                       .updateUserBio(bioController.text);
+                                  context.refresh(userDetailFutureShowProvider);
+                                  Navigator.pop(context);
+                                },
+                              );
+                            });
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        FontAwesomeIcons.locationArrow,
+                        color: Theme.of(context).textTheme.bodyText2!.color,
+                      ),
+                      title: Text(
+                        'Address',
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyText2!.color),
+                      ),
+                      onTap: () {
+                        showModalBottomSheet(
+                            isDismissible: true,
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(25)),
+                            ),
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            context: context,
+                            builder: (BuildContext buildContext) {
+                              return CustomBottomSheet(
+                                controller: addressController,
+                                lable: "Address",
+                                bottomLable: "Your Address",
+                                onTap: () async {
+                                  await userDetailProvider
+                                      .updateUserBio(addressController.text);
                                   context.refresh(userDetailFutureShowProvider);
                                   Navigator.pop(context);
                                 },
