@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
+import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/pages/booking_result.dart';
 import 'package:gym_in/pages/time_selector_page.dart';
 import 'package:gym_in/services/orders_service.dart';
 import 'package:gym_in/widgets/reusable_button.dart';
@@ -34,9 +36,9 @@ class GymCheckoutPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final fromTime = useProvider(userSelectedFromTimeProvider).state;
-    // final toTime = useProvider(userSelectedToTimeProvider).state;
+    final toTime = useProvider(userSelectedToTimeProvider).state;
     final selectedPrice = useProvider(userSelectedPriceProvider);
-    // final user = useProvider(authControllerProvider);
+    final user = useProvider(authControllerProvider);
     final selected = useState(Plans.hourly);
     final today = DateTime.now();
     Size size = MediaQuery.of(context).size;

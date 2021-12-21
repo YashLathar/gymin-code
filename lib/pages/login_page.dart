@@ -3,6 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/models/user.dart';
+import 'package:gym_in/services/user_detail_service.dart';
 import 'package:gym_in/widgets/oauthlogin_button.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:gym_in/widgets/rounded_textfield.dart';
@@ -19,6 +21,7 @@ class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     Size size = MediaQuery.of(context).size;
+    final user = watch(authControllerProvider);
 
     return ModalProgressHUD(
       inAsyncCall: watch(loadingStateProvider).state,
@@ -72,6 +75,34 @@ class LoginPage extends ConsumerWidget {
                                     await context
                                         .read(authControllerProvider.notifier)
                                         .signInWithGoogle(context);
+
+                                    final userInAPP = UserInApp(
+                                      age: 0,
+                                      about: "not given",
+                                      phoneNumber: 0,
+                                      height: 0,
+                                      weight: 0,
+                                      userName: user!.displayName ?? "",
+                                      userPhoto: user.photoURL ?? "",
+                                      bio: "not given",
+                                      address: "not given",
+                                    );
+
+                                    await context
+                                        .read(userDetailServiceProvider)
+                                        .addUserInfo(
+                                          userInAPP.height,
+                                          userInAPP.age,
+                                          userInAPP.phoneNumber,
+                                          userInAPP.weight,
+                                          userInAPP.userName,
+                                          userInAPP.userPhoto,
+                                          userInAPP.bio,
+                                          userInAPP.about,
+                                          userInAPP.address,
+                                          false,
+                                          false,
+                                        );
                                   },
                                 ),
                               ),

@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
+import 'package:gym_in/controllers/favourites_controller.dart';
+import 'package:gym_in/models/gym.dart';
 import 'package:gym_in/pages/gym_checkout_page.dart';
+import 'package:gym_in/services/favourites_service.dart';
 import 'package:gym_in/widgets/facility_card.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:like_button/like_button.dart';
 
 class GymPage extends HookWidget {
@@ -35,9 +39,43 @@ class GymPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final favGymsController = useProvider(favouritesControllerProvider);
+    final favService = useProvider(favServiceProvider);
     final List<dynamic> _urlData = gymphotos;
     final _current = useState(0);
     Size size = MediaQuery.of(context).size;
+
+    Future<bool> onLikeButtonTapped(bool isLiked) async {
+      final thisGym =
+          favGymsController.favGyms.where((gym) => gym.gymId == gymId);
+
+      if (thisGym.isEmpty) {
+        final gym = Gym(
+          gymName: gymName,
+          gymPhoto: gymPhoto,
+          gymphotos: gymphotos,
+          gymratings: gymratings,
+          gymopen: gymopen,
+          gymaddress: gymaddress,
+          trainername: trainername,
+          trainerphoto: trainerphoto,
+          trainerrating: trainerrating,
+          traineravailable: traineravailable,
+          gymId: gymId,
+        );
+
+        await favService.addGymToFav(gym);
+
+        favGymsController.addGymToFav(gym);
+
+        aShowToast(msg: "Added to Favourites");
+        return isLiked = true;
+      } else {
+        aShowToast(msg: "Already in Favourites");
+        return isLiked;
+      }
+    }
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Stack(

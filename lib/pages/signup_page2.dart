@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
+import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/services/user_detail_service.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -21,6 +22,8 @@ class SignupPage2 extends HookWidget {
     final userDetailProvider = useProvider(userDetailServiceProvider);
     final isTrainer = false;
     final authorization = false;
+
+    final user = useProvider(authControllerProvider);
     return ModalProgressHUD(
       inAsyncCall: context.read(loadingStateProvider).state,
       progressIndicator: CircularProgressIndicator(),
@@ -88,7 +91,11 @@ class SignupPage2 extends HookWidget {
                                     TextField(
                                       controller: heightController,
                                       keyboardType: TextInputType.phone,
-                                      style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2!
+                                              .color),
                                       decoration: InputDecoration(
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius:
@@ -136,7 +143,11 @@ class SignupPage2 extends HookWidget {
                                     TextField(
                                       controller: ageController,
                                       keyboardType: TextInputType.phone,
-                                      style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2!
+                                              .color),
                                       decoration: InputDecoration(
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius:
@@ -185,7 +196,11 @@ class SignupPage2 extends HookWidget {
                                 TextField(
                                   controller: weightController,
                                   keyboardType: TextInputType.phone,
-                                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color),
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -229,7 +244,11 @@ class SignupPage2 extends HookWidget {
                                 TextField(
                                   controller: phoneController,
                                   keyboardType: TextInputType.phone,
-                                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color),
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -272,7 +291,11 @@ class SignupPage2 extends HookWidget {
                                 SizedBox(height: 5),
                                 TextField(
                                   controller: bioController,
-                                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color),
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -315,7 +338,11 @@ class SignupPage2 extends HookWidget {
                                 SizedBox(height: 5),
                                 TextField(
                                   controller: aboutController,
-                                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color),
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -358,7 +385,11 @@ class SignupPage2 extends HookWidget {
                                 SizedBox(height: 5),
                                 TextField(
                                   controller: addressController,
-                                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color),
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -444,12 +475,15 @@ class SignupPage2 extends HookWidget {
                               intAge,
                               intPhone,
                               intWeight,
+                              user!.displayName,
+                              user.photoURL ?? "",
                               bioController.text,
                               aboutController.text,
                               addressController.text,
                               isTrainer,
                               authorization,
                             );
+
                             context.read(loadingStateProvider).state = false;
 
                             Navigator.pop(context);

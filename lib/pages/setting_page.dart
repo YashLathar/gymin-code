@@ -413,8 +413,8 @@ class SettingPage extends HookWidget {
                                 lable: "Address",
                                 bottomLable: "Your Address",
                                 onTap: () async {
-                                  await userDetailProvider
-                                      .updateUserBio(addressController.text);
+                                  await userDetailProvider.updateUserAddress(
+                                      addressController.text);
                                   context.refresh(userDetailFutureShowProvider);
                                   Navigator.pop(context);
                                 },

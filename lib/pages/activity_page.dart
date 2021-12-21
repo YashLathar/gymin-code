@@ -72,17 +72,10 @@ class _ActivityPageState extends State<ActivityPage>
 
   @override
   void dispose() async {
-    super.dispose();
     await _stopWatchTimer.dispose();
     _radialProgressAnimationController.dispose();
+    super.dispose();
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   initPlatformState();
-  //   _init();
-  // }
 
   void _init() async {
     /// Android requires explicitly asking permission
@@ -421,20 +414,21 @@ class _ActivityPageState extends State<ActivityPage>
                                                   : 0.0,
                                               duration: fadeInDuration,
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   Text(
-                                                  _steps.toString(),
-                                                  style: TextStyle(
-                                                    color: Colors.black,
+                                                    _steps.toString(),
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
-                                                ),
-                                                Text(
-                                                  "steps",
-                                                  style: TextStyle(
-                                                    color: Colors.black,
+                                                  Text(
+                                                    "steps",
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
-                                                ),
                                                 ],
                                               ),
                                             ),
@@ -604,7 +598,8 @@ class _ActivityPageState extends State<ActivityPage>
                                                   : 0.0,
                                               duration: fadeInDuration,
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   Text(
                                                     calories.toString(),
