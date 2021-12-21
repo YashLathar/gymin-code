@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/pages/booking_result.dart';
 import 'package:gym_in/pages/time_selector_page.dart';
+import 'package:gym_in/services/orders_service.dart';
 import 'package:gym_in/widgets/reusable_button.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 enum Plans {
@@ -49,82 +52,82 @@ class GymCheckoutPage extends HookWidget {
       }
     }
 
-    // late Razorpay _razorpay;
+    late Razorpay _razorpay;
 
-    // Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    //   // succeeds
+    Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
+      // succeeds
 
-    //   final doc = await context.read(ordersServiceProvider).addToOrders(
-    //         gymcheckName,
-    //         gymcheckPhoto,
-    //         fromTime,
-    //         toTime,
-    //         selected.value.toString(),
-    //         context.read(dateProvider).state.day.toString(),
-    //         context,
-    //       );
+      final doc = await context.read(ordersServiceProvider).addToOrders(
+            gymcheckName,
+            gymcheckPhoto,
+            fromTime,
+            toTime,
+            selected.value.toString(),
+            context.read(dateProvider).state.day.toString(),
+            context,
+          );
 
-    //   showDialog(
-    //     context: context,
-    //     builder: (context) {
-    //       return QrResultScreen(
-    //         gymName: gymcheckName,
-    //         gymPhoto: gymcheckPhoto,
-    //         userName: user!.displayName,
-    //         userImage: user.photoURL,
-    //         fromDate: context.read(dateProvider).state.day.toString(),
-    //         fromTime: context.read(userSelectedFromTimeProvider).state,
-    //         planSelected: selected.value.toString(),
-    //         docId: doc.id,
-    //       );
-    //     },
-    //   );
-    // }
+      showDialog(
+        context: context,
+        builder: (context) {
+          return QrResultScreen(
+            gymName: gymcheckName,
+            gymPhoto: gymcheckPhoto,
+            userName: user!.displayName,
+            userImage: user.photoURL,
+            fromDate: context.read(dateProvider).state.day.toString(),
+            fromTime: context.read(userSelectedFromTimeProvider).state,
+            planSelected: selected.value.toString(),
+            docId: doc.id,
+          );
+        },
+      );
+    }
 
-    // void _handlePaymentError(PaymentFailureResponse response) {
-    //   // Do something when payment fails
-    //   showDialog(
-    //       context: context,
-    //       builder: (context) {
-    //         return SimpleDialog(
-    //             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-    //             title: Text(
-    //               "Payment Failed",
-    //               style: TextStyle(
-    //                   color: Theme.of(context).textTheme.bodyText2!.color),
-    //             ));
-    //       });
-    // }
+    void _handlePaymentError(PaymentFailureResponse response) {
+      // Do something when payment fails
+      showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleDialog(
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                title: Text(
+                  "Payment Failed",
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyText2!.color),
+                ));
+          });
+    }
 
-    // void _handleExternalWallet(ExternalWalletResponse response) {
-    //   // Do something when an external wallet is selected
-    // }
+    void _handleExternalWallet(ExternalWalletResponse response) {
+      // Do something when an external wallet is selected
+    }
 
-    // useEffect(() {
-    //   _razorpay = Razorpay();
-    //   _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    //   _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    //   _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-    //   return () {
-    //     _razorpay.clear();
-    //   };
-    // });
+    useEffect(() {
+      _razorpay = Razorpay();
+      _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+      _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+      _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+      return () {
+        _razorpay.clear();
+      };
+    });
 
-    // void openCheckout(
-    //     {String? name,
-    //     String? description,
-    //     String? price,
-    //     String? image}) async {
-    //   var options = {
-    //     'key': 'rzp_test_8NBNETBLt7d5Bg',
-    //     'amount': price,
-    //     'name': name,
-    //     'description': description,
-    //     'image': image,
-    //     'prefill': {'contact': '8979642723', 'email': 'test@pay.com'},
-    //   };
-    //   _razorpay.open(options);
-    // }
+    void openCheckout(
+        {String? name,
+        String? description,
+        String? price,
+        String? image}) async {
+      var options = {
+        'key': 'rzp_test_8NBNETBLt7d5Bg',
+        'amount': price,
+        'name': name,
+        'description': description,
+        'image': image,
+        'prefill': {'contact': '8979642723', 'email': 'test@pay.com'},
+      };
+      _razorpay.open(options);
+    }
 
     return Material(
       color: Theme.of(context).scaffoldBackgroundColor,
@@ -946,13 +949,13 @@ class GymCheckoutPage extends HookWidget {
                           ),
                           child: MaterialButton(
                             onPressed: () {
-                              // final formatprice = selectedPrice.state * 100;
-                              // openCheckout(
-                              //   name: gymcheckName,
-                              //   price: formatprice.toString(),
-                              //   description: gymcheckAddress,
-                              //   image: gymcheckPhoto,
-                              // );
+                              final formatprice = selectedPrice.state * 100;
+                              openCheckout(
+                                name: gymcheckName,
+                                price: formatprice.toString(),
+                                description: gymcheckAddress,
+                                image: gymcheckPhoto,
+                              );
                             },
                             child: Text(
                               "Checkout (₹ ${selectedPrice.state.toString()}.99)",
