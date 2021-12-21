@@ -5,6 +5,7 @@ import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/general_providers.dart';
 import 'package:gym_in/services/error_Handler.dart';
 import 'package:gym_in/services/storage_service.dart';
+import 'package:gym_in/services/user_detail_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -189,6 +190,14 @@ class UserEditBottomSheet extends HookWidget {
                               await context
                                   .read(authControllerProvider.notifier)
                                   .setProfilePhoto(downloadUrl);
+
+                              await context
+                                  .read(userDetailServiceProvider)
+                                  .updateUserName(usernameController.text);
+
+                              await context
+                                  .read(userDetailServiceProvider)
+                                  .updateUserPhoto(downloadUrl);
 
                               isLoading.value = false;
                               usernameController.text = "";

@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/controllers/theme_controller.dart';
+import 'package:gym_in/general_providers.dart';
 import 'package:gym_in/pages/activity_page.dart';
 import 'package:gym_in/pages/authenticate_ticket.dart';
 import 'package:gym_in/pages/contact_page.dart';
@@ -19,7 +20,6 @@ import 'dart:io';
 
 class HomeScreen extends HookWidget {
   final GlobalKey _bottomNavigationKey = GlobalKey();
-  
 
   final List<Widget> pages = [
     HomePage(),
@@ -28,27 +28,33 @@ class HomeScreen extends HookWidget {
     GymProductsPage(),
     UserPage(),
   ];
-  
-
-  //   void authenticateTicketByAdminOnly() async {
-  //   final user = context.read(authControllerProvider);
-  //   final userFromUsersCollection =
-  //       await _firestore.collection('users').doc(user.uid).get();
-  //   if (userFromUsersCollection.data()["authorization"]) {
-  //     Navigator.of(context).push(MaterialPageRoute(
-  //       builder: (_) => TrainerZone(),
-  //     ));
-  //   } else {
-  //     Fluttertoast.showToast(msg: "Only Admin can Perform this Action");
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider);
     final _pageIndex = useState(0);
+    final _firestore = useProvider(firestoreProvider);
+    final userAuthenticated = useState(false);
     // FirebaseFirestore _firestore = FirebaseFirestore.instance;
     // bool thisUserAdmin = false;
+
+    useEffect(() {
+      if (authControllerState != null) {
+        void authenticateTicketByAdminOnly() async {
+          final userFromUsersCollection = await _firestore
+              .collection('users')
+              .doc(authControllerState.uid)
+              .get();
+          if (userFromUsersCollection.data()!["authorization"] == true) {
+            userAuthenticated.value = true;
+          }
+        }
+
+        authenticateTicketByAdminOnly();
+      }
+
+      return () {};
+    });
 
     if (authControllerState != null) {
       return Scaffold(
@@ -124,27 +130,33 @@ class HomeScreen extends HookWidget {
                 //   onTap: () => Navigator.push(context,
                 //       MaterialPageRoute(builder: (context) => GymOwnerPage())),
                 // ),
+                userAuthenticated.value
+                    ? ListTile(
+                        leading: Icon(
+                          Icons.verified,
+                          color: Theme.of(context).textTheme.bodyText2!.color,
+                        ),
+                        title: Text(
+                          'Authenticate',
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color),
+                        ),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AuthenticateTicket())),
+                      )
+                    : Container(),
                 ListTile(
                   leading: Icon(
-                    Icons.verified,
+                    Icons.verified_user,
                     color: Theme.of(context).textTheme.bodyText2!.color,
                   ),
                   title: Text(
-                    'Authenticate',
+                    'Trainer Zone',
                     style: TextStyle(
                         color: Theme.of(context).textTheme.bodyText2!.color),
-                  ),
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AuthenticateTicket())),
-                ),
-                ListTile(
-                  leading: Icon(Icons.verified_user,
-                  color: Theme.of(context).textTheme.bodyText2!.color,
-                  ),
-                  title: Text('Trainer Zone',
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
                   ),
                   onTap: () => Navigator.push(context,
                       MaterialPageRoute(builder: (context) => TrainerZone())),
