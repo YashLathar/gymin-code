@@ -17,6 +17,7 @@ import 'package:reviews_slider/reviews_slider.dart';
 class ProductDetailPage extends HookWidget {
   final String title, image, productID, description, rating;
   final int price;
+  final bool inStock;
   const ProductDetailPage({
     Key? key,
     required this.title,
@@ -25,6 +26,7 @@ class ProductDetailPage extends HookWidget {
     required this.productID,
     required this.description,
     required this.rating,
+    required this.inStock,
   }) : super(key: key);
 
   Widget build(BuildContext context) {
@@ -86,9 +88,9 @@ class ProductDetailPage extends HookWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 8.0),
                                   child: Icon(
-                                      Icons.arrow_back_ios,
-                                      color: Theme.of(context).backgroundColor,
-                                    ),
+                                    Icons.arrow_back_ios,
+                                    color: Theme.of(context).backgroundColor,
+                                  ),
                                 ),
                               ),
                             ),
@@ -227,39 +229,52 @@ class ProductDetailPage extends HookWidget {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              // Container(
-                                              //   height: 20,
-                                              //   width: 150,
-                                              //   padding: EdgeInsets.fromLTRB(8, 2, 5, 2),
-                                              //   decoration: BoxDecoration(
-                                              //       borderRadius:
-                                              //           BorderRadius.circular(
-                                              //         15,
-                                              //       ),
-                                              //       color: Colors.redAccent),
-                                              //   child: Text(
-                                              //     "Currently unavailable",
-                                              //     style: kSmallContentStyle
-                                              //         .copyWith(fontSize: 12),
-                                              //   ),
-                                              // ),
-                                              Container(
-                                                height: 20,
-                                                width: 125,
-                                                padding: EdgeInsets.fromLTRB(
-                                                    8, 2, 5, 2),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                      15,
+                                              inStock
+                                                  ? Container(
+                                                      height: 20,
+                                                      width: 125,
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              8, 2, 5, 2),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                            15,
+                                                          ),
+                                                          color: Colors.green),
+                                                      child: Text(
+                                                        "Available in Stock",
+                                                        style:
+                                                            kSmallContentStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        12),
+                                                      ),
+                                                    )
+                                                  : Container(
+                                                      height: 20,
+                                                      width: 150,
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              8, 2, 5, 2),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                            15,
+                                                          ),
+                                                          color:
+                                                              Colors.redAccent),
+                                                      child: Text(
+                                                        "Currently unavailable",
+                                                        style:
+                                                            kSmallContentStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        12),
+                                                      ),
                                                     ),
-                                                    color: Colors.green),
-                                                child: Text(
-                                                  "Available in Stock",
-                                                  style: kSmallContentStyle
-                                                      .copyWith(fontSize: 12),
-                                                ),
-                                              ),
                                               Container(
                                                 margin:
                                                     const EdgeInsets.symmetric(

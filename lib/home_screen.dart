@@ -12,12 +12,14 @@ import 'package:gym_in/pages/feedback_form.dart';
 import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/pages/home_page.dart';
+import 'package:gym_in/pages/trainers_page.dart';
 import 'package:gym_in/pages/user_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:io';
 
 class HomeScreen extends HookWidget {
   final GlobalKey _bottomNavigationKey = GlobalKey();
+  
 
   final List<Widget> pages = [
     HomePage(),
@@ -26,11 +28,27 @@ class HomeScreen extends HookWidget {
     GymProductsPage(),
     UserPage(),
   ];
+  
+
+  //   void authenticateTicketByAdminOnly() async {
+  //   final user = context.read(authControllerProvider);
+  //   final userFromUsersCollection =
+  //       await _firestore.collection('users').doc(user.uid).get();
+  //   if (userFromUsersCollection.data()["authorization"]) {
+  //     Navigator.of(context).push(MaterialPageRoute(
+  //       builder: (_) => TrainerZone(),
+  //     ));
+  //   } else {
+  //     Fluttertoast.showToast(msg: "Only Admin can Perform this Action");
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider);
     final _pageIndex = useState(0);
+    // FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    // bool thisUserAdmin = false;
 
     if (authControllerState != null) {
       return Scaffold(
@@ -106,16 +124,6 @@ class HomeScreen extends HookWidget {
                 //   onTap: () => Navigator.push(context,
                 //       MaterialPageRoute(builder: (context) => GymOwnerPage())),
                 // ),
-                // ListTile(
-                //   leading: Icon(Icons.verified_user,
-                //   color: Theme.of(context).textTheme.bodyText2!.color,
-                //   ),
-                //   title: Text('Trainer Zone',
-                //   style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
-                //   ),
-                //   onTap: () => Navigator.push(context,
-                //       MaterialPageRoute(builder: (context) => TrainerZone())),
-                // ),
                 ListTile(
                   leading: Icon(
                     Icons.verified,
@@ -130,6 +138,16 @@ class HomeScreen extends HookWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => AuthenticateTicket())),
+                ),
+                ListTile(
+                  leading: Icon(Icons.verified_user,
+                  color: Theme.of(context).textTheme.bodyText2!.color,
+                  ),
+                  title: Text('Trainer Zone',
+                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                  ),
+                  onTap: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => TrainerZone())),
                 ),
                 // ListTile(
                 //     leading: Icon(

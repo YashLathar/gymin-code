@@ -9,6 +9,7 @@ class UserInApp {
   final int age;
   final String bio;
   final String about;
+  final String address;
   UserInApp({
     required this.height,
     required this.weight,
@@ -16,6 +17,7 @@ class UserInApp {
     required this.age,
     required this.bio,
     required this.about,
+    required this.address,
   });
 
   UserInApp copyWith({
@@ -25,6 +27,7 @@ class UserInApp {
     int? age,
     String? bio,
     String? about,
+    String? address
   }) {
     return UserInApp(
       height: height ?? this.height,
@@ -33,6 +36,7 @@ class UserInApp {
       age: age ?? this.age,
       bio: bio ?? this.bio,
       about: about ?? this.about,
+      address:  address ?? this.address,
     );
   }
 
@@ -44,6 +48,7 @@ class UserInApp {
       'age': age,
       'bio': bio,
       'about': about,
+      'address': address,
     };
   }
 
@@ -55,6 +60,7 @@ class UserInApp {
       age: map['age']?.toInt() ?? 0,
       bio: map['bio'] ?? '',
       about: map['about'] ?? '',
+      address: map['address'] ?? ','
     );
   }
 
@@ -70,7 +76,7 @@ class UserInApp {
 
   @override
   String toString() {
-    return 'UserInApp(height: $height, weight: $weight, phoneNumber: $phoneNumber, age: $age, bio: $bio, about: $about)';
+    return 'UserInApp(height: $height, weight: $weight, phoneNumber: $phoneNumber, age: $age, bio: $bio, about: $about, address: $address)';
   }
 
   @override
@@ -83,7 +89,8 @@ class UserInApp {
         other.phoneNumber == phoneNumber &&
         other.age == age &&
         other.bio == bio &&
-        other.about == about;
+        other.about == about &&
+        other.address == address;
   }
 
   @override
@@ -93,6 +100,7 @@ class UserInApp {
         phoneNumber.hashCode ^
         age.hashCode ^
         bio.hashCode ^
-        about.hashCode;
+        about.hashCode ^
+        address.hashCode;
   }
 }

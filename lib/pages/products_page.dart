@@ -168,6 +168,7 @@ class GymProductsPage extends HookWidget {
                                   price: data['price'],
                                   description: data['description'],
                                   rating: data['rating'],
+                                  inStock: data['inStock'],
                                 ),
                               ),
                             );

@@ -17,8 +17,10 @@ class SignupPage2 extends HookWidget {
     final phoneController = useTextEditingController();
     final bioController = useTextEditingController();
     final aboutController = useTextEditingController();
+    final addressController = useTextEditingController();
     final userDetailProvider = useProvider(userDetailServiceProvider);
-
+    final isTrainer = false;
+    final authorization = false;
     return ModalProgressHUD(
       inAsyncCall: context.read(loadingStateProvider).state,
       progressIndicator: CircularProgressIndicator(),
@@ -341,6 +343,49 @@ class SignupPage2 extends HookWidget {
                               ],
                             ),
                           ),
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Address",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                TextField(
+                                  controller: addressController,
+                                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color),
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      borderSide: BorderSide(
+                                        color:
+                                            Theme.of(context).backgroundColor,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      borderSide: BorderSide(
+                                        color: Colors.redAccent, //0xffF14C37
+                                        width: 2,
+                                      ),
+                                    ),
+                                    hintText: "Enter your Address",
+                                    hintStyle: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2!
+                                            .color),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -401,6 +446,9 @@ class SignupPage2 extends HookWidget {
                               intWeight,
                               bioController.text,
                               aboutController.text,
+                              addressController.text,
+                              isTrainer,
+                              authorization,
                             );
                             context.read(loadingStateProvider).state = false;
 
