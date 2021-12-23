@@ -46,7 +46,7 @@ class ProductDetailPage extends HookWidget {
               physics: ClampingScrollPhysics(),
               child: Container(
                 width: size.width,
-                height: 1100,
+                height: 1000,
                 child: Column(
                   children: [
                     Container(
@@ -154,27 +154,38 @@ class ProductDetailPage extends HookWidget {
                               SizedBox(
                                 width: 5,
                               ),
-                              // Container(
-                              //   width: 50,
-                              //   height: 50,
-                              //   decoration: BoxDecoration(
-                              //     borderRadius: BorderRadius.circular(35),
-                              //     border: Border.all(
-                              //       width: 2.0,
-                              //       color: Theme.of(context).backgroundColor,
-                              //     ),
-                              //   ),
-                              //   child: Center(
-                              //     child: IconButton(
-                              //       onPressed: () {},
-                              //       icon: Icon(
-                              //         Icons.share,
-                              //         color: Theme.of(context)
-                              //             .scaffoldBackgroundColor,
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
+                              Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(35),
+                                  border: Border.all(
+                                    width: 2.0,
+                                    color: Theme.of(context).backgroundColor,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: IconButton(
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(25),
+                                            ),
+                                          ),
+                                          context: context,
+                                          builder: (context) {
+                                            return ReviewsPSheet();
+                                          });
+                                    },
+                                    icon: Icon(
+                                      Icons.rate_review,
+                                      color: Theme.of(context)
+                                          .backgroundColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ],
@@ -472,28 +483,8 @@ class ProductDetailPage extends HookWidget {
                                             children: [
                                               Text(
                                                 "Deliver to",
-                                                style:
-                                                    kSmallContentStyle.copyWith(
-                                                  fontSize: 13,
-                                                ),
+                                                style: kSmallContentStyle,
                                               ),
-                                              Text(
-                                                "Ram Ganga Vihar - Moradabad",
-                                                style:
-                                                    kSmallContentStyle.copyWith(
-                                                  fontSize: 13,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Divider(
-                                            color: Theme.of(context)
-                                                .backgroundColor,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
                                               Row(
                                                 children: [
                                                   Icon(
@@ -513,17 +504,83 @@ class ProductDetailPage extends HookWidget {
                                                   ),
                                                 ],
                                               ),
-                                              TextButton(
-                                                onPressed: () {},
-                                                child: Text(
-                                                  "Change Address",
-                                                  style: kSmallContentStyle
-                                                      .copyWith(
-                                                    fontSize: 15,
-                                                  ),
-                                                ),
-                                              ),
                                             ],
+                                          ),
+                                          SizedBox(height: 20),
+                                          // Divider(
+                                          //   color: Theme.of(context)
+                                          //       .backgroundColor,
+                                          // ),
+                                          Container(
+                                            height: 60,
+                                            margin: EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                15,
+                                              ),
+                                              color: Colors.grey[300],
+                                            ),
+                                            child: Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons.location_pin),
+                                                      Text(
+                                                        "Ram Ganga Vihar \nMoradabad",
+                                                        style:
+                                                            kSmallContentStyle
+                                                                .copyWith(
+                                                          fontSize: 13,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            primary: Colors
+                                                                .redAccent),
+                                                    onPressed: () {
+                                                      showModalBottomSheet(
+                                                          isDismissible: true,
+                                                          backgroundColor: Theme
+                                                                  .of(context)
+                                                              .scaffoldBackgroundColor,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius.vertical(
+                                                                    top: Radius
+                                                                        .circular(
+                                                                            25)),
+                                                          ),
+                                                          clipBehavior: Clip
+                                                              .antiAliasWithSaveLayer,
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              buildContext) {
+                                                            return Container();
+                                                          });
+                                                    },
+                                                    child: Text(
+                                                      "Change",
+                                                      style: kSmallContentStyle
+                                                          .copyWith(
+                                                        fontSize: 15,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -531,85 +588,199 @@ class ProductDetailPage extends HookWidget {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    Divider(
-                                      thickness: 1.0,
-                                      color: Theme.of(context).backgroundColor,
-                                    ),
-                                    Container(
-                                      // decoration: BoxDecoration(
-                                      //   borderRadius: BorderRadius.circular(25),
-                                      //   border: Border.all(
-                                      //       width: 2,
-                                      //       color: Theme.of(context)
-                                      //           .backgroundColor),
-                                      // ),
-                                      padding: EdgeInsets.only(
-                                        left: 15,
-                                        right: 15,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Ratings and Reviews",
-                                                style: kSmallContentStyle,
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  showModalBottomSheet(
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .vertical(
-                                                          top: Radius.circular(
-                                                              25),
-                                                        ),
-                                                      ),
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return ReviewsPSheet();
-                                                      });
-                                                },
-                                                child: Text(
-                                                  "Rate Product",
-                                                  style: kSmallContentStyle
-                                                      .copyWith(
-                                                    fontSize: 15,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Container(
-                                            height: 100,
-                                            color: Theme.of(context)
-                                                .scaffoldBackgroundColor,
-                                            child: Text(
-                                              "Loading...",
-                                              style:
-                                                  kSmallContentStyle.copyWith(
-                                                      color: Colors.redAccent),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 25,
-                                          ),
-                                          // ReviewCard(
-                                          //   userPhotoUrl:
-                                          //       reviewsData[dataIndex].userPhotoUrl[0],
-                                          //   userName: reviewsData[dataIndex].userName,
-                                          //   index: 0,
-                                          //   button: reviewsData[dataIndex].editButton,
-                                          //   height: 30,
-                                          //   width: 30,
-                                          // ),
-                                        ],
-                                      ),
-                                    )
+                                    // Divider(
+                                    //   thickness: 1.0,
+                                    //   color: Theme.of(context).backgroundColor,
+                                    // ),
+                                    // Container(
+                                    //   // decoration: BoxDecoration(
+                                    //   //   borderRadius: BorderRadius.circular(25),
+                                    //   //   border: Border.all(
+                                    //   //       width: 2,
+                                    //   //       color: Theme.of(context)
+                                    //   //           .backgroundColor),
+                                    //   // ),
+                                    //   padding: EdgeInsets.only(
+                                    //     left: 15,
+                                    //     right: 15,
+                                    //   ),
+                                    //   child: Column(
+                                    //     children: [
+                                    //       Row(
+                                    //         mainAxisAlignment:
+                                    //             MainAxisAlignment.spaceBetween,
+                                    //         children: [
+                                    //           Text(
+                                    //             "Ratings and Reviews",
+                                    //             style: kSmallContentStyle,
+                                    //           ),
+                                    //           TextButton(
+                                    //             onPressed: () {
+                                    //               showModalBottomSheet(
+                                    //                   shape:
+                                    //                       RoundedRectangleBorder(
+                                    //                     borderRadius:
+                                    //                         BorderRadius
+                                    //                             .vertical(
+                                    //                       top: Radius.circular(
+                                    //                           25),
+                                    //                     ),
+                                    //                   ),
+                                    //                   context: context,
+                                    //                   builder: (context) {
+                                    //                     return ReviewsPSheet();
+                                    //                   });
+                                    //             },
+                                    //             child: Text(
+                                    //               "Rate Product",
+                                    //               style: kSmallContentStyle
+                                    //                   .copyWith(
+                                    //                 fontSize: 15,
+                                    //               ),
+                                    //             ),
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //       // Container(
+                                    //       //   height: 100,
+                                    //       //   color: Theme.of(context)
+                                    //       //       .scaffoldBackgroundColor,
+                                    //       //   child: Text(
+                                    //       //     "Loading...",
+                                    //       //     style:
+                                    //       //         kSmallContentStyle.copyWith(
+                                    //       //             color: Colors.redAccent),
+                                    //       //   ),
+                                    //       // ),
+                                    //       // SizedBox(
+                                    //       //   height: 25,
+                                    //       // ),
+                                    //       Container(
+                                    //         height: 100,
+                                    //         child: Column(
+                                    //           crossAxisAlignment:
+                                    //               CrossAxisAlignment.start,
+                                    //           children: [
+                                    //             Row(
+                                    //               mainAxisAlignment:
+                                    //                   MainAxisAlignment
+                                    //                       .spaceBetween,
+                                    //               children: [
+                                    //                 Row(
+                                    //                   children: [
+                                    //                     Container(
+                                    //                       height: 30,
+                                    //                       width: 30,
+                                    //                       decoration:
+                                    //                           BoxDecoration(
+                                    //                         borderRadius:
+                                    //                             BorderRadius
+                                    //                                 .circular(
+                                    //                           15,
+                                    //                         ),
+                                    //                       ),
+                                    //                       child: Icon(Icons
+                                    //                           .verified_user),
+                                    //                     ),
+                                    //                     Text(
+                                    //                       "Hemant Gurjar",
+                                    //                       style:
+                                    //                           kSmallContentStyle
+                                    //                               .copyWith(
+                                    //                         color: Theme.of(
+                                    //                                 context)
+                                    //                             .textTheme
+                                    //                             .bodyText2!
+                                    //                             .color,
+                                    //                       ),
+                                    //                     ),
+                                    //                   ],
+                                    //                 ),
+                                    //                 IconButton(
+                                    //                   onPressed: () {},
+
+                                    //                   icon: Icon(Icons.edit,
+                                    //                   color: Colors.redAccent,
+                                    //                   // color: Theme.of(context).textTheme.bodyText2!.color,
+                                    //                   ),
+                                    //                 ),
+                                    //               ],
+                                    //             ),
+                                    //             SizedBox(
+                                    //               height: 10,
+                                    //             ),
+                                    //             Container(
+                                    //               margin:
+                                    //                   EdgeInsets.only(left: 10),
+                                    //               child: Row(
+                                    //                 mainAxisAlignment:
+                                    //                     MainAxisAlignment
+                                    //                         .spaceBetween,
+                                    //                 children: [
+                                    //                   Text(
+                                    //                     "The Services are good. Although there's still \nsome room for improvement",
+                                    //                     style: TextStyle(
+                                    //                         color: Theme.of(
+                                    //                                 context)
+                                    //                             .textTheme
+                                    //                             .bodyText2!
+                                    //                             .color),
+                                    //                   ),
+                                    //                   Container(
+                                    //                     child: Row(
+                                    //                       children: [
+                                    //                         Icon(Icons.star,
+                                    //                             color: Color(
+                                    //                                 0xffFFD700)),
+                                    //                         SizedBox(
+                                    //                           width: 5,
+                                    //                         ),
+                                    //                         Container(
+                                    //                           width: 20,
+                                    //                           height: 20,
+                                    //                           decoration:
+                                    //                               BoxDecoration(
+                                    //                             borderRadius:
+                                    //                                 BorderRadius
+                                    //                                     .circular(
+                                    //                                         50),
+                                    //                             color: Color(
+                                    //                                 0xffFFD700),
+                                    //                           ),
+                                    //                           child: Center(
+                                    //                             child: Text(
+                                    //                               "4",
+                                    //                               // trainerrating
+                                    //                               //     .toString(),
+                                    //                               style: TextStyle(
+                                    //                                   color: Colors
+                                    //                                       .white,
+                                    //                                   fontSize:
+                                    //                                       15),
+                                    //                             ),
+                                    //                           ),
+                                    //                         ),
+                                    //                       ],
+                                    //                     ),
+                                    //                   ),
+                                    //                 ],
+                                    //               ),
+                                    //             ),
+                                    //           ],
+                                    //         ),
+                                    //       ),
+                                    // ReviewCard(
+                                    //   userPhotoUrl:
+                                    //       reviewsData[dataIndex].userPhotoUrl[0],
+                                    //   userName: reviewsData[dataIndex].userName,
+                                    //   index: 0,
+                                    //   button: reviewsData[dataIndex].editButton,
+                                    //   height: 30,
+                                    //   width: 30,
+                                    // ),
+                                    //     ],
+                                    //   ),
+                                    // )
                                   ],
                                 ),
                               )

@@ -5,7 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/controllers/theme_controller.dart';
-import 'package:gym_in/general_providers.dart';
+// import 'package:gym_in/general_providers.dart';
 import 'package:gym_in/pages/activity_page.dart';
 import 'package:gym_in/pages/authenticate_ticket.dart';
 import 'package:gym_in/pages/contact_page.dart';
@@ -33,28 +33,28 @@ class HomeScreen extends HookWidget {
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider);
     final _pageIndex = useState(0);
-    final _firestore = useProvider(firestoreProvider);
+    // final _firestore = useProvider(firestoreProvider);
     final userAuthenticated = useState(false);
     // FirebaseFirestore _firestore = FirebaseFirestore.instance;
     // bool thisUserAdmin = false;
 
-    useEffect(() {
-      if (authControllerState != null) {
-        void authenticateTicketByAdminOnly() async {
-          final userFromUsersCollection = await _firestore
-              .collection('users')
-              .doc(authControllerState.uid)
-              .get();
-          if (userFromUsersCollection.data()!["authorization"] == true) {
-            userAuthenticated.value = true;
-          }
-        }
+    // useEffect(() {
+    //   if (authControllerState != null) {
+    //     void authenticateTicketByAdminOnly() async {
+    //       final userFromUsersCollection = await _firestore
+    //           .collection('users')
+    //           .doc(authControllerState.uid)
+    //           .get();
+    //       if (userFromUsersCollection.data()!["authorization"] == true) {
+    //         userAuthenticated.value = true;
+    //       }
+    //     }
 
-        authenticateTicketByAdminOnly();
-      }
+    //     authenticateTicketByAdminOnly();
+    //   }
 
-      return () {};
-    });
+    //   return () {};
+    // });
 
     if (authControllerState != null) {
       return Scaffold(

@@ -44,13 +44,16 @@ class OrdersPage extends HookWidget {
                       width: 2.0, color: Theme.of(context).backgroundColor),
                 ),
                 child: Center(
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_ios,
-                      color: Theme.of(context).textTheme.bodyText2!.color,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 6.0),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        color: Theme.of(context).textTheme.bodyText2!.color,
+                      ),
                     ),
                   ),
                 ),
@@ -121,9 +124,12 @@ class OrdersPage extends HookWidget {
                 data: (orders) {
                   return orders.isEmpty
                       ? Center(
-                          child: const Text(
-                            "Wow, Such Empty",
-                            style: TextStyle(fontSize: 30),
+                          child: Container(
+                            child: Image.asset(
+                              "assets/img/animation_1.gif",
+                              height: 175.0,
+                              width: 150.0,
+                            ),
                           ),
                         )
                       : RefreshIndicator(
@@ -138,8 +144,7 @@ class OrdersPage extends HookWidget {
                                     shape: RoundedRectangleBorder(
                                       side: BorderSide(
                                           color: Colors.white70, width: 1),
-                                      borderRadius:
-                                          BorderRadius.circular(15),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     elevation: 8.0,
                                     margin: EdgeInsets.symmetric(
@@ -149,19 +154,15 @@ class OrdersPage extends HookWidget {
                                         color: Color(0xff676e8a),
                                       ),
                                       child: ListTile(
-                                        contentPadding:
-                                            EdgeInsets.symmetric(
-                                                horizontal: 20.0,
-                                                vertical: 10.0),
+                                        contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 20.0, vertical: 10.0),
                                         leading: Container(
-                                          padding:
-                                              EdgeInsets.only(right: 12.0),
+                                          padding: EdgeInsets.only(right: 12.0),
                                           decoration: BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
                                                       width: 1.0,
-                                                      color:
-                                                          Colors.white24))),
+                                                      color: Colors.white24))),
                                           child: Icon(Icons.book,
                                               color: Colors.white),
                                         ),
@@ -207,8 +208,7 @@ class OrdersPage extends HookWidget {
                           ),
                         );
                 },
-                loading: () =>
-                    const Center(child: CircularProgressIndicator()),
+                loading: () => const Center(child: CircularProgressIndicator()),
                 error: (e, s) {
                   return Center(
                       child: ErrorBody(
@@ -218,9 +218,12 @@ class OrdersPage extends HookWidget {
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "Wow, Such Empty",
-                  style: TextStyle(fontSize: 30),
+                Container(
+                  child: Image.asset(
+                    "assets/img/animation_1.gif",
+                    height: 175.0,
+                    width: 150.0,
+                  ),
                 ),
               ],
             )),

@@ -92,13 +92,16 @@ class StopWatchPage extends HookWidget {
                           width: 2.0, color: Theme.of(context).backgroundColor),
                     ),
                     child: Center(
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: Theme.of(context).textTheme.bodyText2!.color,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 6),
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: Theme.of(context).textTheme.bodyText2!.color,
+                          ),
                         ),
                       ),
                     ),
