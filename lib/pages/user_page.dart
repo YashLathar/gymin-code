@@ -389,6 +389,7 @@ class ProfileHeader1 extends HookWidget {
   Widget build(BuildContext context) {
     final authControllerState = useProvider(authControllerProvider);
     final userDetailProvider = useProvider(userDetailFutureShowProvider);
+    Size size = MediaQuery.of(context).size;
 
     Future<void> _launchURLBrowser() async {
       const url = 'https://gymin.co.in';
@@ -876,15 +877,25 @@ class ProfileHeader1 extends HookWidget {
                 ],
               );
             },
-            loading: () => Container(
-                  height: 55,
-                  width: 55,
-                  child: Center(
-                    child: CircularProgressIndicator(),
+            loading: () => Center(
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
                 ),
             error: (e, s) {
-              return Center(child: Text("No Data"));
+              return Center(
+                child: Container(
+                  height: 50,
+                    width: size.width,
+                  child: Center(
+                    child: Text("Check Your Internet Connection"),
+                  ),
+                ),
+              );
             }),
       ),
     );

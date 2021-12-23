@@ -35,13 +35,16 @@ class ContactScreen extends HookWidget {
                             color: Theme.of(context).backgroundColor),
                       ),
                       child: Center(
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: Theme.of(context).textTheme.bodyText2!.color,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 6.0),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                              color: Theme.of(context).textTheme.bodyText2!.color,
+                            ),
                           ),
                         ),
                       ),

@@ -296,7 +296,7 @@ class HomePage extends HookWidget {
                         ),
                       ),
                       Container(
-                        // padding: EdgeInsets.only(left: 30, right: 30),
+                        padding: EdgeInsets.only(left: 30, right: 30),
                         child: Column(
                           children: [
                             Container(
@@ -307,20 +307,16 @@ class HomePage extends HookWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 30),
-                                        child: Column(
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundImage: NetworkImage(
-                                                  "https://i.pinimg.com/originals/1e/2b/09/1e2b0958e83b682ee976afb3aeb77c47.jpg"),
-                                              backgroundColor: Colors.redAccent,
-                                              radius: 40,
-                                            ),
-                                            Text("Lukhnow"),
-                                          ],
-                                        ),
+                                      Column(
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                "https://i.pinimg.com/originals/1e/2b/09/1e2b0958e83b682ee976afb3aeb77c47.jpg"),
+                                            backgroundColor: Colors.redAccent,
+                                            radius: 40,
+                                          ),
+                                          Text("Lukhnow"),
+                                        ],
                                       ),
                                       SizedBox(
                                         width: 10,
@@ -375,7 +371,7 @@ class HomePage extends HookWidget {
                                             backgroundColor: Colors.redAccent,
                                             radius: 40,
                                           ),
-                                          Text("Kolkata"),
+                                          Text("Hyderabad"),
                                         ],
                                       )
                                     ],
@@ -394,19 +390,15 @@ class HomePage extends HookWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 30),
-                                        child: Column(
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundImage: NetworkImage(
-                                                  "https://media.istockphoto.com/photos/puratchi-thalaivar-dr-mgr-central-railway-stationchennai-central-picture-id1226340114?k=20&m=1226340114&s=612x612&w=0&h=Fb2w07580AHJoElti5zras-TbBkv4ePkMcCXqoGfYLc="),
-                                              radius: 40,
-                                            ),
-                                            Text("Chennai"),
-                                          ],
-                                        ),
+                                      Column(
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                "https://media.istockphoto.com/photos/puratchi-thalaivar-dr-mgr-central-railway-stationchennai-central-picture-id1226340114?k=20&m=1226340114&s=612x612&w=0&h=Fb2w07580AHJoElti5zras-TbBkv4ePkMcCXqoGfYLc="),
+                                            radius: 40,
+                                          ),
+                                          Text("Chennai"),
+                                        ],
                                       ),
                                       SizedBox(
                                         width: 10,
@@ -446,7 +438,7 @@ class HomePage extends HookWidget {
                                             backgroundColor: Colors.redAccent,
                                             radius: 40,
                                           ),
-                                          Text("Almorah"),
+                                          Text("Ludhiana"),
                                         ],
                                       ),
                                       SizedBox(

@@ -6,6 +6,7 @@ import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/pages/editprofile_page.dart';
 import 'package:gym_in/pages/user_page.dart';
 import 'package:gym_in/services/user_detail_service.dart';
+import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SettingPage extends HookWidget {
@@ -434,19 +435,7 @@ class SettingPage extends HookWidget {
                                 Theme.of(context).textTheme.bodyText2!.color),
                       ),
                       onTap: () {
-                        showModalBottomSheet(
-                            isDismissible: true,
-                            backgroundColor:
-                                Theme.of(context).scaffoldBackgroundColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(25)),
-                            ),
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            context: context,
-                            builder: (BuildContext buildContext) {
-                              return Container();
-                            });
+                        aShowToast(msg: "Coming Soon");
                       },
                     ),
                   ],

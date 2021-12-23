@@ -98,16 +98,19 @@ class ProductCartPage extends HookWidget {
                                       Theme.of(context).scaffoldBackgroundColor,
                                 ),
                                 child: Center(
-                                  child: IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: Icon(
-                                      Icons.arrow_back_ios,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2!
-                                          .color,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 4.0),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Icon(
+                                        Icons.arrow_back_ios,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2!
+                                            .color,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -167,11 +170,7 @@ class ProductCartPage extends HookWidget {
                             children: [
                               Container(
                                 child: Image.asset(
-                                  // "assets/img/empty-cart.gif",
-                                  // "assets/img/animation_cart.gif",
                                   "assets/img/animation_1.gif",
-                                  // "assets/img/animation_2.gif",
-                                  // "assets/img/animation_3.gif",
                                   height: 175.0,
                                   width: 150.0,
                                 ),
@@ -210,13 +209,16 @@ class ProductCartPage extends HookWidget {
                                   ),
                                 ),
                                 child: Center(
-                                  child: IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: Icon(
-                                      Icons.arrow_back_ios,
-                                      color: Theme.of(context).backgroundColor,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 4.0),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Icon(
+                                        Icons.arrow_back_ios,
+                                        color: Theme.of(context).backgroundColor,
+                                      ),
                                     ),
                                   ),
                                 ),

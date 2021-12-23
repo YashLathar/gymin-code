@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/pages/stopwatch_page.dart';
+import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:gym_in/widgets/topbar.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -27,7 +28,6 @@ class _ActivityPageState extends State<ActivityPage>
   ActivityEvent latestActivity = ActivityEvent.empty();
   final List<ActivityEvent> _events = [];
   ActivityRecognition activityRecognition = ActivityRecognition.instance;
-  final _isHours = true;
   final Duration fadeInDuration = Duration(milliseconds: 500);
   double progressDegrees = 0;
   late AnimationController _radialProgressAnimationController;
@@ -470,75 +470,80 @@ class _ActivityPageState extends State<ActivityPage>
                                 SizedBox(height: 10),
                                 Flexible(
                                   flex: 1,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20),
-                                          bottomLeft: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                        ),
-                                        color: Colors.grey[300]),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.only(left: 8),
-                                          alignment: Alignment.topLeft,
-                                          color: Colors.transparent,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 5, right: 0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      aShowToast(msg: "Coming Soon");
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20),
+                                            bottomLeft: Radius.circular(20),
+                                            bottomRight: Radius.circular(20),
+                                          ),
+                                          color: Colors.grey[300]),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.only(left: 8),
+                                            alignment: Alignment.topLeft,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 5, right: 0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Water',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20.0,
+                                                        color: Colors.grey[600]),
+                                                  ),
+                                                  IconButton(
+                                                      onPressed: () {},
+                                                      icon: Icon(Icons.add))
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            padding:
+                                                EdgeInsets.only(left: 8, top: 0),
+                                            alignment: Alignment.centerLeft,
                                             child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
                                               children: [
                                                 Text(
-                                                  'Water',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 20.0,
-                                                      color: Colors.grey[600]),
+                                                  "0",
+                                                  style:
+                                                      kSmallContentStyle.copyWith(
+                                                    color: Colors.black,
+                                                    fontSize: 18,
+                                                  ),
                                                 ),
-                                                IconButton(
-                                                    onPressed: () {},
-                                                    icon: Icon(Icons.add))
                                               ],
                                             ),
                                           ),
-                                        ),
-                                        Container(
-                                          padding:
-                                              EdgeInsets.only(left: 8, top: 0),
-                                          alignment: Alignment.centerLeft,
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                "0",
-                                                style:
-                                                    kSmallContentStyle.copyWith(
-                                                  color: Colors.black,
-                                                  fontSize: 18,
-                                                ),
+                                          Container(
+                                            padding: EdgeInsets.only(left: 8),
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              "Glasses",
+                                              style: kSmallContentStyle.copyWith(
+                                                color: Colors.grey[600],
+                                                fontSize: 18,
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.only(left: 8),
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            "Glasses",
-                                            style: kSmallContentStyle.copyWith(
-                                              color: Colors.grey[600],
-                                              fontSize: 18,
                                             ),
-                                          ),
-                                        )
-                                      ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -685,21 +690,14 @@ class _ActivityPageState extends State<ActivityPage>
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  TextButton(
-                                                    child: Text(
-                                                      'Timer',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 22.0,
-                                                          color:
-                                                              Colors.grey[600]),
-                                                    ),
-                                                    onPressed: () async {
-                                                      _stopWatchTimer.onExecute
-                                                          .add(StopWatchExecute
-                                                              .start);
-                                                    },
+                                                  Text(
+                                                    'Timer',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 22.0,
+                                                        color:
+                                                            Colors.grey[600]),
                                                   ),
                                                   // IconButton(
                                                   //   icon: Icon(Icons.play_arrow,
@@ -711,15 +709,10 @@ class _ActivityPageState extends State<ActivityPage>
                                                   //   },
                                                   // ),
                                                   IconButton(
-                                                    icon: Icon(
-                                                      Icons.pause,
-                                                    ),
-                                                    onPressed: () async {
-                                                      _stopWatchTimer.onExecute
-                                                          .add(StopWatchExecute
-                                                              .stop);
-                                                    },
-                                                  ),
+                                                      icon: Icon(
+                                                        Icons.play_arrow,
+                                                      ),
+                                                      onPressed: () {}),
                                                 ],
                                               ),
                                             ),
@@ -728,69 +721,11 @@ class _ActivityPageState extends State<ActivityPage>
                                             padding: EdgeInsets.only(
                                                 left: 15, top: 0),
                                             alignment: Alignment.centerLeft,
-                                            child: StreamBuilder<int>(
-                                              stream: _stopWatchTimer.rawTime,
-                                              initialData:
-                                                  _stopWatchTimer.rawTime.value,
-                                              builder: (context, snap) {
-                                                final value = snap.data!;
-                                                final displayTime =
-                                                    StopWatchTimer
-                                                        .getDisplayTime(value,
-                                                            hours: _isHours);
-                                                return Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              0),
-                                                      child: Text(
-                                                        displayTime,
-                                                        style: const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 18,
-                                                            fontFamily:
-                                                                'Helvetica',
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              0),
-                                                      child: Text(
-                                                        value.toString(),
-                                                        style: const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 16,
-                                                            fontFamily:
-                                                                'Helvetica',
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
+                                            child: Text(
+                                              "Tap here",
+                                              style: kSmallContentStyle
+                                                  .copyWith(fontSize: 15),
                                             ),
-                                            // Row(
-                                            //   children: [
-                                            //     Icon(
-                                            //       Icons.directions_walk,
-                                            //       size: 18,
-                                            //     ),
-                                            //     SizedBox(width: 8),
-                                            //     Text(
-                                            //       _status,
-                                            //       style: TextStyle(
-                                            //           fontSize: 20,
-                                            //           color: Colors.black),
-                                            //     ),
-                                            //   ],
-                                            // ),
                                           ),
                                           // Container(
                                           //   padding: EdgeInsets.only(left: 8),
@@ -821,75 +756,80 @@ class _ActivityPageState extends State<ActivityPage>
                                 SizedBox(height: 10),
                                 Flexible(
                                   flex: 1,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20),
-                                          bottomLeft: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                        ),
-                                        color: Colors.grey[300]),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.only(left: 8),
-                                          alignment: Alignment.topLeft,
-                                          color: Colors.transparent,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 16, right: 8),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      aShowToast(msg: "Coming Soon");
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20),
+                                            bottomLeft: Radius.circular(20),
+                                            bottomRight: Radius.circular(20),
+                                          ),
+                                          color: Colors.grey[300]),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.only(left: 8),
+                                            alignment: Alignment.topLeft,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 16, right: 8),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Sleep',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 22.0,
+                                                        color: Colors.grey[600]),
+                                                  ),
+                                                  Icon(FontAwesomeIcons.moon),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            padding:
+                                                EdgeInsets.only(left: 8, top: 15),
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              "10:15 PM",
+                                              style: kSmallContentStyle.copyWith(
+                                                color: Colors.black,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.only(left: 8),
+                                            alignment: Alignment.centerLeft,
                                             child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
                                               children: [
                                                 Text(
-                                                  'Sleep',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 22.0,
-                                                      color: Colors.grey[600]),
+                                                  "reminder",
+                                                  style:
+                                                      kSmallContentStyle.copyWith(
+                                                    color: Colors.grey[600],
+                                                    fontSize: 15,
+                                                  ),
                                                 ),
-                                                Icon(FontAwesomeIcons.moon),
+                                                Icon(
+                                                  Icons.alarm,
+                                                  size: 18,
+                                                )
                                               ],
                                             ),
-                                          ),
-                                        ),
-                                        Container(
-                                          padding:
-                                              EdgeInsets.only(left: 8, top: 15),
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            "10:15 PM",
-                                            style: kSmallContentStyle.copyWith(
-                                              color: Colors.black,
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.only(left: 8),
-                                          alignment: Alignment.centerLeft,
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                "reminder",
-                                                style:
-                                                    kSmallContentStyle.copyWith(
-                                                  color: Colors.grey[600],
-                                                  fontSize: 15,
-                                                ),
-                                              ),
-                                              Icon(
-                                                Icons.alarm,
-                                                size: 18,
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                      ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
