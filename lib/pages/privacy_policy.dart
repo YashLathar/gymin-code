@@ -10,17 +10,6 @@ class PrivacyPolicyPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final downloadedUrl = useState("");
-    void setDownloadUrl() async {
-      final url = await context.read(storageServiceProvider).getPrivacyUrl();
-
-      downloadedUrl.value = url!;
-    }
-
-    useEffect(() {
-      setDownloadUrl();
-      return () {};
-    });
     return Scaffold(
       body: SafeArea(
         child: Column(
