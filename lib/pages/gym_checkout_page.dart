@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:gym_in/custom_exception.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -13,7 +12,6 @@ import 'package:gym_in/services/orders_service.dart';
 import 'package:gym_in/widgets/reusable_button.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 enum Plans {
@@ -435,8 +433,8 @@ class GymCheckoutPage extends HookWidget {
                                                             selectionMode:
                                                                 DateRangePickerSelectionMode
                                                                     .single,
-                                                            backgroundColor:
-                                                                Colors.white,
+                                                            // backgroundColor:
+                                                            //     Colors.white,
                                                             showActionButtons:
                                                                 true,
                                                             onSelectionChanged:
@@ -575,8 +573,8 @@ class GymCheckoutPage extends HookWidget {
                                                             selectionMode:
                                                                 DateRangePickerSelectionMode
                                                                     .single,
-                                                            backgroundColor:
-                                                                Colors.white,
+                                                            // backgroundColor:
+                                                            //     Colors.white,
                                                             showActionButtons:
                                                                 true,
                                                             onSelectionChanged:
@@ -698,7 +696,6 @@ class GymCheckoutPage extends HookWidget {
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
-                            
                             Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -714,8 +711,7 @@ class GymCheckoutPage extends HookWidget {
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
-                                
-                                Row(
+                            Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -730,7 +726,7 @@ class GymCheckoutPage extends HookWidget {
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
-                                Row(
+                            Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
