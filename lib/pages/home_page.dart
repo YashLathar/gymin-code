@@ -73,7 +73,7 @@ class HomePage extends HookWidget {
                 )
               ],
               title: GestureDetector(
-                onTap: () {
+                onTap: () async {
                   _scrollController.animateTo(
                     0.0,
                     curve: Curves.easeOut,
