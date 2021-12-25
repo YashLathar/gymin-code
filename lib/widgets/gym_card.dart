@@ -7,7 +7,6 @@ import 'package:gym_in/models/gym.dart';
 import 'package:gym_in/services/favourites_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:like_button/like_button.dart';
-import 'package:flutter/cupertino.dart';
 
 class GymCard extends HookWidget {
   GymCard({

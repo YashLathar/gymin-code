@@ -1,9 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart' as http;
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/pages/booking_result.dart';
@@ -11,8 +14,7 @@ import 'package:gym_in/pages/time_selector_page.dart';
 import 'package:gym_in/services/orders_service.dart';
 import 'package:gym_in/widgets/reusable_button.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+// import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 enum Plans {
   hourly,
@@ -58,7 +60,6 @@ class GymCheckoutPage extends HookWidget {
     }
 
     // late Razorpay _razorpay;
-
     // Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
     //   // succeeds
 
@@ -445,13 +446,11 @@ class GymCheckoutPage extends HookWidget {
                                                                       .parse(value
                                                                           .value
                                                                           .toString()));
-
                                                               if (isVerified) {
                                                                 Navigator
                                                                     .pushReplacementNamed(
                                                                         context,
                                                                         "/timeSelectorPage");
-
                                                                 final formattetDate =
                                                                     DateTime.parse(value
                                                                         .value
@@ -555,6 +554,7 @@ class GymCheckoutPage extends HookWidget {
                                                         .read(
                                                             userselectedforhoursProvider)
                                                         .state = 1;
+
                                                     showDialog<Widget>(
                                                         barrierColor:
                                                             Colors.transparent,
@@ -573,8 +573,8 @@ class GymCheckoutPage extends HookWidget {
                                                             selectionMode:
                                                                 DateRangePickerSelectionMode
                                                                     .single,
-                                                            // backgroundColor:
-                                                            //     Colors.white,
+                                                            backgroundColor:
+                                                                Colors.white,
                                                             showActionButtons:
                                                                 true,
                                                             onSelectionChanged:
@@ -651,22 +651,6 @@ class GymCheckoutPage extends HookWidget {
                             ),
                             SizedBox(height: 20),
                             Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Selected Plan",
-                                    style: kSmallContentStyle.copyWith(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  Text(
-                                    "${context.read(userselectedforhoursProvider).state.toString()}" +
-                                        selected.value.toString(),
-                                    style: kSmallHeadingTextStyle,
-                                  ),
-                                ]),
-                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
@@ -686,13 +670,14 @@ class GymCheckoutPage extends HookWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "registration",
+                                    "Selected Plan",
                                     style: kSmallContentStyle.copyWith(
                                       color: Colors.grey,
                                     ),
                                   ),
                                   Text(
-                                    "400",
+                                    "${context.read(userselectedforhoursProvider).state.toString()}" +
+                                        selected.value.toString(),
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
@@ -701,43 +686,17 @@ class GymCheckoutPage extends HookWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Discount",
+                                    "Date",
                                     style: kSmallContentStyle.copyWith(
                                       color: Colors.grey,
                                     ),
                                   ),
                                   Text(
-                                    "-25% -200",
-                                    style: kSmallHeadingTextStyle,
-                                  ),
-                                ]),
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "per day",
-                                    style: kSmallContentStyle.copyWith(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  Text(
-                                    "22 rs",
-                                    style: kSmallHeadingTextStyle,
-                                  ),
-                                ]),
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Payable",
-                                    style: kSmallContentStyle.copyWith(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  Text(
-                                    "600",
+                                    context
+                                        .read(dateProvider)
+                                        .state
+                                        .day
+                                        .toString(),
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
@@ -773,14 +732,6 @@ class GymCheckoutPage extends HookWidget {
                           ),
                           child: MaterialButton(
                             onPressed: () async {
-                              // final formatprice = selectedPrice.state * 100;
-                              // openCheckout(
-                              //   name: gymcheckName,
-                              //   price: formatprice.toString(),
-                              //   description: gymcheckAddress,
-                              //   image: gymcheckPhoto,
-                              // );
-
                               await makePayment();
                             },
                             child: Text(

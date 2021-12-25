@@ -260,6 +260,7 @@ class SettingPage extends HookWidget {
                             context: context,
                             builder: (BuildContext buildContext) {
                               return CustomBottomSheet(
+                                isNumPad: true,
                                 controller: heightController,
                                 isNumPad: true,
                                 lable: "Height",
