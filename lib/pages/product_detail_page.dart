@@ -168,6 +168,8 @@ class ProductDetailPage extends HookWidget {
                                   child: IconButton(
                                     onPressed: () {
                                       showModalBottomSheet(
+                                          backgroundColor: Theme.of(context)
+                                              .scaffoldBackgroundColor,
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.vertical(
                                               top: Radius.circular(25),
@@ -180,8 +182,7 @@ class ProductDetailPage extends HookWidget {
                                     },
                                     icon: Icon(
                                       Icons.rate_review,
-                                      color: Theme.of(context)
-                                          .backgroundColor,
+                                      color: Theme.of(context).backgroundColor,
                                     ),
                                   ),
                                 ),
@@ -538,6 +539,7 @@ class ProductDetailPage extends HookWidget {
                                                         style:
                                                             kSmallContentStyle
                                                                 .copyWith(
+                                                                  color: Colors.black,
                                                           fontSize: 13,
                                                         ),
                                                       ),
@@ -999,6 +1001,7 @@ class _ReviewsPSheetState extends State<ReviewsPSheet> {
   int selectedValue1 = 0;
   int selectedValue2 = 0;
   int selectedValue3 = 0;
+  final feedbackController = TextEditingController();
 
   void onChange1(int value) {
     setState(() {
@@ -1022,7 +1025,7 @@ class _ReviewsPSheetState extends State<ReviewsPSheet> {
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
-      height: 300,
+      // height: 300,
       child: Stack(
         children: [
           Container(
@@ -1072,34 +1075,47 @@ class _ReviewsPSheetState extends State<ReviewsPSheet> {
                     onChange: onChange1,
                     initialValue: 4,
                   ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      selectedValue1.toString(),
-                      style: TextStyle(color: Colors.redAccent),
-                    ),
-                  ),
-                  // SizedBox(height: 20),
-                  // Text(
-                  //   'Your Experience of our Services?',
-                  //   style: TextStyle(color: Colors.black, fontSize: 18),
-                  // ),
-                  // SizedBox(height: 20),
-                  // ReviewSlider(
-                  //   optionStyle: TextStyle(
-                  //     color: Colors.black,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  //   onChange: onChange3,
-                  //   initialValue: 3,
-                  // ),
                   // Align(
                   //   alignment: Alignment.center,
                   //   child: Text(
-                  //     selectedValue3.toString(),
+                  //     selectedValue1.toString(),
                   //     style: TextStyle(color: Colors.redAccent),
                   //   ),
                   // ),
+                  SizedBox(height: 20),
+                  Container(
+                    margin: EdgeInsets.only(right: 15),
+                    child: TextField(
+                        controller: feedbackController,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 5,
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText2!.color),
+                        decoration: InputDecoration(
+                          // prefixIcon: Icon(Icons.text_fields,
+                          //     color:
+                          //         Theme.of(context).textTheme.bodyText2!.color),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).backgroundColor,
+                              width: 2,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: BorderSide(
+                              color: Colors.redAccent,
+                              width: 2,
+                            ),
+                          ),
+                          hintText: "Enter your Feedback",
+                          hintStyle: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color),
+                        ),
+                      ),
+                  ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
@@ -1107,6 +1123,9 @@ class _ReviewsPSheetState extends State<ReviewsPSheet> {
                         top: 5.0,
                       ),
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.redAccent
+                        ),
                         onPressed: () async {
                           setState(() {
                             buttonnotpressed = true;

@@ -868,6 +868,22 @@ class GymCheckoutPage extends HookWidget {
                             ),
                             SizedBox(height: 20),
                             Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Selected Plan",
+                                    style: kSmallContentStyle.copyWith(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${context.read(userselectedforhoursProvider).state.toString()}" +
+                                        selected.value.toString(),
+                                    style: kSmallHeadingTextStyle,
+                                  ),
+                                ]),
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
@@ -887,33 +903,60 @@ class GymCheckoutPage extends HookWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Selected Plan",
+                                    "registration",
                                     style: kSmallContentStyle.copyWith(
                                       color: Colors.grey,
                                     ),
                                   ),
                                   Text(
-                                    "${context.read(userselectedforhoursProvider).state.toString()}" +
-                                        selected.value.toString(),
+                                    "400",
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
+                            
                             Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Date",
+                                    "Discount",
                                     style: kSmallContentStyle.copyWith(
                                       color: Colors.grey,
                                     ),
                                   ),
                                   Text(
-                                    context
-                                        .read(dateProvider)
-                                        .state
-                                        .day
-                                        .toString(),
+                                    "-25% -200",
+                                    style: kSmallHeadingTextStyle,
+                                  ),
+                                ]),
+                                
+                                Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "per day",
+                                    style: kSmallContentStyle.copyWith(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text(
+                                    "22 rs",
+                                    style: kSmallHeadingTextStyle,
+                                  ),
+                                ]),
+                                Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Payable",
+                                    style: kSmallContentStyle.copyWith(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text(
+                                    "600",
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),

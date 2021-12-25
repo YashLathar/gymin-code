@@ -11,6 +11,7 @@ import 'package:gym_in/pages/authenticate_ticket.dart';
 import 'package:gym_in/pages/contact_page.dart';
 import 'package:gym_in/pages/feedback_form.dart';
 import 'package:gym_in/pages/login_page.dart';
+import 'package:gym_in/pages/privacy_policy.dart';
 import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/pages/home_page.dart';
 import 'package:gym_in/pages/trainers_page.dart';
@@ -287,7 +288,11 @@ class HomeScreen extends HookWidget {
                     style: TextStyle(
                         color: Theme.of(context).textTheme.bodyText2!.color),
                   ),
-                  onTap: () => null,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PrivacyPolicyPage(),
+                    ),),
                 ),
                 ListTile(
                     title: Text(
