@@ -724,7 +724,9 @@ class _ActivityPageState extends State<ActivityPage>
                                             child: Text(
                                               "Tap here",
                                               style: kSmallContentStyle
-                                                  .copyWith(fontSize: 15),
+                                                  .copyWith(fontSize: 15,
+                                                  color: Colors.black
+                                                  ),
                                             ),
                                           ),
                                           // Container(
