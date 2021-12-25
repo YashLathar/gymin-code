@@ -179,6 +179,7 @@ class SettingPage extends HookWidget {
                             context: context,
                             builder: (BuildContext buildContext) {
                               return CustomBottomSheet(
+                                isNumPad: true,
                                 lable: "Phone",
                                 bottomLable: "How should we contact you?",
                                 controller: phoneController,
@@ -219,6 +220,7 @@ class SettingPage extends HookWidget {
                             context: context,
                             builder: (BuildContext buildContext) {
                               return CustomBottomSheet(
+                                isNumPad: true,
                                 lable: "Age",
                                 bottomLable: "What's your age?",
                                 controller: ageController,
@@ -258,6 +260,7 @@ class SettingPage extends HookWidget {
                             builder: (BuildContext buildContext) {
                               return CustomBottomSheet(
                                 controller: heightController,
+                                isNumPad: true,
                                 lable: "Height",
                                 bottomLable: "What's your height?",
                                 onTap: () async {
@@ -296,6 +299,7 @@ class SettingPage extends HookWidget {
                             context: context,
                             builder: (BuildContext buildContext) {
                               return CustomBottomSheet(
+                                isNumPad: true,
                                 controller: weightController,
                                 lable: "Weight",
                                 bottomLable: "How fat are you?",
@@ -335,6 +339,7 @@ class SettingPage extends HookWidget {
                             context: context,
                             builder: (BuildContext buildContext) {
                               return CustomBottomSheet(
+                                isNumPad: false,
                                 controller: aboutController,
                                 lable: "About",
                                 bottomLable: "Something about yourself",
@@ -372,6 +377,7 @@ class SettingPage extends HookWidget {
                             context: context,
                             builder: (BuildContext buildContext) {
                               return CustomBottomSheet(
+                                isNumPad: false,
                                 controller: bioController,
                                 lable: "Bio",
                                 bottomLable: "Your Bio",
@@ -409,6 +415,7 @@ class SettingPage extends HookWidget {
                             context: context,
                             builder: (BuildContext buildContext) {
                               return CustomBottomSheet(
+                                isNumPad: false,
                                 controller: addressController,
                                 lable: "Address",
                                 bottomLable: "Your Address",
@@ -469,12 +476,14 @@ class CustomBottomSheet extends HookWidget {
     required this.lable,
     required this.bottomLable,
     required this.controller,
+    required this.isNumPad,
   }) : super(key: key);
 
   final Function onTap;
   final String lable;
   final TextEditingController controller;
   final String bottomLable;
+  final bool isNumPad;
 
   @override
   Widget build(BuildContext context) {
@@ -530,6 +539,9 @@ class CustomBottomSheet extends HookWidget {
                         ),
                         child: TextField(
                           controller: controller,
+                          keyboardType: isNumPad
+                              ? TextInputType.phone
+                              : TextInputType.text,
                           style: TextStyle(
                               color:
                                   Theme.of(context).textTheme.bodyText2!.color),

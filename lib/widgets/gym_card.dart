@@ -146,12 +146,8 @@ class GymCard extends HookWidget {
                   gymName,
                   style: kLoginPageSubHeadingTextStyle.copyWith(
                     color: Theme.of(context).textTheme.bodyText2!.color,
-                    fontSize: 27,
+                    fontSize: 25,
                   ),
-                ),
-                Text(
-                  gymaddress,
-                  style: TextStyle(fontSize: 15),
                 ),
                 SizedBox(
                   height: 10,

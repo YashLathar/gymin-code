@@ -19,9 +19,11 @@ class _TrainerZoneState extends State<TrainerZone> {
         .where("isTrainer", isEqualTo: true)
         .get();
 
-    setState(() {
-      adminList = userFromUsersCollection.docs;
-    });
+    if (userFromUsersCollection.docs.isNotEmpty) {
+      setState(() {
+        adminList = userFromUsersCollection.docs;
+      });
+    }
   }
 
   @override
