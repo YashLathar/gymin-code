@@ -63,7 +63,8 @@ class _TrainerZoneState extends State<TrainerZone> {
                             },
                             icon: Icon(
                               Icons.arrow_back_ios,
-                              color: Theme.of(context).textTheme.bodyText2!.color,
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color,
                             ),
                           ),
                         ),
@@ -106,22 +107,25 @@ class _TrainerZoneState extends State<TrainerZone> {
                 child: ListView(
                   children: adminList.map((data) {
                     return ListTile(
-                      leading: Icon(
-                        Icons.verified_user,
-                        color: Colors.redAccent,
-                      ),
-                      title: Text(
-                        data['bio'],
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).textTheme.bodyText2!.color),
-                      ),
-                      subtitle: Text("Tap here to chat to admin"),
-                      trailing: Icon(
-                        Icons.chat,
-                        color: Colors.redAccent,
-                      ),
-                    );
+                        leading: Container(
+                          width: 70,
+                          child: Image.network(data['userPhoto']),
+                        ),
+                        title: Text(
+                          data['userName'],
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color),
+                        ),
+                        subtitle: Text(
+                          data['address'],
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color),
+                        ),
+                        trailing: CircleAvatar(
+                          child: Image.asset("assets/img/instagram.png"),
+                        ));
                   }).toList(),
                 ),
               ),

@@ -14,7 +14,6 @@ import 'package:gym_in/pages/time_selector_page.dart';
 import 'package:gym_in/services/orders_service.dart';
 import 'package:gym_in/widgets/reusable_button.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
-// import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 enum Plans {
   hourly,
@@ -30,12 +29,15 @@ final dateProvider = StateProvider<DateTime>((ref) {
 
 class GymCheckoutPage extends HookWidget {
   final String gymcheckId, gymcheckPhoto, gymcheckName, gymcheckAddress;
+  final int hourlyPrice, monthlyPrice;
   const GymCheckoutPage({
     Key? key,
     required this.gymcheckId,
     required this.gymcheckName,
     required this.gymcheckPhoto,
     required this.gymcheckAddress,
+    required this.monthlyPrice,
+    required this.hourlyPrice,
   }) : super(key: key);
 
   @override
@@ -176,16 +178,19 @@ class GymCheckoutPage extends HookWidget {
                                     color: Theme.of(context).backgroundColor),
                               ),
                               child: Center(
-                                child: IconButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  icon: Icon(
-                                    Icons.arrow_back_ios,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2!
-                                        .color,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 6.0),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    icon: Icon(
+                                      Icons.arrow_back_ios,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -358,8 +363,8 @@ class GymCheckoutPage extends HookWidget {
                                                             selectionMode:
                                                                 DateRangePickerSelectionMode
                                                                     .single,
-                                                            // backgroundColor:
-                                                            //     Colors.white,
+                                                            backgroundColor:
+                                                                Colors.white,
                                                             showActionButtons:
                                                                 true,
                                                             onSelectionChanged:
