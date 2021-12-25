@@ -277,33 +277,12 @@ class GymPage extends HookWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  gymaddress,
-                                  style: kLoginPageSubHeadingTextStyle.copyWith(
-                                    fontSize: 18,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2!
-                                        .color,
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.location_pin,
-                                  color: Colors.redAccent,
-                                ),
-                              ],
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.directions),
-                              onPressed: () {},
-                              color: Colors.lightBlueAccent,
-                            ),
-                          ],
+                        child: Text(
+                          gymaddress,
+                          style: kLoginPageSubHeadingTextStyle.copyWith(
+                            fontSize: 18,
+                            color: Theme.of(context).textTheme.bodyText2!.color,
+                          ),
                         ),
                       ),
                       Divider(

@@ -221,7 +221,7 @@ class HomePage extends HookWidget {
                         ),
                       ),
                       Container(
-                        height: 350,
+                        height: 310,
                         width: double.infinity,
                         margin: EdgeInsets.only(left: 5),
                         child: ListView(
@@ -274,8 +274,8 @@ class HomePage extends HookWidget {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(
-                            left: 25, right: 25, top: 10, bottom: 30),
+                        margin:
+                            EdgeInsets.only(left: 25, right: 25, bottom: 30),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
