@@ -84,7 +84,8 @@ class PrivacyPolicyPage extends HookWidget {
               ),
             ),
             Container(
-              child: SfPdfViewer.network(downloadedUrl.value ?? 'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'),
+              child: SfPdfViewer.network(
+                  'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'),
             ),
           ],
         ),
