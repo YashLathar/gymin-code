@@ -11,6 +11,16 @@ class PrivacyPolicyPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final downloadedUrl = useState("");
+    void setDownloadUrl() async {
+      final url = await context.read(storageServiceProvider).getPrivacyUrl();
+
+      downloadedUrl.value = url!;
+    }
+
+    useEffect(() {
+      setDownloadUrl();
+      return () {};
+    });
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -61,21 +71,15 @@ class PrivacyPolicyPage extends HookWidget {
                       borderRadius: BorderRadius.circular(35),
                       border: Border.all(
                         width: 2.0,
-                        color: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                       ),
                     ),
                     child: Center(
                       child: IconButton(
-                        onPressed: () async {
-                          final url = await context
-                              .read(storageServiceProvider)
-                              .getPrivacyUrl();
-
-                          downloadedUrl.value = url!;
-                        },
+                        onPressed: () {},
                         icon: Icon(
                           Icons.download,
-                          color: Theme.of(context).backgroundColor,
+                          color: Theme.of(context).scaffoldBackgroundColor,
                         ),
                       ),
                     ),
@@ -83,8 +87,11 @@ class PrivacyPolicyPage extends HookWidget {
                 ],
               ),
             ),
-            Container(
-              child: SfPdfViewer.network(downloadedUrl.value ?? 'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'),
+            Expanded(
+              child: Container(
+                child: SfPdfViewer.network(
+                    "https://firebasestorage.googleapis.com/v0/b/gym-in-14938.appspot.com/o/privacypolicy%2FprivacyPolicy.pdf?alt=media&token=067afd94-6559-48aa-a872-e1fd3c5288f3"),
+              ),
             ),
           ],
         ),

@@ -575,21 +575,6 @@ class GymCheckoutPage extends HookWidget {
                             ),
                             SizedBox(height: 20),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Total Amount",
-                                  style: kSmallContentStyle.copyWith(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                Text(
-                                  "₹ ${selectedPrice.state.toString()}.99",
-                                  style: kSmallHeadingTextStyle,
-                                ),
-                              ],
-                            ),
-                            Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -605,6 +590,22 @@ class GymCheckoutPage extends HookWidget {
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Total Amount",
+                                  style: kSmallContentStyle.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Text(
+                                  "₹ 600",
+                                  style: kSmallHeadingTextStyle,
+                                ),
+                              ],
+                            ),
+                            
                             Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -624,7 +625,7 @@ class GymCheckoutPage extends HookWidget {
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
-                            selected.value == Plans.hourly
+                                selected.value == Plans.hourly
                                 ? Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -641,6 +642,67 @@ class GymCheckoutPage extends HookWidget {
                                         ),
                                       ])
                                 : Container(),
+                                Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Registration",
+                                  style: kSmallContentStyle.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Text(
+                                  "₹ 400",
+                                  style: kSmallHeadingTextStyle,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Discount(25%)",
+                                  style: kSmallContentStyle.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Text(
+                                  "₹ 150",
+                                  style: kSmallHeadingTextStyle,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Processing fees(3%)",
+                                  style: kSmallContentStyle.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Text(
+                                  "₹ 18",
+                                  style: kSmallHeadingTextStyle,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Payable",
+                                  style: kSmallContentStyle.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Text(
+                                  "₹ ${selectedPrice.state.toString()}.99",
+                                  style: kSmallHeadingTextStyle,
+                                ),
+                              ],
+                            ),
+                            
                           ],
                         ),
                       ),
