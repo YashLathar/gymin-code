@@ -1,9 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:gym_in/constants.dart';
+import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
 import 'package:gym_in/widgets/cart_product.dart';
+import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart' as http;
+
+final validatingPinProvider = StateProvider<bool>((ref) {
+  return false;
+});
 
 class ProductCartPage extends HookWidget {
   ProductCartPage({
@@ -13,66 +23,107 @@ class ProductCartPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final cartControllerProvider = useProvider(cartProvider);
-    // print(cartControllerProvider.products);
+    final pincodeValidator = useProvider(validatingPinProvider);
+    final user = useProvider(authControllerProvider);
+    final paymentIntentData = useState({});
+    final pincodeController = useTextEditingController();
     Size size = MediaQuery.of(context).size;
 
-    // late Razorpay _razorpay;
-    // Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    //   // succeeds
-    //   showDialog(
-    //       context: context,
-    //       builder: (context) {
-    //         return PlacedOrderScreen();
-    //       });
-    // }
-    // void _handlePaymentError(PaymentFailureResponse response) {
-    //   // Do something when payment fails
-    //   showDialog(
-    //       context: context,
-    //       builder: (context) {
-    //         return SimpleDialog(
-    //           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-    //           title: Text(
-    //             "Order Failed",
-    //             style: TextStyle(
-    //                 color: Theme.of(context).textTheme.bodyText2!.color),
-    //           ),
-    //         );
-    //       });
-    // }
-    // void _handleExternalWallet(ExternalWalletResponse response) {
-    //   // Do something when an external wallet is selected
-    // }
+        Future<void> displayPaymentSheet() async {
+      try {
+        await Stripe.instance.presentPaymentSheet(
+          // ignore: deprecated_member_use
+          parameters: PresentPaymentSheetParameters(
+            clientSecret: paymentIntentData.value["paymentIntent"],
+            confirmPayment: true,
+          ),
+        );
 
-    // useEffect(() {
-    //   _razorpay = Razorpay();
-    //   _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    //   _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    //   _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-    //   return () {
-    //     _razorpay.clear();
-    //   };
-    // });
+        paymentIntentData.value = {};
 
-    // void openCheckout(
-    //     {String? name,
-    //     String? description,
-    //     String? price,
-    //     String? image}) async {
-    //   var options = {
-    //     'key': 'rzp_test_8NBNETBLt7d5Bg',
-    //     'amount': price,
-    //     'name': name,
-    //     'description': description,
-    //     'image': image,
-    //     'prefill': {'contact': '8979642723', 'email': 'test@pay.com'},
-    //   };
-    //   _razorpay.open(options);
-    // }
+        // final doc = await context.read(ordersServiceProvider).addToOrders(
+        //       gymcheckName,
+        //       gymcheckPhoto,
+        //       fromTime,
+        //       toTime,
+        //       selected.value.toString(),
+        //       context.read(dateProvider).state.day.toString(),
+        //       context,
+        //     );
 
-    return Material(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: SafeArea(
+        showDialog(
+          context: context,
+          builder: (context) {
+            return Container(
+              height: 100,
+              width: 100,
+            );
+        //     QrResultScreen(
+        //       gymName: gymcheckName,
+        //       gymPhoto: gymcheckPhoto,
+        //       userName: user!.displayName,
+        //       userImage: user.photoURL,
+        //       fromDate: context.read(dateProvider).state.day.toString(),
+        //       fromTime: context.read(userSelectedFromTimeProvider).state,
+        //       planSelected: selected.value.toString(),
+        //       docId: doc.id,
+        //     );
+          },
+        );
+        aShowToast(msg: "Payment Successful");
+      } catch (e) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return SimpleDialog(
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  title: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Text(
+                      "Payment Failed",
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2!.color),
+                    ),
+                  ));
+            });
+      }
+    }
+
+    Future<void> makePayment() async {
+      final formattedPrice = cartControllerProvider.totalPrice * 100;
+      var url = Uri.parse(
+          "https://us-central1-gym-in-14938.cloudfunctions.net/stripePayment");
+      final response = await http.post(
+        url,
+        body: jsonEncode({
+          "total": formattedPrice,
+          "email": user!.email,
+        }),
+        headers: {"Content-Type": "application/json"},
+      );
+
+      paymentIntentData.value = json.decode(response.body);
+
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret: paymentIntentData.value["paymentIntent"],
+          applePay: true,
+          googlePay: true,
+          style: ThemeMode.light,
+          merchantCountryCode: "IN",
+          merchantDisplayName: "Beyonder",
+          billingDetails: BillingDetails(
+            email: user.email,
+          ),
+        ),
+      );
+
+      displayPaymentSheet();
+    }
+
+
+    return Scaffold(
+      body: SafeArea(
         child: Stack(
           children: [
             Container(
@@ -188,7 +239,7 @@ class ProductCartPage extends HookWidget {
                         ),
                       ],
                     )
-                  : Column(
+                  : ListView(
                       children: [
                         Container(
                           color: Theme.of(context).scaffoldBackgroundColor,
@@ -217,7 +268,8 @@ class ProductCartPage extends HookWidget {
                                       },
                                       icon: Icon(
                                         Icons.arrow_back_ios,
-                                        color: Theme.of(context).backgroundColor,
+                                        color:
+                                            Theme.of(context).backgroundColor,
                                       ),
                                     ),
                                   ),
@@ -312,18 +364,53 @@ class ProductCartPage extends HookWidget {
                       color: Theme.of(context).scaffoldBackgroundColor,
                       height: size.height / 3.5,
                       width: size.width,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: ListView(
                         children: [
                           Container(
-                            padding: EdgeInsets.fromLTRB(12, 0, 12, 12),
-                            child: Text(
-                              "Order Info",
-                              style: kSubHeadingStyle.copyWith(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2!
-                                      .color),
+                            padding: EdgeInsets.fromLTRB(12, 0, 0, 12),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Order Info",
+                                  style: kSubHeadingStyle.copyWith(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .color),
+                                ),
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        showModalBottomSheet(
+                                            isDismissible: true,
+                                            backgroundColor: Theme.of(context)
+                                                .scaffoldBackgroundColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top: Radius.circular(25)),
+                                            ),
+                                            clipBehavior:
+                                                Clip.antiAliasWithSaveLayer,
+                                            context: context,
+                                            builder:
+                                                (BuildContext buildContext) {
+                                              return PincodeCheck(controller: pincodeController,);
+                                            });
+                                      },
+                                      child: Text(
+                                        "Check Pincode",
+                                        style: kSmallContentStyle.copyWith(
+                                          fontSize: 15,
+                                          color: pincodeValidator.state ? Colors.green : Colors.redAccent,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
                             ),
                           ),
                           Container(
@@ -417,7 +504,12 @@ class ProductCartPage extends HookWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: MaterialButton(
-                              onPressed: () {
+                              onPressed: () async {
+                                if (pincodeValidator.state) {
+                                  await makePayment() ;
+                                } else {
+                                  aShowToast(msg: "Unauthenticated Pin Code");
+                                }
                                 // if (cartControllerProvider
                                 //     .products.isNotEmpty) {
                                 //   final formatprice =
@@ -463,19 +555,139 @@ class ProductCartPage extends HookWidget {
   }
 }
 
+class PincodeCheck extends StatelessWidget {
+  const PincodeCheck({ Key? key,
+  required this.controller,
+   }) : super(key: key);
 
+final TextEditingController controller;
 
-                    // Container(
-                    //   margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                    //   decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.circular(15),
-                    //       color: Colors.white),
-                    //   height: 50,
-                    //   width: MediaQuery.of(context).size.width,
-                    //   child: Center(
-                    //     child: Text(
-                    //       "Try Adding some Products",
-                    //       style: kSmallContentStyle,
-                    //     ),
-                    //   ),
-                    // ),
+  @override
+  Widget build(BuildContext context) {
+
+    bool validatePincode(String pincode){
+    
+     if(pincode == "244001"){
+       aShowToast(msg: "you can proceed to check out");
+        return true;
+      }else if(pincode.length > 6){
+        aShowToast(msg: "invalid pin code");
+        return false;
+      }else if(pincode.length < 6){
+        aShowToast(msg: "invalid pin code");
+        return false;
+      }
+      else {
+        aShowToast(msg: "invalid pin code");
+        return false;
+      }
+    }
+
+    return Container(
+      child: ListView(
+              physics: ClampingScrollPhysics(),
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Icon(Icons.drag_handle,
+                      color: Theme.of(context).backgroundColor),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 50,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Check Authenticity',
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2!.color),
+                    ),
+                    Spacer(),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: Icon(Icons.cancel),
+                      color: Theme.of(context).textTheme.bodyText2!.color,
+                      iconSize: 25,
+                      //label: Text("Cancel")
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          right: 15.0,
+                        ),
+                        child: TextField(
+                          controller: controller,
+                          keyboardType: TextInputType.phone,
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color),
+                          decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).backgroundColor,
+                                width: 2,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                color: Colors.redAccent, //0xffF14C37
+                                width: 2,
+                              ),
+                            ),
+                            hintText: "Enter Your Pincode",
+                            hintStyle: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color),
+                            helperText: 'Pincode',
+                            helperStyle: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .color),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          30, 30, 30, MediaQuery.of(context).viewInsets.bottom),
+                      child: MaterialButton(
+                        color: Colors.redAccent,
+                        child: Text(
+                          "Update",
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color),
+                        ),
+                        onPressed: ()  {
+                          if(controller.text.isNotEmpty){
+                         final validator =   validatePincode(controller.text);
+                         context.read(validatingPinProvider).state = validator;
+                         Navigator.pop(context);
+                          }
+                        },
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+    );
+  }
+}

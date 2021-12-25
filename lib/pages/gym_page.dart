@@ -15,6 +15,7 @@ import 'package:like_button/like_button.dart';
 class GymPage extends HookWidget {
   final bool gymopen, traineravailable;
   final List gymphotos;
+  final int monthlyPrice, hourlyPrice;
   final String gymId,
       gymName,
       gymPhoto,
@@ -35,6 +36,8 @@ class GymPage extends HookWidget {
     required this.trainerphoto,
     required this.trainerrating,
     required this.traineravailable,
+    required this.hourlyPrice,
+    required this.monthlyPrice,
   });
 
   @override
@@ -612,6 +615,8 @@ class GymPage extends HookWidget {
                           gymcheckPhoto: gymPhoto,
                           gymcheckId: gymId,
                           gymcheckAddress: gymaddress,
+                          hourlyPrice: hourlyPrice,
+                          monthlyPrice: monthlyPrice,
                         ),
                       ),
                     );

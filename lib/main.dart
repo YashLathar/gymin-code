@@ -7,7 +7,6 @@ import 'package:gym_in/home_screen.dart';
 import 'package:gym_in/pages/activity_page.dart';
 import 'package:gym_in/pages/chat_page.dart';
 import 'package:gym_in/pages/feeds_page.dart';
-import 'package:gym_in/pages/gymlist_page.dart';
 import 'package:gym_in/pages/orders_page.dart';
 import 'package:gym_in/pages/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -92,10 +91,10 @@ class MyApp extends HookWidget {
           case "/ordersPage":
             return MaterialPageRoute(builder: (_) => OrdersPage());
 
-          case "/gymListPage":
-            return MaterialPageRoute(
-              builder: (_) => GymListPage(),
-            );
+          // case "/gymListPage":
+          //   return MaterialPageRoute(
+          //     builder: (_) => GymListPage(),
+          //   );
 
           case "/videoInfoPage":
             return MaterialPageRoute(

@@ -133,7 +133,7 @@ class _ActivityPageState extends State<ActivityPage>
   void onStepCountError(error) {
     print('onStepCountError: $error');
     setState(() {
-      _steps = 404;
+      _steps = 0;
     });
   }
 
@@ -172,7 +172,9 @@ class _ActivityPageState extends State<ActivityPage>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          aShowToast(msg: "coming soon");
+                        },
                         icon: Icon(Icons.arrow_back_ios_rounded),
                       ),
                       Row(
@@ -201,7 +203,9 @@ class _ActivityPageState extends State<ActivityPage>
                         ],
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          aShowToast(msg: "coming soon");
+                        },
                         icon: Icon(Icons.arrow_forward_ios_rounded),
                       ),
                     ],

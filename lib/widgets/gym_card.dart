@@ -61,7 +61,7 @@ class GymCard extends HookWidget {
 
         favGymsController.addGymToFav(gym);
 
-        Fluttertoast.showToast(msg: "Added to Favourites");
+        Fluttertoast.showToast(msg: "Added to Favourites");  
         return isLiked = true;
       } else {
         Fluttertoast.showToast(msg: "Already in Favourites");
