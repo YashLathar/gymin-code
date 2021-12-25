@@ -1,5 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart' as http;
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/pages/booking_result.dart';
@@ -7,9 +14,6 @@ import 'package:gym_in/pages/time_selector_page.dart';
 import 'package:gym_in/services/orders_service.dart';
 import 'package:gym_in/widgets/reusable_button.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 enum Plans {
   hourly,
@@ -42,6 +46,8 @@ class GymCheckoutPage extends HookWidget {
     final selected = useState(Plans.hourly);
     final today = DateTime.now();
     Size size = MediaQuery.of(context).size;
+    final paymentIntentData = useState({});
+    final monthDateSelector = useState(DateTime.now());
 
     bool isValidDate(DateTime date) {
       final todayDate = DateTime.now();
@@ -52,81 +58,92 @@ class GymCheckoutPage extends HookWidget {
       }
     }
 
-    late Razorpay _razorpay;
+    Future<void> displayPaymentSheet() async {
+      try {
+        await Stripe.instance.presentPaymentSheet(
+          // ignore: deprecated_member_use
+          parameters: PresentPaymentSheetParameters(
+            clientSecret: paymentIntentData.value["paymentIntent"],
+            confirmPayment: true,
+          ),
+        );
 
-    Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
-      // succeeds
+        paymentIntentData.value = {};
 
-      final doc = await context.read(ordersServiceProvider).addToOrders(
-            gymcheckName,
-            gymcheckPhoto,
-            fromTime,
-            toTime,
-            selected.value.toString(),
-            context.read(dateProvider).state.day.toString(),
-            context,
-          );
+        final doc = await context.read(ordersServiceProvider).addToOrders(
+              gymcheckName,
+              gymcheckPhoto,
+              fromTime,
+              toTime,
+              selected.value.toString(),
+              context.read(dateProvider).state.day.toString(),
+              context,
+            );
 
-      showDialog(
-        context: context,
-        builder: (context) {
-          return QrResultScreen(
-            gymName: gymcheckName,
-            gymPhoto: gymcheckPhoto,
-            userName: user!.displayName,
-            userImage: user.photoURL,
-            fromDate: context.read(dateProvider).state.day.toString(),
-            fromTime: context.read(userSelectedFromTimeProvider).state,
-            planSelected: selected.value.toString(),
-            docId: doc.id,
-          );
-        },
-      );
-    }
-
-    void _handlePaymentError(PaymentFailureResponse response) {
-      // Do something when payment fails
-      showDialog(
+        showDialog(
           context: context,
           builder: (context) {
-            return SimpleDialog(
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                title: Text(
-                  "Payment Failed",
-                  style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyText2!.color),
-                ));
-          });
+            return QrResultScreen(
+              gymName: gymcheckName,
+              gymPhoto: gymcheckPhoto,
+              userName: user!.displayName,
+              userImage: user.photoURL,
+              fromDate: context.read(dateProvider).state.day.toString(),
+              fromTime: context.read(userSelectedFromTimeProvider).state,
+              planSelected: selected.value.toString(),
+              docId: doc.id,
+            );
+          },
+        );
+        aShowToast(msg: "Payment Successful");
+      } catch (e) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return SimpleDialog(
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  title: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Text(
+                      "Payment Failed",
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2!.color),
+                    ),
+                  ));
+            });
+      }
     }
 
-    void _handleExternalWallet(ExternalWalletResponse response) {
-      // Do something when an external wallet is selected
-    }
+    Future<void> makePayment() async {
+      final price = selectedPrice.state * 100;
+      var url = Uri.parse(
+          "https://us-central1-gym-in-14938.cloudfunctions.net/stripePayment");
+      final response = await http.post(
+        url,
+        body: jsonEncode({
+          "total": price,
+          "email": user!.email,
+        }),
+        headers: {"Content-Type": "application/json"},
+      );
 
-    useEffect(() {
-      _razorpay = Razorpay();
-      _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-      _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-      _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-      return () {
-        _razorpay.clear();
-      };
-    });
+      paymentIntentData.value = json.decode(response.body);
 
-    void openCheckout(
-        {String? name,
-        String? description,
-        String? price,
-        String? image}) async {
-      var options = {
-        'key': 'rzp_test_8NBNETBLt7d5Bg',
-        'amount': price,
-        'name': name,
-        'description': description,
-        'image': image,
-        'prefill': {'contact': '8979642723', 'email': 'test@pay.com'},
-      };
-      _razorpay.open(options);
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret: paymentIntentData.value["paymentIntent"],
+          applePay: true,
+          googlePay: true,
+          style: ThemeMode.light,
+          merchantCountryCode: "IN",
+          merchantDisplayName: "Beyonder",
+          billingDetails: BillingDetails(
+            email: user.email,
+          ),
+        ),
+      );
+
+      displayPaymentSheet();
     }
 
     return Material(
@@ -479,117 +496,6 @@ class GymCheckoutPage extends HookWidget {
                                                             ),
                                                             selectionMode:
                                                                 DateRangePickerSelectionMode
-                                                                    .range,
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            showActionButtons:
-                                                                true,
-                                                            onSubmit:
-                                                                (Object value) {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            onCancel: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                          );
-                                                        });
-                                                  },
-                                                  child: Icon(
-                                                    Icons.calendar_today,
-                                                    size: 35,
-                                                  ),
-                                                )
-                                              : Text(
-                                                  "₹" + "697",
-                                                  style:
-                                                      kSubHeadingStyle.copyWith(
-                                                          color: Colors.black),
-                                                ),
-                                        ],
-                                      ),
-                                      borderColor:
-                                          selected.value == Plans.monthly
-                                              ? Colors.redAccent
-                                              : Color(0xffF2F2F2),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      selected.value = Plans.quarterly;
-                                      selectedPrice.state = 997;
-                                    },
-                                    child: ResuableButton(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          selected.value == Plans.quarterly
-                                              ? Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "Quarterly",
-                                                      style:
-                                                          kSmallHeadingTextStyle
-                                                              .copyWith(
-                                                                  color: Colors
-                                                                      .black),
-                                                    ),
-                                                    Text(
-                                                      "₹" + "997",
-                                                      style: kSubHeadingStyle
-                                                          .copyWith(
-                                                              color:
-                                                                  Colors.black),
-                                                    ),
-                                                  ],
-                                                )
-                                              : Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "Quartely",
-                                                      style:
-                                                          kSmallHeadingTextStyle
-                                                              .copyWith(
-                                                                  color: Colors
-                                                                      .black),
-                                                    ),
-                                                  ],
-                                                ),
-                                          selected.value == Plans.quarterly
-                                              ? InkWell(
-                                                  onTap: () {
-                                                    showDialog<Widget>(
-                                                        barrierColor:
-                                                            Colors.transparent,
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return SfDateRangePicker(
-                                                            initialSelectedRange:
-                                                                PickerDateRange(
-                                                              today,
-                                                              today.add(
-                                                                Duration(
-                                                                    days: 30),
-                                                              ),
-                                                            ),
-                                                            selectionMode:
-                                                                DateRangePickerSelectionMode
                                                                     .single,
                                                             backgroundColor:
                                                                 Colors.white,
@@ -913,7 +819,6 @@ class GymCheckoutPage extends HookWidget {
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
-                            
                             Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -929,8 +834,7 @@ class GymCheckoutPage extends HookWidget {
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
-                                
-                                Row(
+                            Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -945,7 +849,7 @@ class GymCheckoutPage extends HookWidget {
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
-                                Row(
+                            Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -991,14 +895,8 @@ class GymCheckoutPage extends HookWidget {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: MaterialButton(
-                            onPressed: () {
-                              final formatprice = selectedPrice.state * 100;
-                              openCheckout(
-                                name: gymcheckName,
-                                price: formatprice.toString(),
-                                description: gymcheckAddress,
-                                image: gymcheckPhoto,
-                              );
+                            onPressed: () async {
+                              await makePayment();
                             },
                             child: Text(
                               "Checkout (₹ ${selectedPrice.state.toString()}.99)",

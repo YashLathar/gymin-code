@@ -259,28 +259,20 @@ class GymPage extends HookWidget {
                       Container(
                         margin:
                             EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              gymName,
-                              style: kSubHeadingStyle.copyWith(
-                                fontSize: 40,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color,
-                              ),
-                            ),
-                            Text(
-                              gymopen ? "Open" : "Closed",
-                              style: TextStyle(
-                                  color: gymopen
-                                      ? Colors.green
-                                      : Colors.redAccent),
-                            ),
-                          ],
+                        child: Text(
+                          gymName,
+                          style: kSubHeadingStyle.copyWith(
+                            fontSize: 40,
+                            color: Theme.of(context).textTheme.bodyText2!.color,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Text(
+                          gymopen ? "Open" : "Closed",
+                          style: TextStyle(
+                              color: gymopen ? Colors.green : Colors.redAccent),
                         ),
                       ),
                       Padding(

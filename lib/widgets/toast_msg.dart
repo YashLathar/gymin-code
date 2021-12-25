@@ -6,6 +6,6 @@ Future aShowToast({required String msg}) {
     msg: msg,
     backgroundColor: Colors.black54,
     textColor: Colors.white,
-    toastLength: Toast.LENGTH_LONG
+    toastLength: Toast.LENGTH_SHORT
     );
 }

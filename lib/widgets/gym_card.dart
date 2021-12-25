@@ -7,7 +7,6 @@ import 'package:gym_in/models/gym.dart';
 import 'package:gym_in/services/favourites_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:like_button/like_button.dart';
-import 'package:flutter/cupertino.dart';
 
 class GymCard extends HookWidget {
   GymCard({
@@ -146,13 +145,10 @@ class GymCard extends HookWidget {
                   gymName,
                   style: kLoginPageSubHeadingTextStyle.copyWith(
                     color: Theme.of(context).textTheme.bodyText2!.color,
-                    fontSize: 27,
+                    fontSize: 25,
                   ),
                 ),
-                Text(
-                  gymaddress,
-                  style: TextStyle(fontSize: 15),
-                ),
+                
                 SizedBox(
                   height: 10,
                 ),
