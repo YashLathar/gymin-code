@@ -262,6 +262,7 @@ class SettingPage extends HookWidget {
                               return CustomBottomSheet(
                                 isNumPad: true,
                                 controller: heightController,
+                                isNumPad: true,
                                 lable: "Height",
                                 bottomLable: "What's your height?",
                                 onTap: () async {

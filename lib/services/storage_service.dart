@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 abstract class BaseStorageService {
   Future<void> uploadProfileImage(File file);
   Future<String?> getDownloadUrl();
-  // Future<String?> getPrivacyUrl();
+  Future<String?> getPrivacyUrl();
 }
 
 final storageServiceProvider = Provider<StorageService>((ref) {
@@ -36,6 +36,15 @@ class StorageService implements BaseStorageService {
     final userUID = _read(authControllerProvider)!.uid;
     final downloadedUrl = await _read(firebaseStorageProvider)
         .ref("users/profile/$userUID")
+        .getDownloadURL();
+
+    return downloadedUrl;
+  }
+
+  @override
+  Future<String?> getPrivacyUrl() async {
+    final downloadedUrl = await _read(firebaseStorageProvider)
+        .ref("privacypolicy/privacyPolicy.pdf")
         .getDownloadURL();
 
     return downloadedUrl;

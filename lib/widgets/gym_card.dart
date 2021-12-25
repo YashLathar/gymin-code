@@ -148,7 +148,6 @@ class GymCard extends HookWidget {
                     fontSize: 25,
                   ),
                 ),
-                
                 SizedBox(
                   height: 10,
                 ),

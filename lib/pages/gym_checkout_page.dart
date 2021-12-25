@@ -60,8 +60,7 @@ class GymCheckoutPage extends HookWidget {
     }
 
     // late Razorpay _razorpay;
-
-// Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    // Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
     //   // succeeds
 
     //   final doc = await context.read(ordersServiceProvider).addToOrders(
@@ -435,8 +434,8 @@ class GymCheckoutPage extends HookWidget {
                                                             selectionMode:
                                                                 DateRangePickerSelectionMode
                                                                     .single,
-                                                            backgroundColor:
-                                                                Colors.white,
+                                                            // backgroundColor:
+                                                            //     Colors.white,
                                                             showActionButtons:
                                                                 true,
                                                             onSelectionChanged:
