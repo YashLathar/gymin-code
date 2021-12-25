@@ -278,14 +278,6 @@ class GymPage extends HookWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30),
                         child: Text(
-                          gymopen ? "Open" : "Closed",
-                          style: TextStyle(
-                              color: gymopen ? Colors.green : Colors.redAccent),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: Text(
                           gymaddress,
                           style: kLoginPageSubHeadingTextStyle.copyWith(
                             fontSize: 18,

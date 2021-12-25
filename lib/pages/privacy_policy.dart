@@ -83,9 +83,9 @@ class PrivacyPolicyPage extends HookWidget {
                 ],
               ),
             ),
-            // Container(
-            //   child: SfPdfViewer.network(downloadedUrl.value),
-            // ),
+            Container(
+              child: SfPdfViewer.network(downloadedUrl.value),
+            ),
           ],
         ),
       ),
