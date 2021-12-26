@@ -29,7 +29,7 @@ final dateProvider = StateProvider<DateTime>((ref) {
 
 class GymCheckoutPage extends HookWidget {
   final String gymcheckId, gymcheckPhoto, gymcheckName, gymcheckAddress;
-  final int hourlyPrice, monthlyPrice;
+  final int hourlyPrice, monthlyPrice, registrationFee;
   const GymCheckoutPage({
     Key? key,
     required this.gymcheckId,
@@ -38,6 +38,7 @@ class GymCheckoutPage extends HookWidget {
     required this.gymcheckAddress,
     required this.monthlyPrice,
     required this.hourlyPrice,
+    required this.registrationFee,
   }) : super(key: key);
 
   @override
@@ -52,6 +53,32 @@ class GymCheckoutPage extends HookWidget {
     final paymentIntentData = useState({});
     final monthDateSelector = useState(DateTime.now());
 
+    double processingPrice() {
+      if (selected.value == Plans.monthly) {
+        final processingFee = (selectedPrice.state + registrationFee) * 3 / 100;
+        return processingFee;
+      } else {
+        final processingFee = selectedPrice.state * 3 / 100;
+        print(processingFee);
+        return processingFee;
+      }
+    }
+
+    final processingFee = processingPrice();
+
+    double totalPrice() {
+      if (selected.value == Plans.monthly) {
+        final totalPayable =
+            processingFee + selectedPrice.state + registrationFee;
+        return totalPayable;
+      } else {
+        final totalPayable = processingFee + selectedPrice.state;
+        return totalPayable;
+      }
+    }
+
+    final totalPayable = totalPrice();
+
     bool isValidDate(DateTime date) {
       final todayDate = DateTime.now();
       if (date.day > todayDate.day) {
@@ -60,6 +87,16 @@ class GymCheckoutPage extends HookWidget {
         return false;
       }
     }
+
+    String formatPlan(Plans plan) {
+      if (plan == Plans.monthly) {
+        return "Monthly";
+      } else {
+        return "Hourly";
+      }
+    }
+
+    final planSelected = formatPlan(selected.value);
 
     Future<void> displayPaymentSheet() async {
       try {
@@ -78,7 +115,7 @@ class GymCheckoutPage extends HookWidget {
               gymcheckPhoto,
               fromTime,
               toTime,
-              selected.value.toString(),
+              planSelected,
               context.read(dateProvider).state.day.toString(),
               context,
             );
@@ -93,7 +130,7 @@ class GymCheckoutPage extends HookWidget {
               userImage: user.photoURL,
               fromDate: context.read(dateProvider).state.day.toString(),
               fromTime: context.read(userSelectedFromTimeProvider).state,
-              planSelected: selected.value.toString(),
+              planSelected: planSelected,
               docId: doc.id,
             );
           },
@@ -118,7 +155,7 @@ class GymCheckoutPage extends HookWidget {
     }
 
     Future<void> makePayment() async {
-      final price = selectedPrice.state * 100;
+      final price = totalPayable.toInt().toString() * 100;
       var url = Uri.parse(
           "https://us-central1-gym-in-14938.cloudfunctions.net/stripePayment");
       final response = await http.post(
@@ -301,7 +338,7 @@ class GymCheckoutPage extends HookWidget {
                                   GestureDetector(
                                     onTap: () {
                                       selected.value = Plans.hourly;
-                                      selectedPrice.state = 397;
+                                      selectedPrice.state = hourlyPrice;
                                     },
                                     child: ResuableButton(
                                       child: Row(
@@ -325,7 +362,9 @@ class GymCheckoutPage extends HookWidget {
                                                                       .black),
                                                     ),
                                                     Text(
-                                                      "₹" + "397",
+                                                      "₹" +
+                                                          hourlyPrice
+                                                              .toString(),
                                                       style: kSubHeadingStyle
                                                           .copyWith(
                                                               color:
@@ -376,10 +415,16 @@ class GymCheckoutPage extends HookWidget {
                                                                           .value
                                                                           .toString()));
                                                               if (isVerified) {
-                                                                Navigator
-                                                                    .pushReplacementNamed(
-                                                                        context,
-                                                                        "/timeSelectorPage");
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder: (context) =>
+                                                                        TimeSelector(
+                                                                            price:
+                                                                                hourlyPrice),
+                                                                  ),
+                                                                );
+
                                                                 final formattetDate =
                                                                     DateTime.parse(value
                                                                         .value
@@ -408,7 +453,7 @@ class GymCheckoutPage extends HookWidget {
                                                   ),
                                                 )
                                               : Text(
-                                                  "₹" + "397",
+                                                  "₹" + hourlyPrice.toString(),
                                                   style:
                                                       kSubHeadingStyle.copyWith(
                                                           color: Colors.black),
@@ -427,7 +472,7 @@ class GymCheckoutPage extends HookWidget {
                                   GestureDetector(
                                     onTap: () {
                                       selected.value = Plans.monthly;
-                                      selectedPrice.state = 697;
+                                      selectedPrice.state = monthlyPrice;
                                     },
                                     child: ResuableButton(
                                       child: Row(
@@ -451,7 +496,9 @@ class GymCheckoutPage extends HookWidget {
                                                                       .black),
                                                     ),
                                                     Text(
-                                                      "₹" + "697",
+                                                      "₹" +
+                                                          monthlyPrice
+                                                              .toString(),
                                                       style: kSubHeadingStyle
                                                           .copyWith(
                                                               color:
@@ -545,7 +592,7 @@ class GymCheckoutPage extends HookWidget {
                                                   ),
                                                 )
                                               : Text(
-                                                  "₹" + "697",
+                                                  "₹" + monthlyPrice.toString(),
                                                   style:
                                                       kSubHeadingStyle.copyWith(
                                                           color: Colors.black),
@@ -590,27 +637,27 @@ class GymCheckoutPage extends HookWidget {
                                     ),
                                   ),
                                   Text(
-                                    "${context.read(userselectedforhoursProvider).state.toString()}" +
-                                        selected.value.toString(),
+                                    planSelected,
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Total Amount",
-                                  style: kSmallContentStyle.copyWith(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                Text(
-                                  "₹ 600",
-                                  style: kSmallHeadingTextStyle,
-                                ),
-                              ],
-                            ),
-                            
+                            selected.value == Plans.hourly
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                        Text(
+                                          "For Hours",
+                                          style: kSmallContentStyle.copyWith(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        Text(
+                                          "${context.read(userselectedforhoursProvider).state.toString()} Hours",
+                                          style: kSmallHeadingTextStyle,
+                                        ),
+                                      ])
+                                : Container(),
                             Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -630,7 +677,7 @@ class GymCheckoutPage extends HookWidget {
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
-                                selected.value == Plans.hourly
+                            selected.value == Plans.hourly
                                 ? Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -647,36 +694,55 @@ class GymCheckoutPage extends HookWidget {
                                         ),
                                       ])
                                 : Container(),
-                                Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Registration",
-                                  style: kSmallContentStyle.copyWith(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                Text(
-                                  "₹ 400",
-                                  style: kSmallHeadingTextStyle,
-                                ),
-                              ],
-                            ),
+                            selected.value == Plans.monthly
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Registration",
+                                        style: kSmallContentStyle.copyWith(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      Text(
+                                        "+ ₹ $registrationFee",
+                                        style: kSmallHeadingTextStyle,
+                                      ),
+                                    ],
+                                  )
+                                : Container(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "Discount(25%)",
+                                  "Monthly Fee",
                                   style: kSmallContentStyle.copyWith(
                                     color: Colors.grey,
                                   ),
                                 ),
                                 Text(
-                                  "₹ 150",
+                                  "+ ₹ ${selectedPrice.state}",
                                   style: kSmallHeadingTextStyle,
                                 ),
                               ],
                             ),
+
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Text(
+                            //       "Discount(15%)",
+                            //       style: kSmallContentStyle.copyWith(
+                            //         color: Colors.grey,
+                            //       ),
+                            //     ),
+                            //     Text(
+                            //       "₹ 150",
+                            //       style: kSmallHeadingTextStyle,
+                            //     ),
+                            //   ],
+                            // ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -687,7 +753,7 @@ class GymCheckoutPage extends HookWidget {
                                   ),
                                 ),
                                 Text(
-                                  "₹ 18",
+                                  "+ ₹ ${processingFee.toString()}",
                                   style: kSmallHeadingTextStyle,
                                 ),
                               ],
@@ -696,18 +762,17 @@ class GymCheckoutPage extends HookWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "Payable",
+                                  "Total Payable",
                                   style: kSmallContentStyle.copyWith(
                                     color: Colors.grey,
                                   ),
                                 ),
                                 Text(
-                                  "₹ ${selectedPrice.state.toString()}.99",
+                                  "₹ ${totalPayable.toString()}",
                                   style: kSmallHeadingTextStyle,
                                 ),
                               ],
                             ),
-                            
                           ],
                         ),
                       ),
@@ -726,7 +791,7 @@ class GymCheckoutPage extends HookWidget {
                               await makePayment();
                             },
                             child: Text(
-                              "Checkout (₹ ${selectedPrice.state.toString()}.99)",
+                              "Checkout (₹ ${totalPayable.toString()})",
                               style: kSmallHeadingTextStyle.copyWith(
                                 color: Colors.white,
                               ),

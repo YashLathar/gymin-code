@@ -27,7 +27,8 @@ late FirebaseAnalytics analytics;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Stripe.publishableKey = 'pk_test_51K7hIISAFFJ3hJGuB2QOQg6iAdnbjHJ1HZvHvoEMTDY0N03Dqa8i5MnWXv2PA0nwzMg5WAei8839LYsnzsw5ZKWh00tdIjWw0E';
+  Stripe.publishableKey =
+      'pk_test_51K7hIISAFFJ3hJGuB2QOQg6iAdnbjHJ1HZvHvoEMTDY0N03Dqa8i5MnWXv2PA0nwzMg5WAei8839LYsnzsw5ZKWh00tdIjWw0E';
   await Firebase.initializeApp();
   analytics = FirebaseAnalytics();
   runApp(ProviderScope(child: MyApp()));
@@ -73,8 +74,8 @@ class MyApp extends HookWidget {
           case "/userpage":
             return MaterialPageRoute(builder: (_) => UserPage());
 
-          case "/timeSelectorPage":
-            return MaterialPageRoute(builder: (_) => TimeSelector());
+          // case "/timeSelectorPage":
+          //   return MaterialPageRoute(builder: (_) => TimeSelector());
 
           case "/feedsPage":
             return MaterialPageRoute(builder: (_) => FeedsPage());

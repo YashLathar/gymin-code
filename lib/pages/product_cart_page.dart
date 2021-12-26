@@ -29,7 +29,7 @@ class ProductCartPage extends HookWidget {
     final pincodeController = useTextEditingController();
     Size size = MediaQuery.of(context).size;
 
-        Future<void> displayPaymentSheet() async {
+    Future<void> displayPaymentSheet() async {
       try {
         await Stripe.instance.presentPaymentSheet(
           // ignore: deprecated_member_use
@@ -58,16 +58,16 @@ class ProductCartPage extends HookWidget {
               height: 100,
               width: 100,
             );
-        //     QrResultScreen(
-        //       gymName: gymcheckName,
-        //       gymPhoto: gymcheckPhoto,
-        //       userName: user!.displayName,
-        //       userImage: user.photoURL,
-        //       fromDate: context.read(dateProvider).state.day.toString(),
-        //       fromTime: context.read(userSelectedFromTimeProvider).state,
-        //       planSelected: selected.value.toString(),
-        //       docId: doc.id,
-        //     );
+            //     QrResultScreen(
+            //       gymName: gymcheckName,
+            //       gymPhoto: gymcheckPhoto,
+            //       userName: user!.displayName,
+            //       userImage: user.photoURL,
+            //       fromDate: context.read(dateProvider).state.day.toString(),
+            //       fromTime: context.read(userSelectedFromTimeProvider).state,
+            //       planSelected: selected.value.toString(),
+            //       docId: doc.id,
+            //     );
           },
         );
         aShowToast(msg: "Payment Successful");
@@ -120,7 +120,6 @@ class ProductCartPage extends HookWidget {
 
       displayPaymentSheet();
     }
-
 
     return Scaffold(
       body: SafeArea(
@@ -397,14 +396,18 @@ class ProductCartPage extends HookWidget {
                                             context: context,
                                             builder:
                                                 (BuildContext buildContext) {
-                                              return PincodeCheck(controller: pincodeController,);
+                                              return PincodeCheck(
+                                                controller: pincodeController,
+                                              );
                                             });
                                       },
                                       child: Text(
                                         "Check Pincode",
                                         style: kSmallContentStyle.copyWith(
                                           fontSize: 15,
-                                          color: pincodeValidator.state ? Colors.green : Colors.redAccent,
+                                          color: pincodeValidator.state
+                                              ? Colors.green
+                                              : Colors.redAccent,
                                         ),
                                       ),
                                     ),
@@ -506,7 +509,7 @@ class ProductCartPage extends HookWidget {
                             child: MaterialButton(
                               onPressed: () async {
                                 if (pincodeValidator.state) {
-                                  await makePayment() ;
+                                  await makePayment();
                                 } else {
                                   aShowToast(msg: "Unauthenticated Pin Code");
                                 }
@@ -556,138 +559,129 @@ class ProductCartPage extends HookWidget {
 }
 
 class PincodeCheck extends StatelessWidget {
-  const PincodeCheck({ Key? key,
-  required this.controller,
-   }) : super(key: key);
+  const PincodeCheck({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
 
-final TextEditingController controller;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
-
-    bool validatePincode(String pincode){
-    
-     if(pincode == "244001"){
-       aShowToast(msg: "you can proceed to check out");
+    bool validatePincode(String pincode) {
+      if (pincode == "244001") {
+        aShowToast(msg: "you can proceed to check out");
         return true;
-      }else if(pincode.length > 6){
+      } else if (pincode.length > 6) {
         aShowToast(msg: "invalid pin code");
         return false;
-      }else if(pincode.length < 6){
+      } else if (pincode.length < 6) {
         aShowToast(msg: "invalid pin code");
         return false;
-      }
-      else {
+      } else {
         aShowToast(msg: "invalid pin code");
         return false;
       }
     }
 
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ListView(
-              physics: ClampingScrollPhysics(),
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Icon(Icons.drag_handle,
-                      color: Theme.of(context).backgroundColor),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 50,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Check Authenticity',
-                      style: TextStyle(
+        physics: ClampingScrollPhysics(),
+        children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Icon(Icons.drag_handle,
+                color: Theme.of(context).backgroundColor),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 50,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Check Authenticity',
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText2!.color),
+              ),
+              Spacer(),
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.cancel),
+                color: Theme.of(context).textTheme.bodyText2!.color,
+                iconSize: 25,
+                //label: Text("Cancel")
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    right: 15.0,
+                  ),
+                  child: TextField(
+                    controller: controller,
+                    keyboardType: TextInputType.phone,
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color),
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).backgroundColor,
+                          width: 2,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(
+                          color: Colors.redAccent, //0xffF14C37
+                          width: 2,
+                        ),
+                      ),
+                      hintText: "Enter Your Pincode",
+                      hintStyle: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2!.color),
+                      helperText: 'Pincode',
+                      helperStyle: TextStyle(
                           color: Theme.of(context).textTheme.bodyText2!.color),
                     ),
-                    Spacer(),
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(Icons.cancel),
-                      color: Theme.of(context).textTheme.bodyText2!.color,
-                      iconSize: 25,
-                      //label: Text("Cancel")
-                    ),
-                  ],
+                  ),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          right: 15.0,
-                        ),
-                        child: TextField(
-                          controller: controller,
-                          keyboardType: TextInputType.phone,
-                          style: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodyText2!.color),
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(
-                                color: Theme.of(context).backgroundColor,
-                                width: 2,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(
-                                color: Colors.redAccent, //0xffF14C37
-                                width: 2,
-                              ),
-                            ),
-                            hintText: "Enter Your Pincode",
-                            hintStyle: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color),
-                            helperText: 'Pincode',
-                            helperStyle: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                    30, 30, 30, MediaQuery.of(context).viewInsets.bottom),
+                child: MaterialButton(
+                  color: Colors.redAccent,
+                  child: Text(
+                    "Check",
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color),
+                  ),
+                  onPressed: () {
+                    if (controller.text.isNotEmpty) {
+                      final validator = validatePincode(controller.text);
+                      context.read(validatingPinProvider).state = validator;
+                      Navigator.pop(context);
+                    }
+                  },
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          30, 30, 30, MediaQuery.of(context).viewInsets.bottom),
-                      child: MaterialButton(
-                        color: Colors.redAccent,
-                        child: Text(
-                          "Update",
-                          style: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodyText2!.color),
-                        ),
-                        onPressed: ()  {
-                          if(controller.text.isNotEmpty){
-                         final validator =   validatePincode(controller.text);
-                         context.read(validatingPinProvider).state = validator;
-                         Navigator.pop(context);
-                          }
-                        },
-                      ),
-                    )
-                  ],
-                )
-              ],
-            ),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }

@@ -5,8 +5,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/pages/gym_page.dart';
+import 'package:gym_in/pages/time_selector_page.dart';
 import 'package:gym_in/widgets/gym_card.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class HomePage extends HookWidget {
   @override
@@ -236,7 +238,9 @@ class HomePage extends HookWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => GymPage(
+                                      facilities: data["facilities"],
                                       gymName: data['gname'],
+                                      registrationFee: data["registrationFee"],
                                       gymPhoto: data['gphoto'],
                                       gymphotos: data['gymphotos'],
                                       gymratings: data['gratings'],
@@ -255,6 +259,9 @@ class HomePage extends HookWidget {
                                     ),
                                   ),
                                 );
+
+                                context.read(userSelectedPriceProvider).state =
+                                    data['hourlyPrice'];
                               },
                               child: Container(
                                 child: Container(

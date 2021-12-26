@@ -9,12 +9,12 @@ final userSelectedFromTimeProvider = StateProvider<String>((ref) {
   return TimeOfDay(hour: 8, minute: 0).hour.toString();
 });
 
-final userSelectedToTimeProvider = StateProvider<String>((ref) {
-  return TimeOfDay(hour: 10, minute: 0).hour.toString();
+final userSelectedPriceProvider = StateProvider<int>((ref) {
+  return 0;
 });
 
-final userSelectedPriceProvider = StateProvider<int>((ref) {
-  return 397;
+final userSelectedToTimeProvider = StateProvider<String>((ref) {
+  return TimeOfDay(hour: 10, minute: 0).hour.toString();
 });
 
 final userselectedforhoursProvider = StateProvider<int>((ref) {
@@ -22,7 +22,9 @@ final userselectedforhoursProvider = StateProvider<int>((ref) {
 });
 
 class TimeSelector extends HookWidget {
-  const TimeSelector({Key? key}) : super(key: key);
+  const TimeSelector({Key? key, required this.price}) : super(key: key);
+
+  final int price;
 
   Future<TimeOfDay> pickFromTime(BuildContext context) async {
     TimeOfDay fromTime = TimeOfDay(hour: 8, minute: 0);
@@ -44,6 +46,9 @@ class TimeSelector extends HookWidget {
     final fromTime = useState(TimeOfDay(hour: 8, minute: 0));
     final influencedtoHour = fromTime.value.hour + selected.value;
     Size size = MediaQuery.of(context).size;
+    final twoHourPrice = price * 2;
+    final threeHourPrice = price * 3;
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -132,7 +137,7 @@ class TimeSelector extends HookWidget {
                         GestureDetector(
                           onTap: () {
                             selected.value = 1;
-                            selectedPrice.state = 397;
+                            selectedPrice.state = price;
                             context.read(userselectedforhoursProvider).state =
                                 1;
                           },
@@ -146,7 +151,7 @@ class TimeSelector extends HookWidget {
                                       color: Colors.black),
                                 ),
                                 Text(
-                                  "₹ 397",
+                                  "₹ $price",
                                   style: kSmallContentStyle.copyWith(
                                     color: Colors.black,
                                   ),
@@ -161,7 +166,7 @@ class TimeSelector extends HookWidget {
                         GestureDetector(
                           onTap: () {
                             selected.value = 2;
-                            selectedPrice.state = 700;
+                            selectedPrice.state = price * 2;
                             context.read(userselectedforhoursProvider).state =
                                 2;
                           },
@@ -175,7 +180,7 @@ class TimeSelector extends HookWidget {
                                       color: Colors.black),
                                 ),
                                 Text(
-                                  "₹ 700",
+                                  "₹ $twoHourPrice",
                                   style: kSmallContentStyle.copyWith(
                                       color: Colors.black),
                                 ),
@@ -189,7 +194,7 @@ class TimeSelector extends HookWidget {
                         GestureDetector(
                           onTap: () {
                             selected.value = 3;
-                            selectedPrice.state = 1000;
+                            selectedPrice.state = price * 2;
                             context.read(userselectedforhoursProvider).state =
                                 3;
                           },
@@ -203,7 +208,7 @@ class TimeSelector extends HookWidget {
                                       color: Colors.black),
                                 ),
                                 Text(
-                                  "₹ 1000",
+                                  "₹ $threeHourPrice",
                                   style: kSmallContentStyle.copyWith(
                                       color: Colors.black),
                                 ),
@@ -256,6 +261,7 @@ class TimeSelector extends HookWidget {
                           style: ElevatedButton.styleFrom(
                               primary: Colors.redAccent),
                           onPressed: () {
+                            Navigator.pop(context);
                             Navigator.pop(context);
                           },
                           child: Text(
