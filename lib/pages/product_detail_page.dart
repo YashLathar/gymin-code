@@ -8,7 +8,9 @@ import 'package:gym_in/controllers/cart_controller.dart';
 import 'package:gym_in/controllers/favourites_controller.dart';
 import 'package:gym_in/models/product.dart';
 import 'package:gym_in/pages/product_cart_page.dart';
+import 'package:gym_in/pages/user_page.dart';
 import 'package:gym_in/services/cart_service.dart';
+import 'package:gym_in/services/user_detail_service.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reviews_slider/reviews_slider.dart';
@@ -35,6 +37,7 @@ class ProductDetailPage extends HookWidget {
     final isUiLiked = useState(false);
     final isLoading = useState(false);
     final user = useProvider(authControllerProvider);
+    final userInfo = useProvider(userDetailFutureShowProvider);
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -533,14 +536,23 @@ class ProductDetailPage extends HookWidget {
                                                   Row(
                                                     children: [
                                                       Icon(Icons.location_pin),
-                                                      Text(
-                                                        "Ram Ganga Vihar \nMoradabad",
-                                                        style:
-                                                            kSmallContentStyle
-                                                                .copyWith(
-                                                                  color: Colors.black,
-                                                          fontSize: 13,
-                                                        ),
+                                                      userInfo.when(
+                                                        data: (data) {
+                                                          return Text(
+                                                            data.address,
+                                                            style:
+                                                                kSmallContentStyle
+                                                                    .copyWith(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 17,
+                                                            ),
+                                                          );
+                                                        },
+                                                        loading: () =>
+                                                            CircularProgressIndicator(),
+                                                        error: (e, st) =>
+                                                            Text("Not Working"),
                                                       ),
                                                     ],
                                                   ),
@@ -1085,35 +1097,35 @@ class _ReviewsPSheetState extends State<ReviewsPSheet> {
                   Container(
                     margin: EdgeInsets.only(right: 15),
                     child: TextField(
-                        controller: feedbackController,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 5,
-                        style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText2!.color),
-                        decoration: InputDecoration(
-                          // prefixIcon: Icon(Icons.text_fields,
-                          //     color:
-                          //         Theme.of(context).textTheme.bodyText2!.color),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(
-                              color: Theme.of(context).backgroundColor,
-                              width: 2,
-                            ),
+                      controller: feedbackController,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 5,
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2!.color),
+                      decoration: InputDecoration(
+                        // prefixIcon: Icon(Icons.text_fields,
+                        //     color:
+                        //         Theme.of(context).textTheme.bodyText2!.color),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(
+                            color: Theme.of(context).backgroundColor,
+                            width: 2,
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(
-                              color: Colors.redAccent,
-                              width: 2,
-                            ),
-                          ),
-                          hintText: "Enter your Feedback",
-                          hintStyle: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodyText2!.color),
                         ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(
+                            color: Colors.redAccent,
+                            width: 2,
+                          ),
+                        ),
+                        hintText: "Enter your Feedback",
+                        hintStyle: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyText2!.color),
                       ),
+                    ),
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
@@ -1122,9 +1134,8 @@ class _ReviewsPSheetState extends State<ReviewsPSheet> {
                         top: 5.0,
                       ),
                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.redAccent
-                        ),
+                        style:
+                            ElevatedButton.styleFrom(primary: Colors.redAccent),
                         onPressed: () async {
                           setState(() {
                             buttonnotpressed = true;
