@@ -23,7 +23,9 @@ class GymPage extends HookWidget {
       gymaddress,
       trainername,
       trainerphoto,
-      trainerrating;
+      trainerrating,
+      phone,
+      email;
   const GymPage({
     required this.gymId,
     required this.gymphotos,
@@ -38,6 +40,8 @@ class GymPage extends HookWidget {
     required this.traineravailable,
     required this.hourlyPrice,
     required this.monthlyPrice,
+    required this.phone,
+    required this.email,
   });
 
   @override
@@ -364,7 +368,7 @@ class GymPage extends HookWidget {
                       Container(
                         margin: EdgeInsets.only(
                             left: 15, right: 15, top: 20, bottom: 0),
-                        height: 130,
+                        height: 110,
                         child: Container(
                           width: 270,
                           margin: EdgeInsets.symmetric(horizontal: 10),
@@ -436,9 +440,13 @@ class GymPage extends HookWidget {
                                                 Container(
                                                   child: Row(
                                                     children: [
-                                                      Icon(Icons.star,
-                                                          color: Color(
-                                                              0xffFFD700)),
+                                                      Icon(
+                                                        Icons.star,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText2!
+                                                            .color,
+                                                      ),
                                                       SizedBox(
                                                         width: 5,
                                                       ),
@@ -451,15 +459,19 @@ class GymPage extends HookWidget {
                                                               BorderRadius
                                                                   .circular(50),
                                                           color:
-                                                              Color(0xffFFD700),
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText2!
+                                                                  .color,
                                                         ),
                                                         child: Center(
                                                           child: Text(
                                                             trainerrating
                                                                 .toString(),
                                                             style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .scaffoldBackgroundColor,
                                                                 fontSize: 15),
                                                           ),
                                                         ),
@@ -487,6 +499,54 @@ class GymPage extends HookWidget {
                         thickness: 2,
                         indent: 30,
                         endIndent: 30,
+                        color: Theme.of(context).backgroundColor,
+                      ),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                        child: Text(
+                          "Contact",
+                          style: kSubHeadingStyle.copyWith(
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.phone,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color,
+                                  ),
+                                ),
+                                Text(phone)
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.email,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color,
+                                  ),
+                                ),
+                                Text(email)
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                       // Container(
                       //   //height: 200,

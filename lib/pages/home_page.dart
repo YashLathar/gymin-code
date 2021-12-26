@@ -250,6 +250,8 @@ class HomePage extends HookWidget {
                                       gymId: document.id,
                                       hourlyPrice: data['hourlyPrice'],
                                       monthlyPrice: data['monthlyPrice'],
+                                      phone: data['phone'],
+                                      email: data['email'],
                                     ),
                                   ),
                                 );
