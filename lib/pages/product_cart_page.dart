@@ -187,20 +187,17 @@ class ProductCartPage extends HookWidget {
                                     border: Border.all(
                                         width: 2.0,
                                         color:
-                                            Theme.of(context).backgroundColor),
+                                            Theme.of(context).scaffoldBackgroundColor),
                                     color: Theme.of(context)
                                         .scaffoldBackgroundColor),
                                 child: Center(
                                   child: IconButton(
                                     onPressed: () {
-                                      Navigator.pop(context);
                                     },
                                     icon: Icon(
                                       Icons.add_shopping_cart_outlined,
                                       color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2!
-                                          .color,
+                                          .scaffoldBackgroundColor
                                     ),
                                   ),
                                 ),
@@ -239,7 +236,7 @@ class ProductCartPage extends HookWidget {
                         ),
                       ],
                     )
-                  : ListView(
+                  : Column(
                       children: [
                         Container(
                           color: Theme.of(context).scaffoldBackgroundColor,
@@ -294,17 +291,16 @@ class ProductCartPage extends HookWidget {
                                   borderRadius: BorderRadius.circular(35),
                                   border: Border.all(
                                     width: 2.0,
-                                    color: Theme.of(context).backgroundColor,
+                                    color: Theme.of(context).scaffoldBackgroundColor,
                                   ),
                                 ),
                                 child: Center(
                                   child: IconButton(
                                     onPressed: () {
-                                      Navigator.pop(context);
                                     },
                                     icon: Icon(
                                       Icons.add_shopping_cart,
-                                      color: Theme.of(context).backgroundColor,
+                                      color: Theme.of(context).scaffoldBackgroundColor,
                                     ),
                                   ),
                                 ),
@@ -314,18 +310,16 @@ class ProductCartPage extends HookWidget {
                         ),
                         Container(
                           height: size.height / 1.7,
-                          child: Expanded(
-                            child: ListView(
-                              children: cartControllerProvider.products
-                                  .map((product) => CartProduct(
-                                        productId: product.productId,
-                                        imageUrl: product.image,
-                                        quantity: product.quantity,
-                                        price: product.price.toString(),
-                                        productName: product.title,
-                                      ))
-                                  .toList(),
-                            ),
+                          child: ListView(
+                            children: cartControllerProvider.products
+                                .map((product) => CartProduct(
+                                      productId: product.productId,
+                                      imageUrl: product.image,
+                                      quantity: product.quantity,
+                                      price: product.price.toString(),
+                                      productName: product.title,
+                                    ))
+                                .toList(),
                           ),
                         ),
                       ],

@@ -11,6 +11,7 @@ import 'package:gym_in/widgets/facility_card.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:like_button/like_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class GymPage extends HookWidget {
   final bool gymopen, traineravailable;
@@ -518,7 +519,9 @@ class GymPage extends HookWidget {
                             Row(
                               children: [
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    launch('tel: $phone');
+                                  },
                                   icon: Icon(
                                     Icons.phone,
                                     color: Theme.of(context)
@@ -533,7 +536,9 @@ class GymPage extends HookWidget {
                             Row(
                               children: [
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    launch('mailto: $email');
+                                  },
                                   icon: Icon(
                                     Icons.email,
                                     color: Theme.of(context)
