@@ -23,10 +23,6 @@ enum Plans {
   yearly,
 }
 
-final dateProvider = StateProvider<DateTime>((ref) {
-  return DateTime.now();
-});
-
 class GymCheckoutPage extends HookWidget {
   final String gymcheckId, gymcheckPhoto, gymcheckName, gymcheckAddress;
   final int hourlyPrice, monthlyPrice, registrationFee;
@@ -48,36 +44,39 @@ class GymCheckoutPage extends HookWidget {
     final selectedPrice = useProvider(userSelectedPriceProvider);
     final user = useProvider(authControllerProvider);
     final selected = useState(Plans.hourly);
+    final now = DateTime.now();
+    final date = useState(DateTime(now.year, now.month, now.day + 1));
     final today = DateTime.now();
     Size size = MediaQuery.of(context).size;
     final paymentIntentData = useState({});
-    final monthDateSelector = useState(DateTime.now());
+
+    final discountedPrice = selectedPrice.state * 20 / 100;
+
+    double priceAfterDiscount() {
+      if (selected.value == Plans.monthly) {
+        final totalPayable = selectedPrice.state - discountedPrice;
+        return totalPayable;
+      } else {
+        final totalPayable = selectedPrice.state - discountedPrice;
+        return totalPayable;
+      }
+    }
+
+    final afterDiscount = priceAfterDiscount();
 
     double processingPrice() {
       if (selected.value == Plans.monthly) {
-        final processingFee = (selectedPrice.state + registrationFee) * 3 / 100;
+        final processingFee = afterDiscount * 3 / 100;
         return processingFee;
       } else {
-        final processingFee = selectedPrice.state * 3 / 100;
-        print(processingFee);
+        final processingFee = afterDiscount * 3 / 100;
         return processingFee;
       }
     }
 
     final processingFee = processingPrice();
 
-    double totalPrice() {
-      if (selected.value == Plans.monthly) {
-        final totalPayable =
-            processingFee + selectedPrice.state + registrationFee;
-        return totalPayable;
-      } else {
-        final totalPayable = processingFee + selectedPrice.state;
-        return totalPayable;
-      }
-    }
-
-    final totalPayable = totalPrice();
+    final totalPayable = processingFee + afterDiscount;
 
     bool isValidDate(DateTime date) {
       final todayDate = DateTime.now();
@@ -113,10 +112,10 @@ class GymCheckoutPage extends HookWidget {
         final doc = await context.read(ordersServiceProvider).addToOrders(
               gymcheckName,
               gymcheckPhoto,
-              fromTime,
+              fromTime.hour.toString(),
               toTime,
               planSelected,
-              context.read(dateProvider).state.day.toString(),
+              date.value.toString(),
               context,
             );
 
@@ -128,8 +127,8 @@ class GymCheckoutPage extends HookWidget {
               gymPhoto: gymcheckPhoto,
               userName: user!.displayName,
               userImage: user.photoURL,
-              fromDate: context.read(dateProvider).state.day.toString(),
-              fromTime: context.read(userSelectedFromTimeProvider).state,
+              fromDate: date.value.day.toString(),
+              fromTime: fromTime.hour.toString(),
               planSelected: planSelected,
               docId: doc.id,
             );
@@ -429,10 +428,7 @@ class GymCheckoutPage extends HookWidget {
                                                                     DateTime.parse(value
                                                                         .value
                                                                         .toString());
-                                                                context
-                                                                        .read(
-                                                                            dateProvider)
-                                                                        .state =
+                                                                date.value =
                                                                     formattetDate;
                                                               } else {
                                                                 aShowToast(
@@ -556,19 +552,18 @@ class GymCheckoutPage extends HookWidget {
                                                             onSelectionChanged:
                                                                 (DateRangePickerSelectionChangedArgs
                                                                     value) {
-                                                              final formattedValue =
-                                                                  DateTime.parse(
-                                                                      value
-                                                                          .value
-                                                                          .toString());
                                                               final isVerified =
-                                                                  isValidDate(
-                                                                      formattedValue);
-
+                                                                  isValidDate(DateTime
+                                                                      .parse(value
+                                                                          .value
+                                                                          .toString()));
                                                               if (isVerified) {
-                                                                monthDateSelector
-                                                                        .value =
-                                                                    formattedValue;
+                                                                final formattetDate =
+                                                                    DateTime.parse(value
+                                                                        .value
+                                                                        .toString());
+                                                                date.value =
+                                                                    formattetDate;
                                                               } else {
                                                                 aShowToast(
                                                                     msg:
@@ -641,23 +636,6 @@ class GymCheckoutPage extends HookWidget {
                                     style: kSmallHeadingTextStyle,
                                   ),
                                 ]),
-                            selected.value == Plans.hourly
-                                ? Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                        Text(
-                                          "For Hours",
-                                          style: kSmallContentStyle.copyWith(
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        Text(
-                                          "${context.read(userselectedforhoursProvider).state.toString()} Hours",
-                                          style: kSmallHeadingTextStyle,
-                                        ),
-                                      ])
-                                : Container(),
                             Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -668,13 +646,23 @@ class GymCheckoutPage extends HookWidget {
                                       color: Colors.grey,
                                     ),
                                   ),
-                                  Text(
-                                    context
-                                        .read(dateProvider)
-                                        .state
-                                        .day
-                                        .toString(),
-                                    style: kSmallHeadingTextStyle,
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          date.value.day.toString() + "/",
+                                          style: kSmallHeadingTextStyle,
+                                        ),
+                                        Text(
+                                          date.value.month.toString() + "/",
+                                          style: kSmallHeadingTextStyle,
+                                        ),
+                                        Text(
+                                          date.value.year.toString(),
+                                          style: kSmallHeadingTextStyle,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ]),
                             selected.value == Plans.hourly
@@ -683,14 +671,42 @@ class GymCheckoutPage extends HookWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                         Text(
-                                          "Timing",
+                                          "No. of Hours",
                                           style: kSmallContentStyle.copyWith(
                                             color: Colors.grey,
                                           ),
                                         ),
                                         Text(
-                                          fromTime,
+                                          "${context.read(userselectedforhoursProvider).state.toString()} Hour",
                                           style: kSmallHeadingTextStyle,
+                                        ),
+                                      ])
+                                : Container(),
+
+                            selected.value == Plans.hourly
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                        Text(
+                                          "Time",
+                                          style: kSmallContentStyle.copyWith(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                fromTime.hour.toString() + ":",
+                                                style: kSmallHeadingTextStyle,
+                                              ),
+                                              Text(
+                                                fromTime.minute.toString(),
+                                                style: kSmallHeadingTextStyle,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ])
                                 : Container(),
@@ -707,7 +723,10 @@ class GymCheckoutPage extends HookWidget {
                                       ),
                                       Text(
                                         "+ ₹ $registrationFee",
-                                        style: kSmallHeadingTextStyle,
+                                        style: kSmallHeadingTextStyle.copyWith(
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                        ),
                                       ),
                                     ],
                                   )
@@ -716,7 +735,9 @@ class GymCheckoutPage extends HookWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "Monthly Fee",
+                                  selected.value == Plans.monthly
+                                      ? "Monthly Fee"
+                                      : "Hourly Fee",
                                   style: kSmallContentStyle.copyWith(
                                     color: Colors.grey,
                                   ),
@@ -743,6 +764,22 @@ class GymCheckoutPage extends HookWidget {
                             //     ),
                             //   ],
                             // ),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Discount (20%)",
+                                  style: kSmallContentStyle.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Text(
+                                  "- ₹ ${discountedPrice.toString()}",
+                                  style: kSmallHeadingTextStyle,
+                                ),
+                              ],
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

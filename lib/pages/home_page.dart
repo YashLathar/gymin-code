@@ -324,7 +324,7 @@ class HomePage extends HookWidget {
                                             backgroundImage: NetworkImage(
                                                 "https://i.pinimg.com/originals/1e/2b/09/1e2b0958e83b682ee976afb3aeb77c47.jpg"),
                                             backgroundColor: Colors.redAccent,
-                                            radius: 40,
+                                            radius: 37,
                                           ),
                                           Text("Lukhnow"),
                                         ],
@@ -338,7 +338,7 @@ class HomePage extends HookWidget {
                                             backgroundImage: NetworkImage(
                                                 "http://static2.tripoto.com/media/filter/tst/img/15546/TripDocument/4126922057_8e74c08828_o.jpg"),
                                             backgroundColor: Colors.redAccent,
-                                            radius: 40,
+                                            radius: 37,
                                           ),
                                           Text("Delhi"),
                                         ],
@@ -352,7 +352,7 @@ class HomePage extends HookWidget {
                                             backgroundImage: NetworkImage(
                                                 "https://www.holidify.com/images/bgImages/DEHRADUN.jpg"),
                                             backgroundColor: Colors.redAccent,
-                                            radius: 40,
+                                            radius: 37,
                                           ),
                                           Text("Dehradun"),
                                         ],
@@ -366,7 +366,7 @@ class HomePage extends HookWidget {
                                             backgroundImage: NetworkImage(
                                                 "https://media.istockphoto.com/photos/rush-in-the-city-picture-id1190475811?k=20&m=1190475811&s=612x612&w=0&h=HeJgO_nRyUU3U9w9_sl8ikumN-Vd5FGnMEyDdWkuKC0="),
                                             backgroundColor: Colors.redAccent,
-                                            radius: 40,
+                                            radius: 37,
                                           ),
                                           Text("Kolkata"),
                                         ],
@@ -378,9 +378,9 @@ class HomePage extends HookWidget {
                                         children: [
                                           CircleAvatar(
                                             backgroundImage: NetworkImage(
-                                                "https://media.istockphoto.com/photos/rush-in-the-city-picture-id1190475811?k=20&m=1190475811&s=612x612&w=0&h=HeJgO_nRyUU3U9w9_sl8ikumN-Vd5FGnMEyDdWkuKC0="),
+                                                "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Charminar-Pride_of_Hyderabad.jpg/440px-Charminar-Pride_of_Hyderabad.jpg"),
                                             backgroundColor: Colors.redAccent,
-                                            radius: 40,
+                                            radius: 37,
                                           ),
                                           Text("Hyderabad"),
                                         ],
@@ -420,7 +420,7 @@ class HomePage extends HookWidget {
                                             backgroundColor: Colors.redAccent,
                                             backgroundImage: NetworkImage(
                                                 "https://curlytales.com/wp-content/uploads/2019/07/noida.jpg"),
-                                            radius: 40,
+                                            radius: 37,
                                           ),
                                           Text("Noida"),
                                         ],
@@ -432,10 +432,11 @@ class HomePage extends HookWidget {
                                         children: [
                                           CircleAvatar(
                                             backgroundImage: NetworkImage(
-                                                "https://media.istockphoto.com/photos/puratchi-thalaivar-dr-mgr-central-railway-stationchennai-central-picture-id1226340114?k=20&m=1226340114&s=612x612&w=0&h=Fb2w07580AHJoElti5zras-TbBkv4ePkMcCXqoGfYLc="),
-                                            radius: 40,
+                                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC7r9HvdRhCzd92zhDW0Igm9ic3TQuxHI7Dw&usqp=CAU",
+                                            ),
+                                            radius: 37,
                                           ),
-                                          Text("Chennai"),
+                                          Text("Almorah"),
                                         ],
                                       ),
                                       SizedBox(
@@ -445,11 +446,11 @@ class HomePage extends HookWidget {
                                         children: [
                                           CircleAvatar(
                                             backgroundImage: NetworkImage(
-                                                "https://i.pinimg.com/originals/1e/2b/09/1e2b0958e83b682ee976afb3aeb77c47.jpg"),
+                                                "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Taj-Mahal.jpg/400px-Taj-Mahal.jpg"),
                                             backgroundColor: Colors.redAccent,
-                                            radius: 40,
+                                            radius: 37,
                                           ),
-                                          Text("Ludhiana"),
+                                          Text("Agra"),
                                         ],
                                       ),
                                       SizedBox(
@@ -461,7 +462,7 @@ class HomePage extends HookWidget {
                                             backgroundImage: NetworkImage(
                                                 "https://www.hospitalitynet.org/picture/xxl_153116922.jpg?t=20200803125617"),
                                             backgroundColor: Colors.redAccent,
-                                            radius: 40,
+                                            radius: 37,
                                           ),
                                           Text("Mumbai"),
                                         ],

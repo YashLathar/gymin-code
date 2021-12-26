@@ -5,8 +5,8 @@ import 'package:gym_in/widgets/rounded_button.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-final userSelectedFromTimeProvider = StateProvider<String>((ref) {
-  return TimeOfDay(hour: 8, minute: 0).hour.toString();
+final userSelectedFromTimeProvider = StateProvider<TimeOfDay>((ref) {
+  return TimeOfDay(hour: 8, minute: 0);
 });
 
 final userSelectedPriceProvider = StateProvider<int>((ref) {
@@ -235,12 +235,7 @@ class TimeSelector extends HookWidget {
                                   await pickFromTime(context);
 
                               context.read(userSelectedFromTimeProvider).state =
-                                  selectedFromTime.hour.toString();
-
-                              print("🤣🤣🤣" +
-                                  context
-                                      .read(userSelectedFromTimeProvider)
-                                      .state);
+                                  selectedFromTime;
 
                               fromTime.value = selectedFromTime;
                             }),
