@@ -15,9 +15,9 @@ class ContactScreen extends HookWidget {
     final messageController = useTextEditingController();
     final contactService = useProvider(contactServiceProvider);
     final user = useProvider(authControllerProvider);
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
           child: ListView(
             children: [
               Container(
@@ -248,7 +248,7 @@ class ContactScreen extends HookWidget {
                             ElevatedButton.styleFrom(primary: Colors.redAccent),
                         onPressed: () async {
                           final intPhone = int.parse(phoneController.text);
-
+      
                           if (messageController.text.isNotEmpty) {
                             await contactService
                                 .addContactDocument(
@@ -260,7 +260,7 @@ class ContactScreen extends HookWidget {
                                 .onError((error, stackTrace) => aShowToast(
                                     msg:
                                         "CANNOT make multiple contact requests"));
-
+      
                             usernameController.clear();
                             phoneController.clear();
                             messageController.clear();

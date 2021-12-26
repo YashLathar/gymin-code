@@ -35,9 +35,9 @@ class _TrainerZoneState extends State<TrainerZone> {
   @override
   Widget build(BuildContext context) {
     // Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
           child: Column(
             children: [
               Container(
