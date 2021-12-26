@@ -61,7 +61,7 @@ class GymCard extends HookWidget {
 
         favGymsController.addGymToFav(gym);
 
-        Fluttertoast.showToast(msg: "Added to Favourites");  
+        Fluttertoast.showToast(msg: "Added to Favourites");
         return isLiked = true;
       } else {
         Fluttertoast.showToast(msg: "Already in Favourites");
@@ -145,7 +145,7 @@ class GymCard extends HookWidget {
                   gymName,
                   style: kLoginPageSubHeadingTextStyle.copyWith(
                     color: Theme.of(context).textTheme.bodyText2!.color,
-                    fontSize: 25,
+                    fontSize: 23,
                   ),
                 ),
                 SizedBox(

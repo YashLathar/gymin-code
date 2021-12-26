@@ -55,6 +55,7 @@ class OrdersService implements BaseOrdersService {
         "bookingToTiming": bookingToTime,
         "gymPhoto": gymPhoto,
         "date": date,
+        "timeStamp": FieldValue.serverTimestamp(),
       });
       return doc;
     } on FirebaseException catch (e) {
