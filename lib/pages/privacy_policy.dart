@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
-import 'package:gym_in/services/storage_service.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class PrivacyPolicyPage extends HookWidget {
@@ -79,7 +77,7 @@ class PrivacyPolicyPage extends HookWidget {
             Expanded(
               child: Container(
                 child: SfPdfViewer.network(
-                    "https://firebasestorage.googleapis.com/v0/b/gym-in-14938.appspot.com/o/privacypolicy%2FprivacyPolicy.pdf?alt=media&token=067afd94-6559-48aa-a872-e1fd3c5288f3"),
+                    "https://firebasestorage.googleapis.com/v0/b/gym-in-14938.appspot.com/o/privacypolicy%2FPrivacy_Policy.pdf?alt=media&token=c4a99e1e-c54c-4169-ac08-4cb8b063c2a7"),
               ),
             ),
           ],

@@ -10,6 +10,8 @@ abstract class BaseFeedbackService {
     String email,
     String feedback,
     String userUid,
+    String userName,
+    String userPhoto,
   );
 }
 
@@ -29,6 +31,8 @@ class FeedbackService implements BaseFeedbackService {
     String email,
     String feedback,
     String userUid,
+    String userName,
+    String userPhoto,
   ) async {
     try {
       final docAlready = await _read(firestoreProvider)
@@ -44,6 +48,8 @@ class FeedbackService implements BaseFeedbackService {
           "email": email,
           "feedback": feedback,
           "productsRating": productsRating,
+          "userName": userName,
+          "userPhoto": userPhoto,
         });
       } else {
         throw CustomExeption(message: "Cannot create multiple documents");

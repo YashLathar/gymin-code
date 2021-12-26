@@ -233,12 +233,14 @@ class FeedbackFormPage extends HookWidget {
                               user!.email!,
                               feedbackController.text,
                               user.uid,
+                              user.displayName.toString(),
+                              user.photoURL.toString(),
                             )
                             .onError((error, stackTrace) => aShowToast(
-                                msg: "CANNOT make multiple contact requests"));
+                                msg: "CANNOT make multiple Feedbacks"));
 
                         feedbackController.clear();
-                        aShowToast(msg: "Your request has been submmited");
+                        aShowToast(msg: "Your feedback has been submmited");
                       } else {
                         aShowToast(msg: "Fields can't be empty");
                       }
