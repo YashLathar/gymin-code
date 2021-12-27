@@ -15,7 +15,6 @@ import 'package:gym_in/pages/product_cart_page.dart';
 import 'package:gym_in/pages/setting_page.dart';
 import 'package:gym_in/pages/signup_page.dart';
 import 'package:gym_in/pages/favorites_page.dart';
-import 'package:gym_in/pages/time_selector_page.dart';
 import 'package:gym_in/pages/user_page.dart';
 import 'package:gym_in/pages/video_page_info.dart';
 import 'package:gym_in/pages/video_page_selection.dart';
@@ -31,6 +30,7 @@ Future<void> main() async {
       'pk_test_51K7hIISAFFJ3hJGuB2QOQg6iAdnbjHJ1HZvHvoEMTDY0N03Dqa8i5MnWXv2PA0nwzMg5WAei8839LYsnzsw5ZKWh00tdIjWw0E';
   await Firebase.initializeApp();
   analytics = FirebaseAnalytics();
+
   runApp(ProviderScope(child: MyApp()));
 }
 
