@@ -10,7 +10,6 @@ import 'package:gym_in/models/product.dart';
 import 'package:gym_in/pages/product_cart_page.dart';
 import 'package:gym_in/pages/user_page.dart';
 import 'package:gym_in/services/cart_service.dart';
-import 'package:gym_in/services/user_detail_service.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reviews_slider/reviews_slider.dart';
