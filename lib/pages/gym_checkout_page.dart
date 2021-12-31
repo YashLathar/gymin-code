@@ -80,7 +80,8 @@ class GymCheckoutPage extends HookWidget {
 
     bool isValidDate(DateTime date) {
       final todayDate = DateTime.now();
-      if (date.day > todayDate.day) {
+
+      if (date.isAfter(todayDate)) {
         return true;
       } else {
         return false;
@@ -109,13 +110,13 @@ class GymCheckoutPage extends HookWidget {
 
         paymentIntentData.value = {};
 
-        final doc = await context.read(ordersServiceProvider).addToOrders(
+        final doc = await context.read(ordersServiceProvider).addToGymOrders(
               gymcheckName,
               gymcheckPhoto,
               fromTime.hour.toString(),
               toTime,
               planSelected,
-              date.value.toString(),
+              date.value.day.toString(),
               context,
             );
 
@@ -154,7 +155,7 @@ class GymCheckoutPage extends HookWidget {
     }
 
     Future<void> makePayment() async {
-      final price = totalPayable.toInt().toString() * 100;
+      final price = totalPayable * 100;
       var url = Uri.parse(
           "https://us-central1-gym-in-14938.cloudfunctions.net/stripePayment");
       final response = await http.post(
@@ -825,7 +826,14 @@ class GymCheckoutPage extends HookWidget {
                           ),
                           child: MaterialButton(
                             onPressed: () async {
-                              await makePayment();
+                              await user!.reload();
+                              final isEmailVerified = user.emailVerified;
+
+                              if (isEmailVerified) {
+                                await makePayment();
+                              } else {
+                                aShowToast(msg: "Verify Email First");
+                              }
                             },
                             child: Text(
                               "Checkout (₹ ${totalPayable.toString()})",

@@ -8,8 +8,10 @@ import 'package:gym_in/controllers/cart_controller.dart';
 import 'package:gym_in/controllers/favourites_controller.dart';
 import 'package:gym_in/models/product.dart';
 import 'package:gym_in/pages/product_cart_page.dart';
+import 'package:gym_in/pages/setting_page.dart';
 import 'package:gym_in/pages/user_page.dart';
 import 'package:gym_in/services/cart_service.dart';
+import 'package:gym_in/services/favourites_service.dart';
 import 'package:gym_in/services/user_detail_service.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,777 +36,821 @@ class ProductDetailPage extends HookWidget {
     final cartService = useProvider(cartServiceProvider);
     final cartControllerProvider = useProvider(cartProvider);
     final favControllerProvider = useProvider(favouritesControllerProvider);
+    final favProvider = useProvider(favServiceProvider);
     final isUiLiked = useState(false);
     final isLoading = useState(false);
     final user = useProvider(authControllerProvider);
     final userInfo = useProvider(userDetailFutureShowProvider);
     Size size = MediaQuery.of(context).size;
+    final authControllerState = useProvider(authControllerProvider);
+    final userDetailProvider = useProvider(userDetailServiceProvider);
+    final addressController = useTextEditingController();
 
     return Scaffold(
       body: SafeArea(
         child: Stack(
           children: [
-            SingleChildScrollView(
+            ListView(
               physics: ClampingScrollPhysics(),
-              child: Container(
-                width: size.width,
-                height: 1000,
-                child: Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        boxShadow: [
-                          BoxShadow(
-                            color: (Colors.grey[100])!,
-                            offset: Offset(
-                              0,
-                              10,
-                            ),
-                            blurRadius: 10.0,
-                            spreadRadius: -5.0,
-                          ),
-                        ],
-                      ),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            // padding: EdgeInsets.only(top: 3),
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(35),
-                              border: Border.all(
-                                width: 2.0,
-                                color: Theme.of(context).backgroundColor,
+              children: [
+                Container(
+                  width: size.width,
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          boxShadow: [
+                            BoxShadow(
+                              color: (Colors.grey[100])!,
+                              offset: Offset(
+                                0,
+                                10,
                               ),
+                              blurRadius: 10.0,
+                              spreadRadius: -5.0,
                             ),
-                            child: Center(
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Icon(
-                                    Icons.arrow_back_ios,
-                                    color: Theme.of(context).backgroundColor,
+                          ],
+                        ),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              // padding: EdgeInsets.only(top: 3),
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(35),
+                                border: Border.all(
+                                  width: 2.0,
+                                  color: Theme.of(context).backgroundColor,
+                                ),
+                              ),
+                              child: Center(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Icon(
+                                      Icons.arrow_back_ios,
+                                      color: Theme.of(context).backgroundColor,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Row(
-                            children: [
-                              Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(35),
-                                      border: Border.all(
-                                        width: 2.0,
-                                        color:
-                                            Theme.of(context).backgroundColor,
+                            Row(
+                              children: [
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(35),
+                                        border: Border.all(
+                                          width: 2.0,
+                                          color:
+                                              Theme.of(context).backgroundColor,
+                                        ),
                                       ),
-                                    ),
-                                    child: Center(
-                                      child: IconButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ProductCartPage(),
-                                            ),
-                                          );
-                                        },
-                                        icon: Icon(
-                                          Icons.shopping_cart,
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2!
-                                              .color,
+                                      child: Center(
+                                        child: IconButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProductCartPage(),
+                                              ),
+                                            );
+                                          },
+                                          icon: Icon(
+                                            Icons.shopping_cart,
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2!
+                                                .color,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: Container(
-                                      height: 20,
-                                      width: 20,
-                                      decoration: BoxDecoration(
-                                        color: Colors.redAccent,
-                                        borderRadius: BorderRadius.circular(35),
-                                      ),
-                                      child: Center(
-                                        child: Text(cartControllerProvider
-                                            .products.length
-                                            .toString()),
+                                    Positioned(
+                                      right: 0,
+                                      top: 0,
+                                      child: Container(
+                                        height: 20,
+                                        width: 20,
+                                        decoration: BoxDecoration(
+                                          color: Colors.redAccent,
+                                          borderRadius:
+                                              BorderRadius.circular(35),
+                                        ),
+                                        child: Center(
+                                          child: Text(cartControllerProvider
+                                              .products.length
+                                              .toString()),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(35),
-                                  border: Border.all(
-                                    width: 2.0,
-                                    color: Theme.of(context).backgroundColor,
-                                  ),
+                                  ],
                                 ),
-                                child: Center(
-                                  child: IconButton(
-                                    onPressed: () {
-                                      showModalBottomSheet(
-                                          backgroundColor: Theme.of(context)
-                                              .scaffoldBackgroundColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(25),
-                                            ),
-                                          ),
-                                          context: context,
-                                          builder: (context) {
-                                            return ReviewsPSheet();
-                                          });
-                                    },
-                                    icon: Icon(
-                                      Icons.rate_review,
-                                      color: Theme.of(context).backgroundColor,
-                                    ),
-                                  ),
+                                SizedBox(
+                                  width: 5,
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Container(
-                                height: size.width,
-                                child: Hero(
-                                  tag: productID,
-                                  child: Image.network(
-                                    image,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                // decoration: BoxDecoration(
-                                //   borderRadius: BorderRadius.circular(25),
-                                //   border: Border.all(
-                                //       width: 1,
-                                //       color: Theme.of(context).backgroundColor),
+                                // Container(
+                                //   width: 50,
+                                //   height: 50,
+                                //   decoration: BoxDecoration(
+                                //     borderRadius: BorderRadius.circular(35),
+                                //     border: Border.all(
+                                //       width: 2.0,
+                                //       color: Theme.of(context).backgroundColor,
+                                //     ),
+                                //   ),
+                                //   child: Center(
+                                //     child: IconButton(
+                                //       onPressed: () {
+                                //         showModalBottomSheet(
+                                //             backgroundColor: Theme.of(context)
+                                //                 .scaffoldBackgroundColor,
+                                //             shape: RoundedRectangleBorder(
+                                //               borderRadius:
+                                //                   BorderRadius.vertical(
+                                //                 top: Radius.circular(25),
+                                //               ),
+                                //             ),
+                                //             context: context,
+                                //             builder: (context) {
+                                //               return ReviewsPSheet();
+                                //             });
+                                //       },
+                                //       icon: Icon(
+                                //         Icons.rate_review,
+                                //         color:
+                                //             Theme.of(context).backgroundColor,
+                                //       ),
+                                //     ),
+                                //   ),
                                 // ),
-                                margin: EdgeInsets.only(top: size.width),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Divider(
-                                      color: Theme.of(context).backgroundColor,
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        child: Column(
+                          children: [
+                            Stack(
+                              children: [
+                                Container(
+                                  height: size.width,
+                                  child: Hero(
+                                    tag: productID,
+                                    child: Center(
+                                      child: Image.network(
+                                        image,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 15, horizontal: 15),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            child: Text(
-                                              title,
-                                              style:
-                                                  kSmallContentStyle.copyWith(
-                                                fontSize: 22,
+                                  ),
+                                ),
+                                Container(
+                                  // decoration: BoxDecoration(
+                                  //   borderRadius: BorderRadius.circular(25),
+                                  //   border: Border.all(
+                                  //       width: 1,
+                                  //       color: Theme.of(context).backgroundColor),
+                                  // ),
+                                  margin: EdgeInsets.only(top: size.width),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Divider(
+                                        color:
+                                            Theme.of(context).backgroundColor,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 15, horizontal: 15),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                title.length > 80
+                                                    ? title.substring(0, 80) +
+                                                        "..."
+                                                    : title + " ...",
+                                                style:
+                                                    kSmallContentStyle.copyWith(
+                                                  fontSize: 22,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              inStock
-                                                  ? Container(
-                                                      height: 20,
-                                                      width: 125,
-                                                      padding:
-                                                          EdgeInsets.fromLTRB(
-                                                              8, 2, 5, 2),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                            15,
-                                                          ),
-                                                          color: Colors.green),
-                                                      child: Text(
-                                                        "Available in Stock",
-                                                        style:
-                                                            kSmallContentStyle
-                                                                .copyWith(
-                                                                    fontSize:
-                                                                        12),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                inStock
+                                                    ? Container(
+                                                        height: 20,
+                                                        width: 125,
+                                                        padding:
+                                                            EdgeInsets.fromLTRB(
+                                                                8, 2, 5, 2),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                  15,
+                                                                ),
+                                                                color: Colors
+                                                                    .green),
+                                                        child: Text(
+                                                          "Available in Stock",
+                                                          style:
+                                                              kSmallContentStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          12),
+                                                        ),
+                                                      )
+                                                    : Container(
+                                                        height: 20,
+                                                        width: 150,
+                                                        padding:
+                                                            EdgeInsets.fromLTRB(
+                                                                8, 2, 5, 2),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                  15,
+                                                                ),
+                                                                color: Colors
+                                                                    .redAccent),
+                                                        child: Text(
+                                                          "Currently unavailable",
+                                                          style:
+                                                              kSmallContentStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          12),
+                                                        ),
                                                       ),
-                                                    )
-                                                  : Container(
-                                                      height: 20,
-                                                      width: 150,
-                                                      padding:
-                                                          EdgeInsets.fromLTRB(
-                                                              8, 2, 5, 2),
-                                                      decoration: BoxDecoration(
+                                                Container(
+                                                  margin: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 15,
+                                                    vertical: 5,
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 5,
+                                                          right: 5,
+                                                          top: 2,
+                                                          bottom: 2,
+                                                        ),
+                                                        decoration:
+                                                            BoxDecoration(
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(
                                                             15,
                                                           ),
                                                           color:
-                                                              Colors.redAccent),
-                                                      child: Text(
-                                                        "Currently unavailable",
-                                                        style:
-                                                            kSmallContentStyle
-                                                                .copyWith(
-                                                                    fontSize:
-                                                                        12),
-                                                      ),
-                                                    ),
-                                              Container(
-                                                margin:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 15,
-                                                  vertical: 5,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    Container(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        left: 5,
-                                                        right: 5,
-                                                        top: 2,
-                                                        bottom: 2,
-                                                      ),
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                          15,
+                                                              Colors.redAccent,
                                                         ),
-                                                        color: Colors.redAccent,
+                                                        child:
+                                                            Text(rating + "⭐️"),
                                                       ),
-                                                      child:
-                                                          Text(rating + "⭐️"),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Container(
-                                                      child: Text(
-                                                        "317 ratings",
-                                                        style:
-                                                            kSmallContentStyle
-                                                                .copyWith(
-                                                          fontSize: 12,
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Container(
+                                                        child: Text(
+                                                          "317 ratings",
+                                                          style:
+                                                              kSmallContentStyle
+                                                                  .copyWith(
+                                                            fontSize: 12,
+                                                          ),
                                                         ),
-                                                      ),
-                                                    )
-                                                  ],
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.symmetric(
-                                        horizontal: 15,
-                                        // vertical: 5,
-                                      ),
-                                      child: Text(
-                                        "₹" + price.toString(),
-                                        style: GoogleFonts.lato(
-                                          textStyle: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 22,
-                                            color: Colors.redAccent,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    // Container(
-                                    //   margin: const EdgeInsets.symmetric(
-                                    //     horizontal: 15,
-                                    //     vertical: 5,
-                                    //   ),
-                                    //   child: Row(
-                                    //     children: [
-                                    //       Container(
-                                    //         padding: const EdgeInsets.only(
-                                    //           left: 5,
-                                    //           right: 5,
-                                    //           top: 2,
-                                    //           bottom: 2,
-                                    //         ),
-                                    //         decoration: BoxDecoration(
-                                    //           borderRadius:
-                                    //               BorderRadius.circular(
-                                    //             15,
-                                    //           ),
-                                    //           color: Colors.redAccent,
-                                    //         ),
-                                    //         child: Text(rating + "⭐️"),
-                                    //       ),
-                                    //       SizedBox(
-                                    //         width: 5,
-                                    //       ),
-                                    //       Container(
-                                    //         child: Text(
-                                    //           "317 ratings",
-                                    //           style:
-                                    //               kSmallContentStyle.copyWith(
-                                    //             fontSize: 12,
-                                    //           ),
-                                    //         ),
-                                    //       )
-                                    //     ],
-                                    //   ),
-                                    // ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        left: 15,
-                                        right: 15,
-                                        bottom: 20,
-                                      ),
-                                      child: Text(
-                                        description,
-                                      ),
-                                    ),
-                                    Divider(
-                                      thickness: 1,
-                                      color: Theme.of(context).backgroundColor,
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        showModalBottomSheet(
-                                          backgroundColor: Theme.of(context)
-                                              .scaffoldBackgroundColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(25),
-                                            ),
-                                          ),
-                                          context: context,
-                                          builder: (context) {
-                                            return OffersandCoupons();
-                                          },
-                                        );
-                                      },
-                                      child: Container(
-                                        // decoration: BoxDecoration(
-                                        //   // borderRadius:
-                                        //   //     BorderRadius.circular(25),
-                                        //   border: Border.all(
-                                        //       width: 2,
-                                        //       color: Theme.of(context)
-                                        //           .backgroundColor),
-                                        //),
-                                        padding: EdgeInsets.only(
-                                          left: 15,
-                                          right: 15,
-                                        ),
-                                        height: 40,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Offers and Coupons",
-                                              style:
-                                                  kSmallContentStyle.copyWith(
-                                                color: Colors.redAccent,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            Icon(
-                                              Icons.expand_more,
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText2!
-                                                  .color,
-                                            ),
+                                              ],
+                                            )
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    Divider(
-                                      thickness: 1,
-                                      color: Theme.of(context).backgroundColor,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      // decoration: BoxDecoration(
-                                      //   borderRadius: BorderRadius.circular(25),
-                                      //   border: Border.all(
-                                      //       width: 2,
-                                      //       color: Theme.of(context)
-                                      //           .backgroundColor),
-                                      // ),
-                                      padding: EdgeInsets.only(
-                                        left: 15,
-                                        right: 15,
-                                        top: 15,
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(
+                                          horizontal: 15,
+                                          // vertical: 5,
+                                        ),
+                                        child: Text(
+                                          "₹" + price.toString(),
+                                          style: GoogleFonts.lato(
+                                            textStyle: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 22,
+                                              color: Colors.redAccent,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                      child: Column(
-                                        children: [
-                                          Row(
+                                      // Container(
+                                      //   margin: const EdgeInsets.symmetric(
+                                      //     horizontal: 15,
+                                      //     vertical: 5,
+                                      //   ),
+                                      //   child: Row(
+                                      //     children: [
+                                      //       Container(
+                                      //         padding: const EdgeInsets.only(
+                                      //           left: 5,
+                                      //           right: 5,
+                                      //           top: 2,
+                                      //           bottom: 2,
+                                      //         ),
+                                      //         decoration: BoxDecoration(
+                                      //           borderRadius:
+                                      //               BorderRadius.circular(
+                                      //             15,
+                                      //           ),
+                                      //           color: Colors.redAccent,
+                                      //         ),
+                                      //         child: Text(rating + "⭐️"),
+                                      //       ),
+                                      //       SizedBox(
+                                      //         width: 5,
+                                      //       ),
+                                      //       Container(
+                                      //         child: Text(
+                                      //           "317 ratings",
+                                      //           style:
+                                      //               kSmallContentStyle.copyWith(
+                                      //             fontSize: 12,
+                                      //           ),
+                                      //         ),
+                                      //       )
+                                      //     ],
+                                      //   ),
+                                      // ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          bottom: 20,
+                                        ),
+                                        child: Text(
+                                          description,
+                                        ),
+                                      ),
+                                      Divider(
+                                        thickness: 1,
+                                        color:
+                                            Theme.of(context).backgroundColor,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                            backgroundColor: Theme.of(context)
+                                                .scaffoldBackgroundColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                top: Radius.circular(25),
+                                              ),
+                                            ),
+                                            context: context,
+                                            builder: (context) {
+                                              return OffersandCoupons();
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          // decoration: BoxDecoration(
+                                          //   // borderRadius:
+                                          //   //     BorderRadius.circular(25),
+                                          //   border: Border.all(
+                                          //       width: 2,
+                                          //       color: Theme.of(context)
+                                          //           .backgroundColor),
+                                          //),
+                                          padding: EdgeInsets.only(
+                                            left: 15,
+                                            right: 15,
+                                          ),
+                                          height: 40,
+                                          child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                "Deliver to",
-                                                style: kSmallContentStyle,
+                                                "Offers and Coupons",
+                                                style:
+                                                    kSmallContentStyle.copyWith(
+                                                  color: Colors.redAccent,
+                                                  fontSize: 16,
+                                                ),
                                               ),
-                                              Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.car_rental,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText2!
-                                                        .color,
-                                                  ),
-                                                  Text(
-                                                    "Deliver in 3 Days",
-                                                    style: kSmallContentStyle
-                                                        .copyWith(
-                                                      fontSize: 13,
-                                                      color: Colors.redAccent,
-                                                    ),
-                                                  ),
-                                                ],
+                                              Icon(
+                                                Icons.expand_more,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText2!
+                                                    .color,
                                               ),
                                             ],
                                           ),
-                                          SizedBox(height: 20),
-                                          // Divider(
-                                          //   color: Theme.of(context)
-                                          //       .backgroundColor,
-                                          // ),
-                                          Container(
-                                            height: 60,
-                                            margin: EdgeInsets.only(
-                                                left: 10, right: 10),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                15,
-                                              ),
-                                              color: Colors.grey[300],
-                                            ),
-                                            child: Container(
-                                              margin: EdgeInsets.only(
-                                                  left: 10, right: 10),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Icon(Icons.location_pin),
-                                                      userInfo.when(
-                                                        data: (data) {
-                                                          return Text(
-                                                            data.address,
-                                                            style:
-                                                                kSmallContentStyle
-                                                                    .copyWith(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 17,
-                                                            ),
-                                                          );
-                                                        },
-                                                        loading: () =>
-                                                            CircularProgressIndicator(),
-                                                        error: (e, st) =>
-                                                            Text("Not Working"),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  ElevatedButton(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                            primary: Colors
-                                                                .redAccent),
-                                                    onPressed: () {
-                                                      showModalBottomSheet(
-                                                          isDismissible: true,
-                                                          backgroundColor: Theme
-                                                                  .of(context)
-                                                              .scaffoldBackgroundColor,
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius.vertical(
-                                                                    top: Radius
-                                                                        .circular(
-                                                                            25)),
-                                                          ),
-                                                          clipBehavior: Clip
-                                                              .antiAliasWithSaveLayer,
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                              buildContext) {
-                                                            return Container();
-                                                          });
-                                                    },
-                                                    child: Text(
-                                                      "Change",
+                                        ),
+                                      ),
+                                      Divider(
+                                        thickness: 1,
+                                        color:
+                                            Theme.of(context).backgroundColor,
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          top: 15,
+                                          bottom: 200,
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Deliver to",
+                                                  style: kSmallContentStyle,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.car_rental,
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText2!
+                                                          .color,
+                                                    ),
+                                                    Text(
+                                                      "Deliver in 3 Days",
                                                       style: kSmallContentStyle
                                                           .copyWith(
-                                                        fontSize: 15,
+                                                        fontSize: 13,
+                                                        color: Colors.redAccent,
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 20),
+                                            // Divider(
+                                            //   color: Theme.of(context)
+                                            //       .backgroundColor,
+                                            // ),
+                                            Container(
+                                              height: 60,
+                                              margin: EdgeInsets.only(
+                                                left: 10,
+                                                right: 10,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  15,
+                                                ),
+                                                color: Colors.grey[300],
+                                              ),
+                                              child: Container(
+                                                margin: EdgeInsets.only(
+                                                  left: 10,
+                                                  right: 10,
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                            Icons.location_pin),
+                                                        userInfo.when(
+                                                          data: (data) {
+                                                            return Text(
+                                                              data.address,
+                                                              style:
+                                                                  kSmallContentStyle
+                                                                      .copyWith(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 17,
+                                                              ),
+                                                            );
+                                                          },
+                                                          loading: () =>
+                                                              CircularProgressIndicator(),
+                                                          error: (e, st) => Text(
+                                                              "Not Working"),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    ElevatedButton(
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                              primary: Colors
+                                                                  .redAccent),
+                                                      onPressed: () {
+                                                        showModalBottomSheet(
+                                                            isDismissible: true,
+                                                            backgroundColor: Theme
+                                                                    .of(context)
+                                                                .scaffoldBackgroundColor,
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius.vertical(
+                                                                      top: Radius
+                                                                          .circular(
+                                                                              25)),
+                                                            ),
+                                                            clipBehavior: Clip
+                                                                .antiAliasWithSaveLayer,
+                                                            context: context,
+                                                            builder: (BuildContext
+                                                                buildContext) {
+                                                              return CustomBottomSheet(
+                                                                isNumPad: false,
+                                                                controller:
+                                                                    addressController,
+                                                                lable:
+                                                                    "Address",
+                                                                bottomLable:
+                                                                    "Your Address",
+                                                                onTap:
+                                                                    () async {
+                                                                  await userDetailProvider.updateUserAddress(
+                                                                      addressController
+                                                                          .text,
+                                                                      authControllerState!
+                                                                          .uid);
+                                                                  context.refresh(
+                                                                      userDetailFutureShowProvider);
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                              );
+                                                            });
+                                                      },
+                                                      child: Text(
+                                                        "Change",
+                                                        style:
+                                                            kSmallContentStyle
+                                                                .copyWith(
+                                                          fontSize: 15,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    // Divider(
-                                    //   thickness: 1.0,
-                                    //   color: Theme.of(context).backgroundColor,
-                                    // ),
-                                    // Container(
-                                    //   // decoration: BoxDecoration(
-                                    //   //   borderRadius: BorderRadius.circular(25),
-                                    //   //   border: Border.all(
-                                    //   //       width: 2,
-                                    //   //       color: Theme.of(context)
-                                    //   //           .backgroundColor),
-                                    //   // ),
-                                    //   padding: EdgeInsets.only(
-                                    //     left: 15,
-                                    //     right: 15,
-                                    //   ),
-                                    //   child: Column(
-                                    //     children: [
-                                    //       Row(
-                                    //         mainAxisAlignment:
-                                    //             MainAxisAlignment.spaceBetween,
-                                    //         children: [
-                                    //           Text(
-                                    //             "Ratings and Reviews",
-                                    //             style: kSmallContentStyle,
-                                    //           ),
-                                    //           TextButton(
-                                    //             onPressed: () {
-                                    //               showModalBottomSheet(
-                                    //                   shape:
-                                    //                       RoundedRectangleBorder(
-                                    //                     borderRadius:
-                                    //                         BorderRadius
-                                    //                             .vertical(
-                                    //                       top: Radius.circular(
-                                    //                           25),
-                                    //                     ),
-                                    //                   ),
-                                    //                   context: context,
-                                    //                   builder: (context) {
-                                    //                     return ReviewsPSheet();
-                                    //                   });
-                                    //             },
-                                    //             child: Text(
-                                    //               "Rate Product",
-                                    //               style: kSmallContentStyle
-                                    //                   .copyWith(
-                                    //                 fontSize: 15,
-                                    //               ),
-                                    //             ),
-                                    //           ),
-                                    //         ],
-                                    //       ),
-                                    //       // Container(
-                                    //       //   height: 100,
-                                    //       //   color: Theme.of(context)
-                                    //       //       .scaffoldBackgroundColor,
-                                    //       //   child: Text(
-                                    //       //     "Loading...",
-                                    //       //     style:
-                                    //       //         kSmallContentStyle.copyWith(
-                                    //       //             color: Colors.redAccent),
-                                    //       //   ),
-                                    //       // ),
-                                    //       // SizedBox(
-                                    //       //   height: 25,
-                                    //       // ),
-                                    //       Container(
-                                    //         height: 100,
-                                    //         child: Column(
-                                    //           crossAxisAlignment:
-                                    //               CrossAxisAlignment.start,
-                                    //           children: [
-                                    //             Row(
-                                    //               mainAxisAlignment:
-                                    //                   MainAxisAlignment
-                                    //                       .spaceBetween,
-                                    //               children: [
-                                    //                 Row(
-                                    //                   children: [
-                                    //                     Container(
-                                    //                       height: 30,
-                                    //                       width: 30,
-                                    //                       decoration:
-                                    //                           BoxDecoration(
-                                    //                         borderRadius:
-                                    //                             BorderRadius
-                                    //                                 .circular(
-                                    //                           15,
-                                    //                         ),
-                                    //                       ),
-                                    //                       child: Icon(Icons
-                                    //                           .verified_user),
-                                    //                     ),
-                                    //                     Text(
-                                    //                       "Hemant Gurjar",
-                                    //                       style:
-                                    //                           kSmallContentStyle
-                                    //                               .copyWith(
-                                    //                         color: Theme.of(
-                                    //                                 context)
-                                    //                             .textTheme
-                                    //                             .bodyText2!
-                                    //                             .color,
-                                    //                       ),
-                                    //                     ),
-                                    //                   ],
-                                    //                 ),
-                                    //                 IconButton(
-                                    //                   onPressed: () {},
+                                      // Divider(
+                                      //   thickness: 1.0,
+                                      //   color: Theme.of(context).backgroundColor,
+                                      // ),
+                                      // Container(
+                                      //   // decoration: BoxDecoration(
+                                      //   //   borderRadius: BorderRadius.circular(25),
+                                      //   //   border: Border.all(
+                                      //   //       width: 2,
+                                      //   //       color: Theme.of(context)
+                                      //   //           .backgroundColor),
+                                      //   // ),
+                                      //   padding: EdgeInsets.only(
+                                      //     left: 15,
+                                      //     right: 15,
+                                      //   ),
+                                      //   child: Column(
+                                      //     children: [
+                                      //       Row(
+                                      //         mainAxisAlignment:
+                                      //             MainAxisAlignment.spaceBetween,
+                                      //         children: [
+                                      //           Text(
+                                      //             "Ratings and Reviews",
+                                      //             style: kSmallContentStyle,
+                                      //           ),
+                                      //           TextButton(
+                                      //             onPressed: () {
+                                      //               showModalBottomSheet(
+                                      //                   shape:
+                                      //                       RoundedRectangleBorder(
+                                      //                     borderRadius:
+                                      //                         BorderRadius
+                                      //                             .vertical(
+                                      //                       top: Radius.circular(
+                                      //                           25),
+                                      //                     ),
+                                      //                   ),
+                                      //                   context: context,
+                                      //                   builder: (context) {
+                                      //                     return ReviewsPSheet();
+                                      //                   });
+                                      //             },
+                                      //             child: Text(
+                                      //               "Rate Product",
+                                      //               style: kSmallContentStyle
+                                      //                   .copyWith(
+                                      //                 fontSize: 15,
+                                      //               ),
+                                      //             ),
+                                      //           ),
+                                      //         ],
+                                      //       ),
+                                      //       // Container(
+                                      //       //   height: 100,
+                                      //       //   color: Theme.of(context)
+                                      //       //       .scaffoldBackgroundColor,
+                                      //       //   child: Text(
+                                      //       //     "Loading...",
+                                      //       //     style:
+                                      //       //         kSmallContentStyle.copyWith(
+                                      //       //             color: Colors.redAccent),
+                                      //       //   ),
+                                      //       // ),
+                                      //       // SizedBox(
+                                      //       //   height: 25,
+                                      //       // ),
+                                      //       Container(
+                                      //         height: 100,
+                                      //         child: Column(
+                                      //           crossAxisAlignment:
+                                      //               CrossAxisAlignment.start,
+                                      //           children: [
+                                      //             Row(
+                                      //               mainAxisAlignment:
+                                      //                   MainAxisAlignment
+                                      //                       .spaceBetween,
+                                      //               children: [
+                                      //                 Row(
+                                      //                   children: [
+                                      //                     Container(
+                                      //                       height: 30,
+                                      //                       width: 30,
+                                      //                       decoration:
+                                      //                           BoxDecoration(
+                                      //                         borderRadius:
+                                      //                             BorderRadius
+                                      //                                 .circular(
+                                      //                           15,
+                                      //                         ),
+                                      //                       ),
+                                      //                       child: Icon(Icons
+                                      //                           .verified_user),
+                                      //                     ),
+                                      //                     Text(
+                                      //                       "Hemant Gurjar",
+                                      //                       style:
+                                      //                           kSmallContentStyle
+                                      //                               .copyWith(
+                                      //                         color: Theme.of(
+                                      //                                 context)
+                                      //                             .textTheme
+                                      //                             .bodyText2!
+                                      //                             .color,
+                                      //                       ),
+                                      //                     ),
+                                      //                   ],
+                                      //                 ),
+                                      //                 IconButton(
+                                      //                   onPressed: () {},
 
-                                    //                   icon: Icon(Icons.edit,
-                                    //                   color: Colors.redAccent,
-                                    //                   // color: Theme.of(context).textTheme.bodyText2!.color,
-                                    //                   ),
-                                    //                 ),
-                                    //               ],
-                                    //             ),
-                                    //             SizedBox(
-                                    //               height: 10,
-                                    //             ),
-                                    //             Container(
-                                    //               margin:
-                                    //                   EdgeInsets.only(left: 10),
-                                    //               child: Row(
-                                    //                 mainAxisAlignment:
-                                    //                     MainAxisAlignment
-                                    //                         .spaceBetween,
-                                    //                 children: [
-                                    //                   Text(
-                                    //                     "The Services are good. Although there's still \nsome room for improvement",
-                                    //                     style: TextStyle(
-                                    //                         color: Theme.of(
-                                    //                                 context)
-                                    //                             .textTheme
-                                    //                             .bodyText2!
-                                    //                             .color),
-                                    //                   ),
-                                    //                   Container(
-                                    //                     child: Row(
-                                    //                       children: [
-                                    //                         Icon(Icons.star,
-                                    //                             color: Color(
-                                    //                                 0xffFFD700)),
-                                    //                         SizedBox(
-                                    //                           width: 5,
-                                    //                         ),
-                                    //                         Container(
-                                    //                           width: 20,
-                                    //                           height: 20,
-                                    //                           decoration:
-                                    //                               BoxDecoration(
-                                    //                             borderRadius:
-                                    //                                 BorderRadius
-                                    //                                     .circular(
-                                    //                                         50),
-                                    //                             color: Color(
-                                    //                                 0xffFFD700),
-                                    //                           ),
-                                    //                           child: Center(
-                                    //                             child: Text(
-                                    //                               "4",
-                                    //                               // trainerrating
-                                    //                               //     .toString(),
-                                    //                               style: TextStyle(
-                                    //                                   color: Colors
-                                    //                                       .white,
-                                    //                                   fontSize:
-                                    //                                       15),
-                                    //                             ),
-                                    //                           ),
-                                    //                         ),
-                                    //                       ],
-                                    //                     ),
-                                    //                   ),
-                                    //                 ],
-                                    //               ),
-                                    //             ),
-                                    //           ],
-                                    //         ),
-                                    //       ),
-                                    // ReviewCard(
-                                    //   userPhotoUrl:
-                                    //       reviewsData[dataIndex].userPhotoUrl[0],
-                                    //   userName: reviewsData[dataIndex].userName,
-                                    //   index: 0,
-                                    //   button: reviewsData[dataIndex].editButton,
-                                    //   height: 30,
-                                    //   width: 30,
-                                    // ),
-                                    //     ],
-                                    //   ),
-                                    // )
-                                  ],
+                                      //                   icon: Icon(Icons.edit,
+                                      //                   color: Colors.redAccent,
+                                      //                   // color: Theme.of(context).textTheme.bodyText2!.color,
+                                      //                   ),
+                                      //                 ),
+                                      //               ],
+                                      //             ),
+                                      //             SizedBox(
+                                      //               height: 10,
+                                      //             ),
+                                      //             Container(
+                                      //               margin:
+                                      //                   EdgeInsets.only(left: 10),
+                                      //               child: Row(
+                                      //                 mainAxisAlignment:
+                                      //                     MainAxisAlignment
+                                      //                         .spaceBetween,
+                                      //                 children: [
+                                      //                   Text(
+                                      //                     "The Services are good. Although there's still \nsome room for improvement",
+                                      //                     style: TextStyle(
+                                      //                         color: Theme.of(
+                                      //                                 context)
+                                      //                             .textTheme
+                                      //                             .bodyText2!
+                                      //                             .color),
+                                      //                   ),
+                                      //                   Container(
+                                      //                     child: Row(
+                                      //                       children: [
+                                      //                         Icon(Icons.star,
+                                      //                             color: Color(
+                                      //                                 0xffFFD700)),
+                                      //                         SizedBox(
+                                      //                           width: 5,
+                                      //                         ),
+                                      //                         Container(
+                                      //                           width: 20,
+                                      //                           height: 20,
+                                      //                           decoration:
+                                      //                               BoxDecoration(
+                                      //                             borderRadius:
+                                      //                                 BorderRadius
+                                      //                                     .circular(
+                                      //                                         50),
+                                      //                             color: Color(
+                                      //                                 0xffFFD700),
+                                      //                           ),
+                                      //                           child: Center(
+                                      //                             child: Text(
+                                      //                               "4",
+                                      //                               // trainerrating
+                                      //                               //     .toString(),
+                                      //                               style: TextStyle(
+                                      //                                   color: Colors
+                                      //                                       .white,
+                                      //                                   fontSize:
+                                      //                                       15),
+                                      //                             ),
+                                      //                           ),
+                                      //                         ),
+                                      //                       ],
+                                      //                     ),
+                                      //                   ),
+                                      //                 ],
+                                      //               ),
+                                      //             ),
+                                      //           ],
+                                      //         ),
+                                      //       ),
+                                      // ReviewCard(
+                                      //   userPhotoUrl:
+                                      //       reviewsData[dataIndex].userPhotoUrl[0],
+                                      //   userName: reviewsData[dataIndex].userName,
+                                      //   index: 0,
+                                      //   button: reviewsData[dataIndex].editButton,
+                                      //   height: 30,
+                                      //   width: 30,
+                                      // ),
+                                      //     ],
+                                      //   ),
+                                      // )
+                                    ],
+                                  ),
                                 ),
-                              )
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
             Positioned(
               bottom: 0,
@@ -813,7 +859,7 @@ class ProductDetailPage extends HookWidget {
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: (Colors.grey[400])!,
+                      color: (Colors.blueGrey[400])!,
                       offset: Offset(
                         0,
                         -10,
@@ -928,7 +974,7 @@ class ProductDetailPage extends HookWidget {
                                 Border.all(width: 2.0, color: Colors.redAccent),
                             borderRadius: BorderRadius.circular(15)),
                         child: MaterialButton(
-                          onPressed: () {
+                          onPressed: () async {
                             final thisProduct = favControllerProvider
                                 .favProducts
                                 .where((product) =>
@@ -945,6 +991,8 @@ class ProductDetailPage extends HookWidget {
                                   productId: productID,
                                   isLiked: isUiLiked.value,
                                 );
+
+                                await favProvider.addProductToFav(product);
 
                                 favControllerProvider.addProductToFav(product);
                                 Fluttertoast.showToast(

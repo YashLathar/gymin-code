@@ -6,7 +6,9 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
+import 'package:gym_in/services/orders_service.dart';
 import 'package:gym_in/widgets/cart_product.dart';
+import 'package:gym_in/widgets/product_order_widget.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -28,6 +30,10 @@ class ProductCartPage extends HookWidget {
     final paymentIntentData = useState({});
     final pincodeController = useTextEditingController();
     Size size = MediaQuery.of(context).size;
+    final productsPhotos =
+        cartControllerProvider.products.map((e) => e.image).toList();
+    final productsName =
+        cartControllerProvider.products.map((e) => e.title).toList();
 
     Future<void> displayPaymentSheet() async {
       try {
@@ -41,33 +47,23 @@ class ProductCartPage extends HookWidget {
 
         paymentIntentData.value = {};
 
-        // final doc = await context.read(ordersServiceProvider).addToOrders(
-        //       gymcheckName,
-        //       gymcheckPhoto,
-        //       fromTime,
-        //       toTime,
-        //       selected.value.toString(),
-        //       context.read(dateProvider).state.day.toString(),
-        //       context,
-        //     );
+        final doc =
+            await context.read(ordersServiceProvider).addToProductOrders(
+                  productsName,
+                  productsPhotos,
+                  cartControllerProvider.totalPrice,
+                );
+
+        final productOrder = await context
+            .read(ordersServiceProvider)
+            .getSingleProductOrder(doc.id);
 
         showDialog(
           context: context,
           builder: (context) {
-            return Container(
-              height: 100,
-              width: 100,
+            return ProductOrderWidget(
+              productOrder: productOrder,
             );
-            //     QrResultScreen(
-            //       gymName: gymcheckName,
-            //       gymPhoto: gymcheckPhoto,
-            //       userName: user!.displayName,
-            //       userImage: user.photoURL,
-            //       fromDate: context.read(dateProvider).state.day.toString(),
-            //       fromTime: context.read(userSelectedFromTimeProvider).state,
-            //       planSelected: selected.value.toString(),
-            //       docId: doc.id,
-            //     );
           },
         );
         aShowToast(msg: "Payment Successful");
@@ -185,19 +181,16 @@ class ProductCartPage extends HookWidget {
                                     borderRadius: BorderRadius.circular(25),
                                     border: Border.all(
                                         width: 2.0,
-                                        color:
-                                            Theme.of(context).scaffoldBackgroundColor),
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor),
                                     color: Theme.of(context)
                                         .scaffoldBackgroundColor),
                                 child: Center(
                                   child: IconButton(
-                                    onPressed: () {
-                                    },
-                                    icon: Icon(
-                                      Icons.add_shopping_cart_outlined,
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor
-                                    ),
+                                    onPressed: () {},
+                                    icon: Icon(Icons.add_shopping_cart_outlined,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor),
                                   ),
                                 ),
                               ),
@@ -290,16 +283,17 @@ class ProductCartPage extends HookWidget {
                                   borderRadius: BorderRadius.circular(35),
                                   border: Border.all(
                                     width: 2.0,
-                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
                                   ),
                                 ),
                                 child: Center(
                                   child: IconButton(
-                                    onPressed: () {
-                                    },
+                                    onPressed: () {},
                                     icon: Icon(
                                       Icons.add_shopping_cart,
-                                      color: Theme.of(context).scaffoldBackgroundColor,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
                                     ),
                                   ),
                                 ),
@@ -502,8 +496,13 @@ class ProductCartPage extends HookWidget {
                             ),
                             child: MaterialButton(
                               onPressed: () async {
+                                final isEmailVerified = user!.emailVerified;
                                 if (pincodeValidator.state) {
-                                  await makePayment();
+                                  if (isEmailVerified) {
+                                    await makePayment();
+                                  } else {
+                                    aShowToast(msg: "Verify Email First");
+                                  }
                                 } else {
                                   aShowToast(msg: "Unauthenticated Pin Code");
                                 }
@@ -564,7 +563,22 @@ class PincodeCheck extends StatelessWidget {
   Widget build(BuildContext context) {
     bool validatePincode(String pincode) {
       if (pincode == "244001") {
-        aShowToast(msg: "you can proceed to check out");
+        aShowToast(msg: "You can proceed to check out");
+        return true;
+      } else if (pincode == "244002") {
+        aShowToast(msg: "You can proceed to check out");
+        return true;
+      } else if (pincode == "244102") {
+        aShowToast(msg: "You can proceed to check out");
+        return true;
+      } else if (pincode == "244103") {
+        aShowToast(msg: "You can proceed to check out");
+        return true;
+      } else if (pincode == "244104") {
+        aShowToast(msg: "You can proceed to check out");
+        return true;
+      } else if (pincode == "244301") {
+        aShowToast(msg: "You can proceed to check out");
         return true;
       } else if (pincode.length > 6) {
         aShowToast(msg: "invalid pin code");

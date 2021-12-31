@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/general_providers.dart';
 import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/services/user_detail_service.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -21,6 +22,7 @@ class SignupPage2 extends HookWidget {
     final addressController = useTextEditingController();
     final userDetailProvider = useProvider(userDetailServiceProvider);
     final isTrainer = false;
+    final firestore = useProvider(firestoreProvider);
     final authorization = false;
 
     final user = useProvider(authControllerProvider);
@@ -49,21 +51,30 @@ class SignupPage2 extends HookWidget {
                             "More About\nYou...",
                             style: GoogleFonts.montserrat(
                               textStyle: TextStyle(
-                                fontSize: 40,
+                                fontSize: 35,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(right: 20.0),
-                        //   // ignore: deprecated_member_use
-                        //   child: RaisedButton(
-                        //     color: Colors.redAccent,
-                        //     onPressed: () {},
-                        //   child: Text("Skip"),
-                        //   ),
-                        // )
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20.0),
+                          // ignore: deprecated_member_use
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              "Skip",
+                              style: TextStyle(
+                                color: Colors.redAccent,
+                                decoration: TextDecoration.underline,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     Container(
@@ -468,26 +479,34 @@ class SignupPage2 extends HookWidget {
                             final intAge = int.parse(ageController.text);
                             final intWeight = int.parse(weightController.text);
                             final intPhone = int.parse(phoneController.text);
-                            context.read(loadingStateProvider).state = true;
 
-                            await userDetailProvider.addUserInfo(
-                              intHeight,
-                              intAge,
-                              intPhone,
-                              intWeight,
-                              user!.displayName,
-                              user.photoURL ?? "",
-                              bioController.text,
-                              aboutController.text,
-                              addressController.text,
-                              isTrainer,
-                              authorization,
-                            );
+                            final doc = await firestore
+                                .collection("users")
+                                .doc(user!.uid)
+                                .get();
 
-                            context.read(loadingStateProvider).state = false;
+                            if (doc.exists == false) {
+                              context.read(loadingStateProvider).state = true;
+                              await userDetailProvider.addUserInfo(
+                                intHeight,
+                                intAge,
+                                intPhone,
+                                intWeight,
+                                user.displayName,
+                                user.photoURL ?? "",
+                                bioController.text,
+                                aboutController.text,
+                                addressController.text,
+                                isTrainer,
+                                authorization,
+                                user.uid,
+                              );
 
-                            Navigator.pop(context);
-                            Navigator.pop(context);
+                              context.read(loadingStateProvider).state = false;
+
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            }
                           },
                         ),
                         // SizedBox(

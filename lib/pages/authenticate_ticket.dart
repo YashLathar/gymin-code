@@ -24,8 +24,8 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
       final user = context.read(authControllerProvider);
       final order = await context
           .read(ordersServiceProvider)
-          .getSingleOrder(barcode.rawContent);
-          print(barcode.rawContent);
+          .getSingleGymOrder(barcode.rawContent);
+      print(barcode.rawContent);
       showDialog(
         context: context,
         builder: (context) {

@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/controllers/theme_controller.dart';
+import 'package:gym_in/general_providers.dart';
 // import 'package:gym_in/general_providers.dart';
 import 'package:gym_in/pages/activity_page.dart';
 import 'package:gym_in/pages/authenticate_ticket.dart';
@@ -14,7 +15,6 @@ import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/pages/privacy_policy.dart';
 import 'package:gym_in/pages/products_page.dart';
 import 'package:gym_in/pages/home_page.dart';
-import 'package:gym_in/pages/trainers_page.dart';
 import 'package:gym_in/pages/user_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:io';
@@ -36,26 +36,30 @@ class HomeScreen extends HookWidget {
     final _pageIndex = useState(0);
     // final _firestore = useProvider(firestoreProvider);
     final userAuthenticated = useState(false);
-    // FirebaseFirestore _firestore = FirebaseFirestore.instance;
-    // bool thisUserAdmin = false;
+    final _firestore = useProvider(firestoreProvider);
 
-    // useEffect(() {
-    //   if (authControllerState != null) {
-    //     void authenticateTicketByAdminOnly() async {
-    //       final userFromUsersCollection = await _firestore
-    //           .collection('users')
-    //           .doc(authControllerState.uid)
-    //           .get();
-    //       if (userFromUsersCollection.data()!["authorization"] == true) {
-    //         userAuthenticated.value = true;
-    //       }
-    //     }
+    useEffect(() {
+      if (authControllerState != null) {
+        void authenticateTicketByAdminOnly() async {
+          final userFromUsersCollection = await _firestore
+              .collection('users')
+              .doc(authControllerState.uid)
+              .get();
 
-    //     authenticateTicketByAdminOnly();
-    //   }
+          if (userFromUsersCollection.exists) {
+            if (userFromUsersCollection.data()!["authorization"] == true) {
+              userAuthenticated.value = true;
+            }
+          } else {
+            userAuthenticated.value = false;
+          }
+        }
 
-    //   return () {};
-    // });
+        authenticateTicketByAdminOnly();
+      }
+
+      return () {};
+    });
 
     if (authControllerState != null) {
       return Scaffold(
@@ -149,19 +153,19 @@ class HomeScreen extends HookWidget {
                                 builder: (context) => AuthenticateTicket())),
                       )
                     : Container(),
-                ListTile(
-                  leading: Icon(
-                    Icons.verified_user,
-                    color: Theme.of(context).textTheme.bodyText2!.color,
-                  ),
-                  title: Text(
-                    'Trainer Zone',
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText2!.color),
-                  ),
-                  onTap: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => TrainerZone())),
-                ),
+                // ListTile(
+                //   leading: Icon(
+                //     Icons.verified_user,
+                //     color: Theme.of(context).textTheme.bodyText2!.color,
+                //   ),
+                //   title: Text(
+                //     'Trainer Zone',
+                //     style: TextStyle(
+                //         color: Theme.of(context).textTheme.bodyText2!.color),
+                //   ),
+                //   onTap: () => Navigator.push(context,
+                //       MaterialPageRoute(builder: (context) => TrainerZone())),
+                // ),
                 // ListTile(
                 //     leading: Icon(
                 //       Icons.image,
@@ -292,7 +296,8 @@ class HomeScreen extends HookWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => PrivacyPolicyPage(),
-                    ),),
+                    ),
+                  ),
                 ),
                 ListTile(
                     title: Text(

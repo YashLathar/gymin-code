@@ -2,13 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/custom_exception.dart';
 import 'package:gym_in/general_providers.dart';
 import 'package:gym_in/models/order.dart';
+import 'package:gym_in/models/product_Order.dart';
 import 'package:gym_in/services/error_Handler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 abstract class BaseOrdersService {
-  Future<void> addToOrders(
+  Future<void> addToGymOrders(
     String gymName,
     String bookingFromTiming,
     String bookingToTime,
@@ -17,8 +19,15 @@ abstract class BaseOrdersService {
     String gymPhoto,
     BuildContext context,
   );
-  Future<Order> getSingleOrder(String docId);
-  Future<List<Order>> retrievAllOrders();
+  Future<void> addToProductOrders(
+    List<String> productsName,
+    List<String> productsPhotos,
+    int totalPrice,
+  );
+  Future<Order> getSingleGymOrder(String docId);
+  Future<ProductOrder> getSingleProductOrder(String docId);
+  Future<List<Order>> retrievAllGymOrders();
+  Future<List<ProductOrder>> retrievAllProductOrders();
 }
 
 final ordersServiceProvider = Provider<OrdersService>((ref) {
@@ -33,7 +42,7 @@ class OrdersService implements BaseOrdersService {
   OrdersService(this._read, this.user);
 
   @override
-  Future<DocumentReference> addToOrders(
+  Future<DocumentReference> addToGymOrders(
     String gymName,
     String gymPhoto,
     String bookingFromTiming,
@@ -64,7 +73,7 @@ class OrdersService implements BaseOrdersService {
   }
 
   @override
-  Future<List<Order>> retrievAllOrders() async {
+  Future<List<Order>> retrievAllGymOrders() async {
     try {
       final documentSnapshots = await _read(firestoreProvider)
           .collection("bookings")
@@ -92,7 +101,7 @@ class OrdersService implements BaseOrdersService {
   }
 
   @override
-  Future<Order> getSingleOrder(String docId) async {
+  Future<Order> getSingleGymOrder(String docId) async {
     try {
       final documentSnapshot = await _read(firestoreProvider)
           .collection("bookings")
@@ -111,11 +120,9 @@ class OrdersService implements BaseOrdersService {
           gymPhoto: documentSnapshot.data()!["gymPhoto"],
           userName: documentSnapshot.data()!["userName"],
         );
-        print("heyya");
         return order;
       } else {
         final mtyOrder = Order.mtOrder();
-        print("bye bye");
 
         return mtyOrder;
       }
@@ -136,6 +143,81 @@ class OrdersService implements BaseOrdersService {
       // return orders;
     } on FirebaseException catch (e) {
       throw Text(e.message ?? "ERROR");
+    }
+  }
+
+  @override
+  Future<DocumentReference> addToProductOrders(
+    List<String> productsName,
+    List<String> productsPhotos,
+    int totalPrice,
+  ) async {
+    try {
+      final doc = await _read(firestoreProvider)
+          .collection("bookings")
+          .doc(user!.uid)
+          .collection("userProductOrders")
+          .add({
+        "productsPhotos": productsPhotos,
+        "productsName": productsName,
+        "totalPrice": totalPrice,
+        "timeStamp": FieldValue.serverTimestamp(),
+      });
+
+      return doc;
+    } on FirebaseException catch (e) {
+      throw CustomExeption(message: e.message);
+    }
+  }
+
+  @override
+  Future<ProductOrder> getSingleProductOrder(String docId) async {
+    try {
+      final documentSnapshot = await _read(firestoreProvider)
+          .collection("bookings")
+          .doc(user!.uid)
+          .collection("userProductOrders")
+          .doc(docId)
+          .get();
+
+      if (documentSnapshot.exists) {
+        final productOrder = ProductOrder(
+          productsName: documentSnapshot.data()!["productsName"],
+          productsPhotos: documentSnapshot.data()!["productsPhotos"],
+          totalPrice: documentSnapshot.data()!["totalPrice"],
+        );
+        return productOrder;
+      } else {
+        final mtOrder = ProductOrder.mtProductOrder();
+
+        return mtOrder;
+      }
+    } on FirebaseException catch (e) {
+      throw CustomExeption(message: e.message);
+    }
+  }
+
+  @override
+  Future<List<ProductOrder>> retrievAllProductOrders() async {
+    try {
+      final documentSnapshots = await _read(firestoreProvider)
+          .collection("bookings")
+          .doc(user!.uid)
+          .collection("userProductOrders")
+          .get();
+
+      final orders = documentSnapshots.docs.map((order) {
+        return ProductOrder(
+          productsName: order.data()["productsName"],
+          productsPhotos: order.data()["productsPhotos"],
+          totalPrice: order.data()["totalPrice"],
+          docId: order.id,
+        );
+      }).toList();
+
+      return orders;
+    } on FirebaseException catch (e) {
+      throw CustomExeption(message: e.message);
     }
   }
 }

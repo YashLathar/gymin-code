@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:gym_in/custom_exception.dart';
 import 'package:gym_in/general_providers.dart';
 import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/services/error_Handler.dart';
@@ -18,6 +19,10 @@ abstract class BaseAuthenticationService {
   User? getCurrentUser();
   String? getCurrentUID();
   Future<void> signOut();
+  Future<void> verifyUserEmail(
+    String email,
+    ActionCodeSettings actionCodeSettings,
+  );
 }
 
 final authServiceProvider =
@@ -102,6 +107,19 @@ class AuthenticatioSevice implements BaseAuthenticationService {
       await FirebaseAuth.instance.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
       throw ErrorHandler.errorDialog(context, e);
+    }
+  }
+
+  @override
+  Future<void> verifyUserEmail(
+    String email,
+    ActionCodeSettings actionCodeSettings,
+  ) async {
+    try {
+      await _read(firebaseAuthProvider).sendSignInLinkToEmail(
+          email: email, actionCodeSettings: actionCodeSettings);
+    } on FirebaseAuthException catch (e) {
+      throw CustomExeption(message: e.message);
     }
   }
 }

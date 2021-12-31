@@ -15,7 +15,6 @@ import 'package:gym_in/pages/product_cart_page.dart';
 import 'package:gym_in/pages/setting_page.dart';
 import 'package:gym_in/pages/signup_page.dart';
 import 'package:gym_in/pages/favorites_page.dart';
-import 'package:gym_in/pages/time_selector_page.dart';
 import 'package:gym_in/pages/user_page.dart';
 import 'package:gym_in/pages/video_page_info.dart';
 import 'package:gym_in/pages/video_page_selection.dart';

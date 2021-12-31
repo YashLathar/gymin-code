@@ -16,6 +16,7 @@ class UserEditBottomSheet extends HookWidget {
   Widget build(BuildContext context) {
     final imageProvider = useProvider(imagePickerProvider);
     final usernameController = useTextEditingController();
+    final user = useProvider(authControllerProvider);
     final imagePath = useState("");
     final isLoading = useState(false);
 
@@ -193,11 +194,16 @@ class UserEditBottomSheet extends HookWidget {
 
                               await context
                                   .read(userDetailServiceProvider)
-                                  .updateUserName(usernameController.text);
+                                  .updateUserName(
+                                      usernameController.text, user!.uid)
+                                  .onError((error, stackTrace) =>
+                                      isLoading.value = false);
 
                               await context
                                   .read(userDetailServiceProvider)
-                                  .updateUserPhoto(downloadUrl);
+                                  .updateUserPhoto(downloadUrl, user.uid)
+                                  .onError((error, stackTrace) =>
+                                      isLoading.value = false);
 
                               isLoading.value = false;
                               usernameController.text = "";

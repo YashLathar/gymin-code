@@ -37,11 +37,13 @@ class ProductCard extends HookWidget {
         child: Column(
           children: [
             Container(
+              height: 170,
+              width: 130,
               child: Hero(
                 tag: productId,
                 child: Image.network(
                   image,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                   filterQuality: FilterQuality.high,
                   loadingBuilder: (BuildContext context, Widget child,
                       ImageChunkEvent? loadingProgress) {
@@ -68,11 +70,13 @@ class ProductCard extends HookWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    title,
+                    title.length > 20
+                        ? title.substring(0, 20) + "..."
+                        : title + " ...",
                     style: TextStyle(fontSize: 18, color: Colors.black),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

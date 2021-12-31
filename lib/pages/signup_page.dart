@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
+import 'package:gym_in/pages/email_verification_page.dart';
 import 'package:gym_in/pages/login_page.dart';
 import 'package:gym_in/pages/signup_page2.dart';
 import 'package:gym_in/widgets/rounded_textfield.dart';
@@ -9,17 +11,17 @@ import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SignupPage extends ConsumerWidget {
+class SignupPage extends HookWidget {
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return ModalProgressHUD(
-      inAsyncCall: watch(loadingStateProvider).state,
+      inAsyncCall: useProvider(loadingStateProvider).state,
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
         resizeToAvoidBottomInset: true,
