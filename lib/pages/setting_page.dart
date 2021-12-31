@@ -30,7 +30,7 @@ class SettingPage extends HookWidget {
     if (authControllerState != null) {
       return Scaffold(
         body: SafeArea(
-          child: Column(
+          child: ListView(
             children: [
               Container(
                 color: Theme.of(context).scaffoldBackgroundColor,
