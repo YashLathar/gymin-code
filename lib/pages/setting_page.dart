@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -158,6 +159,40 @@ class SettingPage extends HookWidget {
                   children: [
                     ListTile(
                       leading: Icon(
+                        Icons.verified,
+                        color: Theme.of(context).textTheme.bodyText2!.color,
+                      ),
+                      title: Text(
+                        'Verify Your Email',
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyText2!.color),
+                      ),
+                      onTap: () async {
+                        final actionCodeSettings = ActionCodeSettings(
+                            url: 'https://www.gymin.co.in',
+                            handleCodeInApp: true,
+                            androidInstallApp: true,
+                            androidMinimumVersion: '12');
+
+                        if (!authControllerState.emailVerified) {
+                          await authControllerState
+                              .sendEmailVerification(actionCodeSettings)
+                              .then((value) async {
+                            aShowToast(
+                                msg: "Verification Link sent to you email");
+
+                            await authControllerState.reload();
+                          });
+                        } else {
+                          aShowToast(msg: "Email already verified");
+                        }
+
+                        await authControllerState.reload();
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(
                         Icons.phone,
                         color: Theme.of(context).textTheme.bodyText2!.color,
                       ),
@@ -185,13 +220,20 @@ class SettingPage extends HookWidget {
                                 bottomLable: "How should we contact you?",
                                 controller: phoneController,
                                 onTap: () async {
-                                  final intPhone =
-                                      int.parse(phoneController.text);
-                                  await userDetailProvider
-                                      .updateUserPhoneNumber(intPhone);
+                                  if (phoneController.text.length == 10) {
+                                    final intPhone =
+                                        int.parse(phoneController.text);
 
-                                  context.refresh(userDetailFutureShowProvider);
-                                  Navigator.pop(context);
+                                    await userDetailProvider
+                                        .updateUserPhoneNumber(
+                                            intPhone, authControllerState.uid);
+
+                                    context
+                                        .refresh(userDetailFutureShowProvider);
+                                    Navigator.pop(context);
+                                  } else {
+                                    aShowToast(msg: "Invalid Number");
+                                  }
                                 },
                               );
                             });
@@ -227,8 +269,8 @@ class SettingPage extends HookWidget {
                                 controller: ageController,
                                 onTap: () async {
                                   final intAge = int.parse(ageController.text);
-                                  await userDetailProvider
-                                      .updateUserAge(intAge);
+                                  await userDetailProvider.updateUserAge(
+                                      intAge, authControllerState.uid);
                                   context.refresh(userDetailFutureShowProvider);
                                   Navigator.pop(context);
                                 },
@@ -267,8 +309,8 @@ class SettingPage extends HookWidget {
                                 onTap: () async {
                                   final intHeight =
                                       int.parse(heightController.text);
-                                  await userDetailProvider
-                                      .updateUserHeight(intHeight);
+                                  await userDetailProvider.updateUserHeight(
+                                      intHeight, authControllerState.uid);
                                   context.refresh(userDetailFutureShowProvider);
                                   Navigator.pop(context);
                                 },
@@ -307,8 +349,8 @@ class SettingPage extends HookWidget {
                                 onTap: () async {
                                   final intWeight =
                                       int.parse(weightController.text);
-                                  await userDetailProvider
-                                      .updateUserWeight(intWeight);
+                                  await userDetailProvider.updateUserWeight(
+                                      intWeight, authControllerState.uid);
                                   context.refresh(userDetailFutureShowProvider);
                                   Navigator.pop(context);
                                 },
@@ -345,8 +387,9 @@ class SettingPage extends HookWidget {
                                 lable: "About",
                                 bottomLable: "Something about yourself",
                                 onTap: () async {
-                                  await userDetailProvider
-                                      .updateUserAbout(aboutController.text);
+                                  await userDetailProvider.updateUserAbout(
+                                      aboutController.text,
+                                      authControllerState.uid);
                                   context.refresh(userDetailFutureShowProvider);
                                   Navigator.pop(context);
                                 },
@@ -383,8 +426,9 @@ class SettingPage extends HookWidget {
                                 lable: "Bio",
                                 bottomLable: "Your Bio",
                                 onTap: () async {
-                                  await userDetailProvider
-                                      .updateUserBio(bioController.text);
+                                  await userDetailProvider.updateUserBio(
+                                      bioController.text,
+                                      authControllerState.uid);
                                   context.refresh(userDetailFutureShowProvider);
                                   Navigator.pop(context);
                                 },
@@ -422,7 +466,8 @@ class SettingPage extends HookWidget {
                                 bottomLable: "Your Address",
                                 onTap: () async {
                                   await userDetailProvider.updateUserAddress(
-                                      addressController.text);
+                                      addressController.text,
+                                      authControllerState.uid);
                                   context.refresh(userDetailFutureShowProvider);
                                   Navigator.pop(context);
                                 },
@@ -583,6 +628,7 @@ class CustomBottomSheet extends HookWidget {
                         ),
                         onPressed: () async {
                           await onTap();
+                          aShowToast(msg: "Updated");
                         },
                       ),
                     )

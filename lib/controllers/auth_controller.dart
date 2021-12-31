@@ -47,6 +47,13 @@ class AuthController extends StateNotifier<User?> {
     await _read(authServiceProvider).signInWithGoogle(context);
   }
 
+  Future<void> verifyEmail(
+    String email,
+    ActionCodeSettings actionCodeSettings,
+  ) async {
+    await _read(authServiceProvider).verifyUserEmail(email, actionCodeSettings);
+  }
+
   void signOut() async {
     await _read(authServiceProvider).signOut();
   }

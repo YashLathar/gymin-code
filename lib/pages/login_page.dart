@@ -84,7 +84,9 @@ class LoginPage extends ConsumerWidget {
                                         .doc(user!.uid)
                                         .get();
 
-                                    if (!doc.exists) {
+                                    if (doc.exists == false) {
+                                      context.read(loadingStateProvider).state =
+                                          true;
                                       final userInAPP = UserInApp(
                                         age: 0,
                                         about: "not given",
@@ -111,7 +113,15 @@ class LoginPage extends ConsumerWidget {
                                             userInAPP.address,
                                             false,
                                             false,
-                                          );
+                                            user.uid,
+                                          )
+                                          .onError((error, stackTrace) =>
+                                              context
+                                                  .read(loadingStateProvider)
+                                                  .state = true);
+
+                                      context.read(loadingStateProvider).state =
+                                          false;
                                     }
                                   },
                                 ),

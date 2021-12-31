@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-// ignore: implementation_imports
-import 'package:flutter_riverpod/src/provider.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
+import 'package:gym_in/widgets/toast_msg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class QuantityCounter extends StatelessWidget {
+class QuantityCounter extends HookWidget {
   const QuantityCounter(
       {Key? key, required this.productId, required this.quantity})
       : super(key: key);
@@ -14,12 +15,14 @@ class QuantityCounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cart = useProvider(cartProvider);
+
     return Container(
       child: Row(
         children: [
           GestureDetector(
             onTap: () {
-              context.read(cartProvider).decrementProductQuantity(productId);
+              cart.decrementProductQuantity(productId);
             },
             child: Container(
               margin: EdgeInsets.only(right: 10),
@@ -45,7 +48,11 @@ class QuantityCounter extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              context.read(cartProvider).incrementProductQuantity(productId);
+              if (quantity < 3) {
+                cart.incrementProductQuantity(productId);
+              } else {
+                aShowToast(msg: "Cannot add more products");
+              }
             },
             child: Container(
               margin: EdgeInsets.only(left: 10),

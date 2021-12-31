@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -15,6 +16,28 @@ class HomePage extends HookWidget {
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _gymStream =
         FirebaseFirestore.instance.collection('gymdata').snapshots();
+
+    void getToken() async {
+      await FirebaseMessaging.instance.getToken();
+    }
+
+    useEffect(() {
+      getToken();
+
+      final messaging =
+          FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        aShowToast(msg: message.notification!.body!);
+
+        if (message.notification != null) {
+          print(
+              'Message also contained a notification: ${message.notification}');
+        }
+      });
+
+      return () {
+        messaging.cancel();
+      };
+    }, []);
 
     final ScrollController _scrollController = ScrollController();
     Size size = MediaQuery.of(context).size;
@@ -45,7 +68,7 @@ class HomePage extends HookWidget {
           );
         }
         return WillPopScope(
-          onWillPop: () async => false,
+          onWillPop: () async => true,
           child: Scaffold(
             appBar: AppBar(
               elevation: 0,

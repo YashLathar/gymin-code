@@ -29,23 +29,29 @@ class CartProduct extends HookWidget {
     final isLoading = useState(false);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      height: 120,
+      height: 130,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Theme.of(context).scaffoldBackgroundColor),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Image.network(imageUrl),
+          Container(
+            width: 130,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Image.network(imageUrl),
+            ),
           ),
+          SizedBox(width: 10),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  productName,
+                  productName.length > 20
+                      ? productName.substring(0, 20) + "..."
+                      : productName + " ...",
                   style: TextStyle(fontSize: 20),
                 ),
                 Row(

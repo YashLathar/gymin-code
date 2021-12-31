@@ -52,6 +52,7 @@ dependencies:
   table_calendar: ^3.0.2
   url_launcher: null
   syncfusion_flutter_pdfviewer: ^19.4.38-beta
+  firebase_messaging: ^11.2.4
 
 dev_dependencies:
   flutter_native_splash: ^1.3.1

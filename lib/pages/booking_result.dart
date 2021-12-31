@@ -131,7 +131,7 @@ class QrResultScreen extends HookWidget {
                         radius: 25,
                       ),
                       title: Text(
-                       userName!,
+                        userName!,
                         style: kSmallContentStyle.copyWith(
                           color: Theme.of(context).textTheme.bodyText2!.color,
                         ),

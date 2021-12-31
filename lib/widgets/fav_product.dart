@@ -33,9 +33,12 @@ class FavProduct extends HookWidget {
           color: Theme.of(context).scaffoldBackgroundColor),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Image.network(imageUrl),
+          Container(
+            width: 130,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Image.network(imageUrl),
+            ),
           ),
           Expanded(
             child: Column(

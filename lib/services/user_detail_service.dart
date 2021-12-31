@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/custom_exception.dart';
 import 'package:gym_in/general_providers.dart';
 import 'package:gym_in/models/user.dart';
@@ -18,30 +17,29 @@ abstract class BaseUserDetailService {
     String address,
     bool isTrainer,
     bool authorization,
+    String userUID,
   );
-  Future<void> updateUserName(String newUserName);
-  Future<void> updateUserPhoto(String newUserPhoto);
-  Future<void> updateUserHeight(int updatedHeight);
-  Future<void> updateUserAge(int updatedAge);
-  Future<void> updateUserPhoneNumber(int updatedPhoneNumber);
-  Future<void> updateUserWeight(int updatedWeight);
-  Future<void> updateUserBio(String updatedBio);
-  Future<void> updateUserAbout(String updatedAbout);
-  Future<void> updateUserAddress(String updateAddress);
-  Future<void> deleteUserInfo();
+  Future<void> updateUserName(String newUserName, String userUID);
+  Future<void> updateUserPhoto(String newUserPhoto, String userUID);
+  Future<void> updateUserHeight(int updatedHeight, String userUID);
+  Future<void> updateUserAge(int updatedAge, String userUID);
+  Future<void> updateUserPhoneNumber(int updatedPhoneNumber, String userUID);
+  Future<void> updateUserWeight(int updatedWeight, String userUID);
+  Future<void> updateUserBio(String updatedBio, String userUID);
+  Future<void> updateUserAbout(String updatedAbout, String userUID);
+  Future<void> updateUserAddress(String updateAddress, String userUID);
+  Future<void> deleteUserInfo(String userUID);
   Future<UserInApp> getYourInfo(String userUID);
 }
 
 final userDetailServiceProvider = Provider<UserDetailService>((ref) {
-  final user = ref.read(authControllerProvider);
-  return UserDetailService(ref.read, user);
+  return UserDetailService(ref.read);
 });
 
 class UserDetailService implements BaseUserDetailService {
   final Reader _read;
-  final User? currentUser;
 
-  UserDetailService(this._read, this.currentUser);
+  UserDetailService(this._read);
 
   @override
   Future<void> addUserInfo(
@@ -55,12 +53,10 @@ class UserDetailService implements BaseUserDetailService {
       String about,
       String address,
       bool isTrainer,
-      bool authorization) async {
+      bool authorization,
+      String userUID) async {
     try {
-      await _read(firestoreProvider)
-          .collection("users")
-          .doc(currentUser!.uid)
-          .set({
+      await _read(firestoreProvider).collection("users").doc(userUID).set({
         "phoneNumber": phoneNumber,
         "age": age,
         "height": height,
@@ -89,17 +85,32 @@ class UserDetailService implements BaseUserDetailService {
 
         return userInApp;
       } else {
-        return UserInApp(
+        final emptyUser = UserInApp(
           age: 0,
-          about: "not given",
+          about: "Not given",
           phoneNumber: 0,
           height: 0,
           weight: 0,
-          userName: "not specified",
-          userPhoto: "not given",
-          bio: "not given",
-          address: "not given",
+          userName: "Not specified",
+          userPhoto: "Not given",
+          bio: "Not given",
+          address: "Not given",
         );
+
+        await _read(firestoreProvider).collection("users").doc(userUID).set({
+          "phoneNumber": emptyUser.phoneNumber,
+          "age": emptyUser.age,
+          "height": emptyUser.height,
+          "weight": emptyUser.weight,
+          "userName": emptyUser.userName,
+          "userPhoto": emptyUser.userPhoto,
+          "bio": emptyUser.bio,
+          "about": emptyUser.about,
+          "address": emptyUser.address,
+          "isTrainer": false,
+          "authorization": false,
+        });
+        return emptyUser;
       }
     } on FirebaseException catch (e) {
       throw CustomExeption(message: e.message);
@@ -107,24 +118,18 @@ class UserDetailService implements BaseUserDetailService {
   }
 
   @override
-  Future<void> deleteUserInfo() async {
+  Future<void> deleteUserInfo(String userUID) async {
     try {
-      await _read(firestoreProvider)
-          .collection("users")
-          .doc(currentUser!.uid)
-          .delete();
+      await _read(firestoreProvider).collection("users").doc(userUID).delete();
     } on FirebaseException catch (e) {
       throw CustomExeption(message: e.message);
     }
   }
 
   @override
-  Future<void> updateUserAbout(String updatedAbout) async {
+  Future<void> updateUserAbout(String updatedAbout, String userUID) async {
     try {
-      await _read(firestoreProvider)
-          .collection("users")
-          .doc(currentUser!.uid)
-          .update({
+      await _read(firestoreProvider).collection("users").doc(userUID).update({
         "about": updatedAbout,
       });
     } on FirebaseException catch (e) {
@@ -133,12 +138,9 @@ class UserDetailService implements BaseUserDetailService {
   }
 
   @override
-  Future<void> updateUserAge(int updatedAge) async {
+  Future<void> updateUserAge(int updatedAge, String userUID) async {
     try {
-      await _read(firestoreProvider)
-          .collection("users")
-          .doc(currentUser!.uid)
-          .update({
+      await _read(firestoreProvider).collection("users").doc(userUID).update({
         "age": updatedAge,
       });
     } on FirebaseException catch (e) {
@@ -147,12 +149,9 @@ class UserDetailService implements BaseUserDetailService {
   }
 
   @override
-  Future<void> updateUserBio(String updatedBio) async {
+  Future<void> updateUserBio(String updatedBio, String userUID) async {
     try {
-      await _read(firestoreProvider)
-          .collection("users")
-          .doc(currentUser!.uid)
-          .update({
+      await _read(firestoreProvider).collection("users").doc(userUID).update({
         "bio": updatedBio,
       });
     } on FirebaseException catch (e) {
@@ -161,12 +160,9 @@ class UserDetailService implements BaseUserDetailService {
   }
 
   @override
-  Future<void> updateUserHeight(int updatedHeight) async {
+  Future<void> updateUserHeight(int updatedHeight, String userUID) async {
     try {
-      await _read(firestoreProvider)
-          .collection("users")
-          .doc(currentUser!.uid)
-          .update({
+      await _read(firestoreProvider).collection("users").doc(userUID).update({
         "height": updatedHeight,
       });
     } on FirebaseException catch (e) {
@@ -175,12 +171,10 @@ class UserDetailService implements BaseUserDetailService {
   }
 
   @override
-  Future<void> updateUserPhoneNumber(int updatedPhoneNumber) async {
+  Future<void> updateUserPhoneNumber(
+      int updatedPhoneNumber, String userUID) async {
     try {
-      await _read(firestoreProvider)
-          .collection("users")
-          .doc(currentUser!.uid)
-          .update({
+      await _read(firestoreProvider).collection("users").doc(userUID).update({
         "phoneNumber": updatedPhoneNumber,
       });
     } on FirebaseException catch (e) {
@@ -189,12 +183,9 @@ class UserDetailService implements BaseUserDetailService {
   }
 
   @override
-  Future<void> updateUserWeight(int updatedWeight) async {
+  Future<void> updateUserWeight(int updatedWeight, String userUID) async {
     try {
-      await _read(firestoreProvider)
-          .collection("users")
-          .doc(currentUser!.uid)
-          .update({
+      await _read(firestoreProvider).collection("users").doc(userUID).update({
         "weight": updatedWeight,
       });
     } on FirebaseException catch (e) {
@@ -203,12 +194,9 @@ class UserDetailService implements BaseUserDetailService {
   }
 
   @override
-  Future<void> updateUserAddress(String updateAddress) async {
+  Future<void> updateUserAddress(String updateAddress, String userUID) async {
     try {
-      await _read(firestoreProvider)
-          .collection("users")
-          .doc(currentUser!.uid)
-          .update({
+      await _read(firestoreProvider).collection("users").doc(userUID).update({
         "address": updateAddress,
       });
     } on FirebaseException catch (e) {
@@ -217,12 +205,9 @@ class UserDetailService implements BaseUserDetailService {
   }
 
   @override
-  Future<void> updateUserName(String newUserName) async {
+  Future<void> updateUserName(String newUserName, String userUID) async {
     try {
-      await _read(firestoreProvider)
-          .collection("users")
-          .doc(currentUser!.uid)
-          .update({
+      await _read(firestoreProvider).collection("users").doc(userUID).update({
         "userName": newUserName,
       });
     } on FirebaseException catch (e) {
@@ -231,12 +216,9 @@ class UserDetailService implements BaseUserDetailService {
   }
 
   @override
-  Future<void> updateUserPhoto(String? newUserPhoto) async {
+  Future<void> updateUserPhoto(String? newUserPhoto, String userUID) async {
     try {
-      await _read(firestoreProvider)
-          .collection("users")
-          .doc(currentUser!.uid)
-          .update({
+      await _read(firestoreProvider).collection("users").doc(userUID).update({
         "userPhoto": newUserPhoto ?? "",
       });
     } on FirebaseException catch (e) {

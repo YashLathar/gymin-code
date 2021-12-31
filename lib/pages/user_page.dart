@@ -10,7 +10,6 @@ import 'package:gym_in/models/user.dart';
 import 'package:gym_in/pages/editprofile_page.dart';
 import 'package:gym_in/pages/setting_page.dart';
 import 'package:gym_in/services/user_detail_service.dart';
-import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -29,123 +28,123 @@ final userDetailFutureShowProvider =
 class UserPage extends HookWidget {
   const UserPage({Key? key}) : super(key: key);
 
-  Widget logOutSheet(BuildContext context) {
-    return Container(
-      height: 170,
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
-        ),
-      ),
-      child: Stack(
-        children: [
-          Container(
-            alignment: Alignment.topCenter,
-            padding: EdgeInsets.all(6),
-            child: Icon(Icons.drag_handle),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 40,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ListTile(
-                    trailing: Icon(
-                      Icons.check_circle,
-                      color: Colors.redAccent,
-                    ),
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSH2whDJ2XZINbounqZuhGrvEIGpPDnuwmIcQ&usqp=CAU",
-                      ),
-                      radius: 20,
-                    ),
-                    title: Text(
-                      "Wade Wilson",
-                      style: GoogleFonts.montserrat(
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return SimpleDialog(
-                              children: [
-                                Column(
-                                  children: [
-                                    Text(
-                                      "Log Out Confirm ?",
-                                      style: kSmallContentStyle,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        ElevatedButton(
-                                          child: Text("Log Out"),
-                                          onPressed: () async {
-                                            await Future.delayed(
-                                                Duration(seconds: 0));
-                                            Navigator.pop(context);
-                                            aShowToast(
-                                                msg: "Log Out Initiated");
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                        SimpleDialogOption(
-                                          child: Text("Cancel"),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ],
-                            );
-                          });
-                    },
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.redAccent,
-                        child: Icon(
-                          Icons.add,
-                        ),
-                      ),
-                      title: Text(
-                        "Add Account",
-                        style: GoogleFonts.montserrat(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget logOutSheet(BuildContext context) {
+  //   return Container(
+  //     height: 170,
+  //     decoration: BoxDecoration(
+  //       color: Theme.of(context).scaffoldBackgroundColor,
+  //       borderRadius: BorderRadius.vertical(
+  //         top: Radius.circular(20),
+  //       ),
+  //     ),
+  //     child: Stack(
+  //       children: [
+  //         Container(
+  //           alignment: Alignment.topCenter,
+  //           padding: EdgeInsets.all(6),
+  //           child: Icon(Icons.drag_handle),
+  //         ),
+  //         Align(
+  //           alignment: Alignment.center,
+  //           child: Padding(
+  //             padding: const EdgeInsets.only(
+  //               top: 40,
+  //             ),
+  //             child: Column(
+  //               mainAxisAlignment: MainAxisAlignment.start,
+  //               children: [
+  //                 ListTile(
+  //                   trailing: Icon(
+  //                     Icons.check_circle,
+  //                     color: Colors.redAccent,
+  //                   ),
+  //                   leading: CircleAvatar(
+  //                     backgroundImage: NetworkImage(
+  //                       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSH2whDJ2XZINbounqZuhGrvEIGpPDnuwmIcQ&usqp=CAU",
+  //                     ),
+  //                     radius: 20,
+  //                   ),
+  //                   title: Text(
+  //                     "Wade Wilson",
+  //                     style: GoogleFonts.montserrat(
+  //                       textStyle: TextStyle(
+  //                         fontWeight: FontWeight.bold,
+  //                         fontSize: 18,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 GestureDetector(
+  //                   onTap: () {
+  //                     showDialog(
+  //                         context: context,
+  //                         builder: (context) {
+  //                           return SimpleDialog(
+  //                             children: [
+  //                               Column(
+  //                                 children: [
+  //                                   Text(
+  //                                     "Log Out Confirm ?",
+  //                                     style: kSmallContentStyle,
+  //                                   ),
+  //                                   SizedBox(
+  //                                     height: 10,
+  //                                   ),
+  //                                   Row(
+  //                                     mainAxisAlignment:
+  //                                         MainAxisAlignment.center,
+  //                                     children: [
+  //                                       ElevatedButton(
+  //                                         child: Text("Log Out"),
+  //                                         onPressed: () async {
+  //                                           await Future.delayed(
+  //                                               Duration(seconds: 0));
+  //                                           Navigator.pop(context);
+  //                                           aShowToast(
+  //                                               msg: "Log Out Initiated");
+  //                                           Navigator.pop(context);
+  //                                         },
+  //                                       ),
+  //                                       SimpleDialogOption(
+  //                                         child: Text("Cancel"),
+  //                                         onPressed: () {
+  //                                           Navigator.pop(context);
+  //                                         },
+  //                                       )
+  //                                     ],
+  //                                   )
+  //                                 ],
+  //                               ),
+  //                             ],
+  //                           );
+  //                         });
+  //                   },
+  //                   child: ListTile(
+  //                     leading: CircleAvatar(
+  //                       backgroundColor: Colors.redAccent,
+  //                       child: Icon(
+  //                         Icons.add,
+  //                       ),
+  //                     ),
+  //                     title: Text(
+  //                       "Add Account",
+  //                       style: GoogleFonts.montserrat(
+  //                         textStyle: TextStyle(
+  //                           fontWeight: FontWeight.bold,
+  //                           fontSize: 18,
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -889,7 +888,7 @@ class ProfileHeader1 extends HookWidget {
               return Center(
                 child: Container(
                   height: 50,
-                    width: size.width,
+                  width: size.width,
                   child: Center(
                     child: Text("Check Your Internet Connection"),
                   ),

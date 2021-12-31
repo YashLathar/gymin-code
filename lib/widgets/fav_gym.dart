@@ -31,7 +31,8 @@ class FavGym extends HookWidget {
           color: Theme.of(context).scaffoldBackgroundColor),
       child: Row(
         children: [
-          Expanded(
+          Container(
+            width: 130,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
               child: Image.network(
@@ -40,45 +41,49 @@ class FavGym extends HookWidget {
             ),
           ),
           SizedBox(width: 10),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                gymName,
-                style: TextStyle(fontSize: 20),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    address,
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 15),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2.0,
-                        color: Colors.redAccent,
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  gymName,
+                  style: TextStyle(fontSize: 20),
+                ),
+                Text(
+                  address.length > 35
+                      ? address.substring(0, 35) + "..."
+                      : address + " ...",
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 2.0,
+                            color: Colors.redAccent,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: TextButton(
+                          onPressed: () async {
+                            await favService.deleteGymFromFav(gymId);
+                            favController.removeGym(gymId);
+                            aShowToast(msg: "Removed from Favourites");
+                          },
+                          child: Text(
+                            "Remove",
+                            style: TextStyle(
+                                color: Theme.of(context).backgroundColor),
+                          ),
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(15),
                     ),
-                    child: TextButton(
-                      onPressed: () async {
-                        await favService.deleteGymFromFav(gymId);
-                        favController.removeGym(gymId);
-                        aShowToast(msg: "Removed from Favourites");
-                      },
-                      child: Text(
-                        "Remove",
-                        style:
-                            TextStyle(color: Theme.of(context).backgroundColor),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
