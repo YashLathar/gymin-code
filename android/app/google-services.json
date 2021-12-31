@@ -7,18 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:688817127557:android:983649ba76a66ee2ede9ec",
+        "mobilesdk_app_id": "1:688817127557:android:ec7775b548bae2feede9ec",
         "android_client_info": {
-          "package_name": "com.example.gym_in"
+          "package_name": "com.gymin.gym_in"
         }
       },
       "oauth_client": [
         {
-          "client_id": "688817127557-6vg98cj8mn3sp3pogev8v90edva87g66.apps.googleusercontent.com",
+          "client_id": "688817127557-nj64lnl1mcaiuj87f7d66nhnf1hf6h1i.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.gym_in",
-            "certificate_hash": "9a351f19f9573e86efd7627e0ab1917c7c1b5fe9"
+            "package_name": "com.gymin.gym_in",
+            "certificate_hash": "14f7cda176c5c71a278984435cf2b0f583c27179"
           }
         },
         {
