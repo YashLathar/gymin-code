@@ -25,12 +25,18 @@ enum Plans {
 
 class GymCheckoutPage extends HookWidget {
   final String gymcheckId, gymcheckPhoto, gymcheckName, gymcheckAddress;
-  final int hourlyPrice, monthlyPrice, registrationFee;
+  final int hourlyPrice,
+      twoHoursPrice,
+      threeHoursPrice,
+      monthlyPrice,
+      registrationFee;
   const GymCheckoutPage({
     Key? key,
     required this.gymcheckId,
     required this.gymcheckName,
     required this.gymcheckPhoto,
+    required this.twoHoursPrice,
+    required this.threeHoursPrice,
     required this.gymcheckAddress,
     required this.monthlyPrice,
     required this.hourlyPrice,
@@ -418,10 +424,16 @@ class GymCheckoutPage extends HookWidget {
                                                                 Navigator.push(
                                                                   context,
                                                                   MaterialPageRoute(
-                                                                    builder: (context) =>
-                                                                        TimeSelector(
-                                                                            price:
-                                                                                hourlyPrice),
+                                                                    builder:
+                                                                        (context) =>
+                                                                            TimeSelector(
+                                                                      price:
+                                                                          hourlyPrice,
+                                                                      twoHourPrice:
+                                                                          twoHoursPrice,
+                                                                      threeHourPrice:
+                                                                          threeHoursPrice,
+                                                                    ),
                                                                   ),
                                                                 );
 

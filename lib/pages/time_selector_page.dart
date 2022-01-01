@@ -22,9 +22,16 @@ final userselectedforhoursProvider = StateProvider<int>((ref) {
 });
 
 class TimeSelector extends HookWidget {
-  const TimeSelector({Key? key, required this.price}) : super(key: key);
+  const TimeSelector({
+    Key? key,
+    required this.price,
+    required this.threeHourPrice,
+    required this.twoHourPrice,
+  }) : super(key: key);
 
   final int price;
+  final int twoHourPrice;
+  final int threeHourPrice;
 
   Future<TimeOfDay> pickFromTime(BuildContext context) async {
     TimeOfDay fromTime = TimeOfDay(hour: 8, minute: 0);
@@ -46,8 +53,6 @@ class TimeSelector extends HookWidget {
     final fromTime = useState(TimeOfDay(hour: 8, minute: 0));
     final influencedtoHour = fromTime.value.hour + selected.value;
     Size size = MediaQuery.of(context).size;
-    final twoHourPrice = price * 2;
-    final threeHourPrice = price * 3;
 
     return Scaffold(
       body: SafeArea(

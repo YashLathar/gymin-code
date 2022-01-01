@@ -279,6 +279,8 @@ class HomePage extends HookWidget {
                                       monthlyPrice: data['monthlyPrice'],
                                       phone: data['phone'],
                                       email: data['email'],
+                                      twoHoursPrice: data['twoHoursPrice'],
+                                      threeHoursPrice: data['threeHoursPrice'],
                                     ),
                                   ),
                                 );
