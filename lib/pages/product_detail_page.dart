@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
@@ -18,7 +19,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reviews_slider/reviews_slider.dart';
 
 class ProductDetailPage extends HookWidget {
-  final String title, image, productID, description, rating;
+  final String title, image, productID, description, rating, specifications, discount;
   final int price, finalPrice;
   final bool inStock;
   const ProductDetailPage({
@@ -31,6 +32,8 @@ class ProductDetailPage extends HookWidget {
     required this.rating,
     required this.inStock,
     required this.finalPrice,
+    required this.specifications,
+    required this.discount,
   }) : super(key: key);
 
   Widget build(BuildContext context) {
@@ -370,7 +373,7 @@ class ProductDetailPage extends HookWidget {
                                         child: Row(
                                           children: [
                                             Text(
-                                              "₹" + finalPrice.toString(),
+                                              "₹" + price.toString(),
                                               style: GoogleFonts.lato(
                                                 textStyle: TextStyle(
                                                   fontWeight: FontWeight.w700,
@@ -381,58 +384,41 @@ class ProductDetailPage extends HookWidget {
                                             ),
                                             SizedBox(width: 10),
                                             Text(
-                                              "₹" + price.toString(),
+                                              "₹" + finalPrice.toString(),
                                               style: GoogleFonts.lato(
-                                                decoration: TextDecoration.lineThrough,
+                                                decoration:
+                                                    TextDecoration.lineThrough,
                                                 textStyle: TextStyle(
                                                   // fontWeight: FontWeight.w700,
                                                   fontSize: 16,
-                                                  color: Theme.of(context).textTheme.bodyText2!.color,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText2!
+                                                      .color,
                                                 ),
                                               ),
                                             ),
-                                            
                                           ],
                                         ),
                                       ),
-                                      // Container(
-                                      //   margin: const EdgeInsets.symmetric(
-                                      //     horizontal: 15,
-                                      //     vertical: 5,
-                                      //   ),
-                                      //   child: Row(
-                                      //     children: [
-                                      //       Container(
-                                      //         padding: const EdgeInsets.only(
-                                      //           left: 5,
-                                      //           right: 5,
-                                      //           top: 2,
-                                      //           bottom: 2,
-                                      //         ),
-                                      //         decoration: BoxDecoration(
-                                      //           borderRadius:
-                                      //               BorderRadius.circular(
-                                      //             15,
-                                      //           ),
-                                      //           color: Colors.redAccent,
-                                      //         ),
-                                      //         child: Text(rating + "⭐️"),
-                                      //       ),
-                                      //       SizedBox(
-                                      //         width: 5,
-                                      //       ),
-                                      //       Container(
-                                      //         child: Text(
-                                      //           "317 ratings",
-                                      //           style:
-                                      //               kSmallContentStyle.copyWith(
-                                      //             fontSize: 12,
-                                      //           ),
-                                      //         ),
-                                      //       )
-                                      //     ],
-                                      //   ),
-                                      // ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          bottom: 10,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Text("Discount"),
+                                            SizedBox(width: 8),
+                                            Text(discount +"%"),
+                                            Icon(FontAwesomeIcons.tag,
+                                            size: 13,
+                                            color: Theme.of(context).textTheme.bodyText2!.color,
+                                            )
+                                          ],
+                                        ),
+                                      ),
                                       Container(
                                         margin: EdgeInsets.only(
                                           left: 15,
@@ -515,7 +501,7 @@ class ProductDetailPage extends HookWidget {
                                           left: 15,
                                           right: 15,
                                           top: 15,
-                                          bottom: 200,
+                                          bottom: 20,
                                         ),
                                         child: Column(
                                           children: [
@@ -664,9 +650,73 @@ class ProductDetailPage extends HookWidget {
                                           ],
                                         ),
                                       ),
+                                      Divider(
+                                        thickness: 1.0,
+                                        color:
+                                            Theme.of(context).backgroundColor,
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                            top: 20,
+                                            left: 15,
+                                            right: 15,
+                                            bottom: 120),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Specifications",
+                                                  style: kSmallContentStyle,
+                                                ),
+                                                Icon(Icons.expand_more,
+                                                    color: Theme.of(context)
+                                                        .backgroundColor),
+                                              ],
+                                            ),
+                                            SizedBox(height: 20),
+                                            Container(
+                                              child: Text("N/A")
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                       // Divider(
                                       //   thickness: 1.0,
-                                      //   color: Theme.of(context).backgroundColor,
+                                      //   color:
+                                      //       Theme.of(context).backgroundColor,
+                                      // ),
+                                      // Container(
+                                      //   padding: EdgeInsets.only(
+                                      //       top: 20,
+                                      //       left: 15,
+                                      //       right: 15,
+                                      //       bottom: 120),
+                                      //   child: Column(
+                                      //     children: [
+                                      //       Row(
+                                      //         mainAxisAlignment:
+                                      //             MainAxisAlignment
+                                      //                 .spaceBetween,
+                                      //         children: [
+                                      //           Text(
+                                      //             "How to use",
+                                      //             style: kSmallContentStyle,
+                                      //           ),
+                                      //           Icon(Icons.expand_more,
+                                      //               color: Theme.of(context)
+                                      //                   .backgroundColor),
+                                      //         ],
+                                      //       ),
+                                      //       SizedBox(height: 20),
+                                      //       Container(
+                                      //         child: Text("N/A")
+                                      //       ),
+                                      //     ],
+                                      //   ),
                                       // ),
                                       // Container(
                                       //   // decoration: BoxDecoration(
@@ -677,14 +727,13 @@ class ProductDetailPage extends HookWidget {
                                       //   //           .backgroundColor),
                                       //   // ),
                                       //   padding: EdgeInsets.only(
-                                      //     left: 15,
-                                      //     right: 15,
-                                      //   ),
+                                      //       left: 15, right: 15, bottom: 200),
                                       //   child: Column(
                                       //     children: [
                                       //       Row(
                                       //         mainAxisAlignment:
-                                      //             MainAxisAlignment.spaceBetween,
+                                      //             MainAxisAlignment
+                                      //                 .spaceBetween,
                                       //         children: [
                                       //           Text(
                                       //             "Ratings and Reviews",
@@ -698,8 +747,9 @@ class ProductDetailPage extends HookWidget {
                                       //                     borderRadius:
                                       //                         BorderRadius
                                       //                             .vertical(
-                                      //                       top: Radius.circular(
-                                      //                           25),
+                                      //                       top:
+                                      //                           Radius.circular(
+                                      //                               25),
                                       //                     ),
                                       //                   ),
                                       //                   context: context,
@@ -774,10 +824,11 @@ class ProductDetailPage extends HookWidget {
                                       //                 ),
                                       //                 IconButton(
                                       //                   onPressed: () {},
-
-                                      //                   icon: Icon(Icons.edit,
-                                      //                   color: Colors.redAccent,
-                                      //                   // color: Theme.of(context).textTheme.bodyText2!.color,
+                                      //                   icon: Icon(
+                                      //                     Icons.edit,
+                                      //                     color:
+                                      //                         Colors.redAccent,
+                                      //                     // color: Theme.of(context).textTheme.bodyText2!.color,
                                       //                   ),
                                       //                 ),
                                       //               ],
@@ -786,8 +837,8 @@ class ProductDetailPage extends HookWidget {
                                       //               height: 10,
                                       //             ),
                                       //             Container(
-                                      //               margin:
-                                      //                   EdgeInsets.only(left: 10),
+                                      //               margin: EdgeInsets.only(
+                                      //                   left: 10),
                                       //               child: Row(
                                       //                 mainAxisAlignment:
                                       //                     MainAxisAlignment
@@ -845,18 +896,21 @@ class ProductDetailPage extends HookWidget {
                                       //           ],
                                       //         ),
                                       //       ),
-                                      // ReviewCard(
-                                      //   userPhotoUrl:
-                                      //       reviewsData[dataIndex].userPhotoUrl[0],
-                                      //   userName: reviewsData[dataIndex].userName,
-                                      //   index: 0,
-                                      //   button: reviewsData[dataIndex].editButton,
-                                      //   height: 30,
-                                      //   width: 30,
-                                      // ),
+                                      //       // ReviewCard(
+                                      //       //   userPhotoUrl:
+                                      //       //       reviewsData[dataIndex].userPhotoUrl[0],
+                                      //       //   userName: reviewsData[dataIndex].userName,
+                                      //       //   index: 0,
+                                      //       //   button: reviewsData[dataIndex].editButton,
+                                      //       //   height: 30,
+                                      //       //   width: 30,
+                                      //       // ),
+                                      //       //     ],
+                                      //       //   ),
+                                      //       // )
                                       //     ],
                                       //   ),
-                                      // )
+                                      // ),
                                     ],
                                   ),
                                 ),
