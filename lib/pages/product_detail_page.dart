@@ -19,7 +19,7 @@ import 'package:reviews_slider/reviews_slider.dart';
 
 class ProductDetailPage extends HookWidget {
   final String title, image, productID, description, rating;
-  final int price;
+  final int price, finalPrice;
   final bool inStock;
   const ProductDetailPage({
     Key? key,
@@ -30,6 +30,7 @@ class ProductDetailPage extends HookWidget {
     required this.description,
     required this.rating,
     required this.inStock,
+    required this.finalPrice,
   }) : super(key: key);
 
   Widget build(BuildContext context) {
@@ -366,15 +367,32 @@ class ProductDetailPage extends HookWidget {
                                           horizontal: 15,
                                           // vertical: 5,
                                         ),
-                                        child: Text(
-                                          "₹" + price.toString(),
-                                          style: GoogleFonts.lato(
-                                            textStyle: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 22,
-                                              color: Colors.redAccent,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "₹" + finalPrice.toString(),
+                                              style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 22,
+                                                  color: Colors.redAccent,
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              "₹" + price.toString(),
+                                              style: GoogleFonts.lato(
+                                                decoration: TextDecoration.lineThrough,
+                                                textStyle: TextStyle(
+                                                  // fontWeight: FontWeight.w700,
+                                                  fontSize: 16,
+                                                  color: Theme.of(context).textTheme.bodyText2!.color,
+                                                ),
+                                              ),
+                                            ),
+                                            
+                                          ],
                                         ),
                                       ),
                                       // Container(
@@ -520,7 +538,7 @@ class ProductDetailPage extends HookWidget {
                                                           .color,
                                                     ),
                                                     Text(
-                                                      "Deliver in 3 Days",
+                                                      "Deliver in 7-10 Days",
                                                       style: kSmallContentStyle
                                                           .copyWith(
                                                         fontSize: 13,
