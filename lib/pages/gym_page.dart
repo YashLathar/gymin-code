@@ -16,7 +16,11 @@ import 'package:url_launcher/url_launcher.dart';
 class GymPage extends HookWidget {
   final bool gymopen, traineravailable;
   final List gymphotos;
-  final int monthlyPrice, hourlyPrice, registrationFee;
+  final int monthlyPrice,
+      twoHoursPrice,
+      threeHoursPrice,
+      hourlyPrice,
+      registrationFee;
   final List facilities;
   final String gymId,
       gymName,
@@ -33,6 +37,8 @@ class GymPage extends HookWidget {
     required this.gymId,
     required this.registrationFee,
     required this.gymphotos,
+    required this.twoHoursPrice,
+    required this.threeHoursPrice,
     required this.gymPhoto,
     required this.gymName,
     required this.gymratings,
@@ -317,14 +323,21 @@ class GymPage extends HookWidget {
                                     .color,
                               ),
                             ),
+                            Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color,
+                            ),
                           ],
                         ),
                       ),
                       Container(
+                        height: 95,
+                        width: double.infinity,
                         padding:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
                           children: [
                             FacilityCard(
                               icon: Icons.music_note,
@@ -354,6 +367,24 @@ class GymPage extends HookWidget {
                               text: "Changing",
                               isfacilityavailable:
                                   facilities.contains("Changing Room")
+                                      ? true
+                                      : false,
+                              onpressed: () {},
+                            ),
+                            FacilityCard(
+                              icon: Icons.payment_sharp,
+                              text: "Digital Payments",
+                              isfacilityavailable:
+                                  facilities.contains("Digital Payments")
+                                      ? true
+                                      : false,
+                              onpressed: () {},
+                            ),
+                            FacilityCard(
+                              icon: Icons.password,
+                              text: "Biometric Attendance",
+                              isfacilityavailable:
+                                  facilities.contains("Biometric Attendance")
                                       ? true
                                       : false,
                               onpressed: () {},
@@ -694,6 +725,8 @@ class GymPage extends HookWidget {
                           hourlyPrice: hourlyPrice,
                           monthlyPrice: monthlyPrice,
                           registrationFee: registrationFee,
+                          threeHoursPrice: threeHoursPrice,
+                          twoHoursPrice: twoHoursPrice,
                         ),
                       ),
                     );

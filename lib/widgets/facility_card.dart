@@ -17,8 +17,9 @@ class FacilityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 75,
-      height: 75,
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      width: 95,
+      height: 95,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
@@ -31,9 +32,8 @@ class FacilityCard extends StatelessWidget {
         children: [
           Icon(
             icon,
-            size: 35,
-            color: isfacilityavailable ? Colors.blue : 
-            Color(0xffc9c9c9),
+            size: 30,
+            color: isfacilityavailable ? Colors.blue : Color(0xffc9c9c9),
           ),
           SizedBox(height: 5),
           Text(
@@ -41,6 +41,7 @@ class FacilityCard extends StatelessWidget {
             style: TextStyle(
               color: Color(0xffc9c9c9),
             ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
