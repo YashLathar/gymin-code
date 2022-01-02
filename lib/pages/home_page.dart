@@ -319,6 +319,11 @@ class HomePage extends HookWidget {
                                       email: data['email'],
                                       twoHoursPrice: data['twoHoursPrice'],
                                       threeHoursPrice: data['threeHoursPrice'],
+                                      trainermail2: data['gtrainermail2'],
+                                      trainermail: data['gtrainermail'],
+                                      trainername2: data['gtrainername2'],
+                                      trainerphoto2: data['gtrainerphoto2'],
+                                      trainerrating2: data['gtrainerrating2'],
                                     ),
                                   ),
                                 );
