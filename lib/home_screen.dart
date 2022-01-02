@@ -384,12 +384,12 @@ class HomeScreen extends HookWidget {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: ClipRRect(
-                  child: Image.asset("assets/home-page-heading.png"),
+                  child: Image.asset("assets/img/no_internet.gif"),
                 ),
               ),
               SizedBox(height: 10),
               Text(
-                "No Internet Conncetion!!!",
+                "No Internet Connection!!!",
                 style: kSmallContentStyle,
               ),
             ],
