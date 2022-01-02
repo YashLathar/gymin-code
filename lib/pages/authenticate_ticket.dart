@@ -6,6 +6,7 @@ import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/pages/booking_result.dart';
 import 'package:gym_in/services/orders_service.dart';
+import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AuthenticateTicket extends StatefulWidget {
@@ -21,26 +22,29 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
   Future<void> scan() async {
     try {
       final barcode = await BarcodeScanner.scan();
-      final user = context.read(authControllerProvider);
       final order = await context
           .read(ordersServiceProvider)
           .getSingleGymOrder(barcode.rawContent);
-      print(barcode.rawContent);
-      showDialog(
-        context: context,
-        builder: (context) {
-          return QrResultScreen(
-            gymName: order.gymName,
-            gymPhoto: order.gymPhoto,
-            userImage: user!.photoURL,
-            userName: order.userName,
-            fromDate: order.fromDate,
-            fromTime: order.fromTime,
-            planSelected: order.planSelected,
-            docId: order.docId,
-          );
-        },
-      );
+
+      if (order.gymName != "unknown") {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return QrResultScreen(
+              gymName: order.gymName,
+              gymPhoto: order.gymPhoto,
+              userImage: order.userImage,
+              userName: order.userName,
+              fromDate: order.fromDate,
+              fromTime: order.fromTime,
+              planSelected: order.planSelected,
+              docId: order.docId,
+            );
+          },
+        );
+      } else {
+        aShowToast(msg: "Ticket not verified");
+      }
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
         setState(() {

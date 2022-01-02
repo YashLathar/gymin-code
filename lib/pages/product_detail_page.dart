@@ -19,7 +19,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reviews_slider/reviews_slider.dart';
 
 class ProductDetailPage extends HookWidget {
-  final String title, image, productID, description, rating, specifications, discount;
+  final String title,
+      image,
+      productID,
+      description,
+      rating,
+      specifications,
+      discount;
   final int price, finalPrice;
   final bool inStock;
   const ProductDetailPage({
@@ -214,6 +220,10 @@ class ProductDetailPage extends HookWidget {
                             Stack(
                               children: [
                                 Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 10,
+                                  ),
                                   height: size.width,
                                   child: Hero(
                                     tag: productID,
@@ -411,10 +421,14 @@ class ProductDetailPage extends HookWidget {
                                           children: [
                                             Text("Discount"),
                                             SizedBox(width: 8),
-                                            Text(discount +"%"),
-                                            Icon(FontAwesomeIcons.tag,
-                                            size: 13,
-                                            color: Theme.of(context).textTheme.bodyText2!.color,
+                                            Text(discount + "%"),
+                                            Icon(
+                                              FontAwesomeIcons.tag,
+                                              size: 13,
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2!
+                                                  .color,
                                             )
                                           ],
                                         ),
@@ -678,9 +692,7 @@ class ProductDetailPage extends HookWidget {
                                               ],
                                             ),
                                             SizedBox(height: 20),
-                                            Container(
-                                              child: Text("N/A")
-                                            ),
+                                            Container(child: Text("N/A")),
                                           ],
                                         ),
                                       ),
