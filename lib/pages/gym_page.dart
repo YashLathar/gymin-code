@@ -30,6 +30,11 @@ class GymPage extends HookWidget {
       trainername,
       trainerphoto,
       trainerrating,
+      trainermail,
+      trainername2,
+      trainerphoto2,
+      trainerrating2,
+      trainermail2,
       phone,
       email;
   const GymPage({
@@ -52,6 +57,11 @@ class GymPage extends HookWidget {
     required this.monthlyPrice,
     required this.phone,
     required this.email,
+    required this.trainermail,
+    required this.trainermail2,
+    required this.trainername2,
+    required this.trainerphoto2,
+    required this.trainerrating2,
   });
 
   @override
@@ -411,7 +421,7 @@ class GymPage extends HookWidget {
                       Container(
                         margin: EdgeInsets.only(
                             left: 15, right: 15, top: 20, bottom: 0),
-                        height: 110,
+                        height: 200,
                         child: Container(
                           width: 270,
                           margin: EdgeInsets.symmetric(horizontal: 10),
@@ -463,8 +473,12 @@ class GymPage extends HookWidget {
                                             ),
                                           ),
                                           SizedBox(
-                                            height: 10,
+                                            height: 3,
                                           ),
+                                          Text(trainermail),
+                                          // SizedBox(
+                                          //   height: 3,
+                                          // ),
                                           Container(
                                             child: Row(
                                               mainAxisAlignment:
@@ -531,9 +545,127 @@ class GymPage extends HookWidget {
                                   ],
                                 ),
                               ),
-                              // SizedBox(
-                              //   height: 15,
-                              // ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(30),
+                                      child: Container(
+                                        width: 75,
+                                        height: 75,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                        child: Image.network(
+                                          trainerphoto2,
+                                          fit: BoxFit.cover,
+                                          filterQuality: FilterQuality.high,
+                                          loadingBuilder: (BuildContext context,
+                                              Widget child,
+                                              ImageChunkEvent?
+                                                  loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 87, top: 5),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            trainername2,
+                                            style: kSubHeadingStyle.copyWith(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2!
+                                                  .color,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 3,
+                                          ),
+                                          Text(trainermail2),
+                                          // SizedBox(
+                                          //   height: 3,
+                                          // ),
+                                          Container(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  traineravailable
+                                                      ? "Available"
+                                                      : "Not Available",
+                                                  style: TextStyle(
+                                                      color: traineravailable
+                                                          ? Colors.green
+                                                          : Colors.redAccent),
+                                                ),
+                                                Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.star,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText2!
+                                                            .color,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Container(
+                                                        width: 20,
+                                                        height: 20,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(50),
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText2!
+                                                                  .color,
+                                                        ),
+                                                        child: Center(
+                                                          child: Text(
+                                                            trainerrating2
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .scaffoldBackgroundColor,
+                                                                fontSize: 15),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),

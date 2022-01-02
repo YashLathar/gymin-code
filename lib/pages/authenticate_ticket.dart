@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
-import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/pages/booking_result.dart';
 import 'package:gym_in/services/orders_service.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
