@@ -27,7 +27,7 @@ late FirebaseAnalytics analytics;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey =
-      'pk_test_51K7hIISAFFJ3hJGuB2QOQg6iAdnbjHJ1HZvHvoEMTDY0N03Dqa8i5MnWXv2PA0nwzMg5WAei8839LYsnzsw5ZKWh00tdIjWw0E';
+      'pk_live_51K7hIISAFFJ3hJGuUeKxb1G4yOxzTDfhjVSmua93xU1CJJC0iOz16zexjp8QmZsRtFElVDPn6j9mUqRc4lpgIKJg00RYNBiWoY';
   await Firebase.initializeApp();
   analytics = FirebaseAnalytics();
 

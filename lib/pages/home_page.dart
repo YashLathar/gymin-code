@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/pages/gym_page.dart';
 import 'package:gym_in/pages/time_selector_page.dart';
@@ -21,8 +23,46 @@ class HomePage extends HookWidget {
       await FirebaseMessaging.instance.getToken();
     }
 
+    // Future<Position> _determinePosition() async {
+    //   bool serviceEnabled;
+    //   LocationPermission permission;
+
+    //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    //   if (!serviceEnabled) {
+    //     return Future.error('Location services are disabled.');
+    //   }
+
+    //   permission = await Geolocator.checkPermission();
+    //   if (permission == LocationPermission.denied) {
+    //     permission = await Geolocator.requestPermission();
+    //     if (permission == LocationPermission.denied) {
+    //       return Future.error('Location permissions are denied');
+    //     }
+    //   }
+
+    //   if (permission == LocationPermission.deniedForever) {
+    //     return Future.error(
+    //         'Location permissions are permanently denied, we cannot request permissions.');
+    //   }
+
+    //   final location = await Geolocator.getCurrentPosition(
+    //           desiredAccuracy: LocationAccuracy.medium)
+    //       .timeout(Duration(seconds: 5));
+    //   print(location);
+
+    //   List<Placemark> placemarks = await placemarkFromCoordinates(
+    //     location.latitude,
+    //     location.longitude,
+    //   );
+
+    //   print(placemarks[0].administrativeArea);
+
+    //   return location;
+    // }
+
     useEffect(() {
       getToken();
+      // _determinePosition();
 
       final messaging =
           FirebaseMessaging.onMessage.listen((RemoteMessage message) {
