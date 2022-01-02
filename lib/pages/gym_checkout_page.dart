@@ -119,10 +119,14 @@ class GymCheckoutPage extends HookWidget {
         final doc = await context.read(ordersServiceProvider).addToGymOrders(
               gymcheckName,
               gymcheckPhoto,
-              fromTime.hour.toString(),
+              fromTime.hour.toString() + ":" + fromTime.minute.toString(),
               toTime,
               planSelected,
-              date.value.day.toString(),
+              date.value.day.toString() +
+                  "-" +
+                  date.value.month.toString() +
+                  "-" +
+                  date.value.year.toString(),
               context,
             );
 
@@ -134,8 +138,13 @@ class GymCheckoutPage extends HookWidget {
               gymPhoto: gymcheckPhoto,
               userName: user!.displayName,
               userImage: user.photoURL,
-              fromDate: date.value.day.toString(),
-              fromTime: fromTime.hour.toString(),
+              fromDate: date.value.day.toString() +
+                  "-" +
+                  date.value.month.toString() +
+                  "-" +
+                  date.value.year.toString(),
+              fromTime:
+                  fromTime.hour.toString() + ":" + fromTime.minute.toString(),
               planSelected: planSelected,
               docId: doc.id,
             );

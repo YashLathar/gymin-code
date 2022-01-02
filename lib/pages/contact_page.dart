@@ -43,7 +43,8 @@ class ContactScreen extends HookWidget {
                             },
                             icon: Icon(
                               Icons.arrow_back_ios,
-                              color: Theme.of(context).textTheme.bodyText2!.color,
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color,
                             ),
                           ),
                         ),
@@ -247,26 +248,31 @@ class ContactScreen extends HookWidget {
                         style:
                             ElevatedButton.styleFrom(primary: Colors.redAccent),
                         onPressed: () async {
-                          final intPhone = int.parse(phoneController.text);
-      
-                          if (messageController.text.isNotEmpty) {
-                            await contactService
-                                .addContactDocument(
-                                    usernameController.text,
-                                    user!.email!,
-                                    intPhone,
-                                    messageController.text,
-                                    user.uid)
-                                .onError((error, stackTrace) => aShowToast(
-                                    msg:
-                                        "CANNOT make multiple contact requests"));
-      
-                            usernameController.clear();
-                            phoneController.clear();
-                            messageController.clear();
-                            aShowToast(msg: "Your request has been submmited");
+                          if (phoneController.text.length == 10) {
+                            final intPhone = int.parse(phoneController.text);
+
+                            if (messageController.text.isNotEmpty) {
+                              await contactService
+                                  .addContactDocument(
+                                      usernameController.text,
+                                      user!.email!,
+                                      intPhone,
+                                      messageController.text,
+                                      user.uid)
+                                  .onError((error, stackTrace) => aShowToast(
+                                      msg:
+                                          "CANNOT make multiple contact requests"));
+
+                              usernameController.clear();
+                              phoneController.clear();
+                              messageController.clear();
+                              aShowToast(
+                                  msg: "Your request has been submmited");
+                            } else {
+                              aShowToast(msg: "Fields can't be empty");
+                            }
                           } else {
-                            aShowToast(msg: "Fields can't be empty");
+                            aShowToast(msg: "Invalid Number");
                           }
                         },
                         child: Text("Submit Response"),

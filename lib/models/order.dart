@@ -76,6 +76,8 @@ class Order {
       fromTime: "unknown",
       planSelected: "unknown",
       gymPhoto: "unknown",
+      userName: "unknown",
+      userImage: "unknown",
     );
   }
 
