@@ -26,6 +26,7 @@ abstract class BaseOrdersService {
   );
   Future<Order> getSingleGymOrder(String docId);
   Future<ProductOrder> getSingleProductOrder(String docId);
+  Future<Order> authenticateGymOrder(String docId);
   Future<List<Order>> retrievAllGymOrders();
   Future<List<ProductOrder>> retrievAllProductOrders();
 }
@@ -57,6 +58,20 @@ class OrdersService implements BaseOrdersService {
           .doc(user!.uid)
           .collection("userBookings")
           .add({
+        "userName": user!.displayName,
+        "gymName": gymName,
+        "userPlan": userPlan,
+        "bookingFromTiming": bookingFromTiming,
+        "bookingToTiming": bookingToTime,
+        "gymPhoto": gymPhoto,
+        "date": date,
+        "timeStamp": FieldValue.serverTimestamp(),
+      });
+
+      await _read(firestoreProvider)
+          .collection("allGymBookings")
+          .doc(doc.id)
+          .set({
         "userName": user!.displayName,
         "gymName": gymName,
         "userPlan": userPlan,
@@ -126,21 +141,6 @@ class OrdersService implements BaseOrdersService {
 
         return mtyOrder;
       }
-
-      // final orders = documentSnapshots.docs.map((order) {
-      //   return Order(
-      //     docId: order.id,
-      //     gymPhoto: order.data()["gymPhoto"],
-      //     userImage: user!.photoURL,
-      //     userName: user!.displayName,
-      //     fromTime: order.data()["bookingFromTiming"],
-      //     fromDate: order.data()["date"],
-      //     gymName: order.data()["gymName"],
-      //     planSelected: order.data()["userPlan"],
-      //   );
-      // }).toList();
-
-      // return orders;
     } on FirebaseException catch (e) {
       throw Text(e.message ?? "ERROR");
     }
@@ -218,6 +218,35 @@ class OrdersService implements BaseOrdersService {
       return orders;
     } on FirebaseException catch (e) {
       throw CustomExeption(message: e.message);
+    }
+  }
+
+  @override
+  Future<Order> authenticateGymOrder(String docId) async {
+    try {
+      final documentSnapshot = await _read(firestoreProvider)
+          .collection("allGymBookings")
+          .doc(docId)
+          .get();
+
+      if (documentSnapshot.exists) {
+        final order = Order(
+          gymName: documentSnapshot.data()!["gymName"],
+          docId: docId,
+          fromDate: documentSnapshot.data()!["date"],
+          fromTime: documentSnapshot.data()!["bookingFromTiming"],
+          planSelected: documentSnapshot.data()!["userPlan"],
+          gymPhoto: documentSnapshot.data()!["gymPhoto"],
+          userName: documentSnapshot.data()!["userName"],
+        );
+        return order;
+      } else {
+        final mtyOrder = Order.mtOrder();
+
+        return mtyOrder;
+      }
+    } on FirebaseException catch (e) {
+      throw Text(e.message ?? "ERROR");
     }
   }
 }

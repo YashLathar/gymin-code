@@ -23,7 +23,7 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
       final barcode = await BarcodeScanner.scan();
       final order = await context
           .read(ordersServiceProvider)
-          .getSingleGymOrder(barcode.rawContent);
+          .authenticateGymOrder(barcode.rawContent);
 
       if (order.gymName != "unknown") {
         showDialog(
