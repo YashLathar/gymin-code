@@ -35,6 +35,11 @@ class ProductCartPage extends HookWidget {
     final productsName =
         cartControllerProvider.products.map((e) => e.title).toList();
 
+    final processingPrice = (cartControllerProvider.totalPrice * 3) / 100;
+
+    final finalPriceAfterProcessing =
+        cartControllerProvider.totalPrice + processingPrice;
+
     Future<void> displayPaymentSheet() async {
       try {
         await Stripe.instance.presentPaymentSheet(
@@ -51,7 +56,7 @@ class ProductCartPage extends HookWidget {
             await context.read(ordersServiceProvider).addToProductOrders(
                   productsName,
                   productsPhotos,
-                  cartControllerProvider.totalPrice,
+                  finalPriceAfterProcessing.toInt(),
                 );
 
         final productOrder = await context
@@ -86,7 +91,7 @@ class ProductCartPage extends HookWidget {
     }
 
     Future<void> makePayment() async {
-      final formattedPrice = cartControllerProvider.totalPrice * 100;
+      final formattedPrice = finalPriceAfterProcessing * 100;
       var url = Uri.parse(
           "https://us-central1-gym-in-14938.cloudfunctions.net/stripePayment");
       final response = await http.post(
@@ -496,7 +501,41 @@ class ProductCartPage extends HookWidget {
                             ),
                           ),
                           SizedBox(
-                            height: 15,
+                            height: 5,
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Processing Fee",
+                                  style: kSmallContentStyle.copyWith(
+                                    fontSize: 15,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "+",
+                                      style: kSmallContentStyle.copyWith(
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    Text(
+                                      "₹ ${processingPrice.toString()}",
+                                      style: kSmallContentStyle.copyWith(
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
                           ),
                           Container(
                             padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
@@ -511,7 +550,7 @@ class ProductCartPage extends HookWidget {
                                   ),
                                 ),
                                 Text(
-                                  "₹${cartControllerProvider.totalPrice.toString()}",
+                                  "₹${finalPriceAfterProcessing.toString()}",
                                   style: kSmallContentStyle.copyWith(
                                     fontSize: 15,
                                   ),
@@ -566,7 +605,7 @@ class ProductCartPage extends HookWidget {
                                   ),
                                   SizedBox(width: 15),
                                   Text(
-                                    "₹${cartControllerProvider.totalPrice.toString()}",
+                                    "₹${finalPriceAfterProcessing.toString()}",
                                     style: kSubHeadingStyle.copyWith(
                                       color: Color(0xFF141221),
                                     ),
