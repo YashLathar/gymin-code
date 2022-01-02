@@ -259,12 +259,12 @@ class ContactScreen extends HookWidget {
                                     user.uid)
                                 .onError((error, stackTrace) => aShowToast(
                                     msg:
-                                        "CANNOT make multiple contact requests"));
+                                        "Cannot make multiple contact requests"));
       
                             usernameController.clear();
                             phoneController.clear();
                             messageController.clear();
-                            aShowToast(msg: "Your request has been submmited");
+                            aShowToast(msg: "Your request has been submitted");
                           } else {
                             aShowToast(msg: "Fields can't be empty");
                           }

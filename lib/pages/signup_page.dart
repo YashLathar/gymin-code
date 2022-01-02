@@ -174,7 +174,7 @@ class SignupPage extends HookWidget {
                                 await context
                                     .read(authControllerProvider.notifier)
                                     .setProfilePhoto(
-                                        "https://fanfest.com/wp-content/uploads/2021/02/Loki.jpg");
+                                        "https://firebasestorage.googleapis.com/v0/b/gym-in-14938.appspot.com/o/defaultprofile%2Flogopng.png?alt=media&token=4b958ae5-addc-4cf6-a24e-fb73643ca863");
                                 context.read(loadingStateProvider).state =
                                     false;
                                 Navigator.push(
