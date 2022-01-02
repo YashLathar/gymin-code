@@ -8,7 +8,7 @@ final kRoundedButtonTextStyle = TextStyle(
   fontSize: 18,
   fontFamily: 'Montserrat',
   fontWeight: FontWeight.w600,
-);
+);  
 final kMainHeadingStyle =
     TextStyle(fontSize: 55, color: Colors.black, fontWeight: FontWeight.w900);
 

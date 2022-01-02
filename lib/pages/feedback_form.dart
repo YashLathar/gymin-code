@@ -237,7 +237,7 @@ class FeedbackFormPage extends HookWidget {
                               user.photoURL.toString(),
                             )
                             .onError((error, stackTrace) => aShowToast(
-                                msg: "CANNOT make multiple Feedbacks"));
+                                msg: "Cannot make multiple Feedbacks"));
       
                         feedbackController.clear();
                         aShowToast(msg: "Your feedback has been submmited");
