@@ -80,13 +80,16 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
                           width: 2.0, color: Theme.of(context).backgroundColor),
                     ),
                     child: Center(
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: Theme.of(context).textTheme.bodyText2!.color,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 7),
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: Theme.of(context).textTheme.bodyText2!.color,
+                          ),
                         ),
                       ),
                     ),
@@ -113,7 +116,7 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
                     ),
                     child: Center(
                       child: IconButton(
-                        onPressed: () {}, //_captureAndSharePng,
+                        onPressed: () {},
                         icon: Icon(
                           FontAwesomeIcons.share,
                           color: Theme.of(context).scaffoldBackgroundColor,
@@ -136,7 +139,7 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
                     textColor: Colors.white,
                     splashColor: Colors.blueGrey,
                     onPressed: scan,
-                    child: const Text('SCAN'),
+                    child: const Text('Verify User'),
                   ),
                 ),
                 Padding(

@@ -474,42 +474,7 @@ class ProductCartPage extends HookWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "Processing fee(3%)",
-                                  style: kSmallContentStyle.copyWith(
-                                    fontSize: 15,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "+",
-                                      style: kSmallContentStyle.copyWith(
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                    Text(
-                                      "₹80",
-                                      style: kSmallContentStyle.copyWith(
-                                        fontSize: 15,
-                                        decoration: TextDecoration.lineThrough,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Container(
-                            padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Processing Fee",
+                                  "Processing Fee(3%)",
                                   style: kSmallContentStyle.copyWith(
                                     fontSize: 15,
                                     color: Colors.grey,
@@ -535,7 +500,7 @@ class ProductCartPage extends HookWidget {
                             ),
                           ),
                           SizedBox(
-                            height: 20,
+                            height: 15,
                           ),
                           Container(
                             padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
