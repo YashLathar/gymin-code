@@ -50,6 +50,7 @@ class GymCheckoutPage extends HookWidget {
     final selectedPrice = useProvider(userSelectedPriceProvider);
     final user = useProvider(authControllerProvider);
     final selected = useState(Plans.hourly);
+    final noOfHours = useProvider(userselectedforhoursProvider);
     final now = DateTime.now();
     final date = useState(DateTime(now.year, now.month, now.day + 1));
     final today = DateTime.now();
@@ -354,6 +355,7 @@ class GymCheckoutPage extends HookWidget {
                                     onTap: () {
                                       selected.value = Plans.hourly;
                                       selectedPrice.state = hourlyPrice;
+                                      noOfHours.state = 1;
                                     },
                                     child: ResuableButton(
                                       child: Row(
@@ -699,7 +701,7 @@ class GymCheckoutPage extends HookWidget {
                                           ),
                                         ),
                                         Text(
-                                          "${context.read(userselectedforhoursProvider).state.toString()} Hour",
+                                          "${noOfHours.state.toString()} Hour",
                                           style: kSmallHeadingTextStyle,
                                         ),
                                       ])

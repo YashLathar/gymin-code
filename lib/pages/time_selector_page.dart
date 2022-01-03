@@ -171,7 +171,7 @@ class TimeSelector extends HookWidget {
                         GestureDetector(
                           onTap: () {
                             selected.value = 2;
-                            selectedPrice.state = price * 2;
+                            selectedPrice.state = twoHourPrice;
                             context.read(userselectedforhoursProvider).state =
                                 2;
                           },
@@ -199,7 +199,7 @@ class TimeSelector extends HookWidget {
                         GestureDetector(
                           onTap: () {
                             selected.value = 3;
-                            selectedPrice.state = price * 2;
+                            selectedPrice.state = threeHourPrice;
                             context.read(userselectedforhoursProvider).state =
                                 3;
                           },
