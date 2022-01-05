@@ -12,6 +12,7 @@ import 'package:gym_in/widgets/product_order_widget.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 final validatingPinProvider = StateProvider<bool>((ref) {
   return false;
@@ -27,7 +28,8 @@ class ProductCartPage extends HookWidget {
     final cartControllerProvider = useProvider(cartProvider);
     final pincodeValidator = useProvider(validatingPinProvider);
     final user = useProvider(authControllerProvider);
-    final paymentIntentData = useState({});
+    final orderId = useState({});
+    final _razorpay = Razorpay();
     final pincodeController = useTextEditingController();
     Size size = MediaQuery.of(context).size;
     final productsPhotos =
@@ -40,87 +42,139 @@ class ProductCartPage extends HookWidget {
     final finalPriceAfterProcessing =
         cartControllerProvider.totalPrice + processingPrice;
 
-    Future<void> displayPaymentSheet() async {
-      try {
-        await Stripe.instance.presentPaymentSheet(
-          // ignore: deprecated_member_use
-          parameters: PresentPaymentSheetParameters(
-            clientSecret: paymentIntentData.value["paymentIntent"],
-            confirmPayment: true,
-          ),
-        );
+    // Future<void> displayPaymentSheet() async {
+    //   try {
+    //     await Stripe.instance.presentPaymentSheet(
+    //       // ignore: deprecated_member_use
+    //       parameters: PresentPaymentSheetParameters(
+    //         clientSecret: paymentIntentData.value["paymentIntent"],
+    //         confirmPayment: true,
+    //       ),
+    //     );
 
-        paymentIntentData.value = {};
+    //     paymentIntentData.value = {};
 
-        final doc =
-            await context.read(ordersServiceProvider).addToProductOrders(
-                  productsName,
-                  productsPhotos,
-                  finalPriceAfterProcessing.toInt(),
-                );
+    // final doc =
+    //     await context.read(ordersServiceProvider).addToProductOrders(
+    //           productsName,
+    //           productsPhotos,
+    //           finalPriceAfterProcessing.toInt(),
+    //         );
 
-        final productOrder = await context
-            .read(ordersServiceProvider)
-            .getSingleProductOrder(doc.id);
+    // final productOrder = await context
+    //     .read(ordersServiceProvider)
+    //     .getSingleProductOrder(doc.id);
 
-        showDialog(
-          context: context,
-          builder: (context) {
-            return ProductOrderWidget(
-              productOrder: productOrder,
-            );
-          },
-        );
-        aShowToast(msg: "Payment Successful");
-      } catch (e) {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return SimpleDialog(
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  title: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Text(
-                      "Payment Failed",
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText2!.color),
-                    ),
-                  ));
-            });
-      }
-    }
+    // showDialog(
+    //   context: context,
+    //   builder: (context) {
+    //     return ProductOrderWidget(
+    //       productOrder: productOrder,
+    //     );
+    //   },
+    // );
+    // aShowToast(msg: "Payment Successful");
+    //   } catch (e) {
+    //     showDialog(
+    //         context: context,
+    //         builder: (context) {
+    //           return SimpleDialog(
+    //               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    //               title: Padding(
+    //                 padding: const EdgeInsets.all(15),
+    //                 child: Text(
+    //                   "Payment Failed",
+    //                   style: TextStyle(
+    //                       color: Theme.of(context).textTheme.bodyText2!.color),
+    //                 ),
+    //               ));
+    //         });
+    //   }
+    // }
 
     Future<void> makePayment() async {
       final formattedPrice = finalPriceAfterProcessing * 100;
       var url = Uri.parse(
-          "https://us-central1-gym-in-14938.cloudfunctions.net/stripePayment");
+          "https://us-central1-gym-in-14938.cloudfunctions.net/razorpayPayment");
       final response = await http.post(
         url,
         body: jsonEncode({
-          "total": formattedPrice,
-          "email": user!.email,
+          "amount": formattedPrice,
         }),
         headers: {"Content-Type": "application/json"},
       );
 
-      paymentIntentData.value = json.decode(response.body);
+      final data = jsonDecode(response.body);
 
-      await Stripe.instance.initPaymentSheet(
-        paymentSheetParameters: SetupPaymentSheetParameters(
-          paymentIntentClientSecret: paymentIntentData.value["paymentIntent"],
-          applePay: true,
-          googlePay: true,
-          style: ThemeMode.light,
-          merchantCountryCode: "IN",
-          merchantDisplayName: "Beyonder",
-          billingDetails: BillingDetails(
-            email: user.email,
-          ),
-        ),
-      );
+      orderId.value = data;
 
-      displayPaymentSheet();
+      final options = {
+        'key': 'rzp_test_E6LeUFlD1O7OHl',
+        'amount': formattedPrice,
+        'name': 'GYMIN',
+        'order_id': orderId.value["orderId"],
+        'description': "test payment",
+        "currency": "INR",
+        'timeout': 300,
+        'prefill': {'email': user!.email}
+      };
+
+      _razorpay.open(options);
     }
+
+    void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+      final doc = await context.read(ordersServiceProvider).addToProductOrders(
+            productsName,
+            productsPhotos,
+            response.orderId!,
+            finalPriceAfterProcessing.toInt(),
+          );
+
+      final productOrder = await context
+          .read(ordersServiceProvider)
+          .getSingleProductOrder(doc.id);
+
+      showDialog(
+        context: context,
+        builder: (context) {
+          return ProductOrderWidget(
+            productOrder: productOrder,
+          );
+        },
+      );
+      aShowToast(msg: "Payment Successful");
+    }
+
+    void _handlePaymentError(PaymentFailureResponse response) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleDialog(
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                title: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text(
+                    "Payment Failed",
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color),
+                  ),
+                ));
+          });
+    }
+
+    void _handleExternalWallet(ExternalWalletResponse response) {
+      aShowToast(msg: "Payment Successful");
+    }
+
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+
+    useEffect(() {
+      return () {
+        _razorpay.clear();
+      };
+    });
 
     return Scaffold(
       body: SafeArea(

@@ -16,12 +16,15 @@ abstract class BaseOrdersService {
     String bookingToTime,
     String userPlan,
     String date,
+    String orderID,
     String gymPhoto,
+    String forNumOfHours,
     BuildContext context,
   );
   Future<void> addToProductOrders(
     List<String> productsName,
     List<String> productsPhotos,
+    String orderID,
     int totalPrice,
   );
   Future<Order> getSingleGymOrder(String docId);
@@ -50,6 +53,8 @@ class OrdersService implements BaseOrdersService {
     String bookingToTime,
     String userPlan,
     String date,
+    String forNumOfHours,
+    String orderID,
     BuildContext context,
   ) async {
     try {
@@ -65,6 +70,8 @@ class OrdersService implements BaseOrdersService {
         "bookingToTiming": bookingToTime,
         "gymPhoto": gymPhoto,
         "date": date,
+        "orderId": orderID,
+        "forNumOfHours": forNumOfHours,
         "timeStamp": FieldValue.serverTimestamp(),
       });
 
@@ -78,6 +85,7 @@ class OrdersService implements BaseOrdersService {
         "bookingFromTiming": bookingFromTiming,
         "bookingToTiming": bookingToTime,
         "gymPhoto": gymPhoto,
+        "forNumOfHours": forNumOfHours,
         "date": date,
         "timeStamp": FieldValue.serverTimestamp(),
       });
@@ -150,6 +158,7 @@ class OrdersService implements BaseOrdersService {
   Future<DocumentReference> addToProductOrders(
     List<String> productsName,
     List<String> productsPhotos,
+    String orderID,
     int totalPrice,
   ) async {
     try {
@@ -160,6 +169,7 @@ class OrdersService implements BaseOrdersService {
           .add({
         "productsPhotos": productsPhotos,
         "productsName": productsName,
+        "orderId": orderID,
         "totalPrice": totalPrice,
         "timeStamp": FieldValue.serverTimestamp(),
       });

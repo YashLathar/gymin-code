@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import 'package:gym_in/constants.dart';
@@ -55,7 +56,8 @@ class GymCheckoutPage extends HookWidget {
     final date = useState(DateTime(now.year, now.month, now.day + 1));
     final today = DateTime.now();
     Size size = MediaQuery.of(context).size;
-    final paymentIntentData = useState({});
+    final orderId = useState({});
+    final _razorpay = Razorpay();
 
     final discountedPrice = selectedPrice.state * 20 / 100;
 
@@ -105,102 +107,187 @@ class GymCheckoutPage extends HookWidget {
 
     final planSelected = formatPlan(selected.value);
 
-    Future<void> displayPaymentSheet() async {
-      try {
-        await Stripe.instance.presentPaymentSheet(
-          // ignore: deprecated_member_use
-          parameters: PresentPaymentSheetParameters(
-            clientSecret: paymentIntentData.value["paymentIntent"],
-            confirmPayment: true,
-          ),
-        );
+    // Future<void> displayPaymentSheet() async {
+    //   try {
+    //     await Stripe.instance.presentPaymentSheet(
+    //       // ignore: deprecated_member_use
+    //       parameters: PresentPaymentSheetParameters(
+    //         clientSecret: paymentIntentData.value["paymentIntent"],
+    //         confirmPayment: true,
+    //       ),
+    //     );
 
-        paymentIntentData.value = {};
+    //     paymentIntentData.value = {};
 
-        final doc = await context.read(ordersServiceProvider).addToGymOrders(
-              gymcheckName,
-              gymcheckPhoto,
-              fromTime.hour.toString() + ":" + fromTime.minute.toString(),
-              toTime,
-              planSelected,
-              date.value.day.toString() +
-                  "-" +
-                  date.value.month.toString() +
-                  "-" +
-                  date.value.year.toString(),
-              context,
-            );
+    //     final doc = await context.read(ordersServiceProvider).addToGymOrders(
+    //           gymcheckName,
+    //           gymcheckPhoto,
+    //           fromTime.hour.toString() + ":" + fromTime.minute.toString(),
+    //           toTime,
+    //           planSelected,
+    //           date.value.day.toString() +
+    //               "-" +
+    //               date.value.month.toString() +
+    //               "-" +
+    //               date.value.year.toString(),
+    //           context,
+    //         );
 
-        showDialog(
-          context: context,
-          builder: (context) {
-            return QrResultScreen(
-              gymName: gymcheckName,
-              gymPhoto: gymcheckPhoto,
-              userName: user!.displayName,
-              userImage: user.photoURL,
-              fromDate: date.value.day.toString() +
-                  "-" +
-                  date.value.month.toString() +
-                  "-" +
-                  date.value.year.toString(),
-              fromTime:
-                  fromTime.hour.toString() + ":" + fromTime.minute.toString(),
-              planSelected: planSelected,
-              docId: doc.id,
-            );
-          },
-        );
-        aShowToast(msg: "Payment Successful");
-      } catch (e) {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return SimpleDialog(
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  title: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Text(
-                      "Payment Failed",
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText2!.color),
-                    ),
-                  ));
-            });
-      }
-    }
+    //     showDialog(
+    //       context: context,
+    //       builder: (context) {
+    //         return QrResultScreen(
+    //           gymName: gymcheckName,
+    //           gymPhoto: gymcheckPhoto,
+    //           userName: user!.displayName,
+    //           userImage: user.photoURL,
+    //           fromDate: date.value.day.toString() +
+    //               "-" +
+    //               date.value.month.toString() +
+    //               "-" +
+    //               date.value.year.toString(),
+    //           fromTime:
+    //               fromTime.hour.toString() + ":" + fromTime.minute.toString(),
+    //           planSelected: planSelected,
+    //           docId: doc.id,
+    //         );
+    //       },
+    //     );
+    //     aShowToast(msg: "Payment Successful");
+    //   } catch (e) {
+    //     showDialog(
+    //         context: context,
+    //         builder: (context) {
+    //           return SimpleDialog(
+    //               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    //               title: Padding(
+    //                 padding: const EdgeInsets.all(15),
+    //                 child: Text(
+    //                   "Payment Failed",
+    //                   style: TextStyle(
+    //                       color: Theme.of(context).textTheme.bodyText2!.color),
+    //                 ),
+    //               ));
+    //         });
+    //   }
+    // }
 
     Future<void> makePayment() async {
       final price = totalPayable * 100;
       var url = Uri.parse(
-          "https://us-central1-gym-in-14938.cloudfunctions.net/stripePayment");
+          "https://us-central1-gym-in-14938.cloudfunctions.net/razorpayPayment");
       final response = await http.post(
         url,
         body: jsonEncode({
-          "total": price,
-          "email": user!.email,
+          "amount": price,
         }),
         headers: {"Content-Type": "application/json"},
       );
 
-      paymentIntentData.value = json.decode(response.body);
+      final data = jsonDecode(response.body);
 
-      await Stripe.instance.initPaymentSheet(
-        paymentSheetParameters: SetupPaymentSheetParameters(
-          paymentIntentClientSecret: paymentIntentData.value["paymentIntent"],
-          applePay: true,
-          googlePay: true,
-          style: ThemeMode.light,
-          merchantCountryCode: "IN",
-          merchantDisplayName: "Beyonder",
-          billingDetails: BillingDetails(
-            email: user.email,
-          ),
-        ),
-      );
+      orderId.value = data;
 
-      displayPaymentSheet();
+      final options = {
+        'key': 'rzp_test_E6LeUFlD1O7OHl',
+        'amount': price,
+        'name': 'GYMIN',
+        'order_id': orderId.value["orderId"],
+        'description': "test payment",
+        "currency": "INR",
+        'timeout': 300,
+        'prefill': {'email': user!.email}
+      };
+
+      _razorpay.open(options);
+
+      // await Stripe.instance.initPaymentSheet(
+      //   paymentSheetParameters: SetupPaymentSheetParameters(
+      //     paymentIntentClientSecret: paymentIntentData.value["paymentIntent"],
+      //     applePay: true,
+      //     googlePay: true,
+      //     style: ThemeMode.light,
+      //     merchantCountryCode: "IN",
+      //     merchantDisplayName: "Beyonder",
+      //     billingDetails: BillingDetails(
+      //       email: user.email,
+      //     ),
+      //   ),
+      // );
+
+      // displayPaymentSheet();
     }
+
+    void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+      final doc = await context.read(ordersServiceProvider).addToGymOrders(
+            gymcheckName,
+            gymcheckPhoto,
+            fromTime.hour.toString() + ":" + fromTime.minute.toString(),
+            toTime,
+            planSelected,
+            date.value.day.toString() +
+                "/" +
+                date.value.month.toString() +
+                "/" +
+                date.value.year.toString(),
+            noOfHours.state.toString() + "hours",
+            response.orderId!,
+            context,
+          );
+
+      showDialog(
+        context: context,
+        builder: (context) {
+          return QrResultScreen(
+            gymName: gymcheckName,
+            gymPhoto: gymcheckPhoto,
+            userName: user!.displayName,
+            userImage: user.photoURL,
+            fromDate: date.value.day.toString() +
+                "-" +
+                date.value.month.toString() +
+                "-" +
+                date.value.year.toString(),
+            fromTime:
+                fromTime.hour.toString() + ":" + fromTime.minute.toString(),
+            planSelected: planSelected,
+            docId: doc.id,
+          );
+        },
+      );
+      aShowToast(msg: "Payment Successful");
+    }
+
+    void _handlePaymentError(PaymentFailureResponse response) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleDialog(
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                title: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text(
+                    "Payment Failed",
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2!.color),
+                  ),
+                ));
+          });
+    }
+
+    void _handleExternalWallet(ExternalWalletResponse response) {
+      aShowToast(msg: "Payment Successful");
+    }
+
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+
+    useEffect(() {
+      return () {
+        _razorpay.clear();
+      };
+    });
 
     return Material(
       color: Theme.of(context).scaffoldBackgroundColor,
