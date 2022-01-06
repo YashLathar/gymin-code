@@ -29,7 +29,7 @@ class ProductCartPage extends HookWidget {
     final pincodeValidator = useProvider(validatingPinProvider);
     final user = useProvider(authControllerProvider);
     final orderId = useState({});
-    final _razorpay = Razorpay();
+    late Razorpay _razorpay;
     final pincodeController = useTextEditingController();
     Size size = MediaQuery.of(context).size;
     final productsPhotos =
@@ -109,7 +109,7 @@ class ProductCartPage extends HookWidget {
       orderId.value = data;
 
       final options = {
-        'key': 'rzp_test_E6LeUFlD1O7OHl',
+        'key': 'rzp_live_DlYzOC4F8Bq4Q9',
         'amount': formattedPrice,
         'name': 'GYMIN',
         'order_id': orderId.value["orderId"],
@@ -166,11 +166,12 @@ class ProductCartPage extends HookWidget {
       aShowToast(msg: "Payment Successful");
     }
 
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-
     useEffect(() {
+      _razorpay = Razorpay();
+      _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+      _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+      _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+
       return () {
         _razorpay.clear();
       };
