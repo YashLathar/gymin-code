@@ -13,15 +13,15 @@ final userSelectedPriceProvider = StateProvider<int>((ref) {
   return 0;
 });
 
-final userSelectedToTimeProvider = StateProvider<String>((ref) {
-  return TimeOfDay(hour: 10, minute: 0).hour.toString();
+final userSelectedToTimeProvider = StateProvider<int>((ref) {
+  return TimeOfDay(hour: 10, minute: 0).hour;
 });
 
 final userselectedforhoursProvider = StateProvider<int>((ref) {
   return 1;
 });
 
-class TimeSelector extends HookWidget {
+class TimeSelector extends HookConsumerWidget {
   const TimeSelector({
     Key? key,
     required this.price,
@@ -47,8 +47,8 @@ class TimeSelector extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final selectedPrice = useProvider(userSelectedPriceProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedPrice = ref.watch(userSelectedPriceProvider.state);
     final selected = useState(1);
     final fromTime = useState(TimeOfDay(hour: 8, minute: 0));
     final influencedtoHour = fromTime.value.hour + selected.value;
@@ -143,7 +143,7 @@ class TimeSelector extends HookWidget {
                           onTap: () {
                             selected.value = 1;
                             selectedPrice.state = price;
-                            context.read(userselectedforhoursProvider).state =
+                            ref.read(userselectedforhoursProvider.state).state =
                                 1;
                           },
                           child: ResuableButton(
@@ -172,7 +172,7 @@ class TimeSelector extends HookWidget {
                           onTap: () {
                             selected.value = 2;
                             selectedPrice.state = twoHourPrice;
-                            context.read(userselectedforhoursProvider).state =
+                            ref.read(userselectedforhoursProvider.state).state =
                                 2;
                           },
                           child: ResuableButton(
@@ -200,7 +200,7 @@ class TimeSelector extends HookWidget {
                           onTap: () {
                             selected.value = 3;
                             selectedPrice.state = threeHourPrice;
-                            context.read(userselectedforhoursProvider).state =
+                            ref.read(userselectedforhoursProvider.state).state =
                                 3;
                           },
                           child: ResuableButton(
@@ -239,8 +239,11 @@ class TimeSelector extends HookWidget {
                               final selectedFromTime =
                                   await pickFromTime(context);
 
-                              context.read(userSelectedFromTimeProvider).state =
+                              ref.read(userSelectedFromTimeProvider.state).state =
                                   selectedFromTime;
+
+                              ref.read(userSelectedToTimeProvider.state).state =
+                                  selectedFromTime.hour;
 
                               fromTime.value = selectedFromTime;
                             }),

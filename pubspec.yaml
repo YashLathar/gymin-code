@@ -30,7 +30,7 @@ dependencies:
   font_awesome_flutter: ^9.1.0
   google_fonts: ^2.1.0
   google_sign_in: ^5.1.1
-  hooks_riverpod: ^0.14.0+4
+  hooks_riverpod: ^1.0.1
   http: ^0.13.4
   image_cropper: ^1.4.1
   image_picker: ^0.8.3+2

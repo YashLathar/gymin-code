@@ -9,14 +9,14 @@ import 'package:gym_in/services/user_detail_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-class UserEditBottomSheet extends HookWidget {
+class UserEditBottomSheet extends HookConsumerWidget {
   const UserEditBottomSheet({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final imageProvider = useProvider(imagePickerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final imageProvider = ref.watch(imagePickerProvider);
     final usernameController = useTextEditingController();
-    final user = useProvider(authControllerProvider);
+    final user = ref.watch(authControllerProvider);
     final imagePath = useState("");
     final isLoading = useState(false);
 
@@ -27,6 +27,7 @@ class UserEditBottomSheet extends HookWidget {
         imagePath.value = image.path;
         return image;
       }
+      return null;
     }
 
     return Container(
@@ -74,7 +75,7 @@ class UserEditBottomSheet extends HookWidget {
                                 if (xFile != null) {
                                   final filePath = xFile.path;
                                   final file = File(filePath);
-                                  await context
+                                  await ref
                                       .read(storageServiceProvider)
                                       .uploadProfileImage(file);
                                 }
@@ -180,26 +181,26 @@ class UserEditBottomSheet extends HookWidget {
 
                               isLoading.value = true;
 
-                              final downloadUrl = await context
+                              final downloadUrl = await ref
                                   .read(storageServiceProvider)
                                   .getDownloadUrl();
 
-                              await context
+                              await ref
                                   .read(authControllerProvider.notifier)
                                   .setUserName(usernameController.text);
 
-                              await context
+                              await ref
                                   .read(authControllerProvider.notifier)
                                   .setProfilePhoto(downloadUrl);
 
-                              await context
+                              await ref
                                   .read(userDetailServiceProvider)
                                   .updateUserName(
                                       usernameController.text, user!.uid)
                                   .onError((error, stackTrace) =>
                                       isLoading.value = false);
 
-                              await context
+                              await ref
                                   .read(userDetailServiceProvider)
                                   .updateUserPhoto(downloadUrl, user.uid)
                                   .onError((error, stackTrace) =>

@@ -380,13 +380,13 @@ class UserPage extends HookWidget {
   }
 }
 
-class ProfileHeader1 extends HookWidget {
+class ProfileHeader1 extends HookConsumerWidget {
   const ProfileHeader1({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final authControllerState = useProvider(authControllerProvider);
-    final userDetailProvider = useProvider(userDetailFutureShowProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authControllerState = ref.watch(authControllerProvider);
+    final userDetailProvider = ref.watch(userDetailFutureShowProvider);
     Size size = MediaQuery.of(context).size;
 
     Future<void> _launchURLBrowser() async {

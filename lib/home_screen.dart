@@ -8,8 +8,6 @@ import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/controllers/theme_controller.dart';
 import 'package:gym_in/general_providers.dart';
-// import 'package:gym_in/general_providers.dart';
-import 'package:gym_in/pages/activity_page.dart';
 import 'package:gym_in/pages/authenticate_ticket.dart';
 import 'package:gym_in/pages/contact_page.dart';
 import 'package:gym_in/pages/feedback_form.dart';
@@ -21,25 +19,23 @@ import 'package:gym_in/pages/user_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:io';
 
-class HomeScreen extends HookWidget {
+class HomeScreen extends HookConsumerWidget {
   final GlobalKey _bottomNavigationKey = GlobalKey();
 
   final List<Widget> pages = [
     HomePage(),
-    ActivityPage(),
-    // FeedsPage(),
     GymProductsPage(),
     UserPage(),
   ];
 
   @override
-  Widget build(BuildContext context) {
-    final authControllerState = useProvider(authControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authControllerState = ref.watch(authControllerProvider);
     final _pageIndex = useState(0);
     // final _firestore = useProvider(firestoreProvider);
     final userAuthenticated = useState(false);
     final isConnectedToNetwork = useState(false);
-    final _firestore = useProvider(firestoreProvider);
+    final _firestore = ref.watch(firestoreProvider);
     final connectivity = Connectivity();
 
     useEffect(() {
@@ -207,7 +203,7 @@ class HomeScreen extends HookWidget {
                   //     }),
                   ListTile(
                     leading: Icon(
-                        context.read(themeControllerProvider).theme
+                        ref.read(themeControllerProvider).theme
                             ? FontAwesomeIcons.moon
                             : Icons.light_mode,
                         color: Theme.of(context).textTheme.bodyText2!.color),
@@ -217,16 +213,16 @@ class HomeScreen extends HookWidget {
                           color: Theme.of(context).textTheme.bodyText2!.color),
                     ),
                     trailing: Switch(
-                      value: context.read(themeControllerProvider).theme,
+                      value: ref.read(themeControllerProvider).theme,
                       onChanged: (enabled) {},
                     ),
                     onTap: () {
                       final currentTheme =
-                          context.read(themeControllerProvider).theme;
+                          ref.read(themeControllerProvider).theme;
                       if (!currentTheme) {
-                        context.read(themeControllerProvider).setTheme(true);
+                        ref.read(themeControllerProvider).setTheme(true);
                       } else {
-                        context.read(themeControllerProvider).setTheme(false);
+                        ref.read(themeControllerProvider).setTheme(false);
                       }
 
                       // final ThemePreferences preferences = ThemePreferences();
@@ -335,7 +331,7 @@ class HomeScreen extends HookWidget {
                         color: Theme.of(context).textTheme.bodyText2!.color,
                       ),
                       onTap: () {
-                        context.read(authControllerProvider.notifier).signOut();
+                        ref.read(authControllerProvider.notifier).signOut();
                       }),
                 ],
               ),
@@ -348,7 +344,6 @@ class HomeScreen extends HookWidget {
             items: [
               Icon(Icons.home_rounded),
               // Icon(Icons.image),
-              Icon(Icons.run_circle),
               Icon(FontAwesomeIcons.shoppingBag),
               Icon(Icons.account_circle),
             ],

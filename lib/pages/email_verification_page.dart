@@ -7,12 +7,12 @@ import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class EmailVerificationPage extends HookWidget {
+class EmailVerificationPage extends HookConsumerWidget {
   const EmailVerificationPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final user = useProvider(authControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authControllerProvider);
 
     final actionCodeSettings = ActionCodeSettings(
         url: 'https://www.gymin.co.in',

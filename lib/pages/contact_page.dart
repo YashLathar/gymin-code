@@ -7,14 +7,14 @@ import 'package:gym_in/services/contact_service.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ContactScreen extends HookWidget {
+class ContactScreen extends HookConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final usernameController = useTextEditingController();
     final phoneController = useTextEditingController();
     final messageController = useTextEditingController();
-    final contactService = useProvider(contactServiceProvider);
-    final user = useProvider(authControllerProvider);
+    final contactService = ref.watch(contactServiceProvider);
+    final user = ref.watch(authControllerProvider);
     return Scaffold(
       body: SafeArea(
         child: Container(

@@ -1,21 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
 import 'package:gym_in/pages/product_detail_page.dart';
 import 'package:gym_in/widgets/product_card.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class GymProductsPage extends HookWidget {
+class GymProductsPage extends HookConsumerWidget {
   GymProductsPage({Key? key}) : super(key: key);
   final Stream<QuerySnapshot> _productStream =
       FirebaseFirestore.instance.collection('product').snapshots();
 
   @override
-  Widget build(BuildContext context) {
-    final cartControllerProvider = useProvider(cartProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartControllerProvider = ref.watch(cartProvider);
     Size size = MediaQuery.of(context).size;
     return StreamBuilder<QuerySnapshot>(
       stream: _productStream,
@@ -148,9 +147,10 @@ class GymProductsPage extends HookWidget {
                   Expanded(
                     child: GridView(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisExtent: 350,
-                          crossAxisSpacing: 15),
+                        crossAxisCount: 2,
+                        mainAxisExtent: 350,
+                        crossAxisSpacing: 15,
+                      ),
                       children:
                           snapshot.data!.docs.map((DocumentSnapshot document) {
                         Map<String, dynamic> data =

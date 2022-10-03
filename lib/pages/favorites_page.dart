@@ -7,13 +7,13 @@ import 'package:gym_in/widgets/fav_gym.dart';
 import 'package:gym_in/widgets/fav_product.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class FavoritesPage extends HookWidget {
+class FavoritesPage extends HookConsumerWidget {
   const FavoritesPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final favProducts = useProvider(favouritesControllerProvider).favProducts;
-    final favGyms = useProvider(favouritesControllerProvider).favGyms;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favProducts = ref.watch(favouritesControllerProvider).favProducts;
+    final favGyms = ref.watch(favouritesControllerProvider).favGyms;
     final tabController = useTabController(initialLength: 2);
     final size = MediaQuery.of(context).size;
     return Scaffold(

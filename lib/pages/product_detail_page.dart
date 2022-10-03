@@ -18,7 +18,7 @@ import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reviews_slider/reviews_slider.dart';
 
-class ProductDetailPage extends HookWidget {
+class ProductDetailPage extends HookConsumerWidget {
   final String title,
       image,
       productID,
@@ -42,18 +42,18 @@ class ProductDetailPage extends HookWidget {
     required this.discount,
   }) : super(key: key);
 
-  Widget build(BuildContext context) {
-    final cartService = useProvider(cartServiceProvider);
-    final cartControllerProvider = useProvider(cartProvider);
-    final favControllerProvider = useProvider(favouritesControllerProvider);
-    final favProvider = useProvider(favServiceProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartService = ref.watch(cartServiceProvider);
+    final cartControllerProvider = ref.watch(cartProvider);
+    final favControllerProvider = ref.watch(favouritesControllerProvider);
+    final favProvider = ref.watch(favServiceProvider);
     final isUiLiked = useState(false);
     final isLoading = useState(false);
-    final user = useProvider(authControllerProvider);
-    final userInfo = useProvider(userDetailFutureShowProvider);
+    final user = ref.watch(authControllerProvider);
+    final userInfo = ref.watch(userDetailFutureShowProvider);
     Size size = MediaQuery.of(context).size;
-    final authControllerState = useProvider(authControllerProvider);
-    final userDetailProvider = useProvider(userDetailServiceProvider);
+    final authControllerState = ref.watch(authControllerProvider);
+    final userDetailProvider = ref.watch(userDetailServiceProvider);
     final addressController = useTextEditingController();
 
     return Scaffold(
@@ -640,8 +640,8 @@ class ProductDetailPage extends HookWidget {
                                                                           .text,
                                                                       authControllerState!
                                                                           .uid);
-                                                                  context.refresh(
-                                                                      userDetailFutureShowProvider);
+                                                                  ref.refresh(
+                                                                      userDetailFutureShowProvider.future);
                                                                   Navigator.pop(
                                                                       context);
                                                                 },

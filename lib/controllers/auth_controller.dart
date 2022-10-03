@@ -30,8 +30,8 @@ class AuthController extends StateNotifier<User?> {
     await _read(authServiceProvider).signInWithEmail(email, password, context);
   }
 
-  Future<void> signUp(
-      String email, String password, BuildContext context) async {
+  Future<void> signUp(WidgetRef ref, String email, String password,
+      BuildContext context) async {
     await _read(authServiceProvider).signUpWithEmail(email, password, context);
   }
 

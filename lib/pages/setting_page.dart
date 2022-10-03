@@ -10,13 +10,13 @@ import 'package:gym_in/services/user_detail_service.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SettingPage extends HookWidget {
+class SettingPage extends HookConsumerWidget {
   const SettingPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final authControllerState = useProvider(authControllerProvider);
-    final userDetailProvider = useProvider(userDetailServiceProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authControllerState = ref.watch(authControllerProvider);
+    final userDetailProvider = ref.watch(userDetailServiceProvider);
 
     final phoneController = useTextEditingController();
     final aboutController = useTextEditingController();
@@ -228,8 +228,7 @@ class SettingPage extends HookWidget {
                                         .updateUserPhoneNumber(
                                             intPhone, authControllerState.uid);
 
-                                    context
-                                        .refresh(userDetailFutureShowProvider);
+                                    ref.refresh(userDetailFutureShowProvider.future);
                                     Navigator.pop(context);
                                   } else {
                                     aShowToast(msg: "Invalid Number");
@@ -271,7 +270,7 @@ class SettingPage extends HookWidget {
                                   final intAge = int.parse(ageController.text);
                                   await userDetailProvider.updateUserAge(
                                       intAge, authControllerState.uid);
-                                  context.refresh(userDetailFutureShowProvider);
+                                  ref.refresh(userDetailFutureShowProvider.future);
                                   Navigator.pop(context);
                                 },
                               );
@@ -311,7 +310,7 @@ class SettingPage extends HookWidget {
                                       int.parse(heightController.text);
                                   await userDetailProvider.updateUserHeight(
                                       intHeight, authControllerState.uid);
-                                  context.refresh(userDetailFutureShowProvider);
+                                  ref.refresh(userDetailFutureShowProvider.future);
                                   Navigator.pop(context);
                                 },
                               );
@@ -351,7 +350,7 @@ class SettingPage extends HookWidget {
                                       int.parse(weightController.text);
                                   await userDetailProvider.updateUserWeight(
                                       intWeight, authControllerState.uid);
-                                  context.refresh(userDetailFutureShowProvider);
+                                  ref.refresh(userDetailFutureShowProvider.future);
                                   Navigator.pop(context);
                                 },
                               );
@@ -390,7 +389,7 @@ class SettingPage extends HookWidget {
                                   await userDetailProvider.updateUserAbout(
                                       aboutController.text,
                                       authControllerState.uid);
-                                  context.refresh(userDetailFutureShowProvider);
+                                  ref.refresh(userDetailFutureShowProvider.future);
                                   Navigator.pop(context);
                                 },
                               );
@@ -429,7 +428,7 @@ class SettingPage extends HookWidget {
                                   await userDetailProvider.updateUserBio(
                                       bioController.text,
                                       authControllerState.uid);
-                                  context.refresh(userDetailFutureShowProvider);
+                                  ref.refresh(userDetailFutureShowProvider.future);
                                   Navigator.pop(context);
                                 },
                               );
@@ -468,7 +467,7 @@ class SettingPage extends HookWidget {
                                   await userDetailProvider.updateUserAddress(
                                       addressController.text,
                                       authControllerState.uid);
-                                  context.refresh(userDetailFutureShowProvider);
+                                  ref.refresh(userDetailFutureShowProvider.future);
                                   Navigator.pop(context);
                                 },
                               );

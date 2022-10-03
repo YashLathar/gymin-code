@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -24,7 +23,7 @@ enum Plans {
   yearly,
 }
 
-class GymCheckoutPage extends HookWidget {
+class GymCheckoutPage extends HookConsumerWidget {
   final String gymcheckId, gymcheckPhoto, gymcheckName, gymcheckAddress;
   final int hourlyPrice,
       twoHoursPrice,
@@ -45,13 +44,13 @@ class GymCheckoutPage extends HookWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final fromTime = useProvider(userSelectedFromTimeProvider).state;
-    final toTime = useProvider(userSelectedToTimeProvider).state;
-    final selectedPrice = useProvider(userSelectedPriceProvider);
-    final user = useProvider(authControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final fromTime = ref.watch(userSelectedFromTimeProvider.state).state;
+    final toTime = ref.watch(userSelectedToTimeProvider.state).state;
+    final selectedPrice = ref.watch(userSelectedPriceProvider.state);
+    final user = ref.watch(authControllerProvider);
     final selected = useState(Plans.hourly);
-    final noOfHours = useProvider(userselectedforhoursProvider);
+    final noOfHours = ref.watch(userselectedforhoursProvider.state);
     final now = DateTime.now();
     final date = useState(DateTime(now.year, now.month, now.day + 1));
     final today = DateTime.now();
@@ -218,12 +217,12 @@ class GymCheckoutPage extends HookWidget {
       // displayPaymentSheet();
     }
 
-    void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-      final doc = await context.read(ordersServiceProvider).addToGymOrders(
+    void _handlePaymentSuccess(WidgetRef ref, PaymentSuccessResponse response) async {
+      final doc = await ref.read(ordersServiceProvider).addToGymOrders(
             gymcheckName,
             gymcheckPhoto,
             fromTime.hour.toString() + ":" + fromTime.minute.toString(),
-            toTime,
+            toTime.toString() + ":" + fromTime.minute.toString(),
             planSelected,
             date.value.day.toString() +
                 "/" +
@@ -634,9 +633,8 @@ class GymCheckoutPage extends HookWidget {
                                           selected.value == Plans.monthly
                                               ? InkWell(
                                                   onTap: () {
-                                                    context
-                                                        .read(
-                                                            userselectedforhoursProvider)
+                                                    ref.read(
+                                                            userselectedforhoursProvider.state)
                                                         .state = 1;
 
                                                     showDialog<Widget>(

@@ -20,12 +20,12 @@ class LoginPage extends ConsumerWidget {
   final _passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Size size = MediaQuery.of(context).size;
-    final user = watch(authControllerProvider);
+    final user = ref.watch(authControllerProvider);
 
     return ModalProgressHUD(
-      inAsyncCall: watch(loadingStateProvider).state,
+      inAsyncCall: ref.watch(loadingStateProvider.state).state,
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -73,11 +73,11 @@ class LoginPage extends ConsumerWidget {
                                           .bodyText2!
                                           .color),
                                   onPressed: () async {
-                                    await context
+                                    await ref
                                         .read(authControllerProvider.notifier)
                                         .signInWithGoogle(context);
                                     final firestore =
-                                        context.read(firestoreProvider);
+                                        ref.read(firestoreProvider);
 
                                     final doc = await firestore
                                         .collection("users")
@@ -85,8 +85,9 @@ class LoginPage extends ConsumerWidget {
                                         .get();
 
                                     if (doc.exists == false) {
-                                      context.read(loadingStateProvider).state =
-                                          true;
+                                      ref
+                                          .read(loadingStateProvider.state)
+                                          .state = true;
                                       final userInAPP = UserInApp(
                                         age: 0,
                                         about: "not given",
@@ -99,7 +100,7 @@ class LoginPage extends ConsumerWidget {
                                         address: "not given",
                                       );
 
-                                      await context
+                                      await ref
                                           .read(userDetailServiceProvider)
                                           .addUserInfo(
                                             userInAPP.height,
@@ -115,13 +116,13 @@ class LoginPage extends ConsumerWidget {
                                             false,
                                             user.uid,
                                           )
-                                          .onError((error, stackTrace) =>
-                                              context
-                                                  .read(loadingStateProvider)
-                                                  .state = true);
+                                          .onError((error, stackTrace) => ref
+                                              .read(loadingStateProvider.state)
+                                              .state = true);
 
-                                      context.read(loadingStateProvider).state =
-                                          false;
+                                      ref
+                                          .read(loadingStateProvider.state)
+                                          .state = false;
                                     }
                                   },
                                 ),
@@ -236,13 +237,14 @@ class LoginPage extends ConsumerWidget {
                               ),
                             ),
                             onTap: () async {
-                              context.read(loadingStateProvider).state = true;
-                              await context
+                              ref.read(loadingStateProvider.state).state = true;
+                              await ref
                                   .read(authControllerProvider.notifier)
                                   .signIn(_emailController.text.trim(),
                                       _passwordController.text.trim(), context);
 
-                              context.read(loadingStateProvider).state = false;
+                              ref.read(loadingStateProvider.state).state =
+                                  false;
                             }),
                         SizedBox(
                           height: 5,

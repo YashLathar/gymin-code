@@ -9,9 +9,9 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-class SignupPage2 extends HookWidget {
+class SignupPage2 extends HookConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Size size = MediaQuery.of(context).size;
     final heightController = useTextEditingController();
     final ageController = useTextEditingController();
@@ -20,14 +20,14 @@ class SignupPage2 extends HookWidget {
     final bioController = useTextEditingController();
     final aboutController = useTextEditingController();
     final addressController = useTextEditingController();
-    final userDetailProvider = useProvider(userDetailServiceProvider);
+    final userDetailProvider = ref.watch(userDetailServiceProvider);
     final isTrainer = false;
-    final firestore = useProvider(firestoreProvider);
+    final firestore = ref.watch(firestoreProvider);
     final authorization = false;
 
-    final user = useProvider(authControllerProvider);
+    final user = ref.watch(authControllerProvider);
     return ModalProgressHUD(
-      inAsyncCall: context.read(loadingStateProvider).state,
+      inAsyncCall: ref.read(loadingStateProvider.state).state,
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -486,7 +486,7 @@ class SignupPage2 extends HookWidget {
                                 .get();
 
                             if (doc.exists == false) {
-                              context.read(loadingStateProvider).state = true;
+                              ref.read(loadingStateProvider.state).state = true;
                               await userDetailProvider.addUserInfo(
                                 intHeight,
                                 intAge,
@@ -502,7 +502,7 @@ class SignupPage2 extends HookWidget {
                                 user.uid,
                               );
 
-                              context.read(loadingStateProvider).state = false;
+                              ref.read(loadingStateProvider.state).state = false;
 
                               Navigator.pop(context);
                               Navigator.pop(context);

@@ -1,6 +1,7 @@
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/pages/booking_result.dart';
@@ -8,60 +9,51 @@ import 'package:gym_in/services/orders_service.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AuthenticateTicket extends StatefulWidget {
-  const AuthenticateTicket({Key? key}) : super(key: key);
-
+class AuthenticateTicket extends HookConsumerWidget {
   @override
-  State<AuthenticateTicket> createState() => _AuthenticateTicketState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final barcodeResult = useState("");
 
-class _AuthenticateTicketState extends State<AuthenticateTicket> {
-  String barcodeResult = "";
+    Future<void> scan() async {
+      try {
+        final barcode = await BarcodeScanner.scan();
+        final order = await ref
+            .read(ordersServiceProvider)
+            .authenticateGymOrder(barcode.rawContent);
 
-  Future<void> scan() async {
-    try {
-      final barcode = await BarcodeScanner.scan();
-      final order = await context
-          .read(ordersServiceProvider)
-          .authenticateGymOrder(barcode.rawContent);
-
-      if (order.gymName != "unknown") {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return QrResultScreen(
-              gymName: order.gymName,
-              gymPhoto: order.gymPhoto,
-              userImage: order.userImage,
-              userName: order.userName,
-              fromDate: order.fromDate,
-              fromTime: order.fromTime,
-              planSelected: order.planSelected,
-              docId: order.docId,
-            );
-          },
-        );
-      } else {
-        aShowToast(msg: "Ticket not verified");
+        if (order.gymName != "unknown") {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return QrResultScreen(
+                gymName: order.gymName,
+                gymPhoto: order.gymPhoto,
+                userImage: order.userImage,
+                userName: order.userName,
+                fromDate: order.fromDate,
+                fromTime: order.fromTime,
+                planSelected: order.planSelected,
+                docId: order.docId,
+              );
+            },
+          );
+        } else {
+          aShowToast(msg: "Ticket not verified");
+        }
+      } on PlatformException catch (e) {
+        if (e.code == BarcodeScanner.cameraAccessDenied) {
+          barcodeResult.value = 'The user did not grant the camera permission!';
+        } else {
+          barcodeResult.value = 'Unknown error: $e';
+        }
+      } on FormatException {
+        barcodeResult.value =
+            'null (User returned using the "back"-button before scanning anything. Result)';
+      } catch (e) {
+        barcodeResult.value = 'Unknown error: $e';
       }
-    } on PlatformException catch (e) {
-      if (e.code == BarcodeScanner.cameraAccessDenied) {
-        setState(() {
-          barcodeResult = 'The user did not grant the camera permission!';
-        });
-      } else {
-        setState(() => barcodeResult = 'Unknown error: $e');
-      }
-    } on FormatException {
-      setState(() => barcodeResult =
-          'null (User returned using the "back"-button before scanning anything. Result)');
-    } catch (e) {
-      setState(() => barcodeResult = 'Unknown error: $e');
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -148,7 +140,7 @@ class _AuthenticateTicketState extends State<AuthenticateTicket> {
                   child: Container(
                     height: 150,
                     child: Text(
-                      barcodeResult,
+                      barcodeResult.value,
                       textAlign: TextAlign.center,
                     ),
                   ),

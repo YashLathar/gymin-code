@@ -87,7 +87,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />    
     
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name="${applicationName}"
         android:label="Gymin"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
@@ -106,6 +106,9 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+            <meta-data
+              android:name="flutterEmbedding"
+              android:value="2" />
             <!-- Displays an Android View that continues showing the launch screen
                  Drawable until Flutter paints its first frame, then this splash
                  screen fades out. A splash screen is useful to avoid any visual

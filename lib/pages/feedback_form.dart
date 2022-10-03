@@ -8,14 +8,14 @@ import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reviews_slider/reviews_slider.dart';
 
-class FeedbackFormPage extends HookWidget {
+class FeedbackFormPage extends HookConsumerWidget {
   const FeedbackFormPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final feedbackController = useTextEditingController();
-    final user = useProvider(authControllerProvider);
-    final feedbackService = useProvider(feedbackServiceProvider);
+    final user = ref.watch(authControllerProvider);
+    final feedbackService = ref.watch(feedbackServiceProvider);
     final selectedValue1 = useState(0);
     final selectedValue2 = useState(0);
 

@@ -6,7 +6,7 @@ import 'package:gym_in/models/product.dart';
 import 'package:gym_in/services/favourites_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ProductCard extends HookWidget {
+class ProductCard extends HookConsumerWidget {
   const ProductCard({
     Key? key,
     required this.title,
@@ -23,9 +23,9 @@ class ProductCard extends HookWidget {
   final String productId;
 
   @override
-  Widget build(BuildContext context) {
-    final favControllerProvider = useProvider(favouritesControllerProvider);
-    final favProvider = useProvider(favServiceProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favControllerProvider = ref.watch(favouritesControllerProvider);
+    final favProvider = ref.watch(favServiceProvider);
     final isUiLiked = useState(false);
 
     return Container(

@@ -7,7 +7,7 @@ import 'package:gym_in/widgets/quantity_counter.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CartProduct extends HookWidget {
+class CartProduct extends HookConsumerWidget {
   const CartProduct({
     Key? key,
     required this.imageUrl,
@@ -24,8 +24,8 @@ class CartProduct extends HookWidget {
   final int quantity;
 
   @override
-  Widget build(BuildContext context) {
-    final user = useProvider(authControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authControllerProvider);
     final isLoading = useState(false);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -91,13 +91,12 @@ class CartProduct extends HookWidget {
                               });
                         }
 
-                        await context
-                            .read(cartServiceProvider)
+                        await ref.read(cartServiceProvider)
                             .removeItemFromCart(productId, user!.uid);
 
                         isLoading.value = false;
                         Navigator.pop(context);
-                        context.read(cartProvider).removeProduct(productId);
+                        ref.read(cartProvider).removeProduct(productId);
                         aShowToast(msg: "Product has been removed from Cart");
                       },
                       icon: Icon(

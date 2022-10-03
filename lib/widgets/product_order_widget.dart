@@ -1,13 +1,12 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/models/product_Order.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ProductOrderWidget extends HookWidget {
+class ProductOrderWidget extends HookConsumerWidget {
   const ProductOrderWidget({
     Key? key,
     required this.productOrder,
@@ -16,8 +15,8 @@ class ProductOrderWidget extends HookWidget {
   final ProductOrder productOrder;
 
   @override
-  Widget build(BuildContext context) {
-    final user = useProvider(authControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authControllerProvider);
     return SimpleDialog(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       shape: RoundedRectangleBorder(

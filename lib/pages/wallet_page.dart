@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/pages/setting_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class WalletPage extends HookWidget {
+class WalletPage extends HookConsumerWidget {
   final ScrollController controller = ScrollController();
 
   Column checkCountAmount(String label, int count) {
@@ -39,9 +38,9 @@ class WalletPage extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     //Size size = MediaQuery.of(context).size;
-    final authControllerState = useProvider(authControllerProvider);
+    final authControllerState = ref.watch(authControllerProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

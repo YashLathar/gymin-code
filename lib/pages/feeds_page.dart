@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -155,12 +154,12 @@ class _FeedsPageState extends State<FeedsPage> {
   }
 }
 
-class PostHeader extends HookWidget {
+class PostHeader extends HookConsumerWidget {
   const PostHeader({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final authControllerState = useProvider(authControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authControllerState = ref.watch(authControllerProvider);
     return ListTile(
       leading: CircleAvatar(
         backgroundImage: NetworkImage(
@@ -194,12 +193,12 @@ class PostHeader extends HookWidget {
   }
 }
 
-class PostImage extends HookWidget {
+class PostImage extends HookConsumerWidget {
   const PostImage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final authControllerState = useProvider(authControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authControllerState = ref.watch(authControllerProvider);
     return GestureDetector(
       onDoubleTap: () {},
       child: Stack(
@@ -215,12 +214,12 @@ class PostImage extends HookWidget {
   }
 }
 
-class PostFooter extends HookWidget {
+class PostFooter extends HookConsumerWidget {
   const PostFooter({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final authControllerState = useProvider(authControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authControllerState = ref.watch(authControllerProvider);
     return Column(children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.start,

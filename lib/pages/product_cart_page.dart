@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
@@ -18,16 +17,16 @@ final validatingPinProvider = StateProvider<bool>((ref) {
   return false;
 });
 
-class ProductCartPage extends HookWidget {
+class ProductCartPage extends HookConsumerWidget {
   ProductCartPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final cartControllerProvider = useProvider(cartProvider);
-    final pincodeValidator = useProvider(validatingPinProvider);
-    final user = useProvider(authControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartControllerProvider = ref.watch(cartProvider);
+    final pincodeValidator = ref.watch(validatingPinProvider.state);
+    final user = ref.watch(authControllerProvider);
     final orderId = useState({});
     late Razorpay _razorpay;
     final pincodeController = useTextEditingController();
@@ -122,17 +121,17 @@ class ProductCartPage extends HookWidget {
       _razorpay.open(options);
     }
 
-    void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-      final doc = await context.read(ordersServiceProvider).addToProductOrders(
+    void _handlePaymentSuccess(
+        WidgetRef ref, PaymentSuccessResponse response) async {
+      final doc = await ref.read(ordersServiceProvider).addToProductOrders(
             productsName,
             productsPhotos,
             response.orderId!,
             finalPriceAfterProcessing.toInt(),
           );
 
-      final productOrder = await context
-          .read(ordersServiceProvider)
-          .getSingleProductOrder(doc.id);
+      final productOrder =
+          await ref.read(ordersServiceProvider).getSingleProductOrder(doc.id);
 
       showDialog(
         context: context,
@@ -645,7 +644,7 @@ class ProductCartPage extends HookWidget {
   }
 }
 
-class PincodeCheck extends StatelessWidget {
+class PincodeCheck extends ConsumerWidget {
   const PincodeCheck({
     Key? key,
     required this.controller,
@@ -654,7 +653,7 @@ class PincodeCheck extends StatelessWidget {
   final TextEditingController controller;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     bool validatePincode(String pincode) {
       if (pincode == "244001") {
         aShowToast(msg: "You can proceed to check out");
@@ -774,7 +773,7 @@ class PincodeCheck extends StatelessWidget {
                   onPressed: () {
                     if (controller.text.isNotEmpty) {
                       final validator = validatePincode(controller.text);
-                      context.read(validatingPinProvider).state = validator;
+                      ref.read(validatingPinProvider.state).state = validator;
                       Navigator.pop(context);
                     }
                   },

@@ -29,14 +29,14 @@ final ordersListForProductsProvider =
   return orders;
 });
 
-class OrdersPage extends HookWidget {
+class OrdersPage extends HookConsumerWidget {
   const OrdersPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final user = useProvider(authControllerProvider);
-    final orders = useProvider(ordersListProvider);
-    final productOrders = useProvider(ordersListForProductsProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authControllerProvider);
+    final orders = ref.watch(ordersListProvider);
+    final productOrders = ref.watch(ordersListForProductsProvider);
     final tabController = useTabController(initialLength: 2);
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -147,7 +147,7 @@ class OrdersPage extends HookWidget {
                         )
                       : RefreshIndicator(
                           onRefresh: () {
-                            return context.refresh(ordersListProvider);
+                            return ref.refresh(ordersListProvider.future);
                           },
                           child: ListView(
                             padding: const EdgeInsets.only(top: 10),
@@ -241,7 +241,7 @@ class OrdersPage extends HookWidget {
                         )
                       : RefreshIndicator(
                           onRefresh: () {
-                            return context.refresh(ordersListProvider);
+                            return ref.refresh(ordersListProvider.future);
                           },
                           child: ListView(
                             padding: const EdgeInsets.only(top: 10),
@@ -294,8 +294,7 @@ class OrdersPage extends HookWidget {
                                             color: Colors.white,
                                             size: 30.0),
                                         onTap: () async {
-                                          final productOrder = await context
-                                              .read(ordersServiceProvider)
+                                          final productOrder = await ref.read(ordersServiceProvider)
                                               .getSingleProductOrder(
                                                   order.docId!);
 

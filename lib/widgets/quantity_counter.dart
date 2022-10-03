@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_in/controllers/cart_controller.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class QuantityCounter extends HookWidget {
+class QuantityCounter extends HookConsumerWidget {
   const QuantityCounter(
       {Key? key, required this.productId, required this.quantity})
       : super(key: key);
@@ -14,8 +13,8 @@ class QuantityCounter extends HookWidget {
   final int quantity;
 
   @override
-  Widget build(BuildContext context) {
-    final cart = useProvider(cartProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cart = ref.watch(cartProvider);
 
     return Container(
       child: Row(

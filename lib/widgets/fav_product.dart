@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gym_in/controllers/favourites_controller.dart';
 import 'package:gym_in/services/favourites_service.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class FavProduct extends HookWidget {
+class FavProduct extends HookConsumerWidget {
   const FavProduct({
     Key? key,
     required this.imageUrl,
@@ -22,9 +21,9 @@ class FavProduct extends HookWidget {
   final int quantity;
 
   @override
-  Widget build(BuildContext context) {
-    final favController = useProvider(favouritesControllerProvider);
-    final favProvider = useProvider(favServiceProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favController = ref.watch(favouritesControllerProvider);
+    final favProvider = ref.watch(favServiceProvider);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       height: 160,

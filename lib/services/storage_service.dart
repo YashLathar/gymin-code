@@ -29,6 +29,7 @@ class StorageService implements BaseStorageService {
     } on FirebaseException catch (e) {
       return e.message;
     }
+    return null;
   }
 
   @override

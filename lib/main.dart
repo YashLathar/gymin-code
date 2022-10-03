@@ -1,10 +1,9 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:gym_in/controllers/theme_controller.dart';
 import 'package:gym_in/home_screen.dart';
-import 'package:gym_in/pages/activity_page.dart';
+
 import 'package:gym_in/pages/chat_page.dart';
 import 'package:gym_in/pages/feeds_page.dart';
 import 'package:gym_in/pages/orders_page.dart';
@@ -34,10 +33,10 @@ Future<void> main() async {
   runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends HookWidget {
+class MyApp extends HookConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    final theme = useProvider(themeControllerProvider).theme;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.watch(themeControllerProvider).theme;
 
     return MaterialApp(
       title: 'GymIn',
@@ -79,9 +78,6 @@ class MyApp extends HookWidget {
 
           case "/feedsPage":
             return MaterialPageRoute(builder: (_) => FeedsPage());
-
-          case "/activityPage":
-            return MaterialPageRoute(builder: (_) => ActivityPage());
 
           case "/favorites":
             return MaterialPageRoute(builder: (_) => FavoritesPage());

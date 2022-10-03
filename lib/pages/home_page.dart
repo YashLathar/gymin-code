@@ -11,9 +11,9 @@ import 'package:gym_in/widgets/gym_card.dart';
 import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomePage extends HookWidget {
+class HomePage extends HookConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final Stream<QuerySnapshot> _gymStream =
         FirebaseFirestore.instance.collection('gymdata').snapshots();
 
@@ -328,7 +328,7 @@ class HomePage extends HookWidget {
                                   ),
                                 );
 
-                                context.read(userSelectedPriceProvider).state =
+                                ref.read(userSelectedPriceProvider.state).state =
                                     data['hourlyPrice'];
                               },
                               child: Container(

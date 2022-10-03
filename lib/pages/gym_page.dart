@@ -13,7 +13,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:like_button/like_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class GymPage extends HookWidget {
+class GymPage extends HookConsumerWidget {
   final bool gymopen, traineravailable;
   final List gymphotos;
   final int monthlyPrice,
@@ -65,9 +65,9 @@ class GymPage extends HookWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final favGymsController = useProvider(favouritesControllerProvider);
-    final favService = useProvider(favServiceProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favGymsController = ref.watch(favouritesControllerProvider);
+    final favService = ref.watch(favServiceProvider);
     final List<dynamic> _urlData = gymphotos;
     final _current = useState(0);
     Size size = MediaQuery.of(context).size;

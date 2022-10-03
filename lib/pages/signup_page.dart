@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_in/constants.dart';
 import 'package:gym_in/controllers/auth_controller.dart';
@@ -10,17 +9,17 @@ import 'package:gym_in/widgets/toast_msg.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SignupPage extends HookWidget {
+class SignupPage extends HookConsumerWidget {
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Size size = MediaQuery.of(context).size;
 
     return ModalProgressHUD(
-      inAsyncCall: useProvider(loadingStateProvider).state,
+      inAsyncCall: ref.watch(loadingStateProvider.state).state,
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -160,22 +159,24 @@ class SignupPage extends HookWidget {
                             ),
                             onTap: () async {
                               if (_usernameController.text.isNotEmpty) {
-                                context.read(loadingStateProvider).state = true;
-                                await context
+                                ref.read(loadingStateProvider.state).state =
+                                    true;
+                                await ref
                                     .read(authControllerProvider.notifier)
                                     .signUp(
+                                        ref,
                                         _emailController.text.trim(),
                                         _passwordController.text.trim(),
                                         context);
-                                await context
+                                await ref
                                     .read(authControllerProvider.notifier)
                                     .setUserName(
                                         _usernameController.text.trim());
-                                await context
+                                await ref
                                     .read(authControllerProvider.notifier)
                                     .setProfilePhoto(
                                         "https://firebasestorage.googleapis.com/v0/b/gym-in-14938.appspot.com/o/defaultprofile%2Flogopng.png?alt=media&token=4b958ae5-addc-4cf6-a24e-fb73643ca863");
-                                context.read(loadingStateProvider).state =
+                                ref.read(loadingStateProvider.state).state =
                                     false;
                                 Navigator.push(
                                   context,
